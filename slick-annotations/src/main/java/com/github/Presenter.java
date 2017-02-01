@@ -12,5 +12,4 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.CLASS)
 @Target(ElementType.TYPE)
 public @interface Presenter {
-    Class<?> value();
 }

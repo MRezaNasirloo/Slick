@@ -10,7 +10,7 @@ import com.github.slick.SlickPresenter;
  * @author : Pedramrn@gmail.com
  *         Created on: 2016-11-03
  */
-@Presenter(CallBackView.class)
+@Presenter
 public class CallBackPresenter extends SlickPresenter<CallBackView> {
 
     private static final String TAG = CallBackPresenter.class.getSimpleName();

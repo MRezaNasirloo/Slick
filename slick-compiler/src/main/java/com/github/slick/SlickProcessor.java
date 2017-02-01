@@ -18,6 +18,7 @@ import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
+import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
@@ -28,8 +29,10 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.DeclaredType;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
+import javax.tools.Diagnostic;
 
 @AutoService(Processor.class)
 public class SlickProcessor extends AbstractProcessor {
@@ -37,6 +40,7 @@ public class SlickProcessor extends AbstractProcessor {
     private Filer filer;
     private Elements elementUtils;
     private Types typeUtils;
+    private Messager messager;
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnvironment) {
@@ -44,6 +48,7 @@ public class SlickProcessor extends AbstractProcessor {
         filer = processingEnvironment.getFiler();
         this.processingEnv = processingEnv;
 
+        messager = processingEnvironment.getMessager();
         this.elementUtils = processingEnv.getElementUtils();
         this.typeUtils = processingEnv.getTypeUtils();
     }
@@ -63,29 +68,30 @@ public class SlickProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         final SlickVisitor slickVisitor = new SlickVisitor();
+            messager.printMessage(Diagnostic.Kind.WARNING, "Processing");
 
         for (Element element : roundEnv.getElementsAnnotatedWith(Presenter.class)) {
-            AnnotatedPresenter annotatedPresenter = null;
             final TypeElement typeElement = (TypeElement) element;
-            final List<? extends AnnotationMirror> annotationMirrors = typeElement.getAnnotationMirrors();
+            AnnotatedPresenter annotatedPresenter = new AnnotatedPresenter(((DeclaredType) typeElement.getSuperclass()).getTypeArguments().toString());
+            System.out.println("process() called with: hey" + element.asType().toString());
+            System.out.println("getSuperclass " + ((DeclaredType) typeElement.getSuperclass()).getTypeArguments().toString());
+            System.out.println("getTypeParameters "+typeElement.getTypeParameters().toString());
+
+            /*final List<? extends AnnotationMirror> annotationMirrors = typeElement.getAnnotationMirrors();
             for (AnnotationMirror annotationMirror : annotationMirrors) {
                 for (Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> entry : annotationMirror
                         .getElementValues()
                         .entrySet()) {
                     annotatedPresenter = entry.getValue().accept(slickVisitor, null);
                 }
-            }
-            // TODO: 2017-02-01 get the view name from super class parametrized type
+            }*/
+            // TODO: 2017-02-01 get the view name from super class parametrized type - done
             // TODO: 2017-02-01 refactor the code generating part to its own class
             // TODO: 2017-02-01 fill the annotatedPresenter with more data
             // TODO: 2017-02-01 generate the constructors args
             // TODO: 2017-02-01 generate dagger delegate
             // TODO: 2017-02-01 generate host for fragment's presenter
-            if (annotatedPresenter == null) {
-                // TODO: 2017-02-01 error
-                continue;
-            }
-            System.out.println("process() called with: hey" + element.asType().toString());
+
             final ClassName activity = ClassName.get("android.app", "Activity");
             final ClassName presenter = ClassName.get(
                     element.asType().toString().replace("." + element.getSimpleName().toString(), ""),
