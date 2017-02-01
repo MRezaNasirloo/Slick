@@ -9,8 +9,8 @@ import javax.lang.model.util.SimpleAnnotationValueVisitor7;
  */
 
 class SlickVisitor extends SimpleAnnotationValueVisitor7 <AnnotatedPresenter, Void> {
-    @Override
+    /*@Override
     public AnnotatedPresenter visitType(TypeMirror typeMirror, Void avoid) {
         return new AnnotatedPresenter(typeMirror.toString());
-    }
+    }*/
 }

@@ -11,7 +11,7 @@ public class CallbackActivity extends AppCompatActivity implements CallBackView 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        presenter = CallBackPresenter_HOST.bind(this);
+        presenter = CallBackPresenter_HOST.bind(this, R.id.textView3, "foo");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_callback);
     }

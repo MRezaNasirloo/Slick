@@ -2,16 +2,26 @@ package com.github.slick;
 
 import com.squareup.javapoet.ClassName;
 
+import java.util.List;
+
 /**
  * @author : Pedramrn@gmail.com
  *         Created on: 2017-02-01
  */
 
 class AnnotatedPresenter {
-    private ClassName className;
+    private List<PresenterArgs> args;
+    private ClassName view;
+    private ClassName presenter;
+    private ClassName PresenterHost;
 
-    AnnotatedPresenter(String canonicalName) {
-        if (canonicalName == null) return; // TODO: 2017-02-01 error
+    AnnotatedPresenter(String canonicalName, List<PresenterArgs> args, ClassName presenter, ClassName presenterHost) {
+        if (canonicalName == null) {
+            throw new IllegalArgumentException(new Throwable("canonicalName cannot be null")); // TODO: 2017-02-01 error
+        }
+        this.presenter = presenter;
+        PresenterHost = presenterHost;
+        this.args = args;
 
         final String[] split = canonicalName.split("\\.");
         StringBuilder builder = new StringBuilder(canonicalName.length());
@@ -19,11 +29,23 @@ class AnnotatedPresenter {
             builder.append(split[i]).append(".");
         }
         //remove the extra dot
-        builder.deleteCharAt(builder.length() - 1);
-        className = ClassName.get(builder.toString(), split[split.length - 1]);
+        if (split.length > 1) builder.deleteCharAt(builder.length() - 1);
+        view = ClassName.get(builder.toString(), split[split.length - 1]);
     }
 
-    ClassName getClassName() {
-        return className;
+    ClassName getView() {
+        return view;
+    }
+
+    public List<PresenterArgs> getArgs() {
+        return args;
+    }
+
+    public ClassName getPresenterHost() {
+        return PresenterHost;
+    }
+
+    public ClassName getPresenter() {
+        return presenter;
     }
 }

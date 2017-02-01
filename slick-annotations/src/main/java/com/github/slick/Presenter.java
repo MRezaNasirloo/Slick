@@ -1,4 +1,4 @@
-package com.github;
+package com.github.slick;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -12,4 +12,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.CLASS)
 @Target(ElementType.TYPE)
 public @interface Presenter {
+    Class<?> value();
 }

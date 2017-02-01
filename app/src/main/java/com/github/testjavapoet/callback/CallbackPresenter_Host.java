@@ -1,18 +1,23 @@
 package com.github.testjavapoet.callback;
 
 import android.app.Activity;
+import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.github.slick.OnDestroyListener;
 import com.github.slick.SlickDelegate;
 import com.github.slick.SlickView;
+import java.lang.Override;
 
 
 /**
  * @author : Pedramrn@gmail.com
  *         Created on: 2016-10-31
+ *
+ * Double Dummy
  */
-public class CallbackPresenter_Host implements OnDestroyListener/*, PresenterRetainer<SingletonPresenter>*/ {
+public class CallbackPresenter_Host implements OnDestroyListener {
 
     private final SlickDelegate<CallBackView, CallBackPresenter> delegate = new SlickDelegate<>();
 
@@ -22,9 +27,9 @@ public class CallbackPresenter_Host implements OnDestroyListener/*, PresenterRet
     private static CallbackPresenter_Host hostInstance;
 
     // TODO: 2016-11-01 Generate this based on presenter args
-    public static <T extends Activity & SlickView>CallBackPresenter bind(T activity) {
+    public static <T extends Activity & SlickView>CallBackPresenter bind(T activity, @IdRes @NonNull Integer i, String s) {
         if (hostInstance == null) hostInstance = new CallbackPresenter_Host();
-        if (presenterInstance == null) presenterInstance = new CallBackPresenter();
+        if (presenterInstance == null) presenterInstance = new CallBackPresenter(i, s);
         return hostInstance.setListener(activity);
     }
 

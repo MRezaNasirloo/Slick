@@ -1,8 +1,10 @@
 package com.github.testjavapoet.callback;
 
+import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.github.Presenter;
+import com.github.slick.Presenter;
 import com.github.slick.SlickPresenter;
 
 
@@ -10,10 +12,13 @@ import com.github.slick.SlickPresenter;
  * @author : Pedramrn@gmail.com
  *         Created on: 2016-11-03
  */
-@Presenter
+@Presenter(CallbackActivity.class)
 public class CallBackPresenter extends SlickPresenter<CallBackView> {
 
     private static final String TAG = CallBackPresenter.class.getSimpleName();
+
+    public CallBackPresenter(@IdRes @NonNull Integer integer, String s) {
+    }
 
     @Override
     public void onViewUp(CallBackView view) {

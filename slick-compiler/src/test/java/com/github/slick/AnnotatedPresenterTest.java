@@ -14,8 +14,8 @@ public class AnnotatedPresenterTest {
 
     @Test
     public void test_logic() {
-        final AnnotatedPresenter annotatedPresenter = new AnnotatedPresenter("foo.bar.Classic");
-        assertEquals(ClassName.get("foo.bar", "Classic"), annotatedPresenter.getClassName());
+        final AnnotatedPresenter annotatedPresenter = new AnnotatedPresenter("foo.bar.Classic", null, null, null);
+        assertEquals(ClassName.get("foo.bar", "Classic"), annotatedPresenter.getView());
     }
 
 }
