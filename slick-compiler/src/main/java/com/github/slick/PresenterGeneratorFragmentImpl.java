@@ -34,8 +34,8 @@ public class PresenterGeneratorFragmentImpl extends BasePresenterGenerator imple
         final List<PresenterArgs> args = ap.getArgs();
         final String presenterInstanceName = "presenterInstance";
         final String hostInstanceName = "hostInstance";
-        final String argNameBind = unCapitalize(ap.getView().simpleName());
-        final String argNameSetListener = unCapitalize(CLASS_NAME_SLICK_DELEGATOR.simpleName());
+        final String argNameBind = deCapitalize(ap.getView().simpleName());
+        final String argNameSetListener = deCapitalize(CLASS_NAME_SLICK_DELEGATOR.simpleName());
 
         final TypeVariableName type = TypeVariableName.get("T", ap.getView());
         final ParameterizedTypeName typeName =

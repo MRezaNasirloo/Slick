@@ -21,6 +21,7 @@ import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
+import javax.inject.Inject;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
@@ -39,6 +40,7 @@ import static com.squareup.javapoet.ClassName.get;
 @AutoService(Processor.class)
 public class SlickProcessor extends AbstractProcessor {
 
+    static final String INJECT = "javax.inject.Inject";
     static final String ACTIVITY = "android.app.Activity";
     static final String FRAGMENT = "android.app.Fragment";
     static final String FRAGMENT_SUPPORT = "android.support.v4.app.Fragment";
@@ -58,6 +60,8 @@ public class SlickProcessor extends AbstractProcessor {
     private Types typeUtils;
     private PresenterGenerator generatorActivity;
     private PresenterGenerator generatorFragment;
+    private PresenterGeneratorActivityDaggerImpl generatorDagger =
+            new PresenterGeneratorActivityDaggerImpl();
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnvironment) {
@@ -137,6 +141,8 @@ public class SlickProcessor extends AbstractProcessor {
             case FRAGMENT:
             case FRAGMENT_SUPPORT:
                 return generatorFragment.generate(ap);
+            case INJECT:
+                return generatorDagger.generate(ap);
             default: throw new IllegalStateException();
         }
 
@@ -157,14 +163,16 @@ public class SlickProcessor extends AbstractProcessor {
                 typeElement.asType().toString().replace("." + typeElement.getSimpleName().toString(), ""),
                 typeElement.getSimpleName().toString());
         final ClassName presenterHost = get(presenter.packageName(),
-                typeElement.getSimpleName().toString() + "_HOST");
+                typeElement.getSimpleName().toString() + "_Slick");
 
         final TypeMirror viewTypeMirror = getViewTypeMirror(typeElement);
-        final TypeElement viewType = getViewType(typeElement, viewTypeMirror);
+        ClassName viewType = get(getViewType(typeElement, viewTypeMirror));
 
         final List<? extends Element> enclosedElements = typeElement.getEnclosedElements();
         for (Element enclosedElement : enclosedElements) {
             if (ElementKind.CONSTRUCTOR.equals(enclosedElement.getKind())) {
+                final Inject annotation = enclosedElement.getAnnotation(Inject.class);
+                if (annotation != null) viewType = get(Inject.class);
                 // TODO: 2017-02-01 restrict to one constructor only
                 final ExecutableElement constructor = (ExecutableElement) enclosedElement;
                 List<? extends VariableElement> parameters = constructor.getParameters();
@@ -178,7 +186,7 @@ public class SlickProcessor extends AbstractProcessor {
                     args.add(presenterArgs);
                 }
                 return new AnnotatedPresenter(typeArguments.get(0).toString(), args, get(
-                        (TypeElement) typeUtils.asElement(viewTypeMirror)), get(viewType), presenter,
+                        (TypeElement) typeUtils.asElement(viewTypeMirror)), viewType, presenter,
                         presenterHost);
             }
         }
