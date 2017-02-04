@@ -1,16 +1,9 @@
 package com.github.slick;
 
 import com.google.auto.service.AutoService;
-import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterSpec;
-import com.squareup.javapoet.ParameterizedTypeName;
-import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
-import com.squareup.javapoet.TypeVariableName;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,6 +12,7 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -29,14 +23,15 @@ import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.AnnotationMirror;
+import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
-import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeMirror;
+import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 
 import static com.squareup.javapoet.ClassName.get;
@@ -44,19 +39,34 @@ import static com.squareup.javapoet.ClassName.get;
 @AutoService(Processor.class)
 public class SlickProcessor extends AbstractProcessor {
 
-    private static final ClassName ClASS_NAME_ACTIVITY = get("android.app", "Activity");
-    private static final ClassName CLASS_NAME_SLICK_DELEGATE = get("com.github.slick", "SlickDelegate");
-    private static final ClassName ClASS_NAME_ON_DESTROY_LISTENER = get("com.github.slick", "OnDestroyListener");
-    private static final ClassName ClASS_NAME_SLICK_VIEW = get("com.github.slick", "SlickView");
+    static final String ACTIVITY = "android.app.Activity";
+    static final String FRAGMENT = "android.app.Fragment";
+    static final String FRAGMENT_SUPPORT = "android.support.v4.app.Fragment";
+    static final String VIEW = "android.view.View";
+    static final ClassName ClASS_NAME_ACTIVITY = get("android.app", "Activity");
+    static final ClassName ClASS_NAME_FRAGMENT = get("android.app", "Fragment");
+    static final ClassName ClASS_NAME_FRAGMENT_SUPPORT = get("android.support.v4.app", "Fragment");
+    static final ClassName ClASS_NAME_VIEW = get("android.view", "View");
+    static final ClassName CLASS_NAME_SLICK_DELEGATOR = get("com.github.slick", "SlickDelegator");
+    static final ClassName CLASS_NAME_SLICK_DELEGATE = get("com.github.slick", "SlickDelegate");
+    static final ClassName ClASS_NAME_ON_DESTROY_LISTENER = get("com.github.slick", "OnDestroyListener");
+    static final ClassName ClASS_NAME_SLICK_VIEW = get("com.github.slick", "SlickView");
+    static final SlickVisitor SLICK_VISITOR = new SlickVisitor();
 
     private Filer filer;
     private Messager messager;
+    private Types typeUtils;
+    private PresenterGenerator generatorActivity;
+    private PresenterGenerator generatorFragment;
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnvironment) {
         super.init(processingEnvironment);
         filer = processingEnvironment.getFiler();
         messager = processingEnvironment.getMessager();
+        typeUtils = processingEnvironment.getTypeUtils();
+        generatorActivity = new PresenterGeneratorActivityImpl();
+        generatorFragment = new PresenterGeneratorFragmentImpl();
     }
 
     @Override
@@ -117,94 +127,19 @@ public class SlickProcessor extends AbstractProcessor {
     /**
      * Generates the Presenter Host class from provided information
      *
-     * @param annotatedPresenter
+     * @param ap
      * @return TypeSpec
      */
-    private TypeSpec generatePresenterHost(AnnotatedPresenter annotatedPresenter) {
-        final ClassName view = annotatedPresenter.getView();
-        final ClassName presenter = annotatedPresenter.getPresenter();
-        final ClassName presenterHost = annotatedPresenter.getPresenterHost();
-        final List<PresenterArgs> args = annotatedPresenter.getArgs();
-
-        final TypeVariableName type = TypeVariableName.get("T", ClASS_NAME_ACTIVITY);
-        final ParameterizedTypeName typeName =
-                ParameterizedTypeName.get(CLASS_NAME_SLICK_DELEGATE, view, presenter);
-
-        final FieldSpec delegate = FieldSpec.builder(typeName, "delegate")
-                .initializer("new $T()", CLASS_NAME_SLICK_DELEGATE)
-                .build();
-
-        final String presenterInstanceName = "presenterInstance";
-        final FieldSpec presenterInstance = FieldSpec.builder(presenter, presenterInstanceName)
-                .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
-                .build();
-        final String hostInstanceName = "hostInstance";
-        final FieldSpec hostInstance = FieldSpec.builder(presenterHost, hostInstanceName)
-                .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
-                .build();
-
-        StringBuilder argsCode = new StringBuilder(args.size() * 10);
-        if (args.size() > 0) {
-
-            for (int i = 0; i < args.size() - 1; i++) {
-                argsCode.append(args.get(i).getName()).append(", ");
-
-            }
-            argsCode.append(args.get(args.size() - 1).getName());
+    private TypeSpec generatePresenterHost(AnnotatedPresenter ap) {
+        switch (ap.getViewType().toString()) {
+            case ACTIVITY:
+                return generatorActivity.generate(ap);
+            case FRAGMENT:
+            case FRAGMENT_SUPPORT:
+                return generatorFragment.generate(ap);
+            default: throw new IllegalStateException();
         }
 
-        final String argActivityName = "activity";
-        final MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder("bind")
-                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                .addTypeVariable(type.withBounds(ClASS_NAME_SLICK_VIEW))
-                .addParameter(type, argActivityName)
-                .addStatement("if ($L == null) $L = new $T()", hostInstanceName, hostInstanceName, presenterHost)
-                .addStatement("if ($L == null) $L = new $T($L)", presenterInstanceName, presenterInstanceName,
-                        presenter, argsCode.toString())
-                .addStatement("return $L.setListener(activity)", hostInstanceName)
-                .returns(presenter);
-
-        for (PresenterArgs arg : args) {
-            final ParameterSpec.Builder paramBuilder =
-                    ParameterSpec.builder(TypeName.get(arg.getType()), arg.getName());
-            for (AnnotationMirror annotationMirror : arg.getAnnotations()) {
-                paramBuilder.addAnnotation(AnnotationSpec.get(annotationMirror));
-            }
-            methodBuilder.addParameter(paramBuilder.build());
-        }
-
-        final MethodSpec bind = methodBuilder.build();
-
-        final MethodSpec setListener = MethodSpec.methodBuilder("setListener")
-                .addModifiers(Modifier.PRIVATE)
-                .addParameter(ClASS_NAME_ACTIVITY, argActivityName)
-                .returns(presenter)
-                .addStatement("$L.getApplication().registerActivityLifecycleCallbacks(delegate)",
-                        argActivityName)
-                .addStatement("delegate.onCreate($L)", presenterInstanceName)
-                .addStatement("delegate.bind($L, $L.getClass())", presenterInstanceName, argActivityName)
-                .addStatement("delegate.setListener(this)")
-                .addStatement("return $L", presenterInstanceName)
-                .build();
-
-        final MethodSpec onDestroy = MethodSpec.methodBuilder("onDestroy")
-                .addAnnotation(Override.class)
-                .addModifiers(Modifier.PUBLIC)
-                .addStatement("$L = null", presenterInstanceName)
-                .addStatement("$L = null", hostInstanceName)
-                .build();
-
-
-        return TypeSpec.classBuilder(presenterHost)
-                .addModifiers(Modifier.PUBLIC)
-                .addSuperinterface(ClASS_NAME_ON_DESTROY_LISTENER)
-                .addField(delegate)
-                .addField(presenterInstance)
-                .addField(hostInstance)
-                .addMethod(bind)
-                .addMethod(setListener)
-                .addMethod(onDestroy)
-                .build();
     }
 
     /**
@@ -224,6 +159,9 @@ public class SlickProcessor extends AbstractProcessor {
         final ClassName presenterHost = get(presenter.packageName(),
                 typeElement.getSimpleName().toString() + "_HOST");
 
+        final TypeMirror viewTypeMirror = getViewTypeMirror(typeElement);
+        final TypeElement viewType = getViewType(typeElement, viewTypeMirror);
+
         final List<? extends Element> enclosedElements = typeElement.getEnclosedElements();
         for (Element enclosedElement : enclosedElements) {
             if (ElementKind.CONSTRUCTOR.equals(enclosedElement.getKind())) {
@@ -239,10 +177,45 @@ public class SlickProcessor extends AbstractProcessor {
 
                     args.add(presenterArgs);
                 }
-                return new AnnotatedPresenter(typeArguments.get(0).toString(), args, presenter, presenterHost);
+                return new AnnotatedPresenter(typeArguments.get(0).toString(), args, get(
+                        (TypeElement) typeUtils.asElement(viewTypeMirror)), get(viewType), presenter,
+                        presenterHost);
             }
         }
         throw new IllegalStateException("Could not scan presenter");
+    }
+
+    private TypeElement getViewType(TypeElement typeElement, TypeMirror viewType) throws IllegalArgumentException {
+        TypeElement viewTypeElement = (TypeElement) typeUtils.asElement(viewType);
+        if (viewType == null) {
+            error(typeElement, "@Presenter doesn't have the view class. @Presenter(YourActivityOrFragment.class)");
+            throw new IllegalArgumentException("error");
+        }
+        while (true) {
+            if (ClASS_NAME_ACTIVITY.toString().equals(viewTypeElement.toString()) ||
+                    ClASS_NAME_FRAGMENT.toString().equals(viewTypeElement.toString()) ||
+                    ClASS_NAME_FRAGMENT_SUPPORT.toString().equals(viewTypeElement.toString()) ||
+                    ClASS_NAME_VIEW.toString().equals(viewTypeElement.toString())) {
+                return viewTypeElement;
+            }
+            viewTypeElement = (TypeElement) typeUtils.asElement(viewTypeElement.getSuperclass());
+            if (viewTypeElement == null) {
+                error(typeElement, "View class should extends Activity, Fragment or View");
+                throw new IllegalArgumentException("error");
+            }
+        }
+    }
+
+    private TypeMirror getViewTypeMirror(TypeElement typeElement) {
+        final List<? extends AnnotationMirror> annotationMirrors = typeElement.getAnnotationMirrors();
+        for (AnnotationMirror annotationMirror : annotationMirrors) {
+            for (Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> entry : annotationMirror
+                    .getElementValues()
+                    .entrySet()) {
+                return entry.getValue().accept(SLICK_VISITOR, null);
+            }
+        }
+        return null;
     }
 
     private void logParsingError(Element element, Class<? extends Annotation> annotation, Exception e) {

@@ -8,9 +8,9 @@ import javax.lang.model.util.SimpleAnnotationValueVisitor7;
  *         Created on: 2017-02-01
  */
 
-class SlickVisitor extends SimpleAnnotationValueVisitor7 <AnnotatedPresenter, Void> {
-    /*@Override
-    public AnnotatedPresenter visitType(TypeMirror typeMirror, Void avoid) {
-        return new AnnotatedPresenter(typeMirror.toString());
-    }*/
+class SlickVisitor extends SimpleAnnotationValueVisitor7 <TypeMirror, Void> {
+    @Override
+    public TypeMirror visitType(TypeMirror typeMirror, Void avoid) {
+        return typeMirror;
+    }
 }

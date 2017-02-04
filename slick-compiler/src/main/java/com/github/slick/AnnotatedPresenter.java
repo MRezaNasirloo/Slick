@@ -12,29 +12,35 @@ import java.util.List;
 class AnnotatedPresenter {
     private List<PresenterArgs> args;
     private ClassName view;
+    private ClassName viewType;
+    private ClassName viewInterface;
     private ClassName presenter;
     private ClassName PresenterHost;
 
-    AnnotatedPresenter(String canonicalName, List<PresenterArgs> args, ClassName presenter, ClassName presenterHost) {
-        if (canonicalName == null) {
-            throw new IllegalArgumentException(new Throwable("canonicalName cannot be null")); // TODO: 2017-02-01 error
+    AnnotatedPresenter(String viewCanonicalName, List<PresenterArgs> args, ClassName view, ClassName viewType,
+                       ClassName presenter,
+                       ClassName presenterHost) {
+        if (viewCanonicalName == null) {
+            throw new IllegalArgumentException(new Throwable("viewCanonicalName cannot be null")); // TODO: 2017-02-01 error
         }
+        this.view = view;
+        this.viewType = viewType;
         this.presenter = presenter;
         PresenterHost = presenterHost;
         this.args = args;
 
-        final String[] split = canonicalName.split("\\.");
-        StringBuilder builder = new StringBuilder(canonicalName.length());
+        final String[] split = viewCanonicalName.split("\\.");
+        StringBuilder builder = new StringBuilder(viewCanonicalName.length());
         for (int i = 0; i < split.length - 1; i++) {
             builder.append(split[i]).append(".");
         }
         //remove the extra dot
         if (split.length > 1) builder.deleteCharAt(builder.length() - 1);
-        view = ClassName.get(builder.toString(), split[split.length - 1]);
+        viewInterface = ClassName.get(builder.toString(), split[split.length - 1]);
     }
 
-    ClassName getView() {
-        return view;
+    ClassName getViewInterface() {
+        return viewInterface;
     }
 
     public List<PresenterArgs> getArgs() {
@@ -47,5 +53,13 @@ class AnnotatedPresenter {
 
     public ClassName getPresenter() {
         return presenter;
+    }
+
+    public ClassName getViewType() {
+        return viewType;
+    }
+
+    public ClassName getView() {
+        return view;
     }
 }
