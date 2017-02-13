@@ -1,8 +1,12 @@
 package com.github.slick;
 
 import com.google.testing.compile.JavaFileObjects;
+import com.google.testing.compile.JavaSourcesSubjectFactory;
 
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.tools.JavaFileObject;
 
@@ -14,53 +18,73 @@ import static com.google.testing.compile.JavaSourceSubjectFactory.javaSource;
  *         Created on: 2017-02-01
  */
 
-public class CallBackPresenterTest {
+public class PresenterGeneratorsTest {
 
     @Test
-    public void callback() {
-        JavaFileObject source = JavaFileObjects.forSourceString("test.CallBackPresenter", ""
+    public void activity() {
+        JavaFileObject sourcePresenter = JavaFileObjects.forSourceString("test.ExamplePresenter", ""
                 + "package test;\n"
+
                 + "import android.support.annotation.IdRes;\n"
-                + "import com.github.slick.Presenter;\n"
+
                 + "import com.github.slick.SlickPresenter;\n"
                 + "import com.github.slick.SlickView;\n"
-                + "import android.app.Activity;\n"
 
-                + "@Presenter(Activity.class)\n"
-                + "public class CallBackPresenter extends SlickPresenter<SlickView> {\n"
+                + "public class ExamplePresenter extends SlickPresenter<SlickView> {\n"
 
-                + "    public CallBackPresenter(@IdRes int i, float f) {\n"
+                + "    public ExamplePresenter(@IdRes int i, float f) {\n"
                 + "    }\n"
                 + "}");
-        JavaFileObject presenterHostSource = JavaFileObjects.forSourceString("test.CallBackPresenter_Slick", ""
+
+        JavaFileObject sourceView = JavaFileObjects.forSourceString("test.ExampleActivity", ""
+                + "package test;\n"
+
+                + "import android.os.Bundle;\n"
+                + "import android.support.v7.app.AppCompatActivity;\n"
+                + "import com.github.slick.Presenter;\n"
+                + "import com.github.slick.SlickView;\n"
+
+                + "public class ExampleActivity extends AppCompatActivity implements SlickView {\n"
+
+                + "    @Presenter\n"
+                + "    ExamplePresenter presenter;\n"
+
+                + "    @Override\n"
+                + "    protected void onCreate(Bundle savedInstanceState) {\n"
+                + "        ExamplePresenter_Slick.bind(this, 1, 2.0f);\n"
+                + "        super.onCreate(savedInstanceState);\n"
+                + "    }\n"
+                + "}");
+
+        JavaFileObject genSource = JavaFileObjects.forSourceString("test.ExamplePresenter_Slick", ""
                 + "package test;\n"
 
                 + "import android.app.Activity;\n"
                 + "import android.support.annotation.IdRes;\n"
-
                 + "import com.github.slick.OnDestroyListener;\n"
                 + "import com.github.slick.SlickDelegate;\n"
                 + "import com.github.slick.SlickView;\n"
                 + "import java.lang.Override;\n"
 
-                + "public class CallBackPresenter_Slick implements OnDestroyListener {\n"
+                + "public class ExamplePresenter_Slick implements OnDestroyListener {\n"
 
-                + "    private static CallBackPresenter presenterInstance;\n"
-                + "    private static CallBackPresenter_Slick hostInstance;\n"
-                + "    SlickDelegate<SlickView, CallBackPresenter> delegate = new SlickDelegate();\n"
+                + "    private static ExamplePresenter presenterInstance;\n"
+                + "    private static ExamplePresenter_Slick hostInstance;\n"
+                + "    SlickDelegate<SlickView, ExamplePresenter> delegate = new SlickDelegate();\n"
 
-                + "    public static <T extends Activity & SlickView> CallBackPresenter bind(T activity, @IdRes int i, float f) {\n"
-                + "        if (hostInstance == null) hostInstance = new CallBackPresenter_Slick();\n"
-                + "        if (presenterInstance == null) presenterInstance = new CallBackPresenter(i, f);\n"
-                + "        return hostInstance.setListener(activity);\n"
+                + "    public static <T extends Activity & SlickView> void bind(T exampleActivity, @IdRes int i,"
+                + " float f) {\n"
+                + "        if (hostInstance == null) hostInstance = new ExamplePresenter_Slick();\n"
+                + "        if (presenterInstance == null) presenterInstance = new ExamplePresenter(i, f);\n"
+                + "        hostInstance.setListener((ExampleActivity) exampleActivity);\n"
                 + "    }\n"
 
-                + "    private CallBackPresenter setListener(Activity activity) {\n"
+                + "    private void setListener(ExampleActivity activity) {\n"
+                + "        activity.presenter = presenterInstance;\n"
                 + "        activity.getApplication().registerActivityLifecycleCallbacks(delegate);\n"
                 + "        delegate.onCreate(presenterInstance);\n"
                 + "        delegate.bind(presenterInstance, activity.getClass());\n"
                 + "        delegate.setListener(this);\n"
-                + "        return presenterInstance;\n"
                 + "    }\n"
 
                 + "    @Override\n"
@@ -70,15 +94,18 @@ public class CallBackPresenterTest {
                 + "    }\n"
                 + "}");
 
-        assertAbout(javaSource()).that(source)
+        final List<JavaFileObject> target = new ArrayList<>(2);
+        target.add(sourcePresenter);
+        target.add(sourceView);
+        assertAbout(JavaSourcesSubjectFactory.javaSources()).that(target)
                 .processedWith(new SlickProcessor())
                 .compilesWithoutError()
                 .and()
-                .generatesSources(presenterHostSource);
+                .generatesSources(genSource);
     }
 
     @Test
-    public void callbackDagger() {
+    public void activityDagger() {
         JavaFileObject source = JavaFileObjects.forSourceString("test.DaggerPresenter", ""
                 + "package test;\n"
 
@@ -134,7 +161,6 @@ public class CallBackPresenterTest {
                 .and()
                 .generatesSources(presenterHostSource);
     }
-
 
 
     @Test

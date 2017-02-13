@@ -10,7 +10,6 @@ import java.lang.annotation.Target;
  *         Created on: 2016-11-01
  */
 @Retention(RetentionPolicy.CLASS)
-@Target(ElementType.TYPE)
+@Target(ElementType.FIELD)
 public @interface Presenter {
-    Class<?> value();
 }

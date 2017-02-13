@@ -1,10 +1,9 @@
-package com.github.testjavapoet.callback;
+package com.github.testjavapoet.activity;
 
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.github.slick.Presenter;
 import com.github.slick.SlickPresenter;
 
 
@@ -12,16 +11,15 @@ import com.github.slick.SlickPresenter;
  * @author : Pedramrn@gmail.com
  *         Created on: 2016-11-03
  */
-@Presenter(CallbackActivity.class)
-public class CallBackPresenter extends SlickPresenter<CallBackView> {
+public class ExampleActivityPresenter extends SlickPresenter<ExampleActivityView> {
 
-    private static final String TAG = CallBackPresenter.class.getSimpleName();
+    private static final String TAG = ExampleActivityPresenter.class.getSimpleName();
 
-    public CallBackPresenter(@IdRes @NonNull Integer integer, String s) {
+    public ExampleActivityPresenter(@IdRes @NonNull Integer integer, String s) {
     }
 
     @Override
-    public void onViewUp(CallBackView view) {
+    public void onViewUp(ExampleActivityView view) {
         Log.d(TAG, "onViewUp() called");
         super.onViewUp(view);
     }

@@ -11,13 +11,15 @@ import java.util.List;
 
 class AnnotatedPresenter {
     private List<PresenterArgs> args;
+    private String fieldName;
     private ClassName view;
     private ClassName viewType;
     private ClassName viewInterface;
     private ClassName presenter;
     private ClassName PresenterHost;
 
-    AnnotatedPresenter(String viewCanonicalName, List<PresenterArgs> args, ClassName view, ClassName viewType,
+    AnnotatedPresenter(String viewCanonicalName, List<PresenterArgs> args, String fieldName, ClassName view,
+                       ClassName viewType,
                        ClassName presenter,
                        ClassName presenterHost) {
         if (viewCanonicalName == null) {
@@ -26,6 +28,7 @@ class AnnotatedPresenter {
         this.view = view;
         this.viewType = viewType;
         this.presenter = presenter;
+        this.fieldName = fieldName;
         PresenterHost = presenterHost;
         this.args = args;
 
@@ -61,5 +64,9 @@ class AnnotatedPresenter {
 
     public ClassName getView() {
         return view;
+    }
+
+    public String getFieldName() {
+        return fieldName;
     }
 }

@@ -1,4 +1,4 @@
-package com.github.testjavapoet.callback;
+package com.github.testjavapoet.activity;
 
 
 import com.github.slick.SlickView;
@@ -7,5 +7,5 @@ import com.github.slick.SlickView;
  * @author : Pedramrn@gmail.com
  *         Created on: 2016-11-03
  */
-interface CallBackView extends SlickView {
+interface ExampleActivityView extends SlickView {
 }

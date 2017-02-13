@@ -93,8 +93,10 @@ public class SlickProcessor extends AbstractProcessor {
     // TODO: 2017-02-01 refactor the code generating part to its own class
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        for (Element element : roundEnv.getElementsAnnotatedWith(Presenter.class)) {
-            final TypeElement typeElement = (TypeElement) element;
+        final Set<? extends Element> elementsAnnotatedWith = roundEnv.getElementsAnnotatedWith(Presenter.class);
+        List<AnnotatedPresenter> annotatedPresenters = new ArrayList<>(elementsAnnotatedWith.size());
+        for (Element element : elementsAnnotatedWith) {
+            final TypeElement typeElement = (TypeElement) typeUtils.asElement(element.asType());
             final DeclaredType superclass = (DeclaredType) typeElement.getSuperclass();
             if (superclass == null) {
                 error(element, "%s should extends SlickPresenter<SlickView>.", typeElement.getQualifiedName());
@@ -107,13 +109,13 @@ public class SlickProcessor extends AbstractProcessor {
                 continue;
             }
 
-            final AnnotatedPresenter annotatedPresenter;
             try {
-                annotatedPresenter = scanPresenter(typeElement, typeArguments);
+                annotatedPresenters.add(scanPresenter(element, typeElement, typeArguments));
             } catch (Exception e) {
                 logParsingError(element, Presenter.class, e);
-                continue;
             }
+        }
+        for (AnnotatedPresenter annotatedPresenter : annotatedPresenters) {
 
             final TypeSpec cls = generatePresenterHost(annotatedPresenter);
 
@@ -125,6 +127,7 @@ public class SlickProcessor extends AbstractProcessor {
                 e.printStackTrace();
             }
         }
+
         return true;
     }
 
@@ -143,7 +146,8 @@ public class SlickProcessor extends AbstractProcessor {
                 return generatorFragment.generate(ap);
             case INJECT:
                 return generatorDagger.generate(ap);
-            default: throw new IllegalStateException();
+            default:
+                throw new IllegalStateException();
         }
 
     }
@@ -157,16 +161,17 @@ public class SlickProcessor extends AbstractProcessor {
      * @throws IllegalArgumentException
      * @throws IllegalStateException
      */
-    private AnnotatedPresenter scanPresenter(TypeElement typeElement, List<? extends TypeMirror> typeArguments)
+    private AnnotatedPresenter scanPresenter(Element element, TypeElement typeElement, List<? extends TypeMirror> typeArguments)
             throws IllegalArgumentException, IllegalStateException {
-        final ClassName presenter = get(
-                typeElement.asType().toString().replace("." + typeElement.getSimpleName().toString(), ""),
-                typeElement.getSimpleName().toString());
+        final ClassName presenter = getClassName(typeElement);
         final ClassName presenterHost = get(presenter.packageName(),
                 typeElement.getSimpleName().toString() + "_Slick");
 
-        final TypeMirror viewTypeMirror = getViewTypeMirror(typeElement);
-        ClassName viewType = get(getViewType(typeElement, viewTypeMirror));
+        final String fieldName = element.getSimpleName().toString();
+
+
+        final TypeElement viewTypeElement = (TypeElement) element.getEnclosingElement();
+        ClassName viewType = get(getViewType(typeElement, viewTypeElement));
 
         final List<? extends Element> enclosedElements = typeElement.getEnclosedElements();
         for (Element enclosedElement : enclosedElements) {
@@ -185,16 +190,22 @@ public class SlickProcessor extends AbstractProcessor {
 
                     args.add(presenterArgs);
                 }
-                return new AnnotatedPresenter(typeArguments.get(0).toString(), args, get(
-                        (TypeElement) typeUtils.asElement(viewTypeMirror)), viewType, presenter,
+                return new AnnotatedPresenter(typeArguments.get(0).toString(), args, fieldName,
+                        getClassName(viewTypeElement), viewType, presenter,
                         presenterHost);
             }
         }
         throw new IllegalStateException("Could not scan presenter");
     }
 
-    private TypeElement getViewType(TypeElement typeElement, TypeMirror viewType) throws IllegalArgumentException {
-        TypeElement viewTypeElement = (TypeElement) typeUtils.asElement(viewType);
+    private ClassName getClassName(TypeElement typeElement) {
+        return get(
+                typeElement.asType().toString().replace("." + typeElement.getSimpleName().toString(), ""),
+                typeElement.getSimpleName().toString());
+    }
+
+    private TypeElement getViewType(TypeElement typeElement, Element viewType) throws IllegalArgumentException {
+        TypeElement viewTypeElement = (TypeElement) viewType;
         if (viewType == null) {
             error(typeElement, "@Presenter doesn't have the view class. @Presenter(YourActivityOrFragment.class)");
             throw new IllegalArgumentException("error");
