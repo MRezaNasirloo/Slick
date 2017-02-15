@@ -42,6 +42,9 @@ public class SlickDelegate<V extends SlickView, P extends SlickPresenter<V>>
     }
 
     public SlickDelegate(P presenter, Class<? extends Activity> cls, String id) {
+        if (presenter == null) {
+            throw new IllegalStateException("Presenter cannot be null.");
+        }
         this.presenter = presenter;
         this.cls = cls;
         this.id = id;
@@ -114,8 +117,10 @@ public class SlickDelegate<V extends SlickView, P extends SlickPresenter<V>>
     @Override
     @SuppressWarnings("unchecked")
     public void onActivityStarted(Activity activity) {
-        if (cls.isInstance(activity) && multiInstance) {
-            if (activity.getIntent().getStringExtra("KEY").equals(this.id)) {
+        if (multiInstance) {
+            if (isSameInstance(activity)) {
+                presenter.onViewUp((V) activity);
+            } else if (cls.isInstance(activity)) {
                 presenter.onViewUp((V) activity);
             }
             Log.d(TAG, "onActivityStarted() called with " + activity.toString());
@@ -136,12 +141,18 @@ public class SlickDelegate<V extends SlickView, P extends SlickPresenter<V>>
     @Override
     @SuppressWarnings("unchecked")
     public void onActivityStopped(Activity activity) {
-        if (cls.isInstance(activity) && multiInstance) {
-            if (activity.getIntent().getStringExtra("KEY").equals(this.id)) {
+        if (multiInstance) {
+            if (isSameInstance(activity)) {
+                presenter.onViewDown();
+            } else if (cls.isInstance(activity)) {
                 presenter.onViewDown();
             }
         }
         Log.d(TAG, "onActivityStopped() called with " + activity.toString());
+    }
+
+    private boolean isSameInstance(Activity activity) {
+        return activity.getIntent().getStringExtra(SLICK_INTENT_KEY).equals(this.id);
     }
 
     @Override
@@ -152,8 +163,10 @@ public class SlickDelegate<V extends SlickView, P extends SlickPresenter<V>>
     @Override
     @SuppressWarnings("unchecked")
     public void onActivityDestroyed(Activity activity) {
-        if (cls.isInstance(activity) && multiInstance) {
-            if (activity.getIntent().getStringExtra("KEY").equals(this.id)) {
+        if (multiInstance) {
+            if (isSameInstance(activity)) {
+                onDestroy((V) activity);
+            } else if (cls.isInstance(activity)) {
                 onDestroy((V) activity);
             }
         }

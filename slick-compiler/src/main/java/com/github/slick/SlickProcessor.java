@@ -49,6 +49,7 @@ public class SlickProcessor extends AbstractProcessor {
     static final ClassName ClASS_NAME_FRAGMENT = get("android.app", "Fragment");
     static final ClassName ClASS_NAME_FRAGMENT_SUPPORT = get("android.support.v4.app", "Fragment");
     static final ClassName ClASS_NAME_VIEW = get("android.view", "View");
+    static final ClassName CLASS_NAME_CONDUCTOR = get("com.bluelinelabs.conductor", "Controller");
     static final ClassName ClASS_NAME_HASH_MAP = get("java.util", "HashMap");
     static final ClassName ClASS_NAME_STRING = get("java.lang", "String");
     static final ClassName CLASS_NAME_SLICK_DELEGATOR = get("com.github.slick", "SlickDelegator");
@@ -90,9 +91,9 @@ public class SlickProcessor extends AbstractProcessor {
     // 2017-02-01 get the view name from super class parametrized type - DONE
     // 2017-02-01 fill the annotatedPresenter with more data - DONE
     // 2017-02-01 generate the constructors args - DONE
-    // TODO: 2017-02-01 generate dagger delegate
+    // 2017-02-01 generate dagger delegate - DONE
     // TODO: 2017-02-01 generate host for fragment's presenter
-    // TODO: 2017-02-01 refactor the code generating part to its own class
+    // 2017-02-01 refactor the code generating part to its own class - DONE
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         final Set<? extends Element> elementsAnnotatedWith = roundEnv.getElementsAnnotatedWith(Presenter.class);
@@ -217,6 +218,7 @@ public class SlickProcessor extends AbstractProcessor {
             if (ClASS_NAME_ACTIVITY.toString().equals(viewTypeElement.toString()) ||
                     ClASS_NAME_FRAGMENT.toString().equals(viewTypeElement.toString()) ||
                     ClASS_NAME_FRAGMENT_SUPPORT.toString().equals(viewTypeElement.toString()) ||
+                    CLASS_NAME_CONDUCTOR.toString().equals(viewTypeElement.toString()) ||
                     ClASS_NAME_VIEW.toString().equals(viewTypeElement.toString())) {
                 return viewTypeElement;
             }

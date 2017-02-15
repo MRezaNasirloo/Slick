@@ -158,26 +158,25 @@ public class PresenterGeneratorsTest {
                 + "import com.github.slick.SlickDelegate;\n"
                 + "import com.github.slick.SlickView;\n"
                 + "import java.lang.Override;\n"
+                + "import java.lang.String;\n"
+
 
                 + "public class DaggerPresenter_Slick implements OnDestroyListener {\n"
 
                 + "    private static DaggerPresenter_Slick hostInstance;\n"
-                + "    SlickDelegate<SlickView, DaggerPresenter> delegate = new SlickDelegate();\n"
+                + "    SlickDelegate<SlickView, DaggerPresenter> delegate = new SlickDelegate<>();\n"
 
                 + "    public static <T extends Activity & SlickView> void bind(T daggerActivity,"
                 + "                             DaggerPresenter daggerPresenter) {\n"
                 + "        if (hostInstance == null) hostInstance = new DaggerPresenter_Slick();\n"
-                + "        hostInstance.setListener(daggerActivity, daggerPresenter);\n"
-                + "    }\n"
-
-                + "    private void setListener(Activity activity, DaggerPresenter daggerPresenter) {\n"
-                + "        activity.getApplication().registerActivityLifecycleCallbacks(delegate);\n"
-                + "        delegate.bind(daggerPresenter, activity.getClass());\n"
-                + "        delegate.setListener(this);\n"
+                + "        daggerActivity.getApplication()"
+                + "                 .registerActivityLifecycleCallbacks(hostInstance.delegate);\n"
+                + "        hostInstance.delegate.bind(daggerPresenter, daggerActivity.getClass());\n"
+                + "        hostInstance.delegate.setListener(hostInstance);\n"
                 + "    }\n"
 
                 + "    @Override\n"
-                + "    public void onDestroy() {\n"
+                + "    public void onDestroy(String id) {\n"
                 + "        hostInstance = null;\n"
                 + "    }\n"
                 + "}");
