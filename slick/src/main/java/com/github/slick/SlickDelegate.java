@@ -152,7 +152,8 @@ public class SlickDelegate<V extends SlickView, P extends SlickPresenter<V>>
     }
 
     private boolean isSameInstance(Activity activity) {
-        return activity.getIntent().getStringExtra(SLICK_INTENT_KEY).equals(this.id);
+        final String id = activity.getIntent().getStringExtra(SLICK_INTENT_KEY);
+        return id != null && id.equals(this.id);
     }
 
     @Override
@@ -175,6 +176,10 @@ public class SlickDelegate<V extends SlickView, P extends SlickPresenter<V>>
 
     public void setListener(OnDestroyListener listener) {
         this.listener = listener;
+    }
+
+    public P getPresenter() {
+        return presenter;
     }
 
     public void onDestroyForViews(V view) {

@@ -35,13 +35,12 @@ public class PresenterGeneratorActivityImpl extends BasePresenterGenerator imple
         final ClassName presenter = ap.getPresenter();
         final ClassName presenterHost = ap.getPresenterHost();
         final List<PresenterArgs> args = ap.getArgs();
-        final String presenterInstanceName = "presenterInstance";
         final String fieldName = ap.getFieldName();
         final String varNameDelegate = "delegate";
         final String fieldNameDelegates = "delegates";
         final String hostInstanceName = "hostInstance";
-        final String argNameActivity = "activity";
-        final String argNameBind = deCapitalize(ap.getView().simpleName());
+        final String presenterName = "presenter";
+        final String argNameActivity = deCapitalize(ap.getView().simpleName());
 
         final TypeVariableName type = TypeVariableName.get("T", ClASS_NAME_ACTIVITY);
         final ParameterizedTypeName typeNameSlickDelegate =
@@ -72,16 +71,18 @@ public class PresenterGeneratorActivityImpl extends BasePresenterGenerator imple
         final MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder("bind")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .addTypeVariable(type.withBounds(ClASS_NAME_SLICK_VIEW))
-                .addParameter(type, argNameBind)
-                .addStatement("final String id = $T.getActivityId($L)", CLASS_NAME_SLICK_DELEGATE, argNameBind)
+                .addParameter(type, argNameActivity)
+                .addStatement("final String id = $T.getActivityId($L)", CLASS_NAME_SLICK_DELEGATE, argNameActivity)
                 .addStatement("if ($L == null) $L = new $T()", hostInstanceName, hostInstanceName, presenterHost)
-                .beginControlFlow("if ($L.$L.get(id) == null)", hostInstanceName, fieldNameDelegates)
-                .addStatement("final $T $L = new $T($L)", presenter, "presenter", presenter, argsCode.toString())
-                .addStatement("final $T $L =\n new $T<>($L, $L.getClass(), id)", typeNameSlickDelegate, varNameDelegate, CLASS_NAME_SLICK_DELEGATE, "presenter", argNameBind)
+                .addStatement("$T $L = $L.$L.get(id)", typeNameSlickDelegate, varNameDelegate, hostInstanceName, fieldNameDelegates)
+                .beginControlFlow("if ($L == null)", varNameDelegate)
+                .addStatement("final $T $L = new $T($L)", presenter, presenterName, presenter, argsCode.toString())
+                .addStatement("$L = new $T<>($L, $L.getClass(), id)", varNameDelegate, CLASS_NAME_SLICK_DELEGATE, presenterName, argNameActivity)
                 .addStatement("$L.setListener($L)", varNameDelegate, hostInstanceName)
                 .addStatement("$L.$L.put(id, $L)", hostInstanceName, fieldNameDelegates, varNameDelegate)
-                .addStatement("$L.getApplication().registerActivityLifecycleCallbacks(delegate)", argNameBind)
+                .addStatement("$L.getApplication().registerActivityLifecycleCallbacks(delegate)", argNameActivity)
                 .endControlFlow()
+                .addStatement("(($L) $L).$L = $L.getPresenter()", view.simpleName(), argNameActivity, fieldName, varNameDelegate)
                 .returns(void.class);
 
         for (PresenterArgs arg : args) {
