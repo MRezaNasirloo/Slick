@@ -7,7 +7,6 @@ import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeVariableName;
 
-import javax.inject.Inject;
 import javax.lang.model.element.Modifier;
 
 import static com.github.slick.SlickProcessor.CLASS_NAME_SLICK_DELEGATE;
@@ -20,7 +19,7 @@ import static com.github.slick.SlickProcessor.ClASS_NAME_SLICK_VIEW;
  *         Created on: 2017-02-05
  */
 public class PresenterGeneratorActivityDaggerImpl extends BasePresenterGenerator implements PresenterGenerator {
-    @Override @Inject
+    @Override
     public TypeSpec generate(AnnotatedPresenter ap) {
         final ClassName view = ap.getViewInterface();
         final ClassName viewType = ap.getViewType();

@@ -17,8 +17,10 @@ import javax.lang.model.element.Modifier;
 
 import static com.github.slick.SlickProcessor.CLASS_NAME_SLICK_DELEGATE;
 import static com.github.slick.SlickProcessor.ClASS_NAME_ACTIVITY;
+import static com.github.slick.SlickProcessor.ClASS_NAME_HASH_MAP;
 import static com.github.slick.SlickProcessor.ClASS_NAME_ON_DESTROY_LISTENER;
 import static com.github.slick.SlickProcessor.ClASS_NAME_SLICK_VIEW;
+import static com.github.slick.SlickProcessor.ClASS_NAME_STRING;
 
 /**
  * @author : Pedramrn@gmail.com
@@ -35,21 +37,24 @@ public class PresenterGeneratorActivityImpl extends BasePresenterGenerator imple
         final List<PresenterArgs> args = ap.getArgs();
         final String presenterInstanceName = "presenterInstance";
         final String fieldName = ap.getFieldName();
+        final String varNameDelegate = "delegate";
+        final String fieldNameDelegates = "delegates";
         final String hostInstanceName = "hostInstance";
         final String argNameActivity = "activity";
         final String argNameBind = deCapitalize(ap.getView().simpleName());
 
         final TypeVariableName type = TypeVariableName.get("T", ClASS_NAME_ACTIVITY);
-        final ParameterizedTypeName typeName =
+        final ParameterizedTypeName typeNameSlickDelegate =
                 ParameterizedTypeName.get(CLASS_NAME_SLICK_DELEGATE, viewInterface, presenter);
 
-        final FieldSpec delegate = FieldSpec.builder(typeName, "delegate")
-                .initializer("new $T()", CLASS_NAME_SLICK_DELEGATE)
+        final ParameterizedTypeName typeName =
+                ParameterizedTypeName.get(ClASS_NAME_HASH_MAP, ClASS_NAME_STRING, typeNameSlickDelegate);
+
+        final FieldSpec delegate = FieldSpec.builder(typeName, "delegates")
+                .addModifiers(Modifier.PRIVATE, Modifier.FINAL)
+                .initializer("new $T<>()", ClASS_NAME_HASH_MAP)
                 .build();
 
-        final FieldSpec presenterInstance = FieldSpec.builder(presenter, presenterInstanceName)
-                .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
-                .build();
         final FieldSpec hostInstance = FieldSpec.builder(presenterHost, hostInstanceName)
                 .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
                 .build();
@@ -68,10 +73,15 @@ public class PresenterGeneratorActivityImpl extends BasePresenterGenerator imple
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .addTypeVariable(type.withBounds(ClASS_NAME_SLICK_VIEW))
                 .addParameter(type, argNameBind)
+                .addStatement("final String id = $T.getActivityId($L)", CLASS_NAME_SLICK_DELEGATE, argNameBind)
                 .addStatement("if ($L == null) $L = new $T()", hostInstanceName, hostInstanceName, presenterHost)
-                .addStatement("if ($L == null) $L = new $T($L)", presenterInstanceName, presenterInstanceName,
-                        presenter, argsCode.toString())
-                .addStatement("$L.setListener(($L) $L)", hostInstanceName, view.simpleName(), argNameBind)
+                .beginControlFlow("if ($L.$L.get(id) == null)", hostInstanceName, fieldNameDelegates)
+                .addStatement("final $T $L = new $T($L)", presenter, "presenter", presenter, argsCode.toString())
+                .addStatement("final $T $L =\n new $T<>($L, $L.getClass(), id)", typeNameSlickDelegate, varNameDelegate, CLASS_NAME_SLICK_DELEGATE, "presenter", argNameBind)
+                .addStatement("$L.setListener($L)", varNameDelegate, hostInstanceName)
+                .addStatement("$L.$L.put(id, $L)", hostInstanceName, fieldNameDelegates, varNameDelegate)
+                .addStatement("$L.getApplication().registerActivityLifecycleCallbacks(delegate)", argNameBind)
+                .endControlFlow()
                 .returns(void.class);
 
         for (PresenterArgs arg : args) {
@@ -85,22 +95,15 @@ public class PresenterGeneratorActivityImpl extends BasePresenterGenerator imple
 
         final MethodSpec bind = methodBuilder.build();
 
-        final MethodSpec setListener = MethodSpec.methodBuilder("setListener")
-                .addModifiers(Modifier.PRIVATE)
-                .addParameter(view, argNameActivity)
-                .addStatement("$L.$L = presenterInstance", argNameActivity, fieldName)
-                .addStatement("$L.getApplication().registerActivityLifecycleCallbacks(delegate)", argNameActivity)
-                .addStatement("delegate.onCreate($L)", presenterInstanceName)
-                .addStatement("delegate.bind($L, $L.getClass())", presenterInstanceName, argNameActivity)
-                .addStatement("delegate.setListener(this)")
-                .returns(void.class)
-                .build();
 
         final MethodSpec onDestroy = MethodSpec.methodBuilder("onDestroy")
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
-                .addStatement("$L = null", presenterInstanceName)
+                .addParameter(ParameterSpec.builder(ClASS_NAME_STRING, "id").build())
+                .addStatement("$L.$L.remove(id)", hostInstanceName, fieldNameDelegates)
+                .beginControlFlow("if ($L.$L.size() == 0)", hostInstanceName, fieldNameDelegates)
                 .addStatement("$L = null", hostInstanceName)
+                .endControlFlow()
                 .build();
 
 
@@ -108,10 +111,8 @@ public class PresenterGeneratorActivityImpl extends BasePresenterGenerator imple
                 .addModifiers(Modifier.PUBLIC)
                 .addSuperinterface(ClASS_NAME_ON_DESTROY_LISTENER)
                 .addField(delegate)
-                .addField(presenterInstance)
                 .addField(hostInstance)
                 .addMethod(bind)
-                .addMethod(setListener)
                 .addMethod(onDestroy)
                 .build();
     }

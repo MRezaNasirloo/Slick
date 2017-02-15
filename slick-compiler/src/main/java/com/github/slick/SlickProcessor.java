@@ -49,6 +49,8 @@ public class SlickProcessor extends AbstractProcessor {
     static final ClassName ClASS_NAME_FRAGMENT = get("android.app", "Fragment");
     static final ClassName ClASS_NAME_FRAGMENT_SUPPORT = get("android.support.v4.app", "Fragment");
     static final ClassName ClASS_NAME_VIEW = get("android.view", "View");
+    static final ClassName ClASS_NAME_HASH_MAP = get("java.util", "HashMap");
+    static final ClassName ClASS_NAME_STRING = get("java.lang", "String");
     static final ClassName CLASS_NAME_SLICK_DELEGATOR = get("com.github.slick", "SlickDelegator");
     static final ClassName CLASS_NAME_SLICK_DELEGATE = get("com.github.slick", "SlickDelegate");
     static final ClassName ClASS_NAME_ON_DESTROY_LISTENER = get("com.github.slick", "OnDestroyListener");
@@ -143,6 +145,7 @@ public class SlickProcessor extends AbstractProcessor {
                 return generatorActivity.generate(ap);
             case FRAGMENT:
             case FRAGMENT_SUPPORT:
+                // TODO: 2017-02-13 dagger fragments do not need code generating
                 return generatorFragment.generate(ap);
             case INJECT:
                 return generatorDagger.generate(ap);
