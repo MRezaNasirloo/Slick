@@ -13,22 +13,43 @@
     >
 
     <Button
-        android:text="Activity"
+        android:id="@+id/activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/activity"
+        android:layout_alignParentTop="true"
+        android:text="Activity"
         />
 
     <Button
-        android:text="Conductor"
+        android:id="@+id/conductor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/activity"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/conductor"
+        android:layout_below="@+id/activity"
+        android:text="Conductor"
+        />
+
+    <Button
+        android:id="@+id/activity_dagger"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/activity"
+        android:layout_toRightOf="@+id/activity"
+        android:text="activity with dagger"
+        />
+
+    <Button
+        android:id="@+id/conductor_dagger"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/conductor"
+        android:layout_alignBottom="@+id/conductor"
+        android:layout_toEndOf="@+id/conductor"
+        android:layout_toRightOf="@+id/conductor"
+        android:text="Conductor with dagger"
         />
 </RelativeLayout>

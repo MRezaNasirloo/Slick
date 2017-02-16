@@ -26,11 +26,13 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.1.0'
     testCompile 'junit:junit:4.12'
+
     compile 'com.bluelinelabs:conductor:2.1.0'
 
+    compile 'com.google.dagger:dagger:2.7'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.7'
 
-
-    annotationProcessor project(':slick-compiler')
     compile project(':slick')
+    annotationProcessor project(':slick-compiler')
     compile project(':slick-conductor')
 }
