@@ -1,4 +1,4 @@
-package com.github.testjavapoet.activity;
+package com.github.slick.sample.activity;
 
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;

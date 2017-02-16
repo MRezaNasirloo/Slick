@@ -3,8 +3,6 @@ package com.github.slick;
 import org.junit.Test;
 
 import java.io.InputStream;
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -19,7 +17,7 @@ public class ExampleUnitTest {
         assertEquals(4, 2 + 2);
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         System.out.println(classloader.getResource(".").getPath());
-        InputStream is = classloader.getResourceAsStream("foo.json");
+        InputStream is = classloader.getResourceAsStream("ExampleActivity.java");
         is.toString();
     }
 }

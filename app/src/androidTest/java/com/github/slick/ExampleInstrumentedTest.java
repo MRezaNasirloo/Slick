@@ -1,4 +1,4 @@
-package com.github.testjavapoet;
+package com.github.slick;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.github.testjavapoet", appContext.getPackageName());
+        assertEquals("com.github.slick.sample", appContext.getPackageName());
     }
 }

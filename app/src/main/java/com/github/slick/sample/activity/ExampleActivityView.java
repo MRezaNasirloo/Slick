@@ -1,4 +1,4 @@
-package com.github.testjavapoet.activity;
+package com.github.slick.sample.activity;
 
 
 import com.github.slick.SlickView;
