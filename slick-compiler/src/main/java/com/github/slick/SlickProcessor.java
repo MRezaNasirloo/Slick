@@ -44,6 +44,7 @@ public class SlickProcessor extends AbstractProcessor {
     static final String ACTIVITY = "android.app.Activity";
     static final String FRAGMENT = "android.app.Fragment";
     static final String FRAGMENT_SUPPORT = "android.support.v4.app.Fragment";
+    static final String CONDUCTOR = "com.bluelinelabs.conductor.Controller";
     static final String VIEW = "android.view.View";
     static final ClassName ClASS_NAME_ACTIVITY = get("android.app", "Activity");
     static final ClassName ClASS_NAME_FRAGMENT = get("android.app", "Fragment");
@@ -54,6 +55,7 @@ public class SlickProcessor extends AbstractProcessor {
     static final ClassName ClASS_NAME_STRING = get("java.lang", "String");
     static final ClassName CLASS_NAME_SLICK_DELEGATOR = get("com.github.slick", "SlickDelegator");
     static final ClassName CLASS_NAME_SLICK_DELEGATE = get("com.github.slick", "SlickDelegate");
+    static final ClassName CLASS_NAME_SLICK_CONDUCTOR_DELEGATE = get("com.github.slick.conductor", "SlickConductorDelegate");
     static final ClassName ClASS_NAME_ON_DESTROY_LISTENER = get("com.github.slick", "OnDestroyListener");
     static final ClassName ClASS_NAME_SLICK_VIEW = get("com.github.slick", "SlickView");
     static final SlickVisitor SLICK_VISITOR = new SlickVisitor();
@@ -61,10 +63,10 @@ public class SlickProcessor extends AbstractProcessor {
     private Filer filer;
     private Messager messager;
     private Types typeUtils;
-    private PresenterGenerator generatorActivity;
-    private PresenterGenerator generatorFragment;
-    private PresenterGeneratorActivityDaggerImpl generatorDagger =
-            new PresenterGeneratorActivityDaggerImpl();
+    private PresenterGenerator generatorActivity = new PresenterGeneratorActivityImpl();;
+    private PresenterGenerator generatorFragment = new PresenterGeneratorFragmentImpl();;
+    private PresenterGenerator generatorDagger = new PresenterGeneratorActivityDaggerImpl();
+    private PresenterGenerator generatorConductor = new PresenterGeneratorConductorImpl();
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnvironment) {
@@ -72,8 +74,6 @@ public class SlickProcessor extends AbstractProcessor {
         filer = processingEnvironment.getFiler();
         messager = processingEnvironment.getMessager();
         typeUtils = processingEnvironment.getTypeUtils();
-        generatorActivity = new PresenterGeneratorActivityImpl();
-        generatorFragment = new PresenterGeneratorFragmentImpl();
     }
 
     @Override
@@ -150,6 +150,8 @@ public class SlickProcessor extends AbstractProcessor {
                 return generatorFragment.generate(ap);
             case INJECT:
                 return generatorDagger.generate(ap);
+            case CONDUCTOR:
+                return generatorConductor.generate(ap);
             default:
                 throw new IllegalStateException();
         }
