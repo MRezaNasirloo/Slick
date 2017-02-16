@@ -18,6 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.ExampleActivity"/>
+        <activity android:name=".conductor.ConductorActivity"/>
     </application>
 
 </manifest>
