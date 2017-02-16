@@ -169,11 +169,13 @@ public class PresenterGeneratorsTest {
 
                 + "    public static <T extends Activity & SlickView> void bind(T daggerActivity,"
                 + "                             DaggerPresenter daggerPresenter) {\n"
-                + "        if (hostInstance == null) hostInstance = new DaggerPresenter_Slick();\n"
-                + "        daggerActivity.getApplication()"
-                + "                 .registerActivityLifecycleCallbacks(hostInstance.delegate);\n"
-                + "        hostInstance.delegate.bind(daggerPresenter, daggerActivity.getClass());\n"
-                + "        hostInstance.delegate.setListener(hostInstance);\n"
+                + "        if (hostInstance == null) { \n"
+                + "            hostInstance = new DaggerPresenter_Slick();\n"
+                + "            daggerActivity.getApplication()"
+                + "                .registerActivityLifecycleCallbacks(hostInstance.delegate);\n"
+                + "            hostInstance.delegate.bind(daggerPresenter, daggerActivity.getClass());\n"
+                + "            hostInstance.delegate.setListener(hostInstance);\n"
+                + "        }\n"
                 + "    }\n"
 
                 + "    @Override\n"

@@ -53,10 +53,12 @@ public class PresenterGeneratorActivityDaggerImpl extends BasePresenterGenerator
                 .addTypeVariable(type.withBounds(ClASS_NAME_SLICK_VIEW))
                 .addParameter(type, argNameBind)
                 .addParameter(presenter, presenterName)
-                .addStatement("if ($L == null) $L = new $T()", hostInstanceName, hostInstanceName, presenterHost)
+                .beginControlFlow("if ($L == null)", hostInstanceName)
+                .addStatement(" $L = new $T()", hostInstanceName, presenterHost)
                 .addStatement("$L.getApplication().registerActivityLifecycleCallbacks($L.$L)", argNameBind, hostInstanceName, varNameDelegate)
                 .addStatement("$L.$L.bind($L, $L.getClass())", hostInstanceName, varNameDelegate, presenterName, argNameBind)
                 .addStatement("$L.$L.setListener($L)", hostInstanceName, varNameDelegate, hostInstanceName)
+                .endControlFlow()
                 .returns(void.class);
 
         final MethodSpec bind = methodBuilder.build();
