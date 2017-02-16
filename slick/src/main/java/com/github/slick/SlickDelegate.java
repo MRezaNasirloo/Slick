@@ -5,7 +5,6 @@ import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.View;
 
 import java.util.UUID;
@@ -120,11 +119,10 @@ public class SlickDelegate<V extends SlickView, P extends SlickPresenter<V>>
         if (multiInstance) {
             if (isSameInstance(activity)) {
                 presenter.onViewUp((V) activity);
-            } else if (cls.isInstance(activity)) {
-                presenter.onViewUp((V) activity);
             }
-            Log.d(TAG, "onActivityStarted() called with " + activity.toString());
 
+        } else if (cls.isInstance(activity)) {
+            presenter.onViewUp((V) activity);
         }
     }
 
@@ -144,11 +142,10 @@ public class SlickDelegate<V extends SlickView, P extends SlickPresenter<V>>
         if (multiInstance) {
             if (isSameInstance(activity)) {
                 presenter.onViewDown();
-            } else if (cls.isInstance(activity)) {
-                presenter.onViewDown();
             }
+        } else if (cls.isInstance(activity)) {
+            presenter.onViewDown();
         }
-        Log.d(TAG, "onActivityStopped() called with " + activity.toString());
     }
 
     private boolean isSameInstance(Activity activity) {
@@ -167,11 +164,10 @@ public class SlickDelegate<V extends SlickView, P extends SlickPresenter<V>>
         if (multiInstance) {
             if (isSameInstance(activity)) {
                 onDestroy((V) activity);
-            } else if (cls.isInstance(activity)) {
-                onDestroy((V) activity);
             }
+        } else if (cls.isInstance(activity)) {
+            onDestroy((V) activity);
         }
-        Log.d(TAG, "onActivityDestroyed() called with " + activity.toString());
     }
 
     public void setListener(OnDestroyListener listener) {

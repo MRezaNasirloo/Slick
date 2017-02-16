@@ -61,9 +61,9 @@ public class SlickConductorDelegate<V extends SlickView, P extends SlickPresente
         if (multiInstance) {
             if (isSameInstance(controller)) {
                 presenter.onViewUp((V) controller);
-            } else if (cls.isInstance(controller)) {
-                presenter.onViewUp((V) controller);
             }
+        }else if (cls.isInstance(controller)) {
+            presenter.onViewUp((V) controller);
         }
     }
 
@@ -72,9 +72,9 @@ public class SlickConductorDelegate<V extends SlickView, P extends SlickPresente
         if (multiInstance) {
             if (isSameInstance(controller)) {
                 presenter.onViewDown();
-            } else if (cls.isInstance(controller)) {
-                presenter.onViewDown();
             }
+        }else if (cls.isInstance(controller)) {
+            presenter.onViewDown();
         }
     }
 
@@ -83,9 +83,9 @@ public class SlickConductorDelegate<V extends SlickView, P extends SlickPresente
         if (multiInstance) {
             if (isSameInstance(controller)) {
                 onDestroy(controller);
-            } else if (cls.isInstance(controller)) {
-                onDestroy(controller);
             }
+        } else if (cls.isInstance(controller)) {
+            onDestroy(controller);
         }
     }
 
