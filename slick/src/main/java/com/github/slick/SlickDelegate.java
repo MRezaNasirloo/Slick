@@ -23,19 +23,9 @@ public class SlickDelegate<V extends SlickView, P extends SlickPresenter<V>>
 
     private P presenter;
     private Class<? extends Activity> cls;
-    private String slick_intent_key;
     private static String SLICK_INTENT_KEY = "SLICK_INTENT_KEY";
     private boolean multiInstance = false;
 
-
-    public void bind(P presenterInstance, Class<? extends Activity> cls) {
-        if (presenterInstance == null) {
-            throw new IllegalStateException("Presenter cannot be null.");
-        }
-        this.presenter = presenterInstance;
-        this.cls = cls;
-
-    }
 
     public SlickDelegate() {
     }
@@ -56,13 +46,6 @@ public class SlickDelegate<V extends SlickView, P extends SlickPresenter<V>>
         }
         this.presenter = presenter;
         this.cls = cls;
-    }
-
-    public P onCreate(P presenter) {
-        if (presenter == null) {
-            throw new IllegalStateException("Presenter cannot be null.");
-        }
-        return this.presenter = presenter;
     }
 
     public void onStart(V view) {
@@ -93,25 +76,6 @@ public class SlickDelegate<V extends SlickView, P extends SlickPresenter<V>>
             presenter = null;
         }
         //else if (view instanceof android.app.Fragment && ((android.app.Fragment) view).getParentFragment() == null) activity = ((android.app.Fragment) view).getActivity();
-    }
-
-    /**
-     * For use in custom views only
-     *
-     * @param view the view interface
-     */
-    public void onAttachedToWindow(V view) {
-        presenter.onViewUp(view);
-    }
-
-    /**
-     * For use in custom views only
-     */
-    public void onDetachedFromWindow(V view) {
-        presenter.onViewDown();
-        if (((Activity) ((View) view).getContext()).isFinishing()) {
-            presenter.onDestroy();
-        }
     }
 
     @Override
@@ -156,11 +120,6 @@ public class SlickDelegate<V extends SlickView, P extends SlickPresenter<V>>
         }
     }
 
-    private boolean isSameInstance(Activity activity) {
-        final String id = activity.getIntent().getStringExtra(SLICK_INTENT_KEY);
-        return id != null && id.equals(this.id);
-    }
-
     @Override
     public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
         //no-op
@@ -186,10 +145,6 @@ public class SlickDelegate<V extends SlickView, P extends SlickPresenter<V>>
         return presenter;
     }
 
-    public void onDestroyForViews(V view) {
-        onDestroy(view);
-    }
-
     public static String getActivityId(Activity activity) {
         final Intent intent = activity.getIntent();
         if (intent.hasExtra(SLICK_INTENT_KEY)) {
@@ -200,5 +155,10 @@ public class SlickDelegate<V extends SlickView, P extends SlickPresenter<V>>
             activity.setIntent(intent);
             return id;
         }
+    }
+
+    private boolean isSameInstance(Activity activity) {
+        final String id = activity.getIntent().getStringExtra(SLICK_INTENT_KEY);
+        return id != null && id.equals(this.id);
     }
 }
