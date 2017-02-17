@@ -1,4 +1,4 @@
-package com.github.slick.sample.conductor;
+package com.github.slick.sample.conductor.dagger;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

@@ -13,13 +13,13 @@ class AnnotatedPresenter {
     private List<PresenterArgs> args;
     private String fieldName;
     private ClassName view;
-    private ClassName viewType;
+    private SlickProcessor.ViewType viewType;
     private ClassName viewInterface;
     private ClassName presenter;
     private ClassName PresenterHost;
 
     AnnotatedPresenter(String viewCanonicalName, List<PresenterArgs> args, String fieldName, ClassName view,
-                       ClassName viewType,
+                       SlickProcessor.ViewType viewType,
                        ClassName presenter,
                        ClassName presenterHost) {
         if (viewCanonicalName == null) {
@@ -58,7 +58,7 @@ class AnnotatedPresenter {
         return presenter;
     }
 
-    public ClassName getViewType() {
+    public SlickProcessor.ViewType getViewType() {
         return viewType;
     }
 

@@ -38,6 +38,14 @@ public class SlickConductorDelegate<V extends SlickView, P extends SlickPresente
         if (id != null) multiInstance = true;
     }
 
+    public SlickConductorDelegate(P presenter, Class<? extends Controller> cls) {
+        if (presenter == null) {
+            throw new IllegalStateException("Presenter cannot be null.");
+        }
+        this.presenter = presenter;
+        this.cls = cls;
+    }
+
     public void onStart(V view) {
         presenter.onViewUp(view);
     }

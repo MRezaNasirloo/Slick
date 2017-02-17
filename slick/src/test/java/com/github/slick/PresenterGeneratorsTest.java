@@ -165,15 +165,16 @@ public class PresenterGeneratorsTest {
                 + "public class DaggerPresenter_Slick implements OnDestroyListener {\n"
 
                 + "    private static DaggerPresenter_Slick hostInstance;\n"
-                + "    SlickDelegate<SlickView, DaggerPresenter> delegate = new SlickDelegate<>();\n"
+                + "    SlickDelegate<SlickView, DaggerPresenter> delegate;\n"
 
                 + "    public static <T extends Activity & SlickView> void bind(T daggerActivity,"
                 + "                             DaggerPresenter daggerPresenter) {\n"
                 + "        if (hostInstance == null) { \n"
                 + "            hostInstance = new DaggerPresenter_Slick();\n"
+                + "            hostInstance.delegate = new SlickDelegate<>(daggerPresenter, "
+                + "                           daggerActivity.getClass())\n"
                 + "            daggerActivity.getApplication()"
                 + "                .registerActivityLifecycleCallbacks(hostInstance.delegate);\n"
-                + "            hostInstance.delegate.bind(daggerPresenter, daggerActivity.getClass());\n"
                 + "            hostInstance.delegate.setListener(hostInstance);\n"
                 + "        }\n"
                 + "    }\n"

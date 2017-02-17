@@ -6,7 +6,8 @@ import com.github.slick.sample.activity.ExampleActivity;
 import com.github.slick.sample.activity.ExampleActivityPresenter_Slick;
 import com.github.slick.sample.activity.dagger.ExampleActivityPresenter;
 import com.github.slick.sample.conductor.ConductorPresenter_Slick;
-import com.github.slick.sample.conductor.HomeController;
+import com.github.slick.sample.conductor.ExampleController;
+import com.github.slick.sample.conductor.dagger.ConductorPresenter;
 
 /**
  * @author : Pedramrn@gmail.com
@@ -23,7 +24,12 @@ public class Slick {
         com.github.slick.sample.activity.dagger.ExampleActivityPresenter_Slick.bind(activity, presenter);
     }
 
-    public static void bind(HomeController homeController) {
+    public static void bind(ExampleController homeController) {
         ConductorPresenter_Slick.bind(homeController);
+    }
+
+    public static void bind(com.github.slick.sample.conductor.dagger.ExampleController homeController,
+                            ConductorPresenter presenter) {
+        com.github.slick.sample.conductor.dagger.ConductorPresenter_Slick.bind(homeController, presenter);
     }
 }

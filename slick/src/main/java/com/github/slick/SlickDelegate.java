@@ -50,6 +50,14 @@ public class SlickDelegate<V extends SlickView, P extends SlickPresenter<V>>
         if (id != null) multiInstance = true;
     }
 
+    public SlickDelegate(P presenter, Class<? extends Activity> cls) {
+        if (presenter == null) {
+            throw new IllegalStateException("Presenter cannot be null.");
+        }
+        this.presenter = presenter;
+        this.cls = cls;
+    }
+
     public P onCreate(P presenter) {
         if (presenter == null) {
             throw new IllegalStateException("Presenter cannot be null.");

@@ -1,32 +1,41 @@
 package com.github.slick;
 
+import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
+import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeVariableName;
 
+import java.util.List;
+
+import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Modifier;
 
 import static com.github.slick.SlickProcessor.CLASS_NAME_SLICK_DELEGATE;
 import static com.github.slick.SlickProcessor.ClASS_NAME_ACTIVITY;
+import static com.github.slick.SlickProcessor.ClASS_NAME_HASH_MAP;
 import static com.github.slick.SlickProcessor.ClASS_NAME_SLICK_VIEW;
+import static com.github.slick.SlickProcessor.ClASS_NAME_STRING;
 
 /**
  * @author : Pedramrn@gmail.com
  *         Created on: 2017-02-05
  */
-public class PresenterGeneratorActivityImpl extends BasePresenterGeneratorActivityImpl
-        implements PresenterGenerator {
+public class PresenterGeneratorActivityImpl extends BasePresenterGeneratorImpl {
     @Override
     protected MethodSpec.Builder bindMethod(ClassName view, ClassName presenter, ClassName presenterHost,
+                                            ClassName classNameDelegate,
                                             String fieldName, String argNameView,
-                                            TypeVariableName activityGenericType,
+                                            String presenterArgName, TypeVariableName viewGenericType,
                                             ParameterizedTypeName typeNameDelegate, StringBuilder argsCode) {
         return MethodSpec.methodBuilder("bind")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                .addTypeVariable(activityGenericType.withBounds(ClASS_NAME_SLICK_VIEW))
-                .addParameter(activityGenericType, argNameView)
-                .addStatement("final String id = $T.getActivityId($L)", CLASS_NAME_SLICK_DELEGATE, argNameView)
+                .addTypeVariable(viewGenericType.withBounds(ClASS_NAME_SLICK_VIEW))
+                .addParameter(viewGenericType, argNameView)
+                .addStatement("final String id = $T.getActivityId($L)", classNameDelegate, argNameView)
                 .addStatement("if ($L == null) $L = new $T()", hostInstanceName, hostInstanceName, presenterHost)
                 .addStatement("$T $L = $L.$L.get(id)", typeNameDelegate, varNameDelegate, hostInstanceName,
                         fieldNameDelegates)
@@ -44,6 +53,19 @@ public class PresenterGeneratorActivityImpl extends BasePresenterGeneratorActivi
     }
 
     @Override
+    protected MethodSpec.Builder addConstructorParameter(List<PresenterArgs> args, MethodSpec.Builder methodBuilder) {
+        for (PresenterArgs arg : args) {
+            final ParameterSpec.Builder paramBuilder =
+                    ParameterSpec.builder(TypeName.get(arg.getType()), arg.getName());
+            for (AnnotationMirror annotationMirror : arg.getAnnotations()) {
+                paramBuilder.addAnnotation(AnnotationSpec.get(annotationMirror));
+            }
+            methodBuilder.addParameter(paramBuilder.build());
+        }
+        return methodBuilder;
+    }
+
+    @Override
     protected ClassName getClassNameViewType() {
         return ClASS_NAME_ACTIVITY;
     }
@@ -51,5 +73,16 @@ public class PresenterGeneratorActivityImpl extends BasePresenterGeneratorActivi
     @Override
     protected ClassName getClassNameDelegate() {
         return CLASS_NAME_SLICK_DELEGATE;
+    }
+
+    @Override
+    protected FieldSpec getDelegateField(ParameterizedTypeName typeNameDelegate) {
+        final ParameterizedTypeName parametrizedMapTypeName =
+                ParameterizedTypeName.get(ClASS_NAME_HASH_MAP, ClASS_NAME_STRING, typeNameDelegate);
+
+        return FieldSpec.builder(parametrizedMapTypeName, fieldNameDelegates)
+                .addModifiers(Modifier.PRIVATE, Modifier.FINAL)
+                .initializer("new $T<>()", ClASS_NAME_HASH_MAP)
+                .build();
     }
 }

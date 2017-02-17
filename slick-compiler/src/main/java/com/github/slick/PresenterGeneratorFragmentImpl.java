@@ -24,11 +24,10 @@ import static com.github.slick.SlickProcessor.ClASS_NAME_SLICK_VIEW;
  * @author : Pedramrn@gmail.com
  *         Created on: 2017-02-05
  */
-public class PresenterGeneratorFragmentImpl extends BasePresenterGenerator implements PresenterGenerator {
+public class PresenterGeneratorFragmentImpl extends BasePresenterGeneratorImpl {
     @Override
     public TypeSpec generate(AnnotatedPresenter ap) {
         final ClassName viewInterface = ap.getViewInterface();
-        final ClassName viewType = ap.getViewType();
         final ClassName presenter = ap.getPresenter();
         final ClassName presenterHost = ap.getPresenterHost();
         final List<PresenterArgs> args = ap.getArgs();
@@ -109,5 +108,28 @@ public class PresenterGeneratorFragmentImpl extends BasePresenterGenerator imple
                 .addMethod(setListener)
                 .addMethod(onDestroy)
                 .build();
+    }
+
+    @Override
+    protected MethodSpec.Builder bindMethod(ClassName view, ClassName presenter, ClassName presenterHost,
+                                            ClassName classNameDelegate, String fieldName, String argNameView,
+                                            String presenterArgName, TypeVariableName viewGenericType,
+                                            ParameterizedTypeName typeNameDelegate, StringBuilder argsCode) {
+        return null;
+    }
+
+    @Override
+    protected ClassName getClassNameViewType() {
+        return null;
+    }
+
+    @Override
+    protected ClassName getClassNameDelegate() {
+        return null;
+    }
+
+    @Override
+    protected FieldSpec getDelegateField(ParameterizedTypeName typeNameDelegate) {
+        return null;
     }
 }

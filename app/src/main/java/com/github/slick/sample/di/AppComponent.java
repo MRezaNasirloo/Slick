@@ -3,6 +3,7 @@ package com.github.slick.sample.di;
 
 import com.github.slick.sample.activity.dagger.DaggerModule;
 import com.github.slick.sample.activity.dagger.ExampleActivity;
+import com.github.slick.sample.conductor.dagger.ExampleController;
 
 import javax.inject.Singleton;
 
@@ -23,7 +24,8 @@ public interface AppComponent {
     @Subcomponent(modules = DaggerModule.class)
     interface DaggerComponent {
         void inject(ExampleActivity activity);
-        //        void inject(HomeController activity);
+
+        void inject(ExampleController controller);
 
     }
 

@@ -37,8 +37,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.conductor_dagger).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                startActivity(new Intent(MainActivity.this, ConductorActivity.class));
-                Toast.makeText(MainActivity.this, "TODO", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainActivity.this, com.github.slick.sample.conductor.dagger.ConductorActivity.class));
             }
         });
     }

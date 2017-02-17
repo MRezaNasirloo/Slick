@@ -6,7 +6,5 @@ package com.github.slick;
  */
 
 public class BasePresenterGenerator {
-    protected String deCapitalize(String string) {
-        return Character.toLowerCase(string.charAt(0)) + string.substring(1);
-    }
+
 }

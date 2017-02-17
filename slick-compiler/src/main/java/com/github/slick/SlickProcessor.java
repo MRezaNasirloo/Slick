@@ -35,27 +35,39 @@ import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 
+import static com.github.slick.SlickProcessor.ViewType.ACTIVITY;
 import static com.squareup.javapoet.ClassName.get;
 
 @AutoService(Processor.class)
 public class SlickProcessor extends AbstractProcessor {
 
-    static final String INJECT = "javax.inject.Inject";
-    static final String ACTIVITY = "android.app.Activity";
-    static final String FRAGMENT = "android.app.Fragment";
-    static final String FRAGMENT_SUPPORT = "android.support.v4.app.Fragment";
-    static final String CONDUCTOR = "com.bluelinelabs.conductor.Controller";
-    static final String VIEW = "android.view.View";
+    enum ViewType {
+        ACTIVITY,
+        FRAGMENT,
+        CONDUCTOR,
+        DAGGER_ACTIVITY,
+        DAGGER_FRAGMENT,
+        DAGGER_CONDUCTOR,
+        UNSUPPORTED
+    }
+
+//    static final String INJECT = "javax.inject.Inject";
+//    static final String ACTIVITY = "android.app.Activity";
+//    static final String FRAGMENT = "android.app.Fragment";
+//    static final String FRAGMENT_SUPPORT = "android.support.v4.app.Fragment";
+//    static final String CONDUCTOR = "com.bluelinelabs.conductor.Controller";
+//    static final String VIEW = "android.view.View";
     static final ClassName ClASS_NAME_ACTIVITY = get("android.app", "Activity");
     static final ClassName ClASS_NAME_FRAGMENT = get("android.app", "Fragment");
     static final ClassName ClASS_NAME_FRAGMENT_SUPPORT = get("android.support.v4.app", "Fragment");
     static final ClassName ClASS_NAME_VIEW = get("android.view", "View");
-    static final ClassName CLASS_NAME_CONDUCTOR = get("com.bluelinelabs.conductor", "Controller");
+    static final ClassName CLASS_NAME_CONTROLLER = get("com.bluelinelabs.conductor", "Controller");
     static final ClassName ClASS_NAME_HASH_MAP = get("java.util", "HashMap");
     static final ClassName ClASS_NAME_STRING = get("java.lang", "String");
     static final ClassName CLASS_NAME_SLICK_DELEGATOR = get("com.github.slick", "SlickDelegator");
     static final ClassName CLASS_NAME_SLICK_DELEGATE = get("com.github.slick", "SlickDelegate");
-    static final ClassName CLASS_NAME_SLICK_CONDUCTOR_DELEGATE = get("com.github.slick.conductor", "SlickConductorDelegate");
+    static final ClassName CLASS_NAME_SLICK_CONDUCTOR_DELEGATE =
+            get("com.github.slick.conductor", "SlickConductorDelegate");
     static final ClassName ClASS_NAME_ON_DESTROY_LISTENER = get("com.github.slick", "OnDestroyListener");
     static final ClassName ClASS_NAME_SLICK_VIEW = get("com.github.slick", "SlickView");
     static final SlickVisitor SLICK_VISITOR = new SlickVisitor();
@@ -63,10 +75,12 @@ public class SlickProcessor extends AbstractProcessor {
     private Filer filer;
     private Messager messager;
     private Types typeUtils;
-    private PresenterGenerator generatorActivity = new PresenterGeneratorActivityImpl();;
-    private PresenterGenerator generatorFragment = new PresenterGeneratorFragmentImpl();;
-    private PresenterGenerator generatorDagger = new PresenterGeneratorActivityDaggerImpl();
+    private PresenterGenerator generatorActivity = new PresenterGeneratorActivityImpl();
+    private PresenterGenerator generatorFragment = new PresenterGeneratorFragmentImpl();
     private PresenterGenerator generatorConductor = new PresenterGeneratorConductorImpl();
+    private PresenterGenerator generatorDaggerActivity = new PresenterGeneratorDaggerActivityImpl();
+//    private PresenterGenerator generatorDaggerFragment = new PresenterGeneratorFragmentImpl();
+    private PresenterGenerator generatorDaggerConductor = new PresenterGeneratorDaggerConductorImpl();
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnvironment) {
@@ -141,17 +155,20 @@ public class SlickProcessor extends AbstractProcessor {
      * @return TypeSpec
      */
     private TypeSpec generatePresenterHost(AnnotatedPresenter ap) {
-        switch (ap.getViewType().toString()) {
+        switch (ap.getViewType()) {
             case ACTIVITY:
                 return generatorActivity.generate(ap);
             case FRAGMENT:
-            case FRAGMENT_SUPPORT:
-                // TODO: 2017-02-13 dagger fragments do not need code generating
                 return generatorFragment.generate(ap);
-            case INJECT:
-                return generatorDagger.generate(ap);
             case CONDUCTOR:
                 return generatorConductor.generate(ap);
+            case DAGGER_ACTIVITY:
+                return generatorDaggerActivity.generate(ap);
+            case DAGGER_FRAGMENT:
+                // TODO: 2017-02-13 dagger fragments do not need code generating
+                throw new UnsupportedOperationException();
+            case DAGGER_CONDUCTOR:
+                return generatorDaggerConductor.generate(ap);
             default:
                 throw new IllegalStateException();
         }
@@ -167,7 +184,8 @@ public class SlickProcessor extends AbstractProcessor {
      * @throws IllegalArgumentException
      * @throws IllegalStateException
      */
-    private AnnotatedPresenter scanPresenter(Element element, TypeElement typeElement, List<? extends TypeMirror> typeArguments)
+    private AnnotatedPresenter scanPresenter(Element element, TypeElement typeElement,
+                                             List<? extends TypeMirror> typeArguments)
             throws IllegalArgumentException, IllegalStateException {
         final ClassName presenter = getClassName(typeElement);
         final ClassName presenterHost = get(presenter.packageName(),
@@ -175,15 +193,33 @@ public class SlickProcessor extends AbstractProcessor {
 
         final String fieldName = element.getSimpleName().toString();
 
-
         final TypeElement viewTypeElement = (TypeElement) element.getEnclosingElement();
-        ClassName viewType = get(getViewType(typeElement, viewTypeElement));
+        ClassName viewTypeClassName = get(getViewType(typeElement, viewTypeElement));
+
+        ViewType viewType = ViewType.UNSUPPORTED;
+        if (element.getAnnotation(Inject.class) != null) {
+            if (ClASS_NAME_ACTIVITY.equals(viewTypeClassName)) {
+                viewType = ViewType.DAGGER_ACTIVITY;
+            } else if (CLASS_NAME_CONTROLLER.equals(viewTypeClassName)) {
+                viewType = ViewType.DAGGER_CONDUCTOR;
+            } else if (ClASS_NAME_FRAGMENT.equals(viewTypeClassName) ||
+                    ClASS_NAME_FRAGMENT_SUPPORT.equals(viewTypeClassName)) {
+                viewType = ViewType.DAGGER_FRAGMENT;
+            }
+        } else {
+            if (ClASS_NAME_ACTIVITY.equals(viewTypeClassName)) {
+                viewType = ACTIVITY;
+            } else if (CLASS_NAME_CONTROLLER.equals(viewTypeClassName)) {
+                viewType = ViewType.CONDUCTOR;
+            } else if (ClASS_NAME_FRAGMENT.equals(viewTypeClassName) ||
+                    ClASS_NAME_FRAGMENT_SUPPORT.equals(viewTypeClassName)) {
+                viewType = ViewType.FRAGMENT;
+            }
+        }
 
         final List<? extends Element> enclosedElements = typeElement.getEnclosedElements();
         for (Element enclosedElement : enclosedElements) {
             if (ElementKind.CONSTRUCTOR.equals(enclosedElement.getKind())) {
-                final Inject annotation = enclosedElement.getAnnotation(Inject.class);
-                if (annotation != null) viewType = get(Inject.class);
                 // TODO: 2017-02-01 restrict to one constructor only
                 final ExecutableElement constructor = (ExecutableElement) enclosedElement;
                 List<? extends VariableElement> parameters = constructor.getParameters();
@@ -220,7 +256,7 @@ public class SlickProcessor extends AbstractProcessor {
             if (ClASS_NAME_ACTIVITY.toString().equals(viewTypeElement.toString()) ||
                     ClASS_NAME_FRAGMENT.toString().equals(viewTypeElement.toString()) ||
                     ClASS_NAME_FRAGMENT_SUPPORT.toString().equals(viewTypeElement.toString()) ||
-                    CLASS_NAME_CONDUCTOR.toString().equals(viewTypeElement.toString()) ||
+                    CLASS_NAME_CONTROLLER.toString().equals(viewTypeElement.toString()) ||
                     ClASS_NAME_VIEW.toString().equals(viewTypeElement.toString())) {
                 return viewTypeElement;
             }
