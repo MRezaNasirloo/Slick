@@ -9,9 +9,7 @@ import java.util.ArrayList;
 
 import javax.lang.model.element.Modifier;
 
-import static com.github.slick.SlickProcessor.CLASS_NAME_SLICK_DELEGATE;
 import static com.github.slick.SlickProcessor.CLASS_NAME_SLICK_FRAGMENT_DELEGATE;
-import static com.github.slick.SlickProcessor.ClASS_NAME_ACTIVITY;
 import static com.github.slick.SlickProcessor.ClASS_NAME_FRAGMENT;
 import static com.github.slick.SlickProcessor.ClASS_NAME_FRAGMENT_SUPPORT;
 import static com.github.slick.SlickProcessor.ClASS_NAME_SLICK_VIEW;
@@ -24,14 +22,15 @@ public class PresenterGeneratorDaggerFragmentImpl extends BasePresenterGenerator
 
 
     @Override
-    protected MethodSpec.Builder bindMethod(ClassName view, ClassName presenter, ClassName presenterHost,
+    protected MethodSpec.Builder bindMethod(AnnotatedPresenter ap, ClassName view, ClassName presenter,
+                                            ClassName presenterHost,
                                             ClassName classNameDelegate,
                                             String fieldName, String argNameView,
                                             String presenterArgName, TypeVariableName viewGenericType,
                                             ParameterizedTypeName typeNameDelegate, StringBuilder argsCode) {
         return MethodSpec.methodBuilder("bind")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                .addTypeVariable(viewGenericType.withBounds(ClASS_NAME_SLICK_VIEW))
+                .addTypeVariable(viewGenericType.withBounds(ClASS_NAME_SLICK_VIEW).withBounds(ap.getViewInterface()))
                 .addParameter(viewGenericType, argNameView)
                 .addParameter(presenter, deCapitalize(presenter.simpleName()))
                 .beginControlFlow("if ($L == null)", hostInstanceName)

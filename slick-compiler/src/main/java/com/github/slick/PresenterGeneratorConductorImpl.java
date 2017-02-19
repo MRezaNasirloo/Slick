@@ -27,7 +27,8 @@ import static com.github.slick.SlickProcessor.ClASS_NAME_STRING;
 public class PresenterGeneratorConductorImpl extends BasePresenterGeneratorImpl
         implements PresenterGenerator {
     @Override
-    protected MethodSpec.Builder bindMethod(ClassName view, ClassName presenter, ClassName presenterHost,
+    protected MethodSpec.Builder bindMethod(AnnotatedPresenter ap, ClassName view, ClassName presenter,
+                                            ClassName presenterHost,
                                             ClassName classNameDelegate,
                                             String fieldName, String argNameView,
                                             String presenterArgName, TypeVariableName viewGenericType,

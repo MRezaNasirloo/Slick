@@ -59,15 +59,15 @@ public abstract class BasePresenterGeneratorImpl implements PresenterGenerator {
             argsCode.append(args.get(args.size() - 1).getName());
         }
 
-        final MethodSpec.Builder methodBuilder = bindMethod(view,
+        final MethodSpec.Builder methodBuilder = bindMethod(ap,
+                view,
                 presenter,
                 presenterHost,
                 getClassNameDelegate(),
                 fieldName,
                 argNameView,
                 presenterArgName,
-                activityGenericType,
-                typeNameDelegate, argsCode);
+                activityGenericType, typeNameDelegate, argsCode);
 
         final MethodSpec bind = addConstructorParameter(args, methodBuilder).build();
 
@@ -104,6 +104,7 @@ public abstract class BasePresenterGeneratorImpl implements PresenterGenerator {
     /**
      * Builds the bind method
      *
+     * @param ap
      * @param view             the class which implements the view interface
      * @param presenter        presenter class
      * @param presenterHost    presenter host class
@@ -114,7 +115,8 @@ public abstract class BasePresenterGeneratorImpl implements PresenterGenerator {
      * @param typeNameDelegate delegate type
      * @param argsCode         the presenter parameters in a comma separated string    @return bind method builder
      */
-    protected abstract MethodSpec.Builder bindMethod(ClassName view, ClassName presenter, ClassName presenterHost,
+    protected abstract MethodSpec.Builder bindMethod(AnnotatedPresenter ap, ClassName view, ClassName presenter,
+                                                     ClassName presenterHost,
                                                      ClassName classNameDelegate,
                                                      String fieldName, String argNameView,
                                                      String presenterArgName, TypeVariableName viewGenericType,

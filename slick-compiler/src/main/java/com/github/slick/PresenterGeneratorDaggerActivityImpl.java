@@ -19,7 +19,8 @@ public class PresenterGeneratorDaggerActivityImpl extends BasePresenterGenerator
 
 
     @Override
-    protected MethodSpec.Builder bindMethod(ClassName view, ClassName presenter, ClassName presenterHost,
+    protected MethodSpec.Builder bindMethod(AnnotatedPresenter ap, ClassName view, ClassName presenter,
+                                            ClassName presenterHost,
                                             ClassName classNameDelegate,
                                             String fieldName, String argNameView,
                                             String presenterArgName, TypeVariableName viewGenericType,
