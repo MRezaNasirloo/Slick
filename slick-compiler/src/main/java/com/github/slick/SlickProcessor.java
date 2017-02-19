@@ -81,7 +81,7 @@ public class SlickProcessor extends AbstractProcessor {
     private PresenterGenerator generatorFragment = new PresenterGeneratorFragmentImpl();
     private PresenterGenerator generatorConductor = new PresenterGeneratorConductorImpl();
     private PresenterGenerator generatorDaggerActivity = new PresenterGeneratorDaggerActivityImpl();
-//    private PresenterGenerator generatorDaggerFragment = new PresenterGeneratorFragmentImpl();
+    private PresenterGenerator generatorDaggerFragment = new PresenterGeneratorDaggerFragmentImpl();
     private PresenterGenerator generatorDaggerConductor = new PresenterGeneratorDaggerConductorImpl();
 
     @Override
@@ -161,14 +161,15 @@ public class SlickProcessor extends AbstractProcessor {
             case ACTIVITY:
                 return generatorActivity.generate(ap);
             case FRAGMENT:
+            case FRAGMENT_SUPPORT:
                 return generatorFragment.generate(ap);
             case CONDUCTOR:
                 return generatorConductor.generate(ap);
             case DAGGER_ACTIVITY:
                 return generatorDaggerActivity.generate(ap);
             case DAGGER_FRAGMENT:
-                // TODO: 2017-02-13 dagger fragments do not need code generating
-                throw new UnsupportedOperationException();
+            case DAGGER_FRAGMENT_SUPPORT:
+                return generatorDaggerFragment.generate(ap);
             case DAGGER_CONDUCTOR:
                 return generatorDaggerConductor.generate(ap);
             default:
@@ -207,16 +208,17 @@ public class SlickProcessor extends AbstractProcessor {
             } else if (ClASS_NAME_FRAGMENT.equals(viewTypeClassName)) {
                 viewType = ViewType.DAGGER_FRAGMENT;
             } else if (ClASS_NAME_FRAGMENT_SUPPORT.equals(viewTypeClassName)) {
-                viewType = ViewType.DAGGER_FRAGMENT;
+                viewType = ViewType.DAGGER_FRAGMENT_SUPPORT;
             }
         } else {
             if (ClASS_NAME_ACTIVITY.equals(viewTypeClassName)) {
                 viewType = ACTIVITY;
             } else if (CLASS_NAME_CONTROLLER.equals(viewTypeClassName)) {
                 viewType = ViewType.CONDUCTOR;
-            } else if (ClASS_NAME_FRAGMENT.equals(viewTypeClassName) ||
-                    ClASS_NAME_FRAGMENT_SUPPORT.equals(viewTypeClassName)) {
+            } else if (ClASS_NAME_FRAGMENT.equals(viewTypeClassName)) {
                 viewType = ViewType.FRAGMENT;
+            } else if (ClASS_NAME_FRAGMENT_SUPPORT.equals(viewTypeClassName)) {
+                viewType = ViewType.FRAGMENT_SUPPORT;
             }
         }
 
