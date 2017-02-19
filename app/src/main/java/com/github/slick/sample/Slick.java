@@ -32,4 +32,9 @@ public class Slick {
                             ConductorPresenter presenter) {
         com.github.slick.sample.conductor.dagger.ConductorPresenter_Slick.bind(homeController, presenter);
     }
+
+    /*public static <T extends SimpleSlickFragment & SimpleFragmentView> SlickDelegate<SimpleFragmentView, SimpleFragmentPresenter> bind(T view, int i, String s) {
+        return Fragment_Slick.bind(view, i, s);
+    }*/
+
 }

@@ -1,0 +1,45 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.github.slick.sample.fragment.SimpleSlickFragment"
+    >
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <Button
+        android:text="Delegate Fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="55dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="84dp"
+        android:id="@+id/button_delegate_fragment"
+        />
+
+    <Button
+        android:text="Dagger Fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_delegate_fragment"
+        android:layout_alignLeft="@+id/button_delegate_fragment"
+        android:layout_alignStart="@+id/button_delegate_fragment"
+        android:layout_marginTop="26dp"
+        android:id="@+id/button_dagger_fragment"
+        />
+
+    <Button
+        android:text="Delegate Dagger Fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_dagger_fragment"
+        android:layout_alignLeft="@+id/button_dagger_fragment"
+        android:layout_alignStart="@+id/button_dagger_fragment"
+        android:layout_marginTop="36dp"
+        android:id="@+id/button_delegate_dagger_fragment"
+        />
+
+</RelativeLayout>

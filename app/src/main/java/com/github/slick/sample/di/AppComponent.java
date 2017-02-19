@@ -4,6 +4,8 @@ package com.github.slick.sample.di;
 import com.github.slick.sample.activity.dagger.DaggerModule;
 import com.github.slick.sample.activity.dagger.ExampleActivity;
 import com.github.slick.sample.conductor.dagger.ExampleController;
+import com.github.slick.sample.fragment.dagger.DaggerFragment;
+import com.github.slick.sample.fragment.dagger.delegate.DelegateDaggerSlickFragment;
 
 import javax.inject.Singleton;
 
@@ -27,6 +29,9 @@ public interface AppComponent {
 
         void inject(ExampleController controller);
 
+        void inject(DaggerFragment fragment);
+
+        void inject(DelegateDaggerSlickFragment delegateDaggerSlickFragment);
     }
 
 }

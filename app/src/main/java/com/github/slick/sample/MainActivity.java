@@ -4,10 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Toast;
 
 import com.github.slick.sample.activity.ExampleActivity;
 import com.github.slick.sample.conductor.ConductorActivity;
+import com.github.slick.sample.fragment.FragmentHostActivity;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -38,6 +38,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, com.github.slick.sample.conductor.dagger.ConductorActivity.class));
+            }
+        });
+
+        findViewById(R.id.fragment_delegate).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, FragmentHostActivity.class));
             }
         });
     }
