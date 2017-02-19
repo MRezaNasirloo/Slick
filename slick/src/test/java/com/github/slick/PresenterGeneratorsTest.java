@@ -197,26 +197,26 @@ public class PresenterGeneratorsTest {
 
     @Test
     public void fragment() {
-        JavaFileObject source = JavaFileObjects.forSourceString("test.FragmentPresenter", ""
+        JavaFileObject sourcePresenter = JavaFileObjects.forSourceString("test.ExamplePresenter", ""
                 + "package test;\n"
+
                 + "import android.support.annotation.IdRes;\n"
-                + "import com.github.slick.Presenter;\n"
                 + "import com.github.slick.SlickPresenter;\n"
                 + "import com.github.slick.SlickView;\n"
-                + "import android.app.Fragment;\n"
 
-                + "public class FragmentPresenter extends SlickPresenter<SlickView> {\n"
+                + "public class ExamplePresenter extends SlickPresenter<SlickView> {\n"
 
-                + "    public FragmentPresenter(@IdRes int i, float f) {\n"
+                + "    public ExamplePresenter(@IdRes int i, float f) {\n"
                 + "    }\n"
                 + "}");
         JavaFileObject sourceView = JavaFileObjects.forSourceString("test.ExampleFragment", ""
                 + "package test;\n"
 
                 + "import android.os.Bundle;\n"
-                + "import android.support.v4.app.Fragment;\n"
-                + "import com.github.slick.Presenter;\n"
-                + "import com.github.slick.SlickView;\n"
+                +"import android.support.annotation.Nullable;\n"
+               + "import android.app.Fragment;"
+                +"import com.github.slick.SlickView;"
+                +"import com.github.slick.Presenter;"
 
                 + "public class ExampleFragment extends Fragment implements SlickView {\n"
 
@@ -224,53 +224,70 @@ public class PresenterGeneratorsTest {
                 + "    ExamplePresenter presenter;\n"
 
                 + "    @Override\n"
-                + "    protected void onCreate(Bundle savedInstanceState) {\n"
+                + "    public void onCreate(@Nullable Bundle savedInstanceState) {\n"
                 + "        ExamplePresenter_Slick.bind(this, 1, 2.0f);\n"
                 + "        super.onCreate(savedInstanceState);\n"
                 + "    }\n"
                 + "}");
 
-        JavaFileObject presenterHostSource = JavaFileObjects.forSourceString("test.FragmentPresenter_Slick", ""
+        JavaFileObject genSource = JavaFileObjects.forSourceString("test.ExamplePresenter_Slick", ""
                 + "package test;\n"
 
                 + "import android.app.Fragment;\n"
                 + "import android.support.annotation.IdRes;\n"
 
                 + "import com.github.slick.OnDestroyListener;\n"
-                + "import com.github.slick.SlickDelegate;\n"
-                + "import com.github.slick.SlickDelegator;\n"
+                + "import com.github.slick.SlickFragmentDelegate;\n"
                 + "import com.github.slick.SlickView;\n"
                 + "import java.lang.Override;\n"
+                + "import java.lang.String;\n"
+                + "import java.util.HashMap;\n"
 
-                + "public class FragmentPresenter_Slick implements OnDestroyListener {\n"
+                + "public class ExamplePresenter_Slick implements OnDestroyListener {\n"
 
-                + "    private static FragmentPresenter presenterInstance;\n"
-                + "    private static FragmentPresenter_Slick hostInstance;\n"
-                + "    SlickDelegate<SlickView, FragmentPresenter> delegate = new SlickDelegate();\n"
+                + "    private static ExamplePresenter_Slick hostInstance;\n"
+                + "    private final HashMap<String, SlickFragmentDelegate<SlickView, ExamplePresenter>>"
+                + "                   delegates = new HashMap<>();\n"
 
-                + "    public static <T extends Fragment & SlickView & SlickDelegator> FragmentPresenter bind("
-                + "T exampleFragment, @IdRes int i, float f) {\n"
-                + "        if (hostInstance == null) hostInstance = new FragmentPresenter_Slick();\n"
-                + "        if (presenterInstance == null) presenterInstance = new FragmentPresenter(i, f);\n"
-                + "        return hostInstance.setListener(exampleFragment);\n"
+                + "    public static <T extends Fragment & SlickView> SlickFragmentDelegate<SlickView, ExamplePresenter> bind("
+                + "                             T exampleFragment, @IdRes int i, float f) {\n"
+                + "        final String id = SlickFragmentDelegate.getFragmentId(exampleFragment);\n"
+                + "        if (hostInstance == null) hostInstance = new ExamplePresenter_Slick();\n"
+                + "        SlickFragmentDelegate<SlickView, ExamplePresenter> delegate = hostInstance.delegates.get(id)\n"
+                + "        if (delegate == null) {\n"
+                + "             final ExamplePresenter presenter = new ExamplePresenter(i, f);\n"
+                + "             delegate = new SlickFragmentDelegate<>(presenter, exampleFragment.getClass(), id);\n"
+                + "             delegate.setListener(hostInstance);\n"
+                + "             hostInstance.delegates.put(id, delegate);\n"
+                + "        }\n"
+                + "        ((ExampleFragment) exampleFragment).presenter = delegate.getPresenter();\n"
+                + "        return delegate;\n"
                 + "    }\n"
 
-                + "    private FragmentPresenter setListener(SlickDelegator slickDelegator) {\n"
-                + "        slickDelegator.getSlickDelegate().setListener(this);\n"
-                + "        return presenterInstance;\n"
+                + "    public static <T extends Fragment & SlickView> void onStart(T view) {\n"
+                + "        hostInstance.delegates.get(SlickFragmentDelegate.getFragmentId(view)).onStart(view);\n"
+                + "    }\n"
+                + "    public static <T extends Fragment & SlickView> void onStop(T view) {\n"
+                + "        hostInstance.delegates.get(SlickFragmentDelegate.getFragmentId(view)).onStop(view);\n"
+                + "    }\n"
+                + "    public static <T extends Fragment & SlickView> void onDestroy(T view) {\n"
+                + "        hostInstance.delegates.get(SlickFragmentDelegate.getFragmentId(view)).onDestroy(view);\n"
                 + "    }\n"
 
                 + "    @Override\n"
-                + "    public void onDestroy() {\n"
-                + "        presenterInstance = null;\n"
-                + "        hostInstance = null;\n"
-                + "    }\n"
+                + "    public void onDestroy(String id) {\n"
+                + "        hostInstance.delegates.remove(id);\n"
+                + "        if (hostInstance.delegates.size() == 0) {\n"
+                + "            hostInstance = null;\n"
                 + "}");
 
-        assertAbout(javaSource()).that(source)
+        final List<JavaFileObject> target = new ArrayList<>(2);
+        target.add(sourcePresenter);
+        target.add(sourceView);
+        assertAbout(JavaSourcesSubjectFactory.javaSources()).that(target)
                 .processedWith(new SlickProcessor())
                 .compilesWithoutError()
                 .and()
-                .generatesSources(presenterHostSource);
+                .generatesSources(genSource);
     }
 }

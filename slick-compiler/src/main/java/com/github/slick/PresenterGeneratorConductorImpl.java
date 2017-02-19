@@ -64,7 +64,7 @@ public class PresenterGeneratorConductorImpl extends BasePresenterGeneratorImpl
     }
 
     @Override
-    protected ClassName getClassNameViewType() {
+    protected ClassName getClassNameViewType(SlickProcessor.ViewType viewType) {
         return CLASS_NAME_CONTROLLER;
     }
 

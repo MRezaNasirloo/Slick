@@ -8,6 +8,7 @@ import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeVariableName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.lang.model.element.Modifier;
@@ -37,7 +38,7 @@ public abstract class BasePresenterGeneratorImpl implements PresenterGenerator {
         final String argNameView = deCapitalize(ap.getView().simpleName());
         final String presenterArgName = deCapitalize(ap.getPresenter().simpleName());
 
-        final TypeVariableName activityGenericType = TypeVariableName.get("T", getClassNameViewType());
+        final TypeVariableName activityGenericType = TypeVariableName.get("T", getClassNameViewType(ap.getViewType()));
 
         final ParameterizedTypeName typeNameDelegate =
                 ParameterizedTypeName.get(getClassNameDelegate(), viewInterface, presenter);
@@ -79,6 +80,7 @@ public abstract class BasePresenterGeneratorImpl implements PresenterGenerator {
                 .addField(delegate)
                 .addField(hostInstance)
                 .addMethod(bind)
+                .addMethods(addMethods(ap))
                 .addMethod(onDestroy)
                 .build();
     }
@@ -102,15 +104,15 @@ public abstract class BasePresenterGeneratorImpl implements PresenterGenerator {
     /**
      * Builds the bind method
      *
-     * @param view                the class which implements the view interface
-     * @param presenter           presenter class
-     * @param presenterHost       presenter host class
-     * @param fieldName           presenter name in view class
-     * @param argNameView         activity parameter name
+     * @param view             the class which implements the view interface
+     * @param presenter        presenter class
+     * @param presenterHost    presenter host class
+     * @param fieldName        presenter name in view class
+     * @param argNameView      activity parameter name
      * @param presenterArgName
-     *@param viewGenericType activity type
-     * @param typeNameDelegate    delegate type
-     * @param argsCode            the presenter parameters in a comma separated string    @return bind method builder
+     * @param viewGenericType  activity type
+     * @param typeNameDelegate delegate type
+     * @param argsCode         the presenter parameters in a comma separated string    @return bind method builder
      */
     protected abstract MethodSpec.Builder bindMethod(ClassName view, ClassName presenter, ClassName presenterHost,
                                                      ClassName classNameDelegate,
@@ -121,8 +123,9 @@ public abstract class BasePresenterGeneratorImpl implements PresenterGenerator {
 
     /**
      * @return ClassName for generic view
+     * @param viewType
      */
-    protected abstract ClassName getClassNameViewType();
+    protected abstract ClassName getClassNameViewType(SlickProcessor.ViewType viewType);
 
 
     /**
@@ -139,6 +142,10 @@ public abstract class BasePresenterGeneratorImpl implements PresenterGenerator {
     protected MethodSpec.Builder addConstructorParameter(List<PresenterArgs> args,
                                                          MethodSpec.Builder methodBuilder) {
         return methodBuilder;
+    }
+
+    protected Iterable<MethodSpec> addMethods(AnnotatedPresenter ap) {
+        return new ArrayList<>(0);
     }
 
 }

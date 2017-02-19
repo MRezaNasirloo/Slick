@@ -41,7 +41,7 @@ public class PresenterGeneratorDaggerActivityImpl extends BasePresenterGenerator
     }
 
     @Override
-    protected ClassName getClassNameViewType() {
+    protected ClassName getClassNameViewType(SlickProcessor.ViewType viewType) {
         return ClASS_NAME_ACTIVITY;
     }
 

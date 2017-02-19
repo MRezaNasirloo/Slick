@@ -1,8 +1,12 @@
 package com.github.slick;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+
+import java.util.UUID;
+
+import static com.github.slick.SlickDelegate.SLICK_UNIQUE_KEY;
 
 
 /**
@@ -10,32 +14,31 @@ import android.support.v4.app.Fragment;
  *         Created on: 2016-11-07
  */
 
-public abstract class SlickFragment<V extends SlickView, P extends SlickPresenter<V>> extends Fragment implements SlickDelegator {
+public abstract class SlickFragment<V extends SlickView, P extends SlickPresenter<V>> extends Fragment
+        implements SlickUniqueId {
 
-    protected P presenter;
-    private final SlickDelegate<V, P> delegate = new SlickDelegate<>();
+    private SlickFragmentDelegate<V, P> delegate;
+    private String id;
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = delegate.onCreate(getPresenter());
+        delegate = bind();
     }
-
-    protected abstract P getPresenter();
 
     @Override
     @SuppressWarnings("unchecked")
     public void onStart() {
+        delegate.onStart((V) this);
         super.onStart();
-        delegate.onStart((V)this);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public void onStop() {
+        delegate.onStop((V) this);
         super.onStop();
-        delegate.onStop((V)this);
     }
 
     @Override
@@ -45,7 +48,24 @@ public abstract class SlickFragment<V extends SlickView, P extends SlickPresente
         super.onDestroy();
     }
 
-    public SlickDelegate getSlickDelegate() {
-        return delegate;
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(SLICK_UNIQUE_KEY, id);
     }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            id = savedInstanceState.getString(SLICK_UNIQUE_KEY);
+        }
+    }
+
+    @Override
+    public String getUniqueId() {
+        return id = id != null ? id : UUID.randomUUID().toString();
+    }
+
+    protected abstract SlickFragmentDelegate<V, P> bind();
 }

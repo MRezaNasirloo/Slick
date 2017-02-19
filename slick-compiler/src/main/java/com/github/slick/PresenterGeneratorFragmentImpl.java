@@ -7,70 +7,56 @@ import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
-import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeVariableName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Modifier;
 
-import static com.github.slick.SlickProcessor.CLASS_NAME_SLICK_DELEGATE;
-import static com.github.slick.SlickProcessor.CLASS_NAME_SLICK_DELEGATOR;
-import static com.github.slick.SlickProcessor.ClASS_NAME_ON_DESTROY_LISTENER;
+import static com.github.slick.SlickProcessor.CLASS_NAME_SLICK_FRAGMENT_DELEGATE;
+import static com.github.slick.SlickProcessor.ClASS_NAME_FRAGMENT;
+import static com.github.slick.SlickProcessor.ClASS_NAME_FRAGMENT_SUPPORT;
+import static com.github.slick.SlickProcessor.ClASS_NAME_HASH_MAP;
 import static com.github.slick.SlickProcessor.ClASS_NAME_SLICK_VIEW;
+import static com.github.slick.SlickProcessor.ClASS_NAME_STRING;
 
 /**
  * @author : Pedramrn@gmail.com
  *         Created on: 2017-02-05
  */
 public class PresenterGeneratorFragmentImpl extends BasePresenterGeneratorImpl {
+
     @Override
-    public TypeSpec generate(AnnotatedPresenter ap) {
-        final ClassName viewInterface = ap.getViewInterface();
-        final ClassName presenter = ap.getPresenter();
-        final ClassName presenterHost = ap.getPresenterHost();
-        final List<PresenterArgs> args = ap.getArgs();
-        final String presenterInstanceName = "presenterInstance";
-        final String hostInstanceName = "hostInstance";
-        final String argNameBind = deCapitalize(ap.getView().simpleName());
-        final String argNameSetListener = deCapitalize(CLASS_NAME_SLICK_DELEGATOR.simpleName());
-
-        final TypeVariableName type = TypeVariableName.get("T", ap.getView());
-        final ParameterizedTypeName typeName =
-                ParameterizedTypeName.get(CLASS_NAME_SLICK_DELEGATE, viewInterface, presenter);
-
-        final FieldSpec delegate = FieldSpec.builder(typeName, "delegate")
-                .initializer("new $T()", CLASS_NAME_SLICK_DELEGATE)
-                .build();
-
-        final FieldSpec presenterInstance = FieldSpec.builder(presenter, presenterInstanceName)
-                .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
-                .build();
-        final FieldSpec hostInstance = FieldSpec.builder(presenterHost, hostInstanceName)
-                .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
-                .build();
-
-        StringBuilder argsCode = new StringBuilder(args.size() * 10);
-        if (args.size() > 0) {
-
-            for (int i = 0; i < args.size() - 1; i++) {
-                argsCode.append(args.get(i).getName()).append(", ");
-
-            }
-            argsCode.append(args.get(args.size() - 1).getName());
-        }
-
-        final MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder("bind")
+    protected MethodSpec.Builder bindMethod(ClassName view, ClassName presenter, ClassName presenterHost,
+                                            ClassName classNameDelegate, String fieldName, String argNameView,
+                                            String presenterArgName, TypeVariableName viewGenericType,
+                                            ParameterizedTypeName typeNameDelegate, StringBuilder argsCode) {
+        return MethodSpec.methodBuilder("bind")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                .addTypeVariable(type.withBounds(ClASS_NAME_SLICK_VIEW).withBounds(CLASS_NAME_SLICK_DELEGATOR))
-                .addParameter(type, argNameBind)
+                .addTypeVariable(viewGenericType.withBounds(ClASS_NAME_SLICK_VIEW))
+                .addParameter(viewGenericType, argNameView)
+                .addStatement("final String id = $T.getFragmentId($L)", classNameDelegate, argNameView)
                 .addStatement("if ($L == null) $L = new $T()", hostInstanceName, hostInstanceName, presenterHost)
-                .addStatement("if ($L == null) $L = new $T($L)", presenterInstanceName, presenterInstanceName,
-                        presenter, argsCode.toString())
-                .addStatement("return $L.setListener($L)", hostInstanceName, argNameBind)
-                .returns(presenter);
+                .addStatement("$T $L = $L.$L.get(id)", typeNameDelegate, varNameDelegate, hostInstanceName,
+                        fieldNameDelegates)
+                .beginControlFlow("if ($L == null)", varNameDelegate)
+                .addStatement("final $T $L = new $T($L)", presenter, presenterName, presenter, argsCode.toString())
+                .addStatement("$L = new $T<>($L, $L.getClass(), id)", varNameDelegate, classNameDelegate,
+                        presenterName, argNameView)
+                .addStatement("$L.setListener($L)", varNameDelegate, hostInstanceName)
+                .addStatement("$L.$L.put(id, $L)", hostInstanceName, fieldNameDelegates, varNameDelegate)
+                .endControlFlow()
+                .addStatement("(($L) $L).$L = $L.getPresenter()", view.simpleName(), argNameView, fieldName,
+                        varNameDelegate)
+                .addStatement("return $L", varNameDelegate)
+                .returns(typeNameDelegate);
+    }
 
+    @Override
+    protected MethodSpec.Builder addConstructorParameter(List<PresenterArgs> args,
+                                                         MethodSpec.Builder methodBuilder) {
         for (PresenterArgs arg : args) {
             final ParameterSpec.Builder paramBuilder =
                     ParameterSpec.builder(TypeName.get(arg.getType()), arg.getName());
@@ -79,57 +65,51 @@ public class PresenterGeneratorFragmentImpl extends BasePresenterGeneratorImpl {
             }
             methodBuilder.addParameter(paramBuilder.build());
         }
-
-        final MethodSpec bind = methodBuilder.build();
-
-        final MethodSpec setListener = MethodSpec.methodBuilder("setListener")
-                .addModifiers(Modifier.PRIVATE)
-                .addParameter(CLASS_NAME_SLICK_DELEGATOR, argNameSetListener)
-                .returns(presenter)
-                .addStatement("$L.getSlickDelegate().setListener(this)", argNameSetListener)
-                .addStatement("return $L", presenterInstanceName)
-                .build();
-
-        final MethodSpec onDestroy = MethodSpec.methodBuilder("onDestroy")
-                .addAnnotation(Override.class)
-                .addModifiers(Modifier.PUBLIC)
-                .addStatement("$L = null", presenterInstanceName)
-                .addStatement("$L = null", hostInstanceName)
-                .build();
-
-
-        return TypeSpec.classBuilder(presenterHost)
-                .addModifiers(Modifier.PUBLIC)
-                .addSuperinterface(ClASS_NAME_ON_DESTROY_LISTENER)
-                .addField(delegate)
-                .addField(presenterInstance)
-                .addField(hostInstance)
-                .addMethod(bind)
-                .addMethod(setListener)
-                .addMethod(onDestroy)
-                .build();
+        return methodBuilder;
     }
 
     @Override
-    protected MethodSpec.Builder bindMethod(ClassName view, ClassName presenter, ClassName presenterHost,
-                                            ClassName classNameDelegate, String fieldName, String argNameView,
-                                            String presenterArgName, TypeVariableName viewGenericType,
-                                            ParameterizedTypeName typeNameDelegate, StringBuilder argsCode) {
-        return null;
+    protected Iterable<MethodSpec> addMethods(AnnotatedPresenter ap) {
+        final ArrayList<MethodSpec> list = new ArrayList<>(3);
+        final TypeVariableName viewGenericType =
+                TypeVariableName.get("T", getClassNameViewType(ap.getViewType()))
+                        .withBounds(ap.getViewInterface());
+        String[] methodNames = {"onStart", "onStop", "onDestroy"};
+        for (String name : methodNames) {
+            final MethodSpec methodSpec = MethodSpec.methodBuilder(name)
+                    .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                    .addTypeVariable(viewGenericType)
+                    .addParameter(viewGenericType, "view")
+                    .addStatement("$L.$L.get($L.getFragmentId(view)).$L(view)", hostInstanceName,
+                            fieldNameDelegates, getClassNameDelegate().simpleName(), name)
+                    .returns(void.class).build();
+            list.add(methodSpec);
+        }
+        return list;
     }
 
     @Override
-    protected ClassName getClassNameViewType() {
-        return null;
+    protected ClassName getClassNameViewType(SlickProcessor.ViewType viewType) {
+        if (SlickProcessor.ViewType.FRAGMENT.equals(viewType)) {
+            return ClASS_NAME_FRAGMENT;
+        } else {
+            return ClASS_NAME_FRAGMENT_SUPPORT;
+        }
     }
 
     @Override
     protected ClassName getClassNameDelegate() {
-        return null;
+        return CLASS_NAME_SLICK_FRAGMENT_DELEGATE;
     }
 
     @Override
     protected FieldSpec getDelegateField(ParameterizedTypeName typeNameDelegate) {
-        return null;
+        final ParameterizedTypeName parametrizedMapTypeName =
+                ParameterizedTypeName.get(ClASS_NAME_HASH_MAP, ClASS_NAME_STRING, typeNameDelegate);
+
+        return FieldSpec.builder(parametrizedMapTypeName, fieldNameDelegates)
+                .addModifiers(Modifier.PRIVATE, Modifier.FINAL)
+                .initializer("new $T<>()", ClASS_NAME_HASH_MAP)
+                .build();
     }
 }

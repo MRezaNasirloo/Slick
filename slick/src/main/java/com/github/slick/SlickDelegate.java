@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.View;
 
 import java.util.UUID;
 
@@ -23,9 +21,9 @@ public class SlickDelegate<V extends SlickView, P extends SlickPresenter<V>>
 
     private P presenter;
     private Class<? extends Activity> cls;
-    private static String SLICK_INTENT_KEY = "SLICK_INTENT_KEY";
     private boolean multiInstance = false;
 
+    static String SLICK_UNIQUE_KEY = "SLICK_UNIQUE_KEY";
 
     public SlickDelegate() {
     }
@@ -58,14 +56,11 @@ public class SlickDelegate<V extends SlickView, P extends SlickPresenter<V>>
 
     public void onDestroy(V view) {
         Activity activity;
-        if (view instanceof View) {
-            activity = ((Activity) ((View) view).getContext());
-        } else if (view instanceof Fragment/* && ((Fragment) view).getParentFragment() == null*/) {
-            activity = ((Fragment) view).getActivity();
-        } else if (view instanceof Activity) {
+        if (view instanceof Activity) {
             activity = ((Activity) view);
         } else {
-            return;
+            throw new IllegalStateException(
+                    "View should be a subclass of android.app.Activity or its subclasses.");
         }
         if (!activity.isChangingConfigurations()) {
             activity.getApplication().unregisterActivityLifecycleCallbacks(this);
@@ -75,7 +70,6 @@ public class SlickDelegate<V extends SlickView, P extends SlickPresenter<V>>
             }
             presenter = null;
         }
-        //else if (view instanceof android.app.Fragment && ((android.app.Fragment) view).getParentFragment() == null) activity = ((android.app.Fragment) view).getActivity();
     }
 
     @Override
@@ -147,18 +141,18 @@ public class SlickDelegate<V extends SlickView, P extends SlickPresenter<V>>
 
     public static String getActivityId(Activity activity) {
         final Intent intent = activity.getIntent();
-        if (intent.hasExtra(SLICK_INTENT_KEY)) {
-            return intent.getStringExtra(SLICK_INTENT_KEY);
+        if (intent.hasExtra(SLICK_UNIQUE_KEY)) {
+            return intent.getStringExtra(SLICK_UNIQUE_KEY);
         } else {
             String id = UUID.randomUUID().toString();
-            intent.putExtra(SLICK_INTENT_KEY, id);
+            intent.putExtra(SLICK_UNIQUE_KEY, id);
             activity.setIntent(intent);
             return id;
         }
     }
 
     private boolean isSameInstance(Activity activity) {
-        final String id = activity.getIntent().getStringExtra(SLICK_INTENT_KEY);
+        final String id = activity.getIntent().getStringExtra(SLICK_UNIQUE_KEY);
         return id != null && id.equals(this.id);
     }
 }

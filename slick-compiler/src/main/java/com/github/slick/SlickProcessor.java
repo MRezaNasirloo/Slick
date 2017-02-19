@@ -44,9 +44,11 @@ public class SlickProcessor extends AbstractProcessor {
     enum ViewType {
         ACTIVITY,
         FRAGMENT,
+        FRAGMENT_SUPPORT,
         CONDUCTOR,
         DAGGER_ACTIVITY,
         DAGGER_FRAGMENT,
+        DAGGER_FRAGMENT_SUPPORT,
         DAGGER_CONDUCTOR,
         UNSUPPORTED
     }
@@ -64,8 +66,8 @@ public class SlickProcessor extends AbstractProcessor {
     static final ClassName CLASS_NAME_CONTROLLER = get("com.bluelinelabs.conductor", "Controller");
     static final ClassName ClASS_NAME_HASH_MAP = get("java.util", "HashMap");
     static final ClassName ClASS_NAME_STRING = get("java.lang", "String");
-    static final ClassName CLASS_NAME_SLICK_DELEGATOR = get("com.github.slick", "SlickDelegator");
     static final ClassName CLASS_NAME_SLICK_DELEGATE = get("com.github.slick", "SlickDelegate");
+    static final ClassName CLASS_NAME_SLICK_FRAGMENT_DELEGATE = get("com.github.slick", "SlickFragmentDelegate");
     static final ClassName CLASS_NAME_SLICK_CONDUCTOR_DELEGATE =
             get("com.github.slick.conductor", "SlickConductorDelegate");
     static final ClassName ClASS_NAME_ON_DESTROY_LISTENER = get("com.github.slick", "OnDestroyListener");
@@ -202,8 +204,9 @@ public class SlickProcessor extends AbstractProcessor {
                 viewType = ViewType.DAGGER_ACTIVITY;
             } else if (CLASS_NAME_CONTROLLER.equals(viewTypeClassName)) {
                 viewType = ViewType.DAGGER_CONDUCTOR;
-            } else if (ClASS_NAME_FRAGMENT.equals(viewTypeClassName) ||
-                    ClASS_NAME_FRAGMENT_SUPPORT.equals(viewTypeClassName)) {
+            } else if (ClASS_NAME_FRAGMENT.equals(viewTypeClassName)) {
+                viewType = ViewType.DAGGER_FRAGMENT;
+            } else if (ClASS_NAME_FRAGMENT_SUPPORT.equals(viewTypeClassName)) {
                 viewType = ViewType.DAGGER_FRAGMENT;
             }
         } else {
