@@ -152,7 +152,7 @@ public class ConductorTest {
                 + "    @Override\n"
                 + "    protected View onCreateView(@NonNull LayoutInflater inflater, \n"
                 + "             @NonNull ViewGroup container) {\n"
-                + "        ExamplePresenter_Slick.bind(this, presenter);\n"
+                + "        ExamplePresenter_Slick.bind(this);\n"
                 + "        return null;\n"
                 + "    }\n"
                 + "}");
@@ -172,11 +172,11 @@ public class ConductorTest {
                 + "    private static ExamplePresenter_Slick hostInstance;\n"
                 + "    SlickConductorDelegate<SlickView, ExamplePresenter> delegate;\n"
 
-                + "    public static <T extends Controller & SlickView> void bind(T exampleController,"
-                + "                             ExamplePresenter examplePresenter) {\n"
+                + "    public static <T extends Controller & SlickView> void bind(T exampleController) {\n"
                 + "        if (hostInstance == null) { \n"
                 + "            hostInstance = new ExamplePresenter_Slick();\n"
-                + "            hostInstance.delegate = new SlickConductorDelegate<>(examplePresenter, \n"
+                + "            ExamplePresenter presenter = ((ExampleController) exampleController).presenter;\n"
+                + "            hostInstance.delegate = new SlickConductorDelegate<>(presenter, \n"
                 + "                           exampleController.getClass())\n"
                 + "            exampleController.addLifecycleListener(hostInstance.delegate);\n"
                 + "            hostInstance.delegate.setListener(hostInstance);\n"

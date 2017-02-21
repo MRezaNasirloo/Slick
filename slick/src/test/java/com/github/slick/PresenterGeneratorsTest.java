@@ -146,7 +146,7 @@ public class PresenterGeneratorsTest {
 
                 + "    @Override\n"
                 + "    protected void onCreate(Bundle savedInstanceState) {\n"
-                + "        DaggerPresenter_Slick.bind(this, presenter);\n"
+                + "        DaggerPresenter_Slick.bind(this);\n"
                 + "        super.onCreate(savedInstanceState);\n"
                 + "    }\n"
                 + "}");
@@ -167,11 +167,11 @@ public class PresenterGeneratorsTest {
                 + "    private static DaggerPresenter_Slick hostInstance;\n"
                 + "    SlickDelegate<SlickView, DaggerPresenter> delegate;\n"
 
-                + "    public static <T extends Activity & SlickView> void bind(T daggerActivity,"
-                + "                             DaggerPresenter daggerPresenter) {\n"
+                + "    public static <T extends Activity & SlickView> void bind(T daggerActivity) {\n"
                 + "        if (hostInstance == null) { \n"
                 + "            hostInstance = new DaggerPresenter_Slick();\n"
-                + "            hostInstance.delegate = new SlickDelegate<>(daggerPresenter, "
+                + "            DaggerPresenter presenter = ((DaggerActivity) daggerActivity).presenter ;\n"
+                + "            hostInstance.delegate = new SlickDelegate<>(presenter, "
                 + "                           daggerActivity.getClass())\n"
                 + "            daggerActivity.getApplication()"
                 + "                .registerActivityLifecycleCallbacks(hostInstance.delegate);\n"
@@ -293,6 +293,15 @@ public class PresenterGeneratorsTest {
 
     @Test
     public void fragmentDagger() {
+        JavaFileObject sourceViewInterface = JavaFileObjects.forSourceString("test.DaggerView", ""
+                + "package test;\n"
+
+                + "import com.github.slick.SlickView;\n"
+
+                + "public interface DaggerView extends SlickView {\n"
+
+                + "}");
+
         JavaFileObject sourcePresenter = JavaFileObjects.forSourceString("test.DaggerPresenter", ""
                 + "package test;\n"
 
@@ -304,7 +313,7 @@ public class PresenterGeneratorsTest {
 
                 + "import javax.inject.Inject;\n"
 
-                + "public class DaggerPresenter extends SlickPresenter<SlickView> {\n"
+                + "public class DaggerPresenter extends SlickPresenter<DaggerView> {\n"
 
                 + "    @Inject\n"
                 + "    public DaggerPresenter(@IdRes int i, float f) {\n"
@@ -317,11 +326,10 @@ public class PresenterGeneratorsTest {
                 + "import android.os.Bundle;\n"
                 + "import android.app.Fragment;\n"
                 + "import com.github.slick.Presenter;\n"
-                + "import com.github.slick.SlickView;\n"
 
                 + "import javax.inject.Inject;\n"
 
-                + "public class DaggerFragment extends Fragment implements SlickView {\n"
+                + "public class DaggerFragment extends Fragment implements DaggerView {\n"
 
                 + "    @Inject\n"
                 + "    @Presenter\n"
@@ -329,7 +337,7 @@ public class PresenterGeneratorsTest {
 
                 + "    @Override\n"
                 + "    public void onCreate(Bundle savedInstanceState) {\n"
-                + "        DaggerPresenter_Slick.bind(this, presenter);\n"
+                + "        DaggerPresenter_Slick.bind(this);\n"
                 + "        super.onCreate(savedInstanceState);\n"
                 + "    }\n"
                 + "}");
@@ -348,26 +356,27 @@ public class PresenterGeneratorsTest {
                 + "public class DaggerPresenter_Slick implements OnDestroyListener {\n"
 
                 + "    private static DaggerPresenter_Slick hostInstance;\n"
-                + "    SlickFragmentDelegate<SlickView, DaggerPresenter> delegate;\n"
+                + "    SlickFragmentDelegate<DaggerView, DaggerPresenter> delegate;\n"
 
-                + "    public static <T extends Fragment & SlickView> SlickFragmentDelegate<SlickView, DaggerPresenter>\n"
-                + "                                 bind(T daggerFragment, DaggerPresenter daggerPresenter) {\n"
+                + "    public static <T extends Fragment & SlickView & DaggerView> "
+                + "                 SlickFragmentDelegate<DaggerView, DaggerPresenter>bind(T daggerFragment) {\n"
                 + "        if (hostInstance == null) { \n"
                 + "            hostInstance = new DaggerPresenter_Slick();\n"
-                + "            hostInstance.delegate = new SlickFragmentDelegate<>(daggerPresenter, "
+                + "            DaggerPresenter presenter = ((DaggerFragment) daggerFragment).presenter ;\n"
+                + "            hostInstance.delegate = new SlickFragmentDelegate<>(presenter, "
                 + "                           daggerFragment.getClass())\n"
                 + "            hostInstance.delegate.setListener(hostInstance);\n"
                 + "        }\n" +
                 "           return hostInstance.delegate;"
                 + "    }\n"
 
-                + "    public static <T extends Fragment & SlickView> void onStart(T view) {\n"
+                + "    public static <T extends Fragment & DaggerView> void onStart(T view) {\n"
                 + "        hostInstance.delegate.onStart(view);\n"
                 + "    }\n"
-                + "    public static <T extends Fragment & SlickView> void onStop(T view) {\n"
+                + "    public static <T extends Fragment & DaggerView> void onStop(T view) {\n"
                 + "        hostInstance.delegate.onStop(view);\n"
                 + "    }\n"
-                + "    public static <T extends Fragment & SlickView> void onDestroy(T view) {\n"
+                + "    public static <T extends Fragment & DaggerView> void onDestroy(T view) {\n"
                 + "        hostInstance.delegate.onDestroy(view);\n"
                 + "    }\n"
 
@@ -376,9 +385,10 @@ public class PresenterGeneratorsTest {
                 + "        hostInstance = null;\n"
                 + "    }\n"
                 + "}");
-        final List<JavaFileObject> target = new ArrayList<>(2);
+        final List<JavaFileObject> target = new ArrayList<>(3);
         target.add(sourcePresenter);
         target.add(sourceView);
+        target.add(sourceViewInterface);
         assertAbout(JavaSourcesSubjectFactory.javaSources()).that(target)
                 .processedWith(new SlickProcessor())
                 .compilesWithoutError()

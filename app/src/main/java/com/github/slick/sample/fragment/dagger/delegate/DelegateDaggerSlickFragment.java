@@ -36,7 +36,7 @@ public class DelegateDaggerSlickFragment extends Fragment implements DelegateDag
     @Override
     public void onCreate(Bundle savedInstanceState) {
         App.getDDaggerComponent(getActivity()).inject(this);
-        DelegateDaggerFragmentPresenter_Slick.bind(this, presenter);
+        DelegateDaggerFragmentPresenter_Slick.bind(this);
         super.onCreate(savedInstanceState);
     }
 

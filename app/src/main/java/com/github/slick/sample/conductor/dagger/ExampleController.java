@@ -28,7 +28,7 @@ public class ExampleController extends Controller implements ConductorView {
     @Override
     protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
         App.getDDaggerComponent(getApplicationContext()).inject(this);
-        Slick.bind(this, presenter);
+        Slick.bind(this);
         return inflater.inflate(R.layout.home_layout, container, false);
     }
 

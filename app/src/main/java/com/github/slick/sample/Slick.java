@@ -19,18 +19,16 @@ public class Slick {
         ExampleActivityPresenter_Slick.bind(activity, id, s);
     }
 
-    public static void bind(com.github.slick.sample.activity.dagger.ExampleActivity activity,
-                            ExampleActivityPresenter presenter) {
-        com.github.slick.sample.activity.dagger.ExampleActivityPresenter_Slick.bind(activity, presenter);
+    public static void bind(com.github.slick.sample.activity.dagger.ExampleActivity activity) {
+        com.github.slick.sample.activity.dagger.ExampleActivityPresenter_Slick.bind(activity);
     }
 
     public static void bind(ExampleController homeController) {
         ConductorPresenter_Slick.bind(homeController);
     }
 
-    public static void bind(com.github.slick.sample.conductor.dagger.ExampleController homeController,
-                            ConductorPresenter presenter) {
-        com.github.slick.sample.conductor.dagger.ConductorPresenter_Slick.bind(homeController, presenter);
+    public static void bind(com.github.slick.sample.conductor.dagger.ExampleController homeController) {
+        com.github.slick.sample.conductor.dagger.ConductorPresenter_Slick.bind(homeController);
     }
 
     /*public static <T extends SimpleSlickFragment & SimpleFragmentView> SlickDelegate<SimpleFragmentView, SimpleFragmentPresenter> bind(T view, int i, String s) {

@@ -29,11 +29,11 @@ public class PresenterGeneratorDaggerConductorImpl extends BasePresenterGenerato
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .addTypeVariable(viewGenericType.withBounds(ClASS_NAME_SLICK_VIEW))
                 .addParameter(viewGenericType, argNameView)
-                .addParameter(presenter, presenterArgName)
                 .beginControlFlow("if ($L == null)", hostInstanceName)
                 .addStatement("$L = new $T()", hostInstanceName, presenterHost)
+                .addStatement("$T presenter = (($T) $L).$L", presenter, view, argNameView, fieldName)
                 .addStatement("$L.$L = new $T<>($L, $L.getClass())", hostInstanceName, varNameDelegate,
-                        classNameDelegate, presenterArgName, argNameView)
+                        classNameDelegate, presenterName, argNameView)
                 .addStatement("$L.addLifecycleListener($L.$L)", argNameView,
                         hostInstanceName, varNameDelegate)
                 .addStatement("$L.$L.setListener($L)", hostInstanceName, varNameDelegate, hostInstanceName)

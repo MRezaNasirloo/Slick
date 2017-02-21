@@ -22,7 +22,7 @@ public class ExampleActivity extends AppCompatActivity implements ExampleActivit
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         App.getDDaggerComponent(this).inject(this);
-        Slick.bind(this, presenter);
+        Slick.bind(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_example);
         Log.e(TAG, presenter.toString());

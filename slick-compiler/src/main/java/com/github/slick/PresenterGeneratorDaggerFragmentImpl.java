@@ -32,11 +32,11 @@ public class PresenterGeneratorDaggerFragmentImpl extends BasePresenterGenerator
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .addTypeVariable(viewGenericType.withBounds(ClASS_NAME_SLICK_VIEW).withBounds(ap.getViewInterface()))
                 .addParameter(viewGenericType, argNameView)
-                .addParameter(presenter, deCapitalize(presenter.simpleName()))
                 .beginControlFlow("if ($L == null)", hostInstanceName)
                 .addStatement("$L = new $T()", hostInstanceName, presenterHost)
+                .addStatement("$T presenter = (($T) $L).$L", presenter, view, argNameView, fieldName)
                 .addStatement("$L.$L = new $T<>($L, $L.getClass())", hostInstanceName, varNameDelegate,
-                        classNameDelegate, deCapitalize(presenter.simpleName()), argNameView)
+                        classNameDelegate, presenterName, argNameView)
                 .addStatement("$L.$L.setListener($L)", hostInstanceName, varNameDelegate, hostInstanceName)
                 .endControlFlow()
                 .addStatement("return $L.$L", hostInstanceName, varNameDelegate)
