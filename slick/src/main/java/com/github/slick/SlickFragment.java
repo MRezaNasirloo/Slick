@@ -15,7 +15,7 @@ import static com.github.slick.SlickDelegate.SLICK_UNIQUE_KEY;
  *         Created on: 2016-11-07
  */
 
-public abstract class SlickFragment<V extends SlickView, P extends SlickPresenter<V>> extends Fragment
+public abstract class SlickFragment<V, P extends SlickPresenter<V>> extends Fragment
         implements SlickUniqueId {
 
     private SlickFragmentDelegate<V, P> delegate;

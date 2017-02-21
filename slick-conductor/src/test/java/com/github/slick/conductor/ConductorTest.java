@@ -21,15 +21,21 @@ import static com.google.common.truth.Truth.assertAbout;
 public class ConductorTest {
     @Test
     public void controller() throws Exception {
+        JavaFileObject sourceViewInterface = JavaFileObjects.forSourceString("test.ExampleView", ""
+                + "package test;\n"
+
+                + "public interface ExampleView {\n"
+
+                + "}");
+
         JavaFileObject sourcePresenter = JavaFileObjects.forSourceString("test.ExamplePresenter", ""
                 + "package test;\n"
 
                 + "import android.support.annotation.IdRes;\n"
 
                 + "import com.github.slick.SlickPresenter;\n"
-                + "import com.github.slick.SlickView;\n"
 
-                + "public class ExamplePresenter extends SlickPresenter<SlickView> {\n"
+                + "public class ExamplePresenter extends SlickPresenter<ExampleView> {\n"
 
                 + "    public ExamplePresenter(@IdRes int i, float f) {\n"
                 + "    }\n"
@@ -43,12 +49,11 @@ public class ConductorTest {
                 + "import android.support.annotation.NonNull;\n"
                 + "import com.bluelinelabs.conductor.Controller;\n"
                 + "import com.github.slick.Presenter;\n"
-                + "import com.github.slick.SlickView;\n"
                 + "import android.view.LayoutInflater;\n"
                 + "import android.view.View;\n"
                 + "import android.view.ViewGroup;\n"
 
-                + "public class ExampleController extends Controller implements SlickView {\n"
+                + "public class ExampleController extends Controller implements ExampleView {\n"
 
                 + "    @Presenter\n"
                 + "    ExamplePresenter presenter;\n"
@@ -67,7 +72,6 @@ public class ConductorTest {
                 + "import android.support.annotation.IdRes;\n"
                 + "import com.bluelinelabs.conductor.Controller;\n"
                 + "import com.github.slick.OnDestroyListener;\n"
-                + "import com.github.slick.SlickView;\n"
                 + "import com.github.slick.conductor.SlickConductorDelegate;\n"
                 + "import java.lang.Override;\n"
                 + "import java.lang.String;\n"
@@ -76,14 +80,14 @@ public class ConductorTest {
                 + "public class ExamplePresenter_Slick implements OnDestroyListener {\n"
 
                 + "    private static ExamplePresenter_Slick hostInstance;\n"
-                + "    private final HashMap<String, SlickConductorDelegate<SlickView, ExamplePresenter>>"
+                + "    private final HashMap<String, SlickConductorDelegate<ExampleView, ExamplePresenter>>"
                 + "                   delegates = new HashMap<>();\n"
 
-                + "    public static <T extends Controller & SlickView> void bind(T exampleController, @IdRes int i,"
+                + "    public static <T extends Controller & ExampleView> void bind(T exampleController, @IdRes int i,"
                 + "                                                        float f) {\n"
                 + "        final String id = exampleController.getInstanceId()\n"
                 + "        if (hostInstance == null) hostInstance = new ExamplePresenter_Slick();\n"
-                + "        SlickConductorDelegate<SlickView, ExamplePresenter> delegate = hostInstance.delegates.get(id)\n"
+                + "        SlickConductorDelegate<ExampleView, ExamplePresenter> delegate = hostInstance.delegates.get(id)\n"
                 + "        if (delegate == null) {\n"
                 + "             final ExamplePresenter presenter = new ExamplePresenter(i, f);\n"
                 + "             delegate = new SlickConductorDelegate<>(presenter, exampleController.getClass(), id);\n"
@@ -103,9 +107,10 @@ public class ConductorTest {
                 + "    }\n"
                 + "}");
 
-        final List<JavaFileObject> target = new ArrayList<>(2);
+        final List<JavaFileObject> target = new ArrayList<>(3);
         target.add(sourcePresenter);
         target.add(sourceView);
+        target.add(sourceViewInterface);
         assertAbout(JavaSourcesSubjectFactory.javaSources()).that(target)
                 .processedWith(new SlickProcessor())
                 .compilesWithoutError()
@@ -115,15 +120,21 @@ public class ConductorTest {
 
     @Test
     public void dagger() throws Exception {
+        JavaFileObject sourceViewInterface = JavaFileObjects.forSourceString("test.ExampleView", ""
+                + "package test;\n"
+
+                + "public interface ExampleView {\n"
+
+                + "}");
+
         JavaFileObject sourcePresenter = JavaFileObjects.forSourceString("test.ExamplePresenter", ""
                 + "package test;\n"
 
                 + "import android.support.annotation.IdRes;\n"
 
                 + "import com.github.slick.SlickPresenter;\n"
-                + "import com.github.slick.SlickView;\n"
 
-                + "public class ExamplePresenter extends SlickPresenter<SlickView> {\n"
+                + "public class ExamplePresenter extends SlickPresenter<ExampleView> {\n"
 
                 + "    public ExamplePresenter(@IdRes int i, float f) {\n"
                 + "    }\n"
@@ -137,13 +148,12 @@ public class ConductorTest {
                 + "import android.support.annotation.NonNull;\n"
                 + "import com.bluelinelabs.conductor.Controller;\n"
                 + "import com.github.slick.Presenter;\n"
-                + "import com.github.slick.SlickView;\n"
                 + "import android.view.LayoutInflater;\n"
                 + "import android.view.View;\n"
                 + "import android.view.ViewGroup;\n"
                 + "import javax.inject.Inject;\n"
 
-                + "public class ExampleController extends Controller implements SlickView {\n"
+                + "public class ExampleController extends Controller implements ExampleView {\n"
 
                 + "    @Inject\n"
                 + "    @Presenter\n"
@@ -162,7 +172,6 @@ public class ConductorTest {
 
                 + "import com.bluelinelabs.conductor.Controller;\n"
                 + "import com.github.slick.OnDestroyListener;\n"
-                + "import com.github.slick.SlickView;\n"
                 + "import com.github.slick.conductor.SlickConductorDelegate;\n"
                 + "import java.lang.Override;\n"
                 + "import java.lang.String;\n"
@@ -170,9 +179,9 @@ public class ConductorTest {
                 + "public class ExamplePresenter_Slick implements OnDestroyListener {\n"
 
                 + "    private static ExamplePresenter_Slick hostInstance;\n"
-                + "    SlickConductorDelegate<SlickView, ExamplePresenter> delegate;\n"
+                + "    SlickConductorDelegate<ExampleView, ExamplePresenter> delegate;\n"
 
-                + "    public static <T extends Controller & SlickView> void bind(T exampleController) {\n"
+                + "    public static <T extends Controller & ExampleView> void bind(T exampleController) {\n"
                 + "        if (hostInstance == null) { \n"
                 + "            hostInstance = new ExamplePresenter_Slick();\n"
                 + "            ExamplePresenter presenter = ((ExampleController) exampleController).presenter;\n"
@@ -189,9 +198,10 @@ public class ConductorTest {
                 + "    }\n"
                 + "}");
 
-        final List<JavaFileObject> target = new ArrayList<>(2);
+        final List<JavaFileObject> target = new ArrayList<>(3);
         target.add(sourcePresenter);
         target.add(sourceView);
+        target.add(sourceViewInterface);
         assertAbout(JavaSourcesSubjectFactory.javaSources()).that(target)
                 .processedWith(new SlickProcessor())
                 .compilesWithoutError()

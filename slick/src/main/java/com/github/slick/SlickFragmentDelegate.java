@@ -12,7 +12,7 @@ import java.util.UUID;
  *         Created on: 2016-11-03
  */
 
-public class SlickFragmentDelegate<V extends SlickView, P extends SlickPresenter<V>> {
+public class SlickFragmentDelegate<V, P extends SlickPresenter<V>> {
 
     private String id;
     private OnDestroyListener listener;

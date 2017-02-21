@@ -13,7 +13,7 @@ import java.util.UUID;
  *         Created on: 2016-11-03
  */
 
-public class SlickDelegate<V extends SlickView, P extends SlickPresenter<V>>
+public class SlickDelegate<V, P extends SlickPresenter<V>>
         implements Application.ActivityLifecycleCallbacks {
 
     private String id;

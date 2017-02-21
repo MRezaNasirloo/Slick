@@ -36,7 +36,7 @@ public class PresenterGeneratorFragmentImpl extends BasePresenterGeneratorImpl {
                                             ParameterizedTypeName typeNameDelegate, StringBuilder argsCode) {
         return MethodSpec.methodBuilder("bind")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                .addTypeVariable(viewGenericType.withBounds(ClASS_NAME_SLICK_VIEW))
+                .addTypeVariable(viewGenericType.withBounds(ap.getViewInterface()))
                 .addParameter(viewGenericType, argNameView)
                 .addStatement("final String id = $T.getFragmentId($L)", classNameDelegate, argNameView)
                 .addStatement("if ($L == null) $L = new $T()", hostInstanceName, hostInstanceName, presenterHost)

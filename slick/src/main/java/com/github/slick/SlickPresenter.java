@@ -9,7 +9,7 @@ import java.lang.ref.WeakReference;
  * @author : Pedramrn@gmail.com
  *         Created on: 2016-10-31
  */
-public class SlickPresenter<V extends SlickView> {
+public class SlickPresenter<V> {
 
     private WeakReference<V> view;
 

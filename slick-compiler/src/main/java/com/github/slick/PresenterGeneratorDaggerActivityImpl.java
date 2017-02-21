@@ -27,7 +27,7 @@ public class PresenterGeneratorDaggerActivityImpl extends BasePresenterGenerator
                                             ParameterizedTypeName typeNameDelegate, StringBuilder argsCode) {
         return MethodSpec.methodBuilder("bind")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                .addTypeVariable(viewGenericType.withBounds(ClASS_NAME_SLICK_VIEW))
+                .addTypeVariable(viewGenericType.withBounds(ap.getViewInterface()))
                 .addParameter(viewGenericType, argNameView)
                 .beginControlFlow("if ($L == null)", hostInstanceName)
                 .addStatement("$L = new $T()", hostInstanceName, presenterHost)

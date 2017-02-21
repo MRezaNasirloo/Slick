@@ -6,7 +6,6 @@ import android.view.View;
 import com.bluelinelabs.conductor.Controller;
 import com.github.slick.OnDestroyListener;
 import com.github.slick.SlickPresenter;
-import com.github.slick.SlickView;
 
 
 /**
@@ -14,7 +13,7 @@ import com.github.slick.SlickView;
  *         Created on: 2016-11-03
  */
 
-public class SlickConductorDelegate<V extends SlickView, P extends SlickPresenter<V>>
+public class SlickConductorDelegate<V, P extends SlickPresenter<V>>
         extends Controller.LifecycleListener {
     private static final String TAG = SlickConductorDelegate.class.getSimpleName();
 
@@ -70,7 +69,7 @@ public class SlickConductorDelegate<V extends SlickView, P extends SlickPresente
             if (isSameInstance(controller)) {
                 presenter.onViewUp((V) controller);
             }
-        }else if (cls.isInstance(controller)) {
+        } else if (cls.isInstance(controller)) {
             presenter.onViewUp((V) controller);
         }
     }
@@ -81,7 +80,7 @@ public class SlickConductorDelegate<V extends SlickView, P extends SlickPresente
             if (isSameInstance(controller)) {
                 presenter.onViewDown();
             }
-        }else if (cls.isInstance(controller)) {
+        } else if (cls.isInstance(controller)) {
             presenter.onViewDown();
         }
     }
