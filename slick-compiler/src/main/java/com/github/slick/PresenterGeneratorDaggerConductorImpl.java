@@ -5,11 +5,6 @@ import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeVariableName;
 
-import javax.lang.model.element.Modifier;
-
-import static com.github.slick.SlickProcessor.CLASS_NAME_CONTROLLER;
-import static com.github.slick.SlickProcessor.CLASS_NAME_SLICK_CONDUCTOR_DELEGATE;
-
 /**
  * @author : Pedramrn@gmail.com
  *         Created on: 2017-02-05

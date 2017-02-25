@@ -7,8 +7,6 @@ import com.squareup.javapoet.ParameterizedTypeName;
 
 import javax.lang.model.element.Modifier;
 
-import static com.github.slick.SlickProcessor.CLASS_NAME_SLICK_DELEGATE;
-import static com.github.slick.SlickProcessor.ClASS_NAME_HASH_MAP;
 import static com.github.slick.SlickProcessor.ClASS_NAME_STRING;
 
 /**

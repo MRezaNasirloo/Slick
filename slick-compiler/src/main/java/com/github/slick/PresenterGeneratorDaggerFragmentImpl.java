@@ -8,12 +8,6 @@ import com.squareup.javapoet.TypeVariableName;
 
 import java.util.ArrayList;
 
-import javax.lang.model.element.Modifier;
-
-import static com.github.slick.SlickProcessor.CLASS_NAME_SLICK_FRAGMENT_DELEGATE;
-import static com.github.slick.SlickProcessor.ClASS_NAME_FRAGMENT;
-import static com.github.slick.SlickProcessor.ClASS_NAME_FRAGMENT_SUPPORT;
-
 /**
  * @author : Pedramrn@gmail.com
  *         Created on: 2017-02-05

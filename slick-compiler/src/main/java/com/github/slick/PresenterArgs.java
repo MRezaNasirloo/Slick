@@ -1,8 +1,5 @@
 package com.github.slick;
 
-import com.google.auto.common.AnnotationMirrors;
-import com.squareup.javapoet.ClassName;
-
 import java.util.List;
 
 import javax.lang.model.element.AnnotationMirror;

@@ -23,7 +23,7 @@ public class SlickDelegate<V, P extends SlickPresenter<V>>
     private Class<? extends Activity> cls;
     private boolean multiInstance = false;
 
-    static String SLICK_UNIQUE_KEY = "SLICK_UNIQUE_KEY";
+    public static String SLICK_UNIQUE_KEY = "SLICK_UNIQUE_KEY";
 
     public SlickDelegate() {
     }

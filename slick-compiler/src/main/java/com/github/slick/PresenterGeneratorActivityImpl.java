@@ -1,20 +1,13 @@
 package com.github.slick;
 
-import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
-import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeVariableName;
 
-import java.util.List;
-
-import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Modifier;
 
-import static com.github.slick.SlickProcessor.CLASS_NAME_SLICK_DELEGATE;
 import static com.github.slick.SlickProcessor.ClASS_NAME_HASH_MAP;
 import static com.github.slick.SlickProcessor.ClASS_NAME_STRING;
 
@@ -42,7 +35,7 @@ class PresenterGeneratorActivityImpl extends BasePresenterGeneratorImpl {
                         fieldNameDelegates)
                 .beginControlFlow("if ($L == null)", varNameDelegate)
                 .addStatement("final $T $L = new $T($L)", presenter, presenterName, presenter, argsCode)
-                .addStatement("$L = new $T<>($L, $L.getClass(), id)", varNameDelegate, CLASS_NAME_SLICK_DELEGATE,
+                .addStatement("$L = new $T<>($L, $L.getClass(), id)", varNameDelegate, ap.getDelegateType(),
                         presenterName, argNameView)
                 .addStatement("$L.setListener($L)", varNameDelegate, hostInstanceName)
                 .addStatement("$L.$L.put(id, $L)", hostInstanceName, fieldNameDelegates, varNameDelegate)

@@ -1,1 +1,1 @@
-include ':app', ':slick-compiler', ':slick-annotations', ':slick', ':slick-conductor'
+include ':app', ':slick-compiler', ':slick-annotations', ':slick', ':slick-conductor', ':slick-support-fragment'
