@@ -15,33 +15,33 @@ import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Modifier;
 
 import static com.github.slick.SlickProcessor.CLASS_NAME_SLICK_DELEGATE;
-import static com.github.slick.SlickProcessor.ClASS_NAME_ACTIVITY;
 import static com.github.slick.SlickProcessor.ClASS_NAME_HASH_MAP;
-import static com.github.slick.SlickProcessor.ClASS_NAME_SLICK_VIEW;
 import static com.github.slick.SlickProcessor.ClASS_NAME_STRING;
 
 /**
  * @author : Pedramrn@gmail.com
  *         Created on: 2017-02-05
  */
-public class PresenterGeneratorActivityImpl extends BasePresenterGeneratorImpl {
+class PresenterGeneratorActivityImpl extends BasePresenterGeneratorImpl {
+    public PresenterGeneratorActivityImpl(MethodSignatureGenerator generator) {
+        super(generator);
+    }
+
     @Override
-    protected MethodSpec.Builder bindMethod(AnnotatedPresenter ap, ClassName view, ClassName presenter,
-                                            ClassName presenterHost,
-                                            ClassName classNameDelegate,
-                                            String fieldName, String argNameView,
-                                            String presenterArgName, TypeVariableName viewGenericType,
-                                            ParameterizedTypeName typeNameDelegate, StringBuilder argsCode) {
-        return MethodSpec.methodBuilder("bind")
-                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                .addTypeVariable(viewGenericType.withBounds(ap.getViewInterface()))
-                .addParameter(viewGenericType, argNameView)
+    protected MethodSpec.Builder bindMethodBody(MethodSpec.Builder builder, AnnotatedPresenter ap, ClassName view,
+                                                ClassName presenter,
+                                                ClassName presenterHost,
+                                                ClassName classNameDelegate,
+                                                String fieldName, String argNameView,
+                                                String presenterArgName, TypeVariableName viewGenericType,
+                                                ParameterizedTypeName typeNameDelegate, String argsCode) {
+        return builder
                 .addStatement("final String id = $T.getActivityId($L)", classNameDelegate, argNameView)
                 .addStatement("if ($L == null) $L = new $T()", hostInstanceName, hostInstanceName, presenterHost)
                 .addStatement("$T $L = $L.$L.get(id)", typeNameDelegate, varNameDelegate, hostInstanceName,
                         fieldNameDelegates)
                 .beginControlFlow("if ($L == null)", varNameDelegate)
-                .addStatement("final $T $L = new $T($L)", presenter, presenterName, presenter, argsCode.toString())
+                .addStatement("final $T $L = new $T($L)", presenter, presenterName, presenter, argsCode)
                 .addStatement("$L = new $T<>($L, $L.getClass(), id)", varNameDelegate, CLASS_NAME_SLICK_DELEGATE,
                         presenterName, argNameView)
                 .addStatement("$L.setListener($L)", varNameDelegate, hostInstanceName)
@@ -51,29 +51,6 @@ public class PresenterGeneratorActivityImpl extends BasePresenterGeneratorImpl {
                 .addStatement("(($L) $L).$L = $L.getPresenter()", view.simpleName(), argNameView, fieldName,
                         varNameDelegate)
                 .returns(void.class);
-    }
-
-    @Override
-    protected MethodSpec.Builder addConstructorParameter(List<PresenterArgs> args, MethodSpec.Builder methodBuilder) {
-        for (PresenterArgs arg : args) {
-            final ParameterSpec.Builder paramBuilder =
-                    ParameterSpec.builder(TypeName.get(arg.getType()), arg.getName());
-            for (AnnotationMirror annotationMirror : arg.getAnnotations()) {
-                paramBuilder.addAnnotation(AnnotationSpec.get(annotationMirror));
-            }
-            methodBuilder.addParameter(paramBuilder.build());
-        }
-        return methodBuilder;
-    }
-
-    @Override
-    protected ClassName getClassNameViewType(SlickProcessor.ViewType viewType) {
-        return ClASS_NAME_ACTIVITY;
-    }
-
-    @Override
-    protected ClassName getClassNameDelegate() {
-        return CLASS_NAME_SLICK_DELEGATE;
     }
 
     @Override

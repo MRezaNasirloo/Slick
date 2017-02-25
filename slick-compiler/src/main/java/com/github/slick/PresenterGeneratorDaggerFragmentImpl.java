@@ -3,6 +3,7 @@ package com.github.slick;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
+import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeVariableName;
 
 import java.util.ArrayList;
@@ -12,26 +13,27 @@ import javax.lang.model.element.Modifier;
 import static com.github.slick.SlickProcessor.CLASS_NAME_SLICK_FRAGMENT_DELEGATE;
 import static com.github.slick.SlickProcessor.ClASS_NAME_FRAGMENT;
 import static com.github.slick.SlickProcessor.ClASS_NAME_FRAGMENT_SUPPORT;
-import static com.github.slick.SlickProcessor.ClASS_NAME_SLICK_VIEW;
 
 /**
  * @author : Pedramrn@gmail.com
  *         Created on: 2017-02-05
  */
-public class PresenterGeneratorDaggerFragmentImpl extends BasePresenterGeneratorDaggerImpl {
+class PresenterGeneratorDaggerFragmentImpl extends BasePresenterGeneratorDaggerImpl {
 
+
+    public PresenterGeneratorDaggerFragmentImpl(MethodSignatureGenerator generator) {
+        super(generator);
+    }
 
     @Override
-    protected MethodSpec.Builder bindMethod(AnnotatedPresenter ap, ClassName view, ClassName presenter,
-                                            ClassName presenterHost,
-                                            ClassName classNameDelegate,
-                                            String fieldName, String argNameView,
-                                            String presenterArgName, TypeVariableName viewGenericType,
-                                            ParameterizedTypeName typeNameDelegate, StringBuilder argsCode) {
-        return MethodSpec.methodBuilder("bind")
-                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                .addTypeVariable(viewGenericType.withBounds(ap.getViewInterface()))
-                .addParameter(viewGenericType, argNameView)
+    protected MethodSpec.Builder bindMethodBody(MethodSpec.Builder builder, AnnotatedPresenter ap, ClassName view,
+                                                ClassName presenter,
+                                                ClassName presenterHost,
+                                                ClassName classNameDelegate,
+                                                String fieldName, String argNameView,
+                                                String presenterArgName, TypeVariableName viewGenericType,
+                                                ParameterizedTypeName typeNameDelegate, String argsCode) {
+        return builder
                 .beginControlFlow("if ($L == null)", hostInstanceName)
                 .addStatement("$L = new $T()", hostInstanceName, presenterHost)
                 .addStatement("$T presenter = (($T) $L).$L", presenter, view, argNameView, fieldName)
@@ -46,33 +48,15 @@ public class PresenterGeneratorDaggerFragmentImpl extends BasePresenterGenerator
     @Override
     protected Iterable<MethodSpec> addMethods(AnnotatedPresenter ap) {
         final ArrayList<MethodSpec> list = new ArrayList<>(3);
-        final TypeVariableName viewGenericType =
-                TypeVariableName.get("T", getClassNameViewType(ap.getViewType()))
-                        .withBounds(ap.getViewInterface());
         String[] methodNames = {"onStart", "onStop", "onDestroy"};
         for (String name : methodNames) {
-            final MethodSpec methodSpec = MethodSpec.methodBuilder(name)
-                    .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                    .addTypeVariable(viewGenericType)
-                    .addParameter(viewGenericType, "view")
-                    .addStatement("$L.$L.$L(view)", hostInstanceName, varNameDelegate, name)
+            final MethodSpec.Builder builder = generator.generate(name, ap, TypeName.get(void.class));
+            final MethodSpec methodSpec = builder
+                    .addStatement("$L.$L.$L($L)", hostInstanceName, varNameDelegate, name, ap.getViewVarName())
                     .returns(void.class).build();
             list.add(methodSpec);
         }
         return list;
     }
 
-    @Override
-    protected ClassName getClassNameViewType(SlickProcessor.ViewType viewType) {
-        if (SlickProcessor.ViewType.DAGGER_FRAGMENT.equals(viewType)) {
-            return ClASS_NAME_FRAGMENT;
-        } else {
-            return ClASS_NAME_FRAGMENT_SUPPORT;
-        }
-    }
-
-    @Override
-    protected ClassName getClassNameDelegate() {
-        return CLASS_NAME_SLICK_FRAGMENT_DELEGATE;
-    }
 }

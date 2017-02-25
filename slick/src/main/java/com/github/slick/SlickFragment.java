@@ -2,7 +2,7 @@ package com.github.slick;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+//import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.util.UUID;
@@ -23,7 +23,7 @@ public abstract class SlickFragment<V, P extends SlickPresenter<V>> extends Frag
 
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(/*@Nullable*/ Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             id = savedInstanceState.getString(SLICK_UNIQUE_KEY);

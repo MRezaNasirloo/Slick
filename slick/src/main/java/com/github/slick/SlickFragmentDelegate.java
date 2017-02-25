@@ -1,10 +1,8 @@
 package com.github.slick;
 
 import android.app.Activity;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-
-import java.util.UUID;
+import android.app.Fragment;
+//import android.support.v4.app.Fragment;
 
 
 /**
@@ -97,6 +95,7 @@ public class SlickFragmentDelegate<V, P extends SlickPresenter<V>> {
     public P getPresenter() {
         return presenter;
     }
+
     public void setListener(OnDestroyListener listener) {
         this.listener = listener;
     }

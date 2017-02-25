@@ -15,7 +15,11 @@ import static com.github.slick.SlickProcessor.ClASS_NAME_STRING;
  * @author : Pedramrn@gmail.com
  *         Created on: 2017-02-05
  */
-public abstract class BasePresenterGeneratorDaggerImpl extends BasePresenterGeneratorImpl {
+abstract class BasePresenterGeneratorDaggerImpl extends BasePresenterGeneratorImpl {
+
+    public BasePresenterGeneratorDaggerImpl(MethodSignatureGenerator generator) {
+        super(generator);
+    }
 
     @Override
     protected MethodSpec onDestroyMethod() {

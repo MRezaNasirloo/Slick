@@ -50,6 +50,19 @@ class AnnotatedPresenter {
         return args;
     }
 
+    public String getArgsAsString() {
+        StringBuilder argsCode = new StringBuilder(args.size() * 10);
+        if (args.size() > 0) {
+
+            for (int i = 0; i < args.size() - 1; i++) {
+                argsCode.append(args.get(i).getName()).append(", ");
+
+            }
+            argsCode.append(args.get(args.size() - 1).getName());
+        }
+        return argsCode.toString();
+    }
+
     public ClassName getPresenterHost() {
         return PresenterHost;
     }
@@ -68,5 +81,13 @@ class AnnotatedPresenter {
 
     public String getFieldName() {
         return fieldName;
+    }
+
+    public String getViewVarName(){
+        return SlickProcessor.deCapitalize(view.simpleName());
+    }
+
+    public ClassName getDelegateType(){
+        return viewType.delegateType();
     }
 }
