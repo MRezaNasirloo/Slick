@@ -76,8 +76,6 @@ public class SlickFragmentDelegate<V, P extends SlickPresenter<V>> {
         Activity activity;
         if (view instanceof Fragment) {
             activity = ((Fragment) view).getActivity();
-        } else if (view instanceof android.app.Fragment) {
-            activity = ((android.app.Fragment) view).getActivity();
         } else {
             throw new IllegalStateException(
                     "View should be either a subclass of support Fragment or android.app.Fragment");

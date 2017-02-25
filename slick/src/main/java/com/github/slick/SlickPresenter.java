@@ -1,6 +1,6 @@
 package com.github.slick;
 
-//import android.support.annotation.Nullable;
+import android.support.annotation.Nullable;
 
 
 import java.lang.ref.WeakReference;
@@ -28,7 +28,7 @@ public class SlickPresenter<V> {
         }
     }
 
-//    @Nullable
+    @Nullable
     public V getView() {
         return view == null ? null : view.get();
     }
