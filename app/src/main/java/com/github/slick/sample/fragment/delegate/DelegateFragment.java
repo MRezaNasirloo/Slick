@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.github.slick.Presenter;
 import com.github.slick.sample.R;
+import com.github.slick.Slick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,25 +42,25 @@ public class DelegateFragment extends Fragment implements DelegateFragmentView {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DelegateFragmentPresenter_Slick.bind(this, 1, "2");
+        Slick.bind(this, 1, "2");
     }
 
     @Override
     public void onStart() {
+        Slick.onStart(this);
         super.onStart();
-        DelegateFragmentPresenter_Slick.onStart(this);
     }
 
     @Override
     public void onStop() {
+        Slick.onStop(this);
         super.onStop();
-        DelegateFragmentPresenter_Slick.onStop(this);
     }
 
     @Override
     public void onDestroy() {
+        Slick.onDestroy(this);
         super.onDestroy();
-        DelegateFragmentPresenter_Slick.onDestroy(this);
     }
 
 }

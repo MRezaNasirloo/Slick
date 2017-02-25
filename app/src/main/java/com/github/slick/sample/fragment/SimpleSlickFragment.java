@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 
 import com.github.slick.Presenter;
 import com.github.slick.SlickFragment;
-import com.github.slick.SlickFragmentDelegate;
 import com.github.slick.sample.R;
+import com.github.slick.Slick;
 import com.github.slick.sample.fragment.dagger.DaggerFragment;
 import com.github.slick.sample.fragment.dagger.delegate.DelegateDaggerSlickFragment;
 import com.github.slick.sample.fragment.delegate.DelegateFragment;
@@ -67,7 +67,7 @@ public class SimpleSlickFragment extends SlickFragment<SimpleFragmentView, Simpl
     }
 
     @Override
-    protected SlickFragmentDelegate<SimpleFragmentView, SimpleFragmentPresenter> bind() {
-        return SimpleFragmentPresenter_Slick.bind(this, 1, "2");
+    protected Object bind() {
+        return Slick.bind(this, 1, "2");
     }
 }

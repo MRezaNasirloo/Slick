@@ -3,6 +3,8 @@ package com.github.slick;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
 import java.io.IOException;
@@ -12,7 +14,6 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -24,10 +25,10 @@ import javax.annotation.processing.RoundEnvironment;
 import javax.inject.Inject;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.AnnotationMirror;
-import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.DeclaredType;
@@ -153,31 +154,64 @@ public class SlickProcessor extends AbstractProcessor {
             brewJava(annotatedPresenter.getPresenter().packageName(), cls);
         }
 
-        //        final  TypeSpec cls = generateSlickClass(annotatedPresenters);
-        //        brewJava(packageName, cls);
+        /*final TypeSpec cls = generateSlickClass(annotatedPresenters);
+        brewJava(packageName, cls);*/
 
 
         return true;
     }
 
     private TypeSpec generateSlickClass(List<AnnotatedPresenter> aps) {
-        final TypeSpec.Builder builder = TypeSpec.classBuilder("Slick");
+        final TypeSpec.Builder builder = TypeSpec.classBuilder("Slick")
+                .addModifiers(Modifier.PUBLIC, Modifier.FINAL);
         for (AnnotatedPresenter ap : aps) {
             switch (ap.getViewType()) {
                 case ACTIVITY:
-                case FRAGMENT:
-                case FRAGMENT_SUPPORT:
-                case CONDUCTOR:
-                    builder.addMethod(null);
-                case DAGGER_ACTIVITY:
-                case DAGGER_FRAGMENT:
-                case DAGGER_FRAGMENT_SUPPORT:
-                case DAGGER_CONDUCTOR:
-                    builder.addMethod(null);
-            }
+                case CONDUCTOR: {
+                    final MethodSpec methodSpec = msg
+                            .generate("bind", ap, TypeName.get(void.class))
+                            .addStatement("$L.bind($L)",
+                                    ap.getPresenter() + "_Slick",
+                                    ap.getViewVarName() +
+                                            (ap.getArgsAsString().isEmpty() ? "" : ", " + ap.getArgsAsString()))
+                            .build();
+                    builder.addMethod(methodSpec);
+                    break;
 
+                }
+                case FRAGMENT:
+                case FRAGMENT_SUPPORT: {
+                    final MethodSpec methodSpec = msg
+                            .generate("bind", ap, ap.getDelegateParametrizedType())
+                            .addStatement("return $L.bind($L)",
+                                    ap.getPresenter() + "_Slick",
+                                    ap.getViewVarName() +
+                                            (ap.getArgsAsString().isEmpty() ? "" : ", " + ap.getArgsAsString()))
+                            .build();
+                    builder.addMethod(methodSpec);
+                    break;
+                }
+                case DAGGER_ACTIVITY:
+                case DAGGER_CONDUCTOR: {
+                    final MethodSpec methodSpec = msgDagger.generate("bind", ap, TypeName.get(void.class))
+                            .addStatement("$L.bind($L)",
+                                    ap.getPresenter() + "_Slick",
+                                    ap.getViewVarName()).build();
+                    builder.addMethod(methodSpec);
+                    break;
+                }
+                case DAGGER_FRAGMENT:
+                case DAGGER_FRAGMENT_SUPPORT: {
+                    final MethodSpec methodSpec = msgDagger.generate("bind", ap, ap.getDelegateParametrizedType())
+                            .addStatement("return $L.bind($L)",
+                                    ap.getPresenter() + "_Slick",
+                                    ap.getViewVarName()).build();
+                    builder.addMethod(methodSpec);
+                    break;
+                }
+            }
         }
-        return null;
+        return builder.build();
     }
 
     protected void brewJava(String packageName, TypeSpec cls) {
@@ -231,8 +265,6 @@ public class SlickProcessor extends AbstractProcessor {
                                              List<? extends TypeMirror> typeArguments)
             throws IllegalArgumentException, IllegalStateException {
         final ClassName presenter = getClassName(typeElement);
-        final ClassName presenterHost = get(presenter.packageName(),
-                typeElement.getSimpleName().toString() + "_Slick");
 
         final String fieldName = element.getSimpleName().toString();
 
@@ -278,8 +310,7 @@ public class SlickProcessor extends AbstractProcessor {
                     args.add(presenterArgs);
                 }
                 return new AnnotatedPresenter(typeArguments.get(0).toString(), args, fieldName,
-                        getClassName(viewTypeElement), viewType, presenter,
-                        presenterHost);
+                        getClassName(viewTypeElement), viewType, presenter);
             }
         }
         throw new IllegalStateException("Could not scan presenter");

@@ -5,9 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.github.slick.Presenter;
+//import com.github.slick.Slick;
 import com.github.slick.sample.App;
 import com.github.slick.sample.R;
-import com.github.slick.sample.Slick;
+import com.github.slick.Slick;
 
 import javax.inject.Inject;
 

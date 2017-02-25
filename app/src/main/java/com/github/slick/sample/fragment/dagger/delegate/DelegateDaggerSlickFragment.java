@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.github.slick.Presenter;
 import com.github.slick.sample.App;
 import com.github.slick.sample.R;
+import com.github.slick.Slick;
 
 import javax.inject.Inject;
 
@@ -36,7 +37,7 @@ public class DelegateDaggerSlickFragment extends Fragment implements DelegateDag
     @Override
     public void onCreate(Bundle savedInstanceState) {
         App.getDDaggerComponent(getActivity()).inject(this);
-        DelegateDaggerFragmentPresenter_Slick.bind(this);
+        Slick.bind(this);
         super.onCreate(savedInstanceState);
     }
 
@@ -50,19 +51,19 @@ public class DelegateDaggerSlickFragment extends Fragment implements DelegateDag
 
     @Override
     public void onStart() {
-        DelegateDaggerFragmentPresenter_Slick.onStart(this);
+        Slick.onStart(this);
         super.onStart();
     }
 
     @Override
     public void onStop() {
-        DelegateDaggerFragmentPresenter_Slick.onStop(this);
+        Slick.onStop(this);
         super.onStop();
     }
 
     @Override
     public void onDestroy() {
-        DelegateDaggerFragmentPresenter_Slick.onDestroy(this);
+        Slick.onDestroy(this);
         super.onDestroy();
         if (getActivity().isFinishing()) {
             App.disposeDDaggerComponent(getActivity());

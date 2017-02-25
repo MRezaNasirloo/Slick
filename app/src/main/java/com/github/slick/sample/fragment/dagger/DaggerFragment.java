@@ -11,9 +11,9 @@ import android.widget.TextView;
 
 import com.github.slick.Presenter;
 import com.github.slick.SlickFragment;
-import com.github.slick.SlickFragmentDelegate;
 import com.github.slick.sample.App;
 import com.github.slick.sample.R;
+import com.github.slick.Slick;
 
 import javax.inject.Inject;
 
@@ -50,8 +50,8 @@ public class DaggerFragment extends SlickFragment<DaggerFragmentView, DaggerFrag
     }
 
     @Override
-    protected SlickFragmentDelegate<DaggerFragmentView, DaggerFragmentPresenter> bind() {
-        return DaggerFragmentPresenter_Slick.bind(this);
+    protected Object bind() {
+        return Slick.bind(this);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.github.slick;
 
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.ParameterizedTypeName;
 
 import java.util.List;
 
@@ -16,20 +17,18 @@ class AnnotatedPresenter {
     private SlickProcessor.ViewType viewType;
     private ClassName viewInterface;
     private ClassName presenter;
-    private ClassName PresenterHost;
 
     AnnotatedPresenter(String viewCanonicalName, List<PresenterArgs> args, String fieldName, ClassName view,
                        SlickProcessor.ViewType viewType,
-                       ClassName presenter,
-                       ClassName presenterHost) {
+                       ClassName presenter) {
         if (viewCanonicalName == null) {
-            throw new IllegalArgumentException(new Throwable("viewCanonicalName cannot be null")); // TODO: 2017-02-01 error
+            throw new IllegalArgumentException(
+                    new Throwable("viewCanonicalName cannot be null")); // TODO: 2017-02-01 error
         }
         this.view = view;
         this.viewType = viewType;
         this.presenter = presenter;
         this.fieldName = fieldName;
-        PresenterHost = presenterHost;
         this.args = args;
 
         final String[] split = viewCanonicalName.split("\\.");
@@ -64,7 +63,7 @@ class AnnotatedPresenter {
     }
 
     public ClassName getPresenterHost() {
-        return PresenterHost;
+        return ClassName.get(presenter.packageName(), view.simpleName() + "_Slick");
     }
 
     public ClassName getPresenter() {
@@ -83,11 +82,15 @@ class AnnotatedPresenter {
         return fieldName;
     }
 
-    public String getViewVarName(){
+    public String getViewVarName() {
         return SlickProcessor.deCapitalize(view.simpleName());
     }
 
-    public ClassName getDelegateType(){
+    public ClassName getDelegateType() {
         return viewType.delegateType();
+    }
+
+    public ParameterizedTypeName getDelegateParametrizedType() {
+        return ParameterizedTypeName.get(viewType.delegateType(), viewInterface, presenter);
     }
 }

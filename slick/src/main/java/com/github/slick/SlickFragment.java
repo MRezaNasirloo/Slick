@@ -22,12 +22,13 @@ public abstract class SlickFragment<V, P extends SlickPresenter<V>> extends Frag
 
 
     @Override
+    @SuppressWarnings("unchecked")
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             id = savedInstanceState.getString(SLICK_UNIQUE_KEY);
         }
-        delegate = bind();
+        delegate = (SlickFragmentDelegate<V, P>) bind();
     }
 
     @Override
@@ -62,5 +63,6 @@ public abstract class SlickFragment<V, P extends SlickPresenter<V>> extends Frag
         return id = id != null ? id : UUID.randomUUID().toString();
     }
 
-    protected abstract SlickFragmentDelegate<V, P> bind();
+    @SuppressWarnings("unchecked")
+    protected abstract Object bind();
 }

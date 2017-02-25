@@ -14,7 +14,7 @@ public class SimpleFragmentPresenter extends SlickPresenter<SimpleFragmentView> 
 
     private static final String TAG = SimpleFragmentPresenter.class.getSimpleName();
 
-    public SimpleFragmentPresenter(@NonNull Integer integer, String s) {
+    public SimpleFragmentPresenter(int integer, String s) {
     }
 
     @Override
