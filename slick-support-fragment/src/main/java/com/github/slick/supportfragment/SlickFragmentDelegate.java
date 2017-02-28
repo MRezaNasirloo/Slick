@@ -1,7 +1,8 @@
 package com.github.slick.supportfragment;
 
-import android.app.Activity;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentManager.FragmentLifecycleCallbacks;
 
 import com.github.slick.OnDestroyListener;
 import com.github.slick.SlickPresenter;
@@ -13,7 +14,7 @@ import com.github.slick.SlickUniqueId;
  *         Created on: 2016-11-03
  */
 
-public class SlickFragmentDelegate<V, P extends SlickPresenter<V>> {
+public class SlickFragmentDelegate<V, P extends SlickPresenter<V>> extends FragmentLifecycleCallbacks {
 
     private String id;
     private OnDestroyListener listener;
@@ -44,53 +45,49 @@ public class SlickFragmentDelegate<V, P extends SlickPresenter<V>> {
         this.cls = cls;
     }
 
-    public void onStart(V view) {
+    @Override
+    @SuppressWarnings("unchecked")
+    public void onFragmentStarted(FragmentManager fm, Fragment fragment) {
         if (multiInstance) {
-            if (isSameInstance(view)) {
-                presenter.onViewUp(view);
+            if (isSameInstance(fragment)) {
+                presenter.onViewUp((V) fragment);
             }
 
-        } else if (cls.isInstance(view)) {
-            presenter.onViewUp(view);
+        } else if (cls.isInstance(fragment)) {
+            presenter.onViewUp((V) fragment);
         }
     }
 
-    public void onStop(V view) {
+    @Override
+    public void onFragmentStopped(FragmentManager fm, Fragment fragment) {
         if (multiInstance) {
-            if (isSameInstance(view)) {
+            if (isSameInstance(fragment)) {
                 presenter.onViewDown();
             }
-        } else if (cls.isInstance(view)) {
+        } else if (cls.isInstance(fragment)) {
             presenter.onViewDown();
         }
     }
 
-    public void onDestroy(V view) {
+    @Override
+    public void onFragmentDestroyed(FragmentManager fm, Fragment fragment) {
         if (multiInstance) {
-            if (isSameInstance(view)) {
-                destroy(view);
+            if (isSameInstance(fragment)) {
+                destroy(fragment);
             }
-        } else if (cls.isInstance(view)) {
-            destroy(view);
+        } else if (cls.isInstance(fragment)) {
+            destroy(fragment);
         }
     }
 
-    private void destroy(V view) {
-        Activity activity;
-        if (view instanceof Fragment) {
-            activity = ((Fragment) view).getActivity();
-        } else {
-            throw new IllegalStateException(
-                    "View should be either a subclass of support Fragment or android.app.Fragment");
-        }
-        if (!activity.isChangingConfigurations()) {
+    private void destroy(Fragment fragment) {
+        if (!fragment.getActivity().isChangingConfigurations()) {
             presenter.onDestroy();
             if (listener != null) {
                 listener.onDestroy(id);
             }
             presenter = null;
         }
-        //else if (view instanceof android.app.Fragment && ((android.app.Fragment) view).getParentFragment() == null) activity = ((android.app.Fragment) view).getActivity();
     }
 
     public P getPresenter() {

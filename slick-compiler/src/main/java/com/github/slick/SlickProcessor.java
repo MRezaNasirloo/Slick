@@ -93,9 +93,11 @@ public class SlickProcessor extends AbstractProcessor {
     private MethodSignatureGenerator msgDagger = new MethodSignatureGeneratorDaggerImpl();
     private PresenterGenerator generatorActivity = new PresenterGeneratorActivityImpl(msg);
     private PresenterGenerator generatorFragment = new PresenterGeneratorFragmentImpl(msg);
+    private PresenterGenerator generatorFragmentSupport = new PresenterGeneratorFragmentSupportImpl(msg);
     private PresenterGenerator generatorConductor = new PresenterGeneratorConductorImpl(msg);
     private PresenterGenerator generatorDaggerActivity = new PresenterGeneratorDaggerActivityImpl(msgDagger);
     private PresenterGenerator generatorDaggerFragment = new PresenterGeneratorDaggerFragmentImpl(msgDagger);
+    private PresenterGenerator generatorDaggerFragmentSupport = new PresenterGeneratorDaggerFragmentSupportImpl(msgDagger);
     private PresenterGenerator generatorDaggerConductor = new PresenterGeneratorDaggerConductorImpl(msgDagger);
 
     @Override
@@ -235,15 +237,17 @@ public class SlickProcessor extends AbstractProcessor {
             case ACTIVITY:
                 return generatorActivity.generate(ap);
             case FRAGMENT:
-            case FRAGMENT_SUPPORT:
                 return generatorFragment.generate(ap);
+            case FRAGMENT_SUPPORT:
+                return generatorFragmentSupport.generate(ap);
             case CONDUCTOR:
                 return generatorConductor.generate(ap);
             case DAGGER_ACTIVITY:
                 return generatorDaggerActivity.generate(ap);
             case DAGGER_FRAGMENT:
-            case DAGGER_FRAGMENT_SUPPORT:
                 return generatorDaggerFragment.generate(ap);
+            case DAGGER_FRAGMENT_SUPPORT:
+                return generatorDaggerFragmentSupport.generate(ap);
             case DAGGER_CONDUCTOR:
                 return generatorDaggerConductor.generate(ap);
             default:

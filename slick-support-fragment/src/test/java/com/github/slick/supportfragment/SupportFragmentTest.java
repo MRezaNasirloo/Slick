@@ -55,12 +55,12 @@ public class SupportFragmentTest {
 
                 + "    @Override\n"
                 + "    public void onCreate(@Nullable Bundle savedInstanceState) {\n"
-                + "        ExamplePresenter_Slick.bind(this, 1, 2.0f);\n"
+                + "        ExampleFragment_Slick.bind(this, 1, 2.0f);\n"
                 + "        super.onCreate(savedInstanceState);\n"
                 + "    }\n"
                 + "}");
 
-        JavaFileObject genSource = JavaFileObjects.forSourceString("test.ExamplePresenter_Slick", ""
+        JavaFileObject genSource = JavaFileObjects.forSourceString("test.ExampleFragment_Slick", ""
                 + "package test;\n"
 
                 + "import android.support.annotation.IdRes;\n"
@@ -72,35 +72,25 @@ public class SupportFragmentTest {
                 + "import java.lang.String;\n"
                 + "import java.util.HashMap;\n"
 
-                + "public class ExamplePresenter_Slick implements OnDestroyListener {\n"
+                + "public class ExampleFragment_Slick implements OnDestroyListener {\n"
 
-                + "    private static ExamplePresenter_Slick hostInstance;\n"
+                + "    private static ExampleFragment_Slick hostInstance;\n"
                 + "    private final HashMap<String, SlickFragmentDelegate<ExampleView, ExamplePresenter>>"
                 + "                   delegates = new HashMap<>();\n"
 
-                + "    public static <T extends Fragment & ExampleView> SlickFragmentDelegate<ExampleView, ExamplePresenter> bind("
+                + "    public static <T extends Fragment & ExampleView> void bind(\n"
                 + "                             T exampleFragment, @IdRes int i, float f) {\n"
                 + "        final String id = SlickFragmentDelegate.getFragmentId(exampleFragment);\n"
-                + "        if (hostInstance == null) hostInstance = new ExamplePresenter_Slick();\n"
+                + "        if (hostInstance == null) hostInstance = new ExampleFragment_Slick();\n"
                 + "        SlickFragmentDelegate<ExampleView, ExamplePresenter> delegate = hostInstance.delegates.get(id)\n"
                 + "        if (delegate == null) {\n"
                 + "             final ExamplePresenter presenter = new ExamplePresenter(i, f);\n"
                 + "             delegate = new SlickFragmentDelegate<>(presenter, exampleFragment.getClass(), id);\n"
+                + "             exampleFragment.getFragmentManager().registerFragmentLifecycleCallbacks(delegate, false);\n"
                 + "             delegate.setListener(hostInstance);\n"
                 + "             hostInstance.delegates.put(id, delegate);\n"
                 + "        }\n"
                 + "        ((ExampleFragment) exampleFragment).presenter = delegate.getPresenter();\n"
-                + "        return delegate;\n"
-                + "    }\n"
-
-                + "    public static <T extends Fragment & ExampleView> void onStart(T exampleFragment) {\n"
-                + "        hostInstance.delegates.get(SlickFragmentDelegate.getFragmentId(exampleFragment)).onStart(exampleFragment);\n"
-                + "    }\n"
-                + "    public static <T extends Fragment & ExampleView> void onStop(T exampleFragment) {\n"
-                + "        hostInstance.delegates.get(SlickFragmentDelegate.getFragmentId(exampleFragment)).onStop(exampleFragment);\n"
-                + "    }\n"
-                + "    public static <T extends Fragment & ExampleView> void onDestroy(T exampleFragment) {\n"
-                + "        hostInstance.delegates.get(SlickFragmentDelegate.getFragmentId(exampleFragment)).onDestroy(exampleFragment);\n"
                 + "    }\n"
 
                 + "    @Override\n"
@@ -165,12 +155,12 @@ public class SupportFragmentTest {
 
                 + "    @Override\n"
                 + "    public void onCreate(Bundle savedInstanceState) {\n"
-                + "        DaggerPresenter_Slick.bind(this);\n"
+                + "        DaggerFragment_Slick.bind(this);\n"
                 + "        super.onCreate(savedInstanceState);\n"
                 + "    }\n"
                 + "}");
 
-        JavaFileObject presenterHostSource = JavaFileObjects.forSourceString("test.DaggerPresenter_Slick", ""
+        JavaFileObject presenterHostSource = JavaFileObjects.forSourceString("test.DaggerFragment_Slick", ""
                 + "package test;\n"
 
                 + "import android.support.v4.app.Fragment;\n"
@@ -180,31 +170,20 @@ public class SupportFragmentTest {
                 + "import java.lang.String;\n"
 
 
-                + "public class DaggerPresenter_Slick implements OnDestroyListener {\n"
+                + "public class DaggerFragment_Slick implements OnDestroyListener {\n"
 
-                + "    private static DaggerPresenter_Slick hostInstance;\n"
+                + "    private static DaggerFragment_Slick hostInstance;\n"
                 + "    SlickFragmentDelegate<DaggerView, DaggerPresenter> delegate;\n"
 
-                + "    public static <T extends Fragment & DaggerView> "
-                + "                 SlickFragmentDelegate<DaggerView, DaggerPresenter>bind(T daggerFragment) {\n"
+                + "    public static <T extends Fragment & DaggerView> void bind(T daggerFragment) {\n"
                 + "        if (hostInstance == null) { \n"
-                + "            hostInstance = new DaggerPresenter_Slick();\n"
+                + "            hostInstance = new DaggerFragment_Slick();\n"
                 + "            DaggerPresenter presenter = ((DaggerFragment) daggerFragment).presenter ;\n"
                 + "            hostInstance.delegate = new SlickFragmentDelegate<>(presenter, "
                 + "                           daggerFragment.getClass())\n"
+                + "            daggerFragment.getFragmentManager().registerFragmentLifecycleCallbacks(hostInstance.delegate, false)\n"
                 + "            hostInstance.delegate.setListener(hostInstance);\n"
-                + "        }\n" +
-                "           return hostInstance.delegate;"
-                + "    }\n"
-
-                + "    public static <T extends Fragment & DaggerView> void onStart(T daggerFragment) {\n"
-                + "        hostInstance.delegate.onStart(daggerFragment);\n"
-                + "    }\n"
-                + "    public static <T extends Fragment & DaggerView> void onStop(T daggerFragment) {\n"
-                + "        hostInstance.delegate.onStop(daggerFragment);\n"
-                + "    }\n"
-                + "    public static <T extends Fragment & DaggerView> void onDestroy(T daggerFragment) {\n"
-                + "        hostInstance.delegate.onDestroy(daggerFragment);\n"
+                + "        }\n"
                 + "    }\n"
 
                 + "    @Override\n"
