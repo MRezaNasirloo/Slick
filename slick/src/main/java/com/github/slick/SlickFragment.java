@@ -1,6 +1,7 @@
 package com.github.slick;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -22,19 +23,24 @@ public abstract class SlickFragment<V, P extends SlickPresenter<V>> extends Frag
 
 
     @Override
-    @SuppressWarnings("unchecked")
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             id = savedInstanceState.getString(SLICK_UNIQUE_KEY);
         }
-        delegate = (SlickFragmentDelegate<V, P>) bind();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(SLICK_UNIQUE_KEY, id);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public void onAttach(Context context) {
+        delegate = (SlickFragmentDelegate<V, P>) bind();
+        super.onAttach(context);
     }
 
     @Override

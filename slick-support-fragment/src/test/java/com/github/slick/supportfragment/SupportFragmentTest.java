@@ -86,10 +86,10 @@ public class SupportFragmentTest {
                 + "        if (delegate == null) {\n"
                 + "             final ExamplePresenter presenter = new ExamplePresenter(i, f);\n"
                 + "             delegate = new SlickFragmentDelegate<>(presenter, exampleFragment.getClass(), id);\n"
-                + "             exampleFragment.getFragmentManager().registerFragmentLifecycleCallbacks(delegate, false);\n"
                 + "             delegate.setListener(hostInstance);\n"
                 + "             hostInstance.delegates.put(id, delegate);\n"
                 + "        }\n"
+                + "        exampleFragment.getFragmentManager().registerFragmentLifecycleCallbacks(delegate, false);\n"
                 + "        ((ExampleFragment) exampleFragment).presenter = delegate.getPresenter();\n"
                 + "    }\n"
 
@@ -181,9 +181,9 @@ public class SupportFragmentTest {
                 + "            DaggerPresenter presenter = ((DaggerFragment) daggerFragment).presenter ;\n"
                 + "            hostInstance.delegate = new SlickFragmentDelegate<>(presenter, "
                 + "                           daggerFragment.getClass())\n"
-                + "            daggerFragment.getFragmentManager().registerFragmentLifecycleCallbacks(hostInstance.delegate, false)\n"
                 + "            hostInstance.delegate.setListener(hostInstance);\n"
                 + "        }\n"
+                + "        daggerFragment.getFragmentManager().registerFragmentLifecycleCallbacks(hostInstance.delegate, false)\n"
                 + "    }\n"
 
                 + "    @Override\n"

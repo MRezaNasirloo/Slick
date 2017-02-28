@@ -8,6 +8,7 @@ import android.view.View;
 import com.github.slick.sample.activity.ExampleActivity;
 import com.github.slick.sample.conductor.ConductorActivity;
 import com.github.slick.sample.fragment.FragmentHostActivity;
+import com.github.slick.sample.fragmentsupport.SupportFragmentHostActivity;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -45,6 +46,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, FragmentHostActivity.class));
+            }
+        });
+
+        findViewById(R.id.button_support_fragment).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, SupportFragmentHostActivity.class));
             }
         });
     }

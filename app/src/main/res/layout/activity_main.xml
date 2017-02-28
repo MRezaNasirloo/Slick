@@ -62,4 +62,14 @@
         android:layout_alignParentStart="true"
         android:id="@+id/fragment_delegate"
         />
+
+    <Button
+        android:text="Support Fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/conductor"
+        android:layout_toRightOf="@+id/fragment_delegate"
+        android:layout_toEndOf="@+id/fragment_delegate"
+        android:id="@+id/button_support_fragment"
+        />
 </RelativeLayout>

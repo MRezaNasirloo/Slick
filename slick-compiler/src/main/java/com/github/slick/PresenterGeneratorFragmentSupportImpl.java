@@ -37,10 +37,10 @@ class PresenterGeneratorFragmentSupportImpl extends BasePresenterGeneratorImpl {
                 .addStatement("final $T $L = new $T($L)", presenter, presenterName, presenter, argsCode)
                 .addStatement("$L = new $T<>($L, $L.getClass(), id)", varNameDelegate, classNameDelegate,
                         presenterName, argNameView)
-                .addStatement("$L.getFragmentManager().registerFragmentLifecycleCallbacks($L, false)", argNameView, varNameDelegate)
                 .addStatement("$L.setListener($L)", varNameDelegate, hostInstanceName)
                 .addStatement("$L.$L.put(id, $L)", hostInstanceName, fieldNameDelegates, varNameDelegate)
                 .endControlFlow()
+                .addStatement("$L.getFragmentManager().registerFragmentLifecycleCallbacks($L, false)", argNameView, varNameDelegate)
                 .addStatement("(($L) $L).$L = $L.getPresenter()", view.simpleName(), argNameView, fieldName,
                         varNameDelegate);
     }

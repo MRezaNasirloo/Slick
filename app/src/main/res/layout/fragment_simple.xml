@@ -8,7 +8,7 @@
     <!-- TODO: Update blank fragment layout -->
 
     <Button
-        android:text="Delegate Fragment"
+        android:text="Delegate Android Fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -32,7 +32,7 @@
         />
 
     <Button
-        android:text="Delegate Dagger Fragment"
+        android:text="Delegate Dagger Android Fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/button_dagger_fragment"

@@ -6,6 +6,7 @@ import com.github.slick.sample.activity.dagger.ExampleActivity;
 import com.github.slick.sample.conductor.dagger.ExampleController;
 import com.github.slick.sample.fragment.dagger.DaggerFragment;
 import com.github.slick.sample.fragment.dagger.delegate.DelegateDaggerSlickFragment;
+import com.github.slick.sample.fragmentsupport.dagger.DaggerFragmentSupport;
 
 import javax.inject.Singleton;
 
@@ -32,6 +33,8 @@ public interface AppComponent {
         void inject(DaggerFragment fragment);
 
         void inject(DelegateDaggerSlickFragment delegateDaggerSlickFragment);
+
+        void inject(DaggerFragmentSupport daggerFragment);
     }
 
 }

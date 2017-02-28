@@ -1,33 +1,33 @@
-package com.github.slick.sample.fragment.delegate;
+package com.github.slick.sample.fragmentsupport.simple;
 
 
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.slick.Presenter;
-import com.github.slick.sample.R;
 import com.github.slick.Slick;
+import com.github.slick.sample.R;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DelegateFragment extends Fragment implements DelegateFragmentView {
+public class SupportFragment extends Fragment implements SupportFragmentView {
 
     @Presenter
-    DelegateFragmentPresenter presenter;
+    SupportFragmentPresenter presenter;
 
-    public DelegateFragment() {
+    public SupportFragment() {
         // Required empty public constructor
     }
 
-    public static DelegateFragment newInstance() {
-        return new DelegateFragment();
+    public static SupportFragment newInstance() {
+        return new SupportFragment();
     }
 
     @Nullable
@@ -45,23 +45,4 @@ public class DelegateFragment extends Fragment implements DelegateFragmentView {
         Slick.bind(this, 1, "2");
         super.onAttach(context);
     }
-
-    @Override
-    public void onStart() {
-        Slick.onStart(this);
-        super.onStart();
-    }
-
-    @Override
-    public void onStop() {
-        Slick.onStop(this);
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroy() {
-        Slick.onDestroy(this);
-        super.onDestroy();
-    }
-
 }

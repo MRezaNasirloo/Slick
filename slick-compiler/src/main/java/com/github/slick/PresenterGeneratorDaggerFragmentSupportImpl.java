@@ -34,9 +34,9 @@ class PresenterGeneratorDaggerFragmentSupportImpl extends BasePresenterGenerator
                 .addStatement("$L.$L = new $T<>($L, $L.getClass())", hostInstanceName, varNameDelegate,
                         classNameDelegate, presenterName, argNameView)
 
-                .addStatement("$L.getFragmentManager().registerFragmentLifecycleCallbacks($L.$L, false)", argNameView, hostInstanceName, varNameDelegate)
                 .addStatement("$L.$L.setListener($L)", hostInstanceName, varNameDelegate, hostInstanceName)
-                .endControlFlow();
+                .endControlFlow()
+                .addStatement("$L.getFragmentManager().registerFragmentLifecycleCallbacks($L.$L, false)", argNameView, hostInstanceName, varNameDelegate);
     }
 
 }

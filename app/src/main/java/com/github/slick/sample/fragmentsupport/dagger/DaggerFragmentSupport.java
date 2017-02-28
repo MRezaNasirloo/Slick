@@ -1,39 +1,37 @@
-package com.github.slick.sample.fragment.dagger;
+package com.github.slick.sample.fragmentsupport.dagger;
 
 
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.slick.Presenter;
-import com.github.slick.SlickFragment;
+import com.github.slick.Slick;
 import com.github.slick.sample.App;
 import com.github.slick.sample.R;
-import com.github.slick.Slick;
 
 import javax.inject.Inject;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DaggerFragment extends SlickFragment<DaggerFragmentView, DaggerFragmentPresenter>
-        implements DaggerFragmentView {
+public class DaggerFragmentSupport extends Fragment implements DaggerFragmentView {
 
     @Inject
     @Presenter
     DaggerFragmentPresenter presenter;
 
-    public DaggerFragment() {
+    public DaggerFragmentSupport() {
         // Required empty public constructor
     }
 
-    public static DaggerFragment newInstance() {
-        return new DaggerFragment();
+    public static DaggerFragmentSupport newInstance() {
+        return new DaggerFragmentSupport();
     }
 
     @Nullable
@@ -47,12 +45,8 @@ public class DaggerFragment extends SlickFragment<DaggerFragmentView, DaggerFrag
     @Override
     public void onAttach(Context context) {
         App.getDDaggerComponent(getActivity()).inject(this);
+        Slick.bind(this);
         super.onAttach(context);
-    }
-
-    @Override
-    protected Object bind() {
-        return Slick.bind(this);
     }
 
     @Override

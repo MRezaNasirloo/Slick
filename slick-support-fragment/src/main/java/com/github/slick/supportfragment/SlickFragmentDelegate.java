@@ -82,6 +82,7 @@ public class SlickFragmentDelegate<V, P extends SlickPresenter<V>> extends Fragm
 
     private void destroy(Fragment fragment) {
         if (!fragment.getActivity().isChangingConfigurations()) {
+            fragment.getFragmentManager().unregisterFragmentLifecycleCallbacks(this);
             presenter.onDestroy();
             if (listener != null) {
                 listener.onDestroy(id);
