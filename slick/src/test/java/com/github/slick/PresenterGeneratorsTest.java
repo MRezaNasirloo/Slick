@@ -56,12 +56,12 @@ public class PresenterGeneratorsTest {
 
                 + "    @Override\n"
                 + "    protected void onCreate(Bundle savedInstanceState) {\n"
-                + "        ExamplePresenter_Slick.bind(this, 1, 2.0f);\n"
+                + "        ExampleActivity_Slick.bind(this, 1, 2.0f);\n"
                 + "        super.onCreate(savedInstanceState);\n"
                 + "    }\n"
                 + "}");
 
-        JavaFileObject genSource = JavaFileObjects.forSourceString("test.ExamplePresenter_Slick", ""
+        JavaFileObject genSource = JavaFileObjects.forSourceString("test.ExampleActivity_Slick", ""
                 + "package test;\n"
 
                 + "import android.app.Activity;\n"
@@ -72,16 +72,16 @@ public class PresenterGeneratorsTest {
                 + "import java.lang.String;\n"
                 + "import java.util.HashMap;\n"
 
-                + "public class ExamplePresenter_Slick implements OnDestroyListener {\n"
+                + "public class ExampleActivity_Slick implements OnDestroyListener {\n"
 
-                + "    private static ExamplePresenter_Slick hostInstance;\n"
+                + "    private static ExampleActivity_Slick hostInstance;\n"
                 + "    private final HashMap<String, SlickDelegate<ExampleView, ExamplePresenter>>"
                 + "                   delegates = new HashMap<>();\n"
 
                 + "    public static <T extends Activity & ExampleView> void bind(T exampleActivity, @IdRes int i,"
                 + "                                                        float f) {\n"
                 + "        final String id = SlickDelegate.getActivityId(exampleActivity);\n"
-                + "        if (hostInstance == null) hostInstance = new ExamplePresenter_Slick();\n"
+                + "        if (hostInstance == null) hostInstance = new ExampleActivity_Slick();\n"
                 + "        SlickDelegate<ExampleView, ExamplePresenter> delegate = hostInstance.delegates.get(id)\n"
                 + "        if (delegate == null) {\n"
                 + "             final ExamplePresenter presenter = new ExamplePresenter(i, f);\n"

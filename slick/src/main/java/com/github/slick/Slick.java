@@ -1,5 +1,7 @@
 package com.github.slick;
 
+import android.support.annotation.NonNull;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -14,7 +16,7 @@ public class Slick {
 
     private static final String TAG = Slick.class.getSimpleName();
 
-    public static Object bind(Object view) {
+    public static Object bind(@NonNull Object view) {
         try {
             final Class<?> presenter = Class.forName(view.getClass().getCanonicalName() + "_Slick");
             final Method[] bind = presenter.getDeclaredMethods();
@@ -33,7 +35,7 @@ public class Slick {
         return null;
     }
 
-    public static Object bind(Object view, Object... args) {
+    public static Object bind(@NonNull Object view, @NonNull Object... args) {
         try {
             Object[] presentersArgs = new Object[args.length + 1];
             presentersArgs[0] = view;
@@ -57,7 +59,7 @@ public class Slick {
         return null;
     }
 
-    public static void onStart(Object view) {
+    public static void onStart(@NonNull Object view) {
         try {
             final Class<?> presenter = Class.forName(view.getClass().getCanonicalName() + "_Slick");
             final Method[] bind = presenter.getDeclaredMethods();
@@ -76,7 +78,7 @@ public class Slick {
         }
     }
 
-    public static void onStop(Object view) {
+    public static void onStop(@NonNull Object view) {
         try {
             final Class<?> presenter = Class.forName(view.getClass().getCanonicalName() + "_Slick");
             final Method[] bind = presenter.getDeclaredMethods();
@@ -95,7 +97,7 @@ public class Slick {
         }
     }
 
-    public static void onDestroy(Object view) {
+    public static void onDestroy(@NonNull Object view) {
         try {
             final Class<?> presenter = Class.forName(view.getClass().getCanonicalName() + "_Slick");
             final Method[] bind = presenter.getDeclaredMethods();

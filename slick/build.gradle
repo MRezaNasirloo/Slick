@@ -27,8 +27,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile project(':slick-compiler')
-    compile project(':slick-annotations')
+    testCompile project(':slick-compiler')
+//    compile project(':slick-annotations')
     provided 'com.android.support:support-annotations:25.1.0'
 
     testCompile 'junit:junit:4.12'
@@ -44,6 +44,7 @@ dependencies {
 
     testCompile files(getRuntimeJar())
     testCompile files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
+    compile 'com.android.support:support-annotations:25.1.0'
 }
 
 def getRuntimeJar() {
