@@ -30,10 +30,11 @@ dependencies {
     compile project(':slick')
     annotationProcessor project(':slick-compiler')
     compile project(':slick-conductor')
-    compile 'com.android.support:appcompat-v7:25.1.0'
+    compile project(':slick-support-fragment')
+    compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.bluelinelabs:conductor:2.1.0'
     compile 'com.google.dagger:dagger:2.7'
-    compile 'com.android.support:support-v4:25.1.0'
+    compile 'com.android.support:support-fragment:25.2.0'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.7'
 }

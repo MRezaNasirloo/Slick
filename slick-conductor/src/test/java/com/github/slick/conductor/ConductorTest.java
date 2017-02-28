@@ -61,12 +61,12 @@ public class ConductorTest {
                 + "    @Override\n"
                 + "    protected View onCreateView(@NonNull LayoutInflater inflater, \n"
                 + "             @NonNull ViewGroup container) {\n"
-                + "        ExamplePresenter_Slick.bind(this, 1, 2.0f);\n"
+                + "        ExampleController_Slick.bind(this, 1, 2.0f);\n"
                 + "        return null;\n"
                 + "    }\n"
                 + "}");
 
-        JavaFileObject genSource = JavaFileObjects.forSourceString("test.ExamplePresenter_Slick", ""
+        JavaFileObject genSource = JavaFileObjects.forSourceString("test.ExampleController_Slick", ""
                 + "package test;\n"
 
                 + "import android.support.annotation.IdRes;\n"
@@ -77,16 +77,16 @@ public class ConductorTest {
                 + "import java.lang.String;\n"
                 + "import java.util.HashMap;\n"
 
-                + "public class ExamplePresenter_Slick implements OnDestroyListener {\n"
+                + "public class ExampleController_Slick implements OnDestroyListener {\n"
 
-                + "    private static ExamplePresenter_Slick hostInstance;\n"
+                + "    private static ExampleController_Slick hostInstance;\n"
                 + "    private final HashMap<String, SlickConductorDelegate<ExampleView, ExamplePresenter>>"
                 + "                   delegates = new HashMap<>();\n"
 
                 + "    public static <T extends Controller & ExampleView> void bind(T exampleController, @IdRes int i,"
                 + "                                                        float f) {\n"
                 + "        final String id = exampleController.getInstanceId()\n"
-                + "        if (hostInstance == null) hostInstance = new ExamplePresenter_Slick();\n"
+                + "        if (hostInstance == null) hostInstance = new ExampleController_Slick();\n"
                 + "        SlickConductorDelegate<ExampleView, ExamplePresenter> delegate = hostInstance.delegates.get(id)\n"
                 + "        if (delegate == null) {\n"
                 + "             final ExamplePresenter presenter = new ExamplePresenter(i, f);\n"
@@ -162,12 +162,12 @@ public class ConductorTest {
                 + "    @Override\n"
                 + "    protected View onCreateView(@NonNull LayoutInflater inflater, \n"
                 + "             @NonNull ViewGroup container) {\n"
-                + "        ExamplePresenter_Slick.bind(this);\n"
+                + "        ExampleController_Slick.bind(this);\n"
                 + "        return null;\n"
                 + "    }\n"
                 + "}");
 
-        JavaFileObject genSource = JavaFileObjects.forSourceString("test.ExamplePresenter_Slick", ""
+        JavaFileObject genSource = JavaFileObjects.forSourceString("test.ExampleController_Slick", ""
                 + "package test;\n"
 
                 + "import com.bluelinelabs.conductor.Controller;\n"
@@ -176,14 +176,14 @@ public class ConductorTest {
                 + "import java.lang.Override;\n"
                 + "import java.lang.String;\n"
 
-                + "public class ExamplePresenter_Slick implements OnDestroyListener {\n"
+                + "public class ExampleController_Slick implements OnDestroyListener {\n"
 
-                + "    private static ExamplePresenter_Slick hostInstance;\n"
+                + "    private static ExampleController_Slick hostInstance;\n"
                 + "    SlickConductorDelegate<ExampleView, ExamplePresenter> delegate;\n"
 
                 + "    public static <T extends Controller & ExampleView> void bind(T exampleController) {\n"
                 + "        if (hostInstance == null) { \n"
-                + "            hostInstance = new ExamplePresenter_Slick();\n"
+                + "            hostInstance = new ExampleController_Slick();\n"
                 + "            ExamplePresenter presenter = ((ExampleController) exampleController).presenter;\n"
                 + "            hostInstance.delegate = new SlickConductorDelegate<>(presenter, \n"
                 + "                           exampleController.getClass())\n"

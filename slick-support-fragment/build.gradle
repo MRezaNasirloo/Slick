@@ -26,9 +26,10 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile project(':slick')
-    compile 'com.android.support:support-v4:25.2.0'
-    compile 'javax.inject:javax.inject:1'
+    provided project(':slick')
+    provided 'com.android.support:support-fragment:25.2.0'
+    provided 'com.android.support:support-annotations:25.2.0'
+    provided 'javax.inject:javax.inject:1'
 
     testCompile project(':slick-compiler')
     testCompile 'javax.inject:javax.inject:1'

@@ -27,9 +27,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    testCompile project(':slick-compiler')
-//    compile project(':slick-annotations')
-    provided 'com.android.support:support-annotations:25.1.0'
+    provided 'com.android.support:support-annotations:25.2.0'
+    provided 'com.android.support:support-annotations:25.2.0'
 
     testCompile 'junit:junit:4.12'
 
@@ -37,14 +36,13 @@ dependencies {
     testCompile 'com.google.testing.compile:compile-testing:0.8'
 
 
-    compile 'javax.inject:javax.inject:1'
     testCompile 'javax.inject:javax.inject:1'
-    testCompile 'com.android.support:support-annotations:25.1.0'
-    testCompile 'com.android.support:appcompat-v7:25.1.0'
+    testCompile 'com.android.support:support-annotations:25.2.0'
+    testCompile 'com.android.support:appcompat-v7:25.2.0'
+    testCompile project(':slick-compiler')
 
     testCompile files(getRuntimeJar())
     testCompile files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
-    compile 'com.android.support:support-annotations:25.1.0'
 }
 
 def getRuntimeJar() {
