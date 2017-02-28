@@ -53,3 +53,5 @@ def getRuntimeJar() {
         throw new RuntimeException(e);
     }
 }
+
+apply from: rootProject.file('local-maven.gradle')
