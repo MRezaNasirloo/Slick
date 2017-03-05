@@ -20,7 +20,7 @@ abstract class BasePresenterGeneratorDaggerImpl extends BasePresenterGeneratorIm
     }
 
     @Override
-    protected MethodSpec onDestroyMethod() {
+    public MethodSpec onDestroyMethod(AnnotatedPresenter ap) {
         return MethodSpec.methodBuilder("onDestroy")
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
@@ -30,7 +30,7 @@ abstract class BasePresenterGeneratorDaggerImpl extends BasePresenterGeneratorIm
     }
 
     @Override
-    protected FieldSpec getDelegateField(ParameterizedTypeName typeNameDelegate) {
+    protected FieldSpec getDelegateField(ParameterizedTypeName typeNameDelegate, AnnotatedPresenter ap) {
         return FieldSpec.builder(typeNameDelegate, varNameDelegate)
                 .build();
     }

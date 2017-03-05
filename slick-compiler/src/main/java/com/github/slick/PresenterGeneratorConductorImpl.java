@@ -47,7 +47,7 @@ class PresenterGeneratorConductorImpl extends BasePresenterGeneratorImpl {
     }
 
     @Override
-    protected FieldSpec getDelegateField(ParameterizedTypeName typeNameDelegate) {
+    protected FieldSpec getDelegateField(ParameterizedTypeName typeNameDelegate, AnnotatedPresenter ap) {
         final ParameterizedTypeName parametrizedMapTypeName =
                 ParameterizedTypeName.get(ClASS_NAME_HASH_MAP, ClASS_NAME_STRING, typeNameDelegate);
 

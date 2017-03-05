@@ -4,6 +4,7 @@ import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
@@ -23,6 +24,7 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.inject.Inject;
+import javax.inject.Provider;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
@@ -97,7 +99,8 @@ public class SlickProcessor extends AbstractProcessor {
     private PresenterGenerator generatorConductor = new PresenterGeneratorConductorImpl(msg);
     private PresenterGenerator generatorDaggerActivity = new PresenterGeneratorDaggerActivityImpl(msgDagger);
     private PresenterGenerator generatorDaggerFragment = new PresenterGeneratorDaggerFragmentImpl(msgDagger);
-    private PresenterGenerator generatorDaggerFragmentSupport = new PresenterGeneratorDaggerFragmentSupportImpl(msgDagger);
+    private PresenterGenerator generatorDaggerFragmentSupport =
+            new PresenterGeneratorDaggerFragmentSupportImpl(msgDagger);
     private PresenterGenerator generatorDaggerConductor = new PresenterGeneratorDaggerConductorImpl(msgDagger);
 
     @Override
@@ -276,7 +279,9 @@ public class SlickProcessor extends AbstractProcessor {
         ClassName viewTypeClassName = get(getViewType(typeElement, viewTypeElement));
 
         ViewType viewType = ViewType.UNSUPPORTED;
-        if (element.getAnnotation(Inject.class) != null) {
+        String presenterProvider;
+        if ((presenterProvider = findPresenterProvider(element)) != null ||
+                element.getAnnotation(Inject.class) != null) {
             if (ClASS_NAME_ACTIVITY.equals(viewTypeClassName)) {
                 viewType = ViewType.DAGGER_ACTIVITY;
             } else if (CLASS_NAME_CONTROLLER.equals(viewTypeClassName)) {
@@ -314,10 +319,22 @@ public class SlickProcessor extends AbstractProcessor {
                     args.add(presenterArgs);
                 }
                 return new AnnotatedPresenter(typeArguments.get(0).toString(), args, fieldName,
-                        getClassName(viewTypeElement), viewType, presenter);
+                        getClassName(viewTypeElement), viewType, presenter, presenterProvider);
             }
         }
         throw new IllegalStateException("Could not scan presenter");
+    }
+
+    private String findPresenterProvider(Element element) {
+        for (Element sibling : element.getEnclosingElement().getEnclosedElements()) {
+            if (sibling.getKind().equals(ElementKind.FIELD) &&
+                    sibling.getAnnotation(Inject.class) != null &&
+                    ParameterizedTypeName.get(get(Provider.class), TypeName.get(element.asType()))
+                            .equals(get(sibling.asType()))) {
+                return sibling.getSimpleName().toString();
+            }
+        }
+        return null;
     }
 
     private ClassName getClassName(TypeElement typeElement) {

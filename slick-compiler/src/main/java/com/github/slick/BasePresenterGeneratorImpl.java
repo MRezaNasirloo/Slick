@@ -51,7 +51,7 @@ abstract class BasePresenterGeneratorImpl implements PresenterGenerator {
         final ParameterizedTypeName typeNameDelegate =
                 ParameterizedTypeName.get(delegateType, viewInterface, presenter);
 
-        final FieldSpec delegate = getDelegateField(typeNameDelegate);
+        final FieldSpec delegate = getDelegateField(typeNameDelegate, ap);
 
         final FieldSpec hostInstance = FieldSpec.builder(presenterHost, hostInstanceName)
                 .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
@@ -71,7 +71,7 @@ abstract class BasePresenterGeneratorImpl implements PresenterGenerator {
                 argNameView,
                 presenterArgName, activityGenericType, typeNameDelegate, argsCode);
 
-        final MethodSpec onDestroy = onDestroyMethod();
+        final MethodSpec onDestroy = onDestroyMethod(ap);
 
 
         return TypeSpec.classBuilder(presenterHost)
@@ -89,7 +89,7 @@ abstract class BasePresenterGeneratorImpl implements PresenterGenerator {
         return TypeName.get(void.class);
     }
 
-    protected MethodSpec onDestroyMethod() {
+    public MethodSpec onDestroyMethod(AnnotatedPresenter ap) {
         return MethodSpec.methodBuilder("onDestroy")
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
@@ -129,9 +129,10 @@ abstract class BasePresenterGeneratorImpl implements PresenterGenerator {
 
     /**
      * @param typeNameDelegate delegate parametrized type
+     * @param ap
      * @return delegate field
      */
-    protected abstract FieldSpec getDelegateField(ParameterizedTypeName typeNameDelegate);
+    protected abstract FieldSpec getDelegateField(ParameterizedTypeName typeNameDelegate, AnnotatedPresenter ap);
 
     protected Iterable<MethodSpec> addMethods(AnnotatedPresenter ap) {
         return new ArrayList<>(0);

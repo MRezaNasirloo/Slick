@@ -11,6 +11,7 @@ import java.util.List;
  */
 
 class AnnotatedPresenter {
+    private final String presenterProvider;
     private List<PresenterArgs> args;
     private String fieldName;
     private ClassName view;
@@ -20,7 +21,8 @@ class AnnotatedPresenter {
 
     AnnotatedPresenter(String viewCanonicalName, List<PresenterArgs> args, String fieldName, ClassName view,
                        SlickProcessor.ViewType viewType,
-                       ClassName presenter) {
+                       ClassName presenter, String presenterProvider) {
+        this.presenterProvider = presenterProvider;
         if (viewCanonicalName == null) {
             throw new IllegalArgumentException(
                     new Throwable("viewCanonicalName cannot be null")); // TODO: 2017-02-01 error
@@ -92,5 +94,13 @@ class AnnotatedPresenter {
 
     public ParameterizedTypeName getDelegateParametrizedType() {
         return ParameterizedTypeName.get(viewType.delegateType(), viewInterface, presenter);
+    }
+
+    public String getPresenterProvider() {
+        return presenterProvider;
+    }
+
+    public boolean multiInstance() {
+        return presenterProvider != null;
     }
 }

@@ -28,26 +28,35 @@ class PresenterGeneratorActivityImpl extends BasePresenterGeneratorImpl {
                                                 String fieldName, String argNameView,
                                                 String presenterArgName, TypeVariableName viewGenericType,
                                                 ParameterizedTypeName typeNameDelegate, String argsCode) {
-        return builder
-                .addStatement("final String id = $T.getActivityId($L)", classNameDelegate, argNameView)
+        builder.addStatement("final String id = $T.getActivityId($L)", classNameDelegate, argNameView)
                 .addStatement("if ($L == null) $L = new $T()", hostInstanceName, hostInstanceName, presenterHost)
                 .addStatement("$T $L = $L.$L.get(id)", typeNameDelegate, varNameDelegate, hostInstanceName,
                         fieldNameDelegates)
-                .beginControlFlow("if ($L == null)", varNameDelegate)
-                .addStatement("final $T $L = new $T($L)", presenter, presenterName, presenter, argsCode)
+                .beginControlFlow("if ($L == null)", varNameDelegate);
+        presenterInstantiating(builder, ap)
                 .addStatement("$L = new $T<>($L, $L.getClass(), id)", varNameDelegate, ap.getDelegateType(),
                         presenterName, argNameView)
                 .addStatement("$L.setListener($L)", varNameDelegate, hostInstanceName)
                 .addStatement("$L.$L.put(id, $L)", hostInstanceName, fieldNameDelegates, varNameDelegate)
                 .addStatement("$L.getApplication().registerActivityLifecycleCallbacks(delegate)", argNameView)
-                .endControlFlow()
-                .addStatement("(($L) $L).$L = $L.getPresenter()", view.simpleName(), argNameView, fieldName,
-                        varNameDelegate)
-                .returns(void.class);
+                .endControlFlow();
+        return injectPresenter(builder, ap);
+
+    }
+
+    protected MethodSpec.Builder injectPresenter(MethodSpec.Builder builder, AnnotatedPresenter ap) {
+        return builder.addStatement("(($L) $L).$L = $L.getPresenter()", ap.getView().simpleName(),
+                ap.getViewVarName(), ap.getFieldName(),
+                varNameDelegate);
+    }
+
+    protected MethodSpec.Builder presenterInstantiating(MethodSpec.Builder builder, AnnotatedPresenter ap) {
+        return builder.addStatement("final $T $L = new $T($L)", ap.getPresenter(), presenterName,
+                ap.getPresenter(), ap.getArgsAsString());
     }
 
     @Override
-    protected FieldSpec getDelegateField(ParameterizedTypeName typeNameDelegate) {
+    protected FieldSpec getDelegateField(ParameterizedTypeName typeNameDelegate, AnnotatedPresenter ap) {
         final ParameterizedTypeName parametrizedMapTypeName =
                 ParameterizedTypeName.get(ClASS_NAME_HASH_MAP, ClASS_NAME_STRING, typeNameDelegate);
 
