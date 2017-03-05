@@ -33,21 +33,15 @@ class PresenterGeneratorActivityImpl extends BasePresenterGeneratorImpl {
                 .addStatement("$T $L = $L.$L.get(id)", typeNameDelegate, varNameDelegate, hostInstanceName,
                         fieldNameDelegates)
                 .beginControlFlow("if ($L == null)", varNameDelegate);
-        presenterInstantiating(builder, ap)
+        return presenterInstantiating(builder, ap)
                 .addStatement("$L = new $T<>($L, $L.getClass(), id)", varNameDelegate, ap.getDelegateType(),
                         presenterName, argNameView)
                 .addStatement("$L.setListener($L)", varNameDelegate, hostInstanceName)
                 .addStatement("$L.$L.put(id, $L)", hostInstanceName, fieldNameDelegates, varNameDelegate)
                 .addStatement("$L.getApplication().registerActivityLifecycleCallbacks(delegate)", argNameView)
-                .endControlFlow();
-        return injectPresenter(builder, ap);
+                .endControlFlow()
+                .addStatement("(($L) $L).$L = $L.getPresenter()", view.simpleName(), argNameView, fieldName, varNameDelegate);
 
-    }
-
-    protected MethodSpec.Builder injectPresenter(MethodSpec.Builder builder, AnnotatedPresenter ap) {
-        return builder.addStatement("(($L) $L).$L = $L.getPresenter()", ap.getView().simpleName(),
-                ap.getViewVarName(), ap.getFieldName(),
-                varNameDelegate);
     }
 
     protected MethodSpec.Builder presenterInstantiating(MethodSpec.Builder builder, AnnotatedPresenter ap) {

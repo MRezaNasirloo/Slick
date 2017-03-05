@@ -49,11 +49,6 @@ class PresenterGeneratorDaggerActivityImpl extends PresenterGeneratorActivityImp
     }
 
     @Override
-    protected MethodSpec.Builder injectPresenter(MethodSpec.Builder builder, AnnotatedPresenter ap) {
-        return builder;
-    }
-
-    @Override
     public MethodSpec onDestroyMethod(AnnotatedPresenter ap) {
         if (ap.multiInstance()) return super.onDestroyMethod(ap);
         return MethodSpec.methodBuilder("onDestroy")

@@ -26,6 +26,7 @@ public class MultiInstanceDaggerActivity_Slick implements OnDestroyListener {
             hostInstance.delegates.put(id, delegate);
             multiInstanceDaggerActivity.getApplication().registerActivityLifecycleCallbacks(delegate);
         }
+        ((MultiInstanceDaggerActivity) multiInstanceDaggerActivity).presenter = delegate.getPresenter();
     }
 
     @Override
