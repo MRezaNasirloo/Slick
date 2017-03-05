@@ -1,0 +1,34 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.github.slick.sample.fragment.SimpleSlickFragment"
+    >
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <Button
+        android:text="Support Fragment Dagger"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_fragment_support_dagger"
+        android:layout_below="@+id/button_fragment_support"
+        android:layout_alignLeft="@+id/button_fragment_support"
+        android:layout_alignStart="@+id/button_fragment_support"
+        android:layout_marginTop="40dp"
+        />
+
+    <Button
+        android:text="Support Fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="39dp"
+        android:id="@+id/button_fragment_support"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="66dp"
+        android:layout_marginStart="66dp"
+        />
+
+</RelativeLayout>
