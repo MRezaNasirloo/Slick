@@ -15,9 +15,5 @@ public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        System.out.println(classloader.getResource(".").getPath());
-        InputStream is = classloader.getResourceAsStream("ExampleActivity.java");
-        is.toString();
     }
 }
