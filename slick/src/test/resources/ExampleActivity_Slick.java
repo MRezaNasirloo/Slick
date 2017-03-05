@@ -6,14 +6,16 @@ import android.support.annotation.IdRes;
 import com.github.slick.OnDestroyListener;
 import com.github.slick.SlickDelegate;
 
+import java.lang.Override;
+import java.lang.String;
 import java.util.HashMap;
 
 public class ExampleActivity_Slick implements OnDestroyListener {
 
     private static ExampleActivity_Slick hostInstance;
-    private final HashMap<String, SlickDelegate<ExampleView, ExamplePresenter> delegates = new HashMap<>();
+    private final HashMap<String, SlickDelegate<ExampleView, ExamplePresenter>> delegates = new HashMap<>();
 
-    public static <T extends Activity & ExampleView> void bind(T exampleActivity, @IdRes int ifloat f) {
+    public static <T extends Activity & ExampleView> void bind(T exampleActivity, @IdRes int i, float f) {
         final String id = SlickDelegate.getActivityId(exampleActivity);
         if (hostInstance == null) hostInstance = new ExampleActivity_Slick();
         SlickDelegate<ExampleView, ExamplePresenter> delegate = hostInstance.delegates.get(id)
