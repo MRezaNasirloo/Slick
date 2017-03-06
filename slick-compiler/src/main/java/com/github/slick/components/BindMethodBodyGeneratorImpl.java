@@ -36,7 +36,7 @@ public class BindMethodBodyGeneratorImpl implements BindMethodBodyGenerator {
         final ClassName viewInterface = ap.getViewInterface();
         final ClassName presenterType = ap.getPresenter();
         final ClassName presenterHost = ap.getPresenterHost();
-        final String fieldName = ap.getFieldName();
+        final String fieldName = ap.getPresenterFieldName();
         final ClassName delegateType = ap.getViewType().delegateType();
         final ParameterizedTypeName typeNameDelegate =
                 ParameterizedTypeName.get(delegateType, viewInterface, presenterType);

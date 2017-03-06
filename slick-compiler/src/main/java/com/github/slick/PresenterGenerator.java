@@ -8,5 +8,9 @@ import com.squareup.javapoet.TypeSpec;
  */
 
 interface PresenterGenerator {
+    /**
+     * @param ap annotated presenter object
+     * @return typeSpec object
+     */
     TypeSpec generate(AnnotatedPresenter ap);
 }

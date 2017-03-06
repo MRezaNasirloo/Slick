@@ -205,7 +205,7 @@ public class SlickProcessor extends AbstractProcessor {
                 case FRAGMENT:
                 case FRAGMENT_SUPPORT: {
                     final MethodSpec methodSpec = msg
-                            .generate("bind", ap, ap.getDelegateParametrizedType())
+                            .generate("bind", ap, ap.getParametrizedDelegateType())
                             .addStatement("return $L.bind($L)",
                                     ap.getPresenter() + "_Slick",
                                     ap.getViewVarName() +
@@ -225,7 +225,7 @@ public class SlickProcessor extends AbstractProcessor {
                 }
                 case DAGGER_FRAGMENT:
                 case DAGGER_FRAGMENT_SUPPORT: {
-                    final MethodSpec methodSpec = msgDagger.generate("bind", ap, ap.getDelegateParametrizedType())
+                    final MethodSpec methodSpec = msgDagger.generate("bind", ap, ap.getParametrizedDelegateType())
                             .addStatement("return $L.bind($L)",
                                     ap.getPresenter() + "_Slick",
                                     ap.getViewVarName()).build();

@@ -5,9 +5,13 @@ import com.squareup.javapoet.ParameterizedTypeName;
 
 import java.util.List;
 
+import javax.inject.Provider;
+
 /**
  * @author : Pedramrn@gmail.com
  *         Created on: 2017-02-01
+ *         <p>
+ *         Model for Fields which annotated with {@link Presenter}
  */
 
 public class AnnotatedPresenter {
@@ -49,14 +53,27 @@ public class AnnotatedPresenter {
         viewInterface = ClassName.get(builder.toString(), split[split.length - 1]);
     }
 
+    /**
+     * @return the view interface
+     * <p>
+     * e.g: MainView
+     */
     public ClassName getViewInterface() {
         return viewInterface;
     }
 
+    /**
+     * @return a list of presenter's constructor parameters
+     */
     public List<PresenterArgs> getArgs() {
         return args;
     }
 
+    /**
+     * @return the presenter parameters in a comma separated string to use as in input
+     * <p>
+     * e.g: "obj1, obj2, var1, var2"
+     */
     public String getArgsAsString() {
         StringBuilder argsCode = new StringBuilder(args.size() * 10);
         if (args.size() > 0) {
@@ -70,43 +87,80 @@ public class AnnotatedPresenter {
         return argsCode.toString();
     }
 
+    /**
+     * @return presenter host name;
+     * <p>
+     * e.g: MainActivity_Slick
+     */
     public ClassName getPresenterHost() {
         return ClassName.get(presenter.packageName(), view.simpleName() + "_Slick");
     }
 
+    /**
+     * @return presenter class name object
+     */
     public ClassName getPresenter() {
         return presenter;
     }
 
+    /**
+     * @return the view type
+     */
     public SlickProcessor.ViewType getViewType() {
         return viewType;
     }
 
+    /**
+     * @return the view
+     * <p>
+     * e.g: MainActivity
+     */
     public ClassName getView() {
         return view;
     }
 
-    public String getFieldName() {
+    /**
+     * @return presenter field name
+     * <p>
+     * e.g: presenter
+     */
+    public String getPresenterFieldName() {
         return fieldName;
     }
 
+    /**
+     * @return view name with deCapitalized initial
+     * <p>
+     * e.g: MainActivity -> mainActivity
+     */
     public String getViewVarName() {
         return SlickProcessor.deCapitalize(view.simpleName());
     }
 
+    /**
+     * @return delegate class which the host uses
+     * <p>
+     * e.g: SlickDelegate, SlickFragmentDelegate
+     */
     public ClassName getDelegateType() {
         return viewType.delegateType();
     }
 
-    public ParameterizedTypeName getDelegateParametrizedType() {
+    /**
+     * @return parametrized delegate type</pre>
+     * <p>
+     * e.g: SlickDelegate&lt;ExampleView, ExamplePresenter&gt;
+     */
+    public ParameterizedTypeName getParametrizedDelegateType() {
         return ParameterizedTypeName.get(viewType.delegateType(), viewInterface, presenter);
     }
 
+    /**
+     * @return provider field name
+     * <p>
+     * e.g: {@link Provider}&lt;MainPresenter&gt; provider ---> "provider"
+     */
     public String getPresenterProvider() {
         return presenterProvider;
-    }
-
-    public boolean multiInstance() {
-        return presenterProvider != null;
     }
 }

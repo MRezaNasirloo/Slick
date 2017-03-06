@@ -18,7 +18,7 @@ public class BindMethodBodyGeneratorFragmentImpl extends BindMethodBodyGenerator
     @Override
     public MethodSpec.Builder generate(MethodSpec.Builder builder, AnnotatedPresenter ap) {
         return super.generate(builder, ap)
-                .returns(ap.getDelegateParametrizedType())
+                .returns(ap.getParametrizedDelegateType())
                 .addStatement("return delegate");
     }
 }
