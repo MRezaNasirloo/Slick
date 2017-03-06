@@ -68,136 +68,79 @@ public class ConductorTest {
                 + "}");
 
         JavaFileObject genSource = JavaFileObjects.forSourceString("test.ExampleController_Slick", ""
-                + "package test;\n"
+                +
+                "package test;\n"
 
-                + "import android.support.annotation.IdRes;\n"
-                + "import com.bluelinelabs.conductor.Controller;\n"
-                + "import com.github.slick.OnDestroyListener;\n"
-                + "import com.github.slick.conductor.SlickConductorDelegate;\n"
-                + "import java.lang.Override;\n"
-                + "import java.lang.String;\n"
-                + "import java.util.HashMap;\n"
+                +
+                "import android.support.annotation.IdRes;\n"
+                +
+                "import com.bluelinelabs.conductor.Controller;\n"
+                +
+                "import com.github.slick.OnDestroyListener;\n"
+                +
+                "import com.github.slick.conductor.SlickConductorDelegate;\n"
+                +
+                "import java.lang.Override;\n"
+                +
+                "import java.lang.String;\n"
+                +
+                "import java.util.HashMap;\n"
 
-                + "public class ExampleController_Slick implements OnDestroyListener {\n"
+                +
+                "public class ExampleController_Slick implements OnDestroyListener {\n"
 
-                + "    private static ExampleController_Slick hostInstance;\n"
-                + "    private final HashMap<String, SlickConductorDelegate<ExampleView, ExamplePresenter>>"
-                + "                   delegates = new HashMap<>();\n"
+                +
+                "    private static ExampleController_Slick hostInstance;\n"
+                +
+                "    private final HashMap<String, SlickConductorDelegate<ExampleView, ExamplePresenter>>"
+                +
+                "                   delegates = new HashMap<>();\n"
 
-                + "    public static <T extends Controller & ExampleView> void bind(T exampleController, @IdRes int i,"
-                + "                                                        float f) {\n"
-                + "        final String id = exampleController.getInstanceId()\n"
-                + "        if (hostInstance == null) hostInstance = new ExampleController_Slick();\n"
-                + "        SlickConductorDelegate<ExampleView, ExamplePresenter> delegate = hostInstance.delegates.get(id)\n"
-                + "        if (delegate == null) {\n"
-                + "             final ExamplePresenter presenter = new ExamplePresenter(i, f);\n"
-                + "             delegate = new SlickConductorDelegate<>(presenter, exampleController.getClass(), id);\n"
-                + "             delegate.setListener(hostInstance);\n"
-                + "             hostInstance.delegates.put(id, delegate);\n"
-                + "             exampleController.addLifecycleListener(delegate);\n"
-                + "        }\n"
-                + "        ((ExampleController) exampleController).presenter = delegate.getPresenter();\n"
-                + "    }\n"
+                +
+                "    public static <T extends Controller & ExampleView> void bind(T exampleController, @IdRes int i,"
+                +
+                "                                                        float f) {\n"
+                +
+                "        final String id = exampleController.getInstanceId()\n"
+                +
+                "        if (hostInstance == null) hostInstance = new ExampleController_Slick();\n"
+                +
+                "        SlickConductorDelegate<ExampleView, ExamplePresenter> delegate = hostInstance.delegates.get(id)\n"
+                +
+                "        if (delegate == null) {\n"
+                +
+                "             final ExamplePresenter presenter = new ExamplePresenter(i, f);\n"
+                +
+                "             delegate = new SlickConductorDelegate<>(presenter, exampleController.getClass(), id);\n"
+                +
+                "             delegate.setListener(hostInstance);\n"
+                +
+                "             hostInstance.delegates.put(id, delegate);\n"
+                +
+                "             exampleController.addLifecycleListener(delegate);\n"
+                +
+                "        }\n"
+                +
+                "        ((ExampleController) exampleController).presenter = delegate.getPresenter();\n"
+                +
+                "    }\n"
 
-                + "    @Override\n"
-                + "    public void onDestroy(String id) {\n"
-                + "        hostInstance.delegates.remove(id);\n"
-                + "        if (hostInstance.delegates.size() == 0) {\n"
-                + "            hostInstance = null;\n"
-                + "        }\n"
-                + "    }\n"
-                + "}");
-
-        final List<JavaFileObject> target = new ArrayList<>(3);
-        target.add(sourcePresenter);
-        target.add(sourceView);
-        target.add(sourceViewInterface);
-        assertAbout(JavaSourcesSubjectFactory.javaSources()).that(target)
-                .processedWith(new SlickProcessor())
-                .compilesWithoutError()
-                .and()
-                .generatesSources(genSource);
-    }
-
-    @Test
-    public void dagger() throws Exception {
-        JavaFileObject sourceViewInterface = JavaFileObjects.forSourceString("test.ExampleView", ""
-                + "package test;\n"
-
-                + "public interface ExampleView {\n"
-
-                + "}");
-
-        JavaFileObject sourcePresenter = JavaFileObjects.forSourceString("test.ExamplePresenter", ""
-                + "package test;\n"
-
-                + "import android.support.annotation.IdRes;\n"
-
-                + "import com.github.slick.SlickPresenter;\n"
-
-                + "public class ExamplePresenter extends SlickPresenter<ExampleView> {\n"
-
-                + "    public ExamplePresenter(@IdRes int i, float f) {\n"
-                + "    }\n"
-                + "}");
-
-        JavaFileObject sourceView = JavaFileObjects.forSourceString("test.ExampleController", ""
-                + "package test;\n"
-
-                + "import android.os.Bundle;\n"
-                + "import android.support.annotation.Nullable;\n"
-                + "import android.support.annotation.NonNull;\n"
-                + "import com.bluelinelabs.conductor.Controller;\n"
-                + "import com.github.slick.Presenter;\n"
-                + "import android.view.LayoutInflater;\n"
-                + "import android.view.View;\n"
-                + "import android.view.ViewGroup;\n"
-                + "import javax.inject.Inject;\n"
-
-                + "public class ExampleController extends Controller implements ExampleView {\n"
-
-                + "    @Inject\n"
-                + "    @Presenter\n"
-                + "    ExamplePresenter presenter;\n"
-
-                + "    @Override\n"
-                + "    protected View onCreateView(@NonNull LayoutInflater inflater, \n"
-                + "             @NonNull ViewGroup container) {\n"
-                + "        ExampleController_Slick.bind(this);\n"
-                + "        return null;\n"
-                + "    }\n"
-                + "}");
-
-        JavaFileObject genSource = JavaFileObjects.forSourceString("test.ExampleController_Slick", ""
-                + "package test;\n"
-
-                + "import com.bluelinelabs.conductor.Controller;\n"
-                + "import com.github.slick.OnDestroyListener;\n"
-                + "import com.github.slick.conductor.SlickConductorDelegate;\n"
-                + "import java.lang.Override;\n"
-                + "import java.lang.String;\n"
-
-                + "public class ExampleController_Slick implements OnDestroyListener {\n"
-
-                + "    private static ExampleController_Slick hostInstance;\n"
-                + "    SlickConductorDelegate<ExampleView, ExamplePresenter> delegate;\n"
-
-                + "    public static <T extends Controller & ExampleView> void bind(T exampleController) {\n"
-                + "        if (hostInstance == null) { \n"
-                + "            hostInstance = new ExampleController_Slick();\n"
-                + "            ExamplePresenter presenter = ((ExampleController) exampleController).presenter;\n"
-                + "            hostInstance.delegate = new SlickConductorDelegate<>(presenter, \n"
-                + "                           exampleController.getClass())\n"
-                + "            exampleController.addLifecycleListener(hostInstance.delegate);\n"
-                + "            hostInstance.delegate.setListener(hostInstance);\n"
-                + "        }\n"
-                + "    }\n"
-
-                + "    @Override\n"
-                + "    public void onDestroy(String id) {\n"
-                + "         hostInstance = null;\n"
-                + "    }\n"
-                + "}");
+                +
+                "    @Override\n"
+                +
+                "    public void onDestroy(String id) {\n"
+                +
+                "        hostInstance.delegates.remove(id);\n"
+                +
+                "        if (hostInstance.delegates.size() == 0) {\n"
+                +
+                "            hostInstance = null;\n"
+                +
+                "        }\n"
+                +
+                "    }\n"
+                +
+                "}");
 
         final List<JavaFileObject> target = new ArrayList<>(3);
         target.add(sourcePresenter);
@@ -211,12 +154,12 @@ public class ConductorTest {
     }
 
     @Test
-    public void conductorDaggerMulti() {
+    public void conductorDagger() {
 
         JavaFileObject sourceViewInterface = JavaFileObjects.forResource("resources/ExampleView.java");
         JavaFileObject sourcePresenter = JavaFileObjects.forResource("resources/ExamplePresenter.java");
-        JavaFileObject sourceView = JavaFileObjects.forResource("resources/MultiInstanceDaggerController.java");
-        JavaFileObject genSource = JavaFileObjects.forResource("resources/MultiInstanceDaggerController_Slick.java");
+        JavaFileObject sourceView = JavaFileObjects.forResource("resources/DaggerController.java");
+        JavaFileObject genSource = JavaFileObjects.forResource("resources/DaggerController_Slick.java");
 
         assertAbout(JavaSourcesSubjectFactory.javaSources())
                 .that(Arrays.asList(sourceViewInterface, sourcePresenter, sourceView))
