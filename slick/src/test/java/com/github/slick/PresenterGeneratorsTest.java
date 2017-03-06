@@ -132,8 +132,10 @@ public class PresenterGeneratorsTest {
 
         JavaFileObject sourceViewInterface = JavaFileObjects.forResource("resources/ExampleView.java");
         JavaFileObject sourcePresenter = JavaFileObjects.forResource("resources/ExamplePresenter.java");
-        JavaFileObject sourceView = JavaFileObjects.forResource("resources/MultiInstanceDaggerActivity.java");
-        JavaFileObject genSource = JavaFileObjects.forResource("resources/MultiInstanceDaggerActivity_Slick.java");
+        JavaFileObject sourceView = JavaFileObjects
+                .forResource("resources/multi-instance-dagger/MultiInstanceDaggerActivity.java");
+        JavaFileObject genSource = JavaFileObjects.
+                forResource("resources/multi-instance-dagger/MultiInstanceDaggerActivity_Slick.java");
 
         assertAbout(JavaSourcesSubjectFactory.javaSources())
                 .that(Arrays.asList(sourceViewInterface, sourcePresenter, sourceView))

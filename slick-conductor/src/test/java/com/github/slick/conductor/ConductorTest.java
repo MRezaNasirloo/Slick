@@ -7,6 +7,7 @@ import com.google.testing.compile.JavaSourcesSubjectFactory;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.tools.JavaFileObject;
@@ -203,6 +204,22 @@ public class ConductorTest {
         target.add(sourceView);
         target.add(sourceViewInterface);
         assertAbout(JavaSourcesSubjectFactory.javaSources()).that(target)
+                .processedWith(new SlickProcessor())
+                .compilesWithoutError()
+                .and()
+                .generatesSources(genSource);
+    }
+
+    @Test
+    public void conductorDaggerMulti() {
+
+        JavaFileObject sourceViewInterface = JavaFileObjects.forResource("resources/ExampleView.java");
+        JavaFileObject sourcePresenter = JavaFileObjects.forResource("resources/ExamplePresenter.java");
+        JavaFileObject sourceView = JavaFileObjects.forResource("resources/MultiInstanceDaggerController.java");
+        JavaFileObject genSource = JavaFileObjects.forResource("resources/MultiInstanceDaggerController_Slick.java");
+
+        assertAbout(JavaSourcesSubjectFactory.javaSources())
+                .that(Arrays.asList(sourceViewInterface, sourcePresenter, sourceView))
                 .processedWith(new SlickProcessor())
                 .compilesWithoutError()
                 .and()
