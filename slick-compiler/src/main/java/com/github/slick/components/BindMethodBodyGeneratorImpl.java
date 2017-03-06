@@ -68,8 +68,6 @@ public class BindMethodBodyGeneratorImpl implements BindMethodBodyGenerator {
                         delegate);
 
         viewCallbackGenerator.generate(builder, ap)
-                .endControlFlow()
-
                 .addStatement("(($L) $L).$L = $L.getPresenter()",
                         view.simpleName(),
                         ap.getViewVarName(),

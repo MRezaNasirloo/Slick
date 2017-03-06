@@ -12,6 +12,6 @@ public class ViewCallbackGeneratorActivityImpl implements ViewCallbackGenerator 
     @Override
     public MethodSpec.Builder generate(MethodSpec.Builder builder, AnnotatedPresenter ap) {
         return builder.addStatement("$L.getApplication().registerActivityLifecycleCallbacks(delegate)",
-                ap.getViewVarName());
+                ap.getViewVarName()).endControlFlow();
     }
 }
