@@ -38,104 +38,12 @@ public class PresenterGeneratorsTest {
     @Test
     public void activityDagger() {
 
-        JavaFileObject sourceViewInterface = JavaFileObjects.forSourceString("test.ExampleView", ""
-                + "package test;\n"
-
-                + "public interface ExampleView {\n"
-
-                + "}");
-
-        JavaFileObject sourcePresenter = JavaFileObjects.forSourceString("test.DaggerPresenter", ""
-                + "package test;\n"
-
-                + "import com.github.slick.Presenter;\n"
-                + "import com.github.slick.SlickPresenter;\n"
-                + "import android.app.Activity;\n"
-                + "import android.support.annotation.IdRes;\n"
-
-                + "import javax.inject.Inject;\n"
-
-                + "public class DaggerPresenter extends SlickPresenter<ExampleView> {\n"
-
-                + "    @Inject\n"
-                + "    public DaggerPresenter(@IdRes int i, float f) {\n"
-                + "    }\n"
-                + "}");
-
-        JavaFileObject sourceView = JavaFileObjects.forSourceString("test.DaggerActivity", ""
-                + "package test;\n"
-
-                + "import android.os.Bundle;\n"
-                + "import android.support.v7.app.AppCompatActivity;\n"
-                + "import com.github.slick.Presenter;\n"
-
-                + "import javax.inject.Inject;\n"
-
-                + "public class DaggerActivity extends AppCompatActivity implements ExampleView {\n"
-
-                + "    @Inject\n"
-                + "    @Presenter\n"
-                + "    DaggerPresenter presenter;\n"
-
-                + "    @Override\n"
-                + "    protected void onCreate(Bundle savedInstanceState) {\n"
-                + "        DaggerActivity_Slick.bind(this);\n"
-                + "        super.onCreate(savedInstanceState);\n"
-                + "    }\n"
-                + "}");
-
-        JavaFileObject presenterHostSource = JavaFileObjects.forSourceString("test.DaggerActivity_Slick", ""
-                + "package test;\n"
-
-                + "import android.app.Activity;\n"
-                + "import com.github.slick.OnDestroyListener;\n"
-                + "import com.github.slick.SlickDelegate;\n"
-                + "import java.lang.Override;\n"
-                + "import java.lang.String;\n"
-
-
-                + "public class DaggerActivity_Slick implements OnDestroyListener {\n"
-
-                + "    private static DaggerActivity_Slick hostInstance;\n"
-                + "    SlickDelegate<ExampleView, DaggerPresenter> delegate;\n"
-
-                + "    public static <T extends Activity & ExampleView> void bind(T daggerActivity) {\n"
-                + "        if (hostInstance == null) { \n"
-                + "            hostInstance = new DaggerActivity_Slick();\n"
-                + "            DaggerPresenter presenter = ((DaggerActivity) daggerActivity).presenter ;\n"
-                + "            hostInstance.delegate = new SlickDelegate<>(presenter, "
-                + "                           daggerActivity.getClass())\n"
-                + "            daggerActivity.getApplication()"
-                + "                .registerActivityLifecycleCallbacks(hostInstance.delegate);\n"
-                + "            hostInstance.delegate.setListener(hostInstance);\n"
-                + "        }\n"
-                + "    }\n"
-
-                + "    @Override\n"
-                + "    public void onDestroy(String id) {\n"
-                + "        hostInstance = null;\n"
-                + "    }\n"
-                + "}");
-        final List<JavaFileObject> target = new ArrayList<>(3);
-        target.add(sourcePresenter);
-        target.add(sourceView);
-        target.add(sourceViewInterface);
-        assertAbout(JavaSourcesSubjectFactory.javaSources()).that(target)
-                .processedWith(new SlickProcessor())
-                .compilesWithoutError()
-                .and()
-                .generatesSources(presenterHostSource);
-    }
-
-    @Test
-    public void activityDaggerMulti() {
-
         JavaFileObject sourceViewInterface = JavaFileObjects.forResource("resources/ExampleView.java");
         JavaFileObject sourcePresenter = JavaFileObjects.forResource("resources/ExamplePresenter.java");
         JavaFileObject sourceView = JavaFileObjects
-                .forResource("resources/multi-instance-dagger/MultiInstanceDaggerActivity.java");
+                .forResource("resources/dagger/DaggerActivity.java");
         JavaFileObject genSource = JavaFileObjects.
-                forResource("resources/multi-instance-dagger/MultiInstanceDaggerActivity_Slick.java");
+                forResource("resources/dagger/DaggerActivity_Slick.java");
 
         assertAbout(JavaSourcesSubjectFactory.javaSources())
                 .that(Arrays.asList(sourceViewInterface, sourcePresenter, sourceView))

@@ -5,6 +5,11 @@ import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 
+import static com.github.slick.AnnotatedPresenter.DELEGATES_FIELD_NAME;
+import static com.github.slick.AnnotatedPresenter.DELEGATE_VAR_NAME;
+import static com.github.slick.AnnotatedPresenter.HOST_INSTANCE_VAR_NAME;
+import static com.github.slick.AnnotatedPresenter.PRESENTER_VAR_NAME;
+
 /**
  * @author : Pedramrn@gmail.com
  *         Created on: 2017-03-06
@@ -12,10 +17,6 @@ import com.squareup.javapoet.ParameterizedTypeName;
 
 public class BindMethodBodyGeneratorImpl implements BindMethodBodyGenerator {
 
-    private final String hostInstance = "hostInstance";
-    private final String presenter = "presenter";
-    private final String delegate = "delegate";
-    private final String delegates = "delegates";
     private final GetViewIdGenerator getViewIdGenerator;
     private final PresenterInstantiationGenerator presenterInstantiationGenerator;
     private final ViewCallbackGenerator viewCallbackGenerator;
@@ -43,36 +44,36 @@ public class BindMethodBodyGeneratorImpl implements BindMethodBodyGenerator {
         getViewIdGenerator
                 .generate(builder, ap)
                 .addStatement("if ($L == null) $L = new $T()",
-                        hostInstance,
-                        hostInstance,
+                        HOST_INSTANCE_VAR_NAME,
+                        HOST_INSTANCE_VAR_NAME,
                         presenterHost)
                 .addStatement("$T $L = $L.$L.get(id)",
                         typeNameDelegate,
-                        delegate,
-                        hostInstance,
-                        delegates)
-                .beginControlFlow("if ($L == null)", delegate);
+                        DELEGATE_VAR_NAME,
+                        HOST_INSTANCE_VAR_NAME,
+                        DELEGATES_FIELD_NAME)
+                .beginControlFlow("if ($L == null)", DELEGATE_VAR_NAME);
 
         presenterInstantiationGenerator.generate(builder, ap)
                 .addStatement("$L = new $T<>($L, $L.getClass(), id)",
-                        delegate,
+                        DELEGATE_VAR_NAME,
                         ap.getDelegateType(),
-                        presenter,
+                        PRESENTER_VAR_NAME,
                         ap.getViewVarName())
                 .addStatement("$L.setListener($L)",
-                        delegate,
-                        hostInstance)
+                        DELEGATE_VAR_NAME,
+                        HOST_INSTANCE_VAR_NAME)
                 .addStatement("$L.$L.put(id, $L)",
-                        hostInstance,
-                        delegates,
-                        delegate);
+                        HOST_INSTANCE_VAR_NAME,
+                        DELEGATES_FIELD_NAME,
+                        DELEGATE_VAR_NAME);
 
         viewCallbackGenerator.generate(builder, ap)
                 .addStatement("(($L) $L).$L = $L.getPresenter()",
                         view.simpleName(),
                         ap.getViewVarName(),
                         fieldName,
-                        delegate);
+                        DELEGATE_VAR_NAME);
         return builder;
     }
 }

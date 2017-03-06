@@ -8,10 +8,9 @@ import com.squareup.javapoet.MethodSpec;
  *         Created on: 2017-03-06
  */
 
-public class PresenterInstantiationGeneratorDaggerImpl implements PresenterInstantiationGenerator {
+public class GetViewIdGeneratorConductorImpl implements GetViewIdGenerator {
     @Override
     public MethodSpec.Builder generate(MethodSpec.Builder builder, AnnotatedPresenter ap) {
-        return builder.addStatement("final $T presenter = (($T) $L).$L.get()", ap.getPresenter(), ap.getView(),
-                ap.getViewVarName(), ap.getPresenterProvider());
+        return builder.addStatement("final String id = $L.getInstanceId()", ap.getViewVarName());
     }
 }
