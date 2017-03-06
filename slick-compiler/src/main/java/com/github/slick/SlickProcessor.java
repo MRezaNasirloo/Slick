@@ -108,6 +108,7 @@ public class SlickProcessor extends AbstractProcessor {
     private BindMethodBodyGenerator bmbgFragment = new BindMethodBodyGeneratorFragmentImpl(gvigFragment, pig, vcgNoOp);
     private BindMethodBodyGenerator bmbgFragmentDagger = new BindMethodBodyGeneratorFragmentImpl(gvigFragment, pigDagger, vcgNoOp);
     private BindMethodBodyGenerator bmbgFragmentSupport = new BindMethodBodyGeneratorImpl(gvigFragment, pig, vcgFragmentSupport);
+    private BindMethodBodyGenerator bmbgFragmentSupportDagger = new BindMethodBodyGeneratorImpl(gvigFragment, pigDagger, vcgFragmentSupport);
     private BindMethodBodyGenerator bmbgConductor = new BindMethodBodyGeneratorImpl(gvigConductor, pig, vcgConductor);
     private AddMethodGeneratorFragmentImpl addMethodGenerator = new AddMethodGeneratorFragmentImpl();
     private PresenterGenerator generatorActivity = new BasePresenterGeneratorImpl(msg, bmbgActivity);
@@ -115,9 +116,8 @@ public class SlickProcessor extends AbstractProcessor {
     private PresenterGenerator generatorFragmentSupport = new BasePresenterGeneratorImpl(msg, bmbgFragmentSupport);
     private PresenterGenerator generatorConductor = new BasePresenterGeneratorImpl(msg, bmbgConductor);
     private PresenterGenerator generatorDaggerActivity = new BasePresenterGeneratorImpl(msgDagger, bmbgActivityDagger);
-    private PresenterGenerator generatorDaggerFragment = new BasePresenterGeneratorImpl(msgDagger, bmbgFragmentDagger);
-    private PresenterGenerator generatorDaggerFragmentSupport =
-            new PresenterGeneratorDaggerFragmentSupportImpl(msgDagger, null);
+    private PresenterGenerator generatorDaggerFragment = new BasePresenterGeneratorImpl(msgDagger, bmbgFragmentDagger, addMethodGenerator);
+    private PresenterGenerator generatorDaggerFragmentSupport = new BasePresenterGeneratorImpl(msgDagger, bmbgFragmentSupportDagger);
     private PresenterGenerator generatorDaggerConductor =
             new PresenterGeneratorDaggerConductorImpl(msgDagger, null);
 

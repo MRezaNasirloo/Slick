@@ -40,6 +40,14 @@ dependencies {
     testCompile files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
 }
 
+task copyResDirectoryToClasses(type: Copy) {
+    //TODO: delete the directory before copying
+    from "${projectDir}/src/test/resources"
+    into "${buildDir}/intermediates/classes/test/debug/resources"
+}
+
+preBuild.dependsOn(copyResDirectoryToClasses)
+
 def getRuntimeJar() {
     try {
         final File javaBase = new File(System.getProperty("java.home")).getCanonicalFile();
