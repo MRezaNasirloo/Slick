@@ -1,5 +1,6 @@
-package com.github.slick;
+package com.github.slick.components;
 
+import com.github.slick.AnnotatedPresenter;
 import com.squareup.javapoet.MethodSpec;
 
 /**
@@ -7,6 +8,6 @@ import com.squareup.javapoet.MethodSpec;
  *         Created on: 2017-02-24
  */
 
-interface AddMethodGenerator {
+public interface AddMethodGenerator {
     Iterable<MethodSpec> generate(AnnotatedPresenter ap);
 }

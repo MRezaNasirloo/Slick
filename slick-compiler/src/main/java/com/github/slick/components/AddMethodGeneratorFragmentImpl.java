@@ -1,5 +1,6 @@
-package com.github.slick;
+package com.github.slick.components;
 
+import com.github.slick.AnnotatedPresenter;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
 
@@ -10,7 +11,7 @@ import java.util.ArrayList;
  *         Created on: 2017-03-06
  */
 
-class AddMethodGeneratorFragmentImpl implements AddMethodGenerator {
+public class AddMethodGeneratorFragmentImpl implements AddMethodGenerator {
 
     @Override
     public Iterable<MethodSpec> generate(AnnotatedPresenter ap) {

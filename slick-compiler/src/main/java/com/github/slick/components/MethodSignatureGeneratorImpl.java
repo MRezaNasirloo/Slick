@@ -1,5 +1,7 @@
-package com.github.slick;
+package com.github.slick.components;
 
+import com.github.slick.AnnotatedPresenter;
+import com.github.slick.PresenterArgs;
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
@@ -16,7 +18,7 @@ import javax.lang.model.element.Modifier;
  * @author : Pedramrn@gmail.com
  *         Created on: 2017-02-24
  */
-class MethodSignatureGeneratorImpl implements MethodSignatureGenerator {
+public class MethodSignatureGeneratorImpl implements MethodSignatureGenerator {
 
     @Override
     public MethodSpec.Builder generate(String name, AnnotatedPresenter ap, TypeName returns) {
@@ -25,7 +27,7 @@ class MethodSignatureGeneratorImpl implements MethodSignatureGenerator {
         return MethodSpec.methodBuilder(name)
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .addTypeVariable(typeVariableName)
-                .addParameter(typeVariableName, SlickProcessor.deCapitalize(ap.getView().simpleName()))
+                .addParameter(typeVariableName, ap.getViewVarName())
                 .addParameters(addExtraParameters(ap))
                 .returns(returns);
     }

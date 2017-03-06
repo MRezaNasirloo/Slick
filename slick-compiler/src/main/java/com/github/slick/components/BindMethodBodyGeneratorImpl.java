@@ -1,5 +1,6 @@
-package com.github.slick;
+package com.github.slick.components;
 
+import com.github.slick.AnnotatedPresenter;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
@@ -9,7 +10,7 @@ import com.squareup.javapoet.ParameterizedTypeName;
  *         Created on: 2017-03-06
  */
 
-class BindMethodBodyGeneratorImpl implements BindMethodBodyGenerator {
+public class BindMethodBodyGeneratorImpl implements BindMethodBodyGenerator {
 
     private final String hostInstance = "hostInstance";
     private final String presenter = "presenter";
