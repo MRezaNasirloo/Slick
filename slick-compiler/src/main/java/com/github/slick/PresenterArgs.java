@@ -10,7 +10,7 @@ import javax.lang.model.type.TypeMirror;
  *         Created on: 2017-02-01
  */
 
-class PresenterArgs {
+public class PresenterArgs {
     private String name;
     private TypeMirror type;
     private List<? extends AnnotationMirror> annotations;

@@ -10,7 +10,13 @@ import java.util.List;
  *         Created on: 2017-02-01
  */
 
-class AnnotatedPresenter {
+public class AnnotatedPresenter {
+
+    public static final String HOST_INSTANCE_VAR_NAME = "hostInstance";
+    public static final String PRESENTER_VAR_NAME = "presenter";
+    public static final String DELEGATE_VAR_NAME = "delegate";
+    public static final String DELEGATES_FIELD_NAME = "delegates";
+
     private final String presenterProvider;
     private List<PresenterArgs> args;
     private String fieldName;
@@ -43,7 +49,7 @@ class AnnotatedPresenter {
         viewInterface = ClassName.get(builder.toString(), split[split.length - 1]);
     }
 
-    ClassName getViewInterface() {
+    public ClassName getViewInterface() {
         return viewInterface;
     }
 

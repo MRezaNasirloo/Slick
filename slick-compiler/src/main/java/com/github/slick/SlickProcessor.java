@@ -1,5 +1,6 @@
 package com.github.slick;
 
+import com.github.slick.components.*;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
@@ -44,7 +45,7 @@ import static com.squareup.javapoet.ClassName.get;
 @AutoService(Processor.class)
 public class SlickProcessor extends AbstractProcessor {
 
-    enum ViewType {
+    public enum ViewType {
         ACTIVITY(ClASS_NAME_ACTIVITY, CLASS_NAME_SLICK_DELEGATE),
         FRAGMENT(ClASS_NAME_FRAGMENT, CLASS_NAME_SLICK_FRAGMENT_DELEGATE),
         FRAGMENT_SUPPORT(ClASS_NAME_FRAGMENT_SUPPORT, CLASS_NAME_SLICK_FRAGMENT_SUPPORT_DELEGATE),
@@ -93,15 +94,32 @@ public class SlickProcessor extends AbstractProcessor {
     private Types typeUtils;
     private MethodSignatureGenerator msg = new MethodSignatureGeneratorImpl();
     private MethodSignatureGenerator msgDagger = new MethodSignatureGeneratorDaggerImpl();
-    private PresenterGenerator generatorActivity = new PresenterGeneratorActivityImpl(msg);
-    private PresenterGenerator generatorFragment = new PresenterGeneratorFragmentImpl(msg);
-    private PresenterGenerator generatorFragmentSupport = new PresenterGeneratorFragmentSupportImpl(msg);
-    private PresenterGenerator generatorConductor = new PresenterGeneratorConductorImpl(msg);
-    private PresenterGenerator generatorDaggerActivity = new PresenterGeneratorDaggerActivityImpl(msgDagger);
-    private PresenterGenerator generatorDaggerFragment = new PresenterGeneratorDaggerFragmentImpl(msgDagger);
+    private GetViewIdGenerator gvigActivity = new GetViewIdGeneratorActivityImpl();
+    private GetViewIdGenerator gvigFragment = new GetViewIdGeneratorFragmentImpl();
+    private GetViewIdGenerator gvigConductor = new GetViewIdGeneratorConductorImpl();
+    private PresenterInstantiationGenerator pig = new PresenterInstantiationGeneratorImpl();
+    private PresenterInstantiationGenerator pigDagger = new PresenterInstantiationGeneratorDaggerImpl();
+    private ViewCallbackGenerator vcgActivity = new ViewCallbackGeneratorActivityImpl();
+    private ViewCallbackGenerator vcgNoOp = new ViewCallbackGeneratorNoOpImpl();
+    private ViewCallbackGenerator vcgFragmentSupport = new ViewCallbackGeneratorFragmentSupportImpl();
+    private ViewCallbackGenerator vcgConductor = new ViewCallbackGeneratorConductorImpl();
+    private BindMethodBodyGenerator bmbgActivity = new BindMethodBodyGeneratorImpl(gvigActivity, pig, vcgActivity);
+    private BindMethodBodyGenerator bmbgActivityDagger = new BindMethodBodyGeneratorImpl(gvigActivity, pigDagger, vcgActivity);
+    private BindMethodBodyGenerator bmbgFragment = new BindMethodBodyGeneratorFragmentImpl(gvigFragment, pig, vcgNoOp);
+    private BindMethodBodyGenerator bmbgFragmentDagger = new BindMethodBodyGeneratorFragmentImpl(gvigFragment, pigDagger, vcgNoOp);
+    private BindMethodBodyGenerator bmbgFragmentSupport = new BindMethodBodyGeneratorImpl(gvigFragment, pig, vcgFragmentSupport);
+    private BindMethodBodyGenerator bmbgConductor = new BindMethodBodyGeneratorImpl(gvigConductor, pig, vcgConductor);
+    private AddMethodGeneratorFragmentImpl addMethodGenerator = new AddMethodGeneratorFragmentImpl();
+    private PresenterGenerator generatorActivity = new BasePresenterGeneratorImpl(msg, bmbgActivity);
+    private PresenterGenerator generatorFragment = new BasePresenterGeneratorImpl(msg, bmbgFragment, addMethodGenerator);
+    private PresenterGenerator generatorFragmentSupport = new BasePresenterGeneratorImpl(msg, bmbgFragmentSupport);
+    private PresenterGenerator generatorConductor = new BasePresenterGeneratorImpl(msg, bmbgConductor);
+    private PresenterGenerator generatorDaggerActivity = new BasePresenterGeneratorImpl(msgDagger, bmbgActivityDagger);
+    private PresenterGenerator generatorDaggerFragment = new BasePresenterGeneratorImpl(msgDagger, bmbgFragmentDagger);
     private PresenterGenerator generatorDaggerFragmentSupport =
-            new PresenterGeneratorDaggerFragmentSupportImpl(msgDagger);
-    private PresenterGenerator generatorDaggerConductor = new PresenterGeneratorDaggerConductorImpl(msgDagger);
+            new PresenterGeneratorDaggerFragmentSupportImpl(msgDagger, null);
+    private PresenterGenerator generatorDaggerConductor =
+            new PresenterGeneratorDaggerConductorImpl(msgDagger, null);
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnvironment) {

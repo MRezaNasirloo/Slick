@@ -40,10 +40,8 @@ public class PresenterGeneratorsTest {
 
         JavaFileObject sourceViewInterface = JavaFileObjects.forResource("resources/ExampleView.java");
         JavaFileObject sourcePresenter = JavaFileObjects.forResource("resources/ExamplePresenter.java");
-        JavaFileObject sourceView = JavaFileObjects
-                .forResource("resources/dagger/DaggerActivity.java");
-        JavaFileObject genSource = JavaFileObjects.
-                forResource("resources/dagger/DaggerActivity_Slick.java");
+        JavaFileObject sourceView = JavaFileObjects.forResource("resources/dagger/DaggerActivity.java");
+        JavaFileObject genSource = JavaFileObjects.forResource("resources/dagger/DaggerActivity_Slick.java");
 
         assertAbout(JavaSourcesSubjectFactory.javaSources())
                 .that(Arrays.asList(sourceViewInterface, sourcePresenter, sourceView))
@@ -157,103 +155,16 @@ public class PresenterGeneratorsTest {
 
     @Test
     public void fragmentDagger() {
-        JavaFileObject sourceViewInterface = JavaFileObjects.forSourceString("test.DaggerView", ""
-                + "package test;\n"
+        JavaFileObject sourceViewInterface = JavaFileObjects.forResource("resources/ExampleView.java");
+        JavaFileObject sourcePresenter = JavaFileObjects.forResource("resources/ExamplePresenter.java");
+        JavaFileObject sourceView = JavaFileObjects.forResource("resources/dagger/DaggerFragment.java");
+        JavaFileObject genSource = JavaFileObjects.forResource("resources/dagger/DaggerFragment_Slick.java");
 
-
-                + "public interface DaggerView {\n"
-
-                + "}");
-
-        JavaFileObject sourcePresenter = JavaFileObjects.forSourceString("test.DaggerPresenter", ""
-                + "package test;\n"
-
-                + "import com.github.slick.Presenter;\n"
-                + "import com.github.slick.SlickPresenter;\n"
-                + "import android.app.Activity;\n"
-                + "import android.support.annotation.IdRes;\n"
-
-                + "import javax.inject.Inject;\n"
-
-                + "public class DaggerPresenter extends SlickPresenter<DaggerView> {\n"
-
-                + "    @Inject\n"
-                + "    public DaggerPresenter(@IdRes int i, float f) {\n"
-                + "    }\n"
-                + "}");
-
-        JavaFileObject sourceView = JavaFileObjects.forSourceString("test.DaggerFragment", ""
-                + "package test;\n"
-
-                + "import android.os.Bundle;\n"
-                + "import android.app.Fragment;\n"
-                + "import com.github.slick.Presenter;\n"
-
-                + "import javax.inject.Inject;\n"
-
-                + "public class DaggerFragment extends Fragment implements DaggerView {\n"
-
-                + "    @Inject\n"
-                + "    @Presenter\n"
-                + "    DaggerPresenter presenter;\n"
-
-                + "    @Override\n"
-                + "    public void onCreate(Bundle savedInstanceState) {\n"
-                + "        DaggerFragment_Slick.bind(this);\n"
-                + "        super.onCreate(savedInstanceState);\n"
-                + "    }\n"
-                + "}");
-
-        JavaFileObject presenterHostSource = JavaFileObjects.forSourceString("test.DaggerFragment_Slick", ""
-                + "package test;\n"
-
-                + "import android.app.Fragment;\n"
-                + "import com.github.slick.OnDestroyListener;\n"
-                + "import com.github.slick.SlickFragmentDelegate;\n"
-                + "import java.lang.Override;\n"
-                + "import java.lang.String;\n"
-
-
-                + "public class DaggerFragment_Slick implements OnDestroyListener {\n"
-
-                + "    private static DaggerFragment_Slick hostInstance;\n"
-                + "    SlickFragmentDelegate<DaggerView, DaggerPresenter> delegate;\n"
-
-                + "    public static <T extends Fragment & DaggerView> "
-                + "                 SlickFragmentDelegate<DaggerView, DaggerPresenter>bind(T daggerFragment) {\n"
-                + "        if (hostInstance == null) { \n"
-                + "            hostInstance = new DaggerFragment_Slick();\n"
-                + "            DaggerPresenter presenter = ((DaggerFragment) daggerFragment).presenter ;\n"
-                + "            hostInstance.delegate = new SlickFragmentDelegate<>(presenter, "
-                + "                           daggerFragment.getClass())\n"
-                + "            hostInstance.delegate.setListener(hostInstance);\n"
-                + "        }\n" +
-                "           return hostInstance.delegate;"
-                + "    }\n"
-
-                + "    public static <T extends Fragment & DaggerView> void onStart(T daggerFragment) {\n"
-                + "        hostInstance.delegate.onStart(daggerFragment);\n"
-                + "    }\n"
-                + "    public static <T extends Fragment & DaggerView> void onStop(T daggerFragment) {\n"
-                + "        hostInstance.delegate.onStop(daggerFragment);\n"
-                + "    }\n"
-                + "    public static <T extends Fragment & DaggerView> void onDestroy(T daggerFragment) {\n"
-                + "        hostInstance.delegate.onDestroy(daggerFragment);\n"
-                + "    }\n"
-
-                + "    @Override\n"
-                + "    public void onDestroy(String id) {\n"
-                + "        hostInstance = null;\n"
-                + "    }\n"
-                + "}");
-        final List<JavaFileObject> target = new ArrayList<>(3);
-        target.add(sourcePresenter);
-        target.add(sourceView);
-        target.add(sourceViewInterface);
-        assertAbout(JavaSourcesSubjectFactory.javaSources()).that(target)
+        assertAbout(JavaSourcesSubjectFactory.javaSources())
+                .that(Arrays.asList(sourceViewInterface, sourcePresenter, sourceView))
                 .processedWith(new SlickProcessor())
                 .compilesWithoutError()
                 .and()
-                .generatesSources(presenterHostSource);
+                .generatesSources(genSource);
     }
 }
