@@ -5,16 +5,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.github.slick.Presenter;
-//import com.github.slick.Slick;
 import com.github.slick.sample.App;
 import com.github.slick.sample.R;
 import com.github.slick.Slick;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 public class ExampleActivity extends AppCompatActivity implements ExampleActivityView {
 
     @Inject
+    Provider<ExampleActivityPresenter> provider;
     @Presenter
     ExampleActivityPresenter presenter;
 

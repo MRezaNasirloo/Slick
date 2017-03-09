@@ -10,9 +10,9 @@ import com.github.slick.Presenter;
 import com.github.slick.sample.App;
 import com.github.slick.sample.R;
 import com.github.slick.Slick;
-//import com.github.slick.Slick;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 /**
  * @author : Pedramrn@gmail.com
@@ -22,6 +22,7 @@ import javax.inject.Inject;
 public class ExampleController extends Controller implements ConductorView {
 
     @Inject
+    Provider<ConductorPresenter> provider;
     @Presenter
     ConductorPresenter presenter;
 

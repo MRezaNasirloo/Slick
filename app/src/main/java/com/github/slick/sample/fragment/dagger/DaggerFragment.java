@@ -17,6 +17,7 @@ import com.github.slick.sample.R;
 import com.github.slick.Slick;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +26,7 @@ public class DaggerFragment extends SlickFragment<DaggerFragmentView, DaggerFrag
         implements DaggerFragmentView {
 
     @Inject
+    Provider<DaggerFragmentPresenter> presenterProvider;
     @Presenter
     DaggerFragmentPresenter presenter;
 

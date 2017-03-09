@@ -16,6 +16,7 @@ import com.github.slick.sample.R;
 import com.github.slick.Slick;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +24,7 @@ import javax.inject.Inject;
 public class DelegateDaggerSlickFragment extends Fragment implements DelegateDaggerFragmentView {
 
     @Inject
+    Provider<DelegateDaggerFragmentPresenter> provider;
     @Presenter
     DelegateDaggerFragmentPresenter presenter;
 

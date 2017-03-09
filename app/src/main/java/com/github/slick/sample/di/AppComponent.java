@@ -23,7 +23,6 @@ public interface AppComponent {
 
     DaggerComponent add(DaggerModule mainModule);
 
-    @Singleton
     @Subcomponent(modules = DaggerModule.class)
     interface DaggerComponent {
         void inject(ExampleActivity activity);

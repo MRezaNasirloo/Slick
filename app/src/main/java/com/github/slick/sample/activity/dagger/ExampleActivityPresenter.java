@@ -13,7 +13,6 @@ import javax.inject.Singleton;
  * @author : Pedramrn@gmail.com
  *         Created on: 2016-11-03
  */
-@Singleton
 public class ExampleActivityPresenter extends SlickPresenter<ExampleActivityView> {
 
     private static final String TAG = ExampleActivityPresenter.class.getSimpleName();
