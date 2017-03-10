@@ -11,12 +11,17 @@ import java.util.ArrayList;
  *         Created on: 2017-03-06
  */
 
-public class AddMethodGeneratorFragmentImpl implements AddMethodGenerator {
+public class AddMethodGeneratorCallbackImpl implements AddMethodGenerator {
+
+    private final String[] methodNames;
+
+    public AddMethodGeneratorCallbackImpl(String... methodNames) {
+        this.methodNames = methodNames;
+    }
 
     @Override
     public Iterable<MethodSpec> generate(AnnotatedPresenter ap) {
         final ArrayList<MethodSpec> list = new ArrayList<>(3);
-        String[] methodNames = {"onStart", "onStop", "onDestroy"};
         final MethodSignatureGeneratorDaggerImpl generatorDagger = new MethodSignatureGeneratorDaggerImpl();
         for (String name : methodNames) {
             MethodSpec methodSpec = generatorDagger.generate(name, ap, TypeName.get(void.class))

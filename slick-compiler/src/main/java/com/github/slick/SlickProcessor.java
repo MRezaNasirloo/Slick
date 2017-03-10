@@ -1,14 +1,13 @@
 package com.github.slick;
 
 import com.github.slick.components.AddMethodGenerator;
-import com.github.slick.components.AddMethodGeneratorFragmentImpl;
+import com.github.slick.components.AddMethodGeneratorCallbackImpl;
 import com.github.slick.components.BindMethodBodyGenerator;
 import com.github.slick.components.BindMethodBodyGeneratorFragmentImpl;
 import com.github.slick.components.BindMethodBodyGeneratorImpl;
 import com.github.slick.components.GetViewIdGenerator;
-import com.github.slick.components.GetViewIdGeneratorActivityImpl;
 import com.github.slick.components.GetViewIdGeneratorConductorImpl;
-import com.github.slick.components.GetViewIdGeneratorFragmentImpl;
+import com.github.slick.components.GetViewIdGeneratorImpl;
 import com.github.slick.components.MethodSignatureGenerator;
 import com.github.slick.components.MethodSignatureGeneratorDaggerImpl;
 import com.github.slick.components.MethodSignatureGeneratorImpl;
@@ -112,8 +111,7 @@ public class SlickProcessor extends AbstractProcessor {
     private Types typeUtils;
     private MethodSignatureGenerator msg = new MethodSignatureGeneratorImpl();
     private MethodSignatureGenerator msgDagger = new MethodSignatureGeneratorDaggerImpl();
-    private GetViewIdGenerator gvigActivity = new GetViewIdGeneratorActivityImpl();
-    private GetViewIdGenerator gvigFragment = new GetViewIdGeneratorFragmentImpl();
+    private GetViewIdGenerator gvig = new GetViewIdGeneratorImpl();
     private GetViewIdGenerator gvigConductor = new GetViewIdGeneratorConductorImpl();
     private PresenterInstantiationGenerator pig = new PresenterInstantiationGeneratorImpl();
     private PresenterInstantiationGenerator pigDagger = new PresenterInstantiationGeneratorDaggerImpl();
@@ -121,21 +119,24 @@ public class SlickProcessor extends AbstractProcessor {
     private ViewCallbackGenerator vcgNoOp = new ViewCallbackGeneratorNoOpImpl();
     private ViewCallbackGenerator vcgFragmentSupport = new ViewCallbackGeneratorFragmentSupportImpl();
     private ViewCallbackGenerator vcgConductor = new ViewCallbackGeneratorConductorImpl();
-    private BindMethodBodyGenerator bmbgActivity = new BindMethodBodyGeneratorImpl(gvigActivity, pig, vcgActivity);
-    private BindMethodBodyGenerator bmbgActivityDagger = new BindMethodBodyGeneratorImpl(gvigActivity, pigDagger, vcgActivity);
-    private BindMethodBodyGenerator bmbgFragment = new BindMethodBodyGeneratorFragmentImpl(gvigFragment, pig, vcgNoOp);
-    private BindMethodBodyGenerator bmbgFragmentDagger = new BindMethodBodyGeneratorFragmentImpl(gvigFragment, pigDagger, vcgNoOp);
-    private BindMethodBodyGenerator bmbgFragmentSupport = new BindMethodBodyGeneratorImpl(gvigFragment, pig, vcgFragmentSupport);
-    private BindMethodBodyGenerator bmbgFragmentSupportDagger = new BindMethodBodyGeneratorImpl(gvigFragment, pigDagger, vcgFragmentSupport);
+    private BindMethodBodyGenerator bmbgActivity = new BindMethodBodyGeneratorImpl(gvig, pig, vcgActivity);
+    private BindMethodBodyGenerator bmbgActivityDagger = new BindMethodBodyGeneratorImpl(gvig, pigDagger, vcgActivity);
+    private BindMethodBodyGenerator bmbgFragment = new BindMethodBodyGeneratorFragmentImpl(gvig, pig, vcgNoOp);
+    private BindMethodBodyGenerator bmbgFragmentDagger = new BindMethodBodyGeneratorFragmentImpl(gvig, pigDagger, vcgNoOp);
+    private BindMethodBodyGenerator bmbgFragmentSupport = new BindMethodBodyGeneratorImpl(gvig, pig, vcgFragmentSupport);
+    private BindMethodBodyGenerator bmbgFragmentSupportDagger = new BindMethodBodyGeneratorImpl(gvig, pigDagger, vcgFragmentSupport);
     private BindMethodBodyGenerator bmbgConductor = new BindMethodBodyGeneratorImpl(gvigConductor, pig, vcgConductor);
     private BindMethodBodyGenerator bmbgConductorDagger = new BindMethodBodyGeneratorImpl(gvigConductor, pigDagger, vcgConductor);
-    private AddMethodGenerator addMethodGenerator = new AddMethodGeneratorFragmentImpl();
+    private BindMethodBodyGenerator bmbgView = new BindMethodBodyGeneratorImpl(gvig, pig, vcgNoOp);
+    private AddMethodGenerator amgFragment = new AddMethodGeneratorCallbackImpl("onStart", "onStop", "onDestroy");
+    private AddMethodGenerator amgView = new AddMethodGeneratorCallbackImpl("onAttach", "onDetach");
     private PresenterGenerator generatorActivity = new BasePresenterGeneratorImpl(msg, bmbgActivity);
-    private PresenterGenerator generatorFragment = new BasePresenterGeneratorImpl(msg, bmbgFragment, addMethodGenerator);
+    private PresenterGenerator generatorFragment = new BasePresenterGeneratorImpl(msg, bmbgFragment, amgFragment);
     private PresenterGenerator generatorFragmentSupport = new BasePresenterGeneratorImpl(msg, bmbgFragmentSupport);
     private PresenterGenerator generatorConductor = new BasePresenterGeneratorImpl(msg, bmbgConductor);
+    private PresenterGenerator generatorView = new BasePresenterGeneratorImpl(msg, bmbgView, amgView);
     private PresenterGenerator generatorDaggerActivity = new BasePresenterGeneratorImpl(msgDagger, bmbgActivityDagger);
-    private PresenterGenerator generatorDaggerFragment = new BasePresenterGeneratorImpl(msgDagger, bmbgFragmentDagger, addMethodGenerator);
+    private PresenterGenerator generatorDaggerFragment = new BasePresenterGeneratorImpl(msgDagger, bmbgFragmentDagger, amgFragment);
     private PresenterGenerator generatorDaggerFragmentSupport = new BasePresenterGeneratorImpl(msgDagger, bmbgFragmentSupportDagger);
     private PresenterGenerator generatorDaggerConductor = new BasePresenterGeneratorImpl(msgDagger, bmbgConductorDagger);
 
@@ -228,6 +229,8 @@ public class SlickProcessor extends AbstractProcessor {
                 return generatorFragmentSupport.generate(ap);
             case CONDUCTOR:
                 return generatorConductor.generate(ap);
+            case VIEW:
+                return generatorView.generate(ap);
             case DAGGER_ACTIVITY:
                 return generatorDaggerActivity.generate(ap);
             case DAGGER_FRAGMENT:
