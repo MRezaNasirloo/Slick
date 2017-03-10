@@ -82,4 +82,14 @@
         android:layout_below="@+id/fragment_delegate"
         android:text="Custom View"
         />
+
+    <Button
+        android:id="@+id/button_custom_view_dagger"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_support_fragment"
+        android:layout_toEndOf="@+id/button_custom_view"
+        android:layout_toRightOf="@+id/button_custom_view"
+        android:text="Dagger Custom View"
+        />
 </RelativeLayout>

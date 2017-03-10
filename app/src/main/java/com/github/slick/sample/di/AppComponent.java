@@ -4,6 +4,8 @@ package com.github.slick.sample.di;
 import com.github.slick.sample.activity.dagger.DaggerModule;
 import com.github.slick.sample.activity.dagger.ExampleActivity;
 import com.github.slick.sample.conductor.dagger.ExampleController;
+import com.github.slick.sample.cutstomview.dagger.DaggerCustomView;
+import com.github.slick.sample.cutstomview.dagger.DaggerCustomViewActivity;
 import com.github.slick.sample.fragment.dagger.DaggerFragment;
 import com.github.slick.sample.fragment.dagger.delegate.DelegateDaggerSlickFragment;
 import com.github.slick.sample.fragmentsupport.dagger.DaggerFragmentSupport;
@@ -34,6 +36,8 @@ public interface AppComponent {
         void inject(DelegateDaggerSlickFragment delegateDaggerSlickFragment);
 
         void inject(DaggerFragmentSupport daggerFragment);
+
+        void inject(DaggerCustomView daggerCustomView);
     }
 
 }
