@@ -23,10 +23,6 @@ public class SlickDelegateFragment<V, P extends SlickPresenter<V>> extends Fragm
     private Class cls;
     private boolean multiInstance = false;
 
-
-    public SlickDelegateFragment() {
-    }
-
     public SlickDelegateFragment(P presenter, Class cls, String id) {
         if (presenter == null) {
             throw new IllegalStateException("Presenter cannot be null.");
@@ -35,14 +31,6 @@ public class SlickDelegateFragment<V, P extends SlickPresenter<V>> extends Fragm
         this.cls = cls;
         this.id = id;
         if (id != null) multiInstance = true;
-    }
-
-    public SlickDelegateFragment(P presenter, Class cls) {
-        if (presenter == null) {
-            throw new IllegalStateException("Presenter cannot be null.");
-        }
-        this.presenter = presenter;
-        this.cls = cls;
     }
 
     @Override

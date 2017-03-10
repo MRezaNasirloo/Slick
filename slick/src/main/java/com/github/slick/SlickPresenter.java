@@ -29,7 +29,7 @@ public class SlickPresenter<V> {
     }
 
     @Nullable
-    public V getView() {
+    protected V getView() {
         return view == null ? null : view.get();
     }
 }

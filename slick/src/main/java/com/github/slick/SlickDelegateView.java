@@ -28,14 +28,6 @@ public class SlickDelegateView<V, P extends SlickPresenter<V>> {
         if (id != null) multiInstance = true;
     }
 
-    public SlickDelegateView(P presenter, Class cls) {
-        if (presenter == null) {
-            throw new IllegalStateException("Presenter cannot be null.");
-        }
-        this.presenter = presenter;
-        this.cls = cls;
-    }
-
     public void onAttach(V view) {
         if (multiInstance) {
             if (isSameInstance(view)) {

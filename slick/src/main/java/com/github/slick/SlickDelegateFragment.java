@@ -83,7 +83,6 @@ public class SlickDelegateFragment<V, P extends SlickPresenter<V>> {
             }
             presenter = null;
         }
-        //else if (view instanceof android.app.Fragment && ((android.app.Fragment) view).getParentFragment() == null) activity = ((android.app.Fragment) view).getActivity();
     }
 
     public P getPresenter() {

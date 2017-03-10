@@ -2,6 +2,7 @@ package com.github.slick;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.Application.ActivityLifecycleCallbacks;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -13,8 +14,7 @@ import java.util.UUID;
  *         Created on: 2016-11-03
  */
 
-public class SlickDelegateActivity<V, P extends SlickPresenter<V>>
-        implements Application.ActivityLifecycleCallbacks {
+public class SlickDelegateActivity<V, P extends SlickPresenter<V>> implements ActivityLifecycleCallbacks {
 
     private String id;
     private OnDestroyListener listener;
@@ -25,9 +25,6 @@ public class SlickDelegateActivity<V, P extends SlickPresenter<V>>
 
     public static String SLICK_UNIQUE_KEY = "SLICK_UNIQUE_KEY";
 
-    public SlickDelegateActivity() {
-    }
-
     public SlickDelegateActivity(P presenter, Class<? extends Activity> cls, String id) {
         if (presenter == null) {
             throw new IllegalStateException("Presenter cannot be null.");
@@ -36,22 +33,6 @@ public class SlickDelegateActivity<V, P extends SlickPresenter<V>>
         this.cls = cls;
         this.id = id;
         if (id != null) multiInstance = true;
-    }
-
-    public SlickDelegateActivity(P presenter, Class<? extends Activity> cls) {
-        if (presenter == null) {
-            throw new IllegalStateException("Presenter cannot be null.");
-        }
-        this.presenter = presenter;
-        this.cls = cls;
-    }
-
-    public void onStart(V view) {
-        presenter.onViewUp(view);
-    }
-
-    public void onStop(V view) {
-        presenter.onViewDown();
     }
 
     public void onDestroy(V view) {
@@ -76,8 +57,6 @@ public class SlickDelegateActivity<V, P extends SlickPresenter<V>>
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
         //no-op
     }
-
-    private static final String TAG = SlickDelegateActivity.class.getSimpleName();
 
     @Override
     @SuppressWarnings("unchecked")

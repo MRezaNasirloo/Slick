@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.slick.Presenter;
+import com.github.slick.Slick;
 import com.github.slick.sample.R;
 
 /**
@@ -34,8 +35,8 @@ public class CustomView extends LinearLayout implements ExampleView {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        CustomView_Slick.bind(this);
-        CustomView_Slick.onAttach(this);
+        Slick.bind(this);
+        Slick.onAttach(this);
 
         final TextView textView = (TextView) findViewById(R.id.textView_custom_view);
         textView.setText(presenter.getData());
@@ -44,6 +45,6 @@ public class CustomView extends LinearLayout implements ExampleView {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        CustomView_Slick.onDetach(this);
+        Slick.onDetach(this);
     }
 }
