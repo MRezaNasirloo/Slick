@@ -15,7 +15,7 @@ public class DaggerFragment_Slick implements OnDestroyListener {
     private final HashMap<String, SlickFragmentDelegate<ExampleView, ExamplePresenter>> delegates = new HashMap<>();
 
     public static <T extends Fragment & ExampleView> SlickFragmentDelegate<ExampleView, ExamplePresenter> bind(T daggerFragment) {
-        final String id = SlickFragmentDelegate.getFragmentId(daggerFragment);
+        final String id = SlickFragmentDelegate.getId(daggerFragment);
         if (hostInstance == null) hostInstance = new DaggerFragment_Slick();
         SlickFragmentDelegate<ExampleView, ExamplePresenter> delegate = hostInstance.delegates.get(id)
         if (delegate == null) {
@@ -29,13 +29,13 @@ public class DaggerFragment_Slick implements OnDestroyListener {
     }
 
     public static <T extends Fragment & ExampleView> void onStart(T daggerFragment) {
-        hostInstance.delegates.get(SlickFragmentDelegate.getFragmentId(daggerFragment)).onStart(daggerFragment);
+        hostInstance.delegates.get(SlickFragmentDelegate.getId(daggerFragment)).onStart(daggerFragment);
     }
     public static <T extends Fragment & ExampleView> void onStop(T daggerFragment) {
-        hostInstance.delegates.get(SlickFragmentDelegate.getFragmentId(daggerFragment)).onStop(daggerFragment);
+        hostInstance.delegates.get(SlickFragmentDelegate.getId(daggerFragment)).onStop(daggerFragment);
     }
     public static <T extends Fragment & ExampleView> void onDestroy(T daggerFragment) {
-        hostInstance.delegates.get(SlickFragmentDelegate.getFragmentId(daggerFragment)).onDestroy(daggerFragment);
+        hostInstance.delegates.get(SlickFragmentDelegate.getId(daggerFragment)).onDestroy(daggerFragment);
     }
 
     @Override

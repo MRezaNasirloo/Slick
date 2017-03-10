@@ -13,7 +13,7 @@ import java.util.UUID;
  *         Created on: 2016-11-03
  */
 
-public class SlickDelegate<V, P extends SlickPresenter<V>>
+public class SlickActivityDelegate<V, P extends SlickPresenter<V>>
         implements Application.ActivityLifecycleCallbacks {
 
     private String id;
@@ -25,10 +25,10 @@ public class SlickDelegate<V, P extends SlickPresenter<V>>
 
     public static String SLICK_UNIQUE_KEY = "SLICK_UNIQUE_KEY";
 
-    public SlickDelegate() {
+    public SlickActivityDelegate() {
     }
 
-    public SlickDelegate(P presenter, Class<? extends Activity> cls, String id) {
+    public SlickActivityDelegate(P presenter, Class<? extends Activity> cls, String id) {
         if (presenter == null) {
             throw new IllegalStateException("Presenter cannot be null.");
         }
@@ -38,7 +38,7 @@ public class SlickDelegate<V, P extends SlickPresenter<V>>
         if (id != null) multiInstance = true;
     }
 
-    public SlickDelegate(P presenter, Class<? extends Activity> cls) {
+    public SlickActivityDelegate(P presenter, Class<? extends Activity> cls) {
         if (presenter == null) {
             throw new IllegalStateException("Presenter cannot be null.");
         }
@@ -77,7 +77,7 @@ public class SlickDelegate<V, P extends SlickPresenter<V>>
         //no-op
     }
 
-    private static final String TAG = SlickDelegate.class.getSimpleName();
+    private static final String TAG = SlickActivityDelegate.class.getSimpleName();
 
     @Override
     @SuppressWarnings("unchecked")
@@ -139,7 +139,7 @@ public class SlickDelegate<V, P extends SlickPresenter<V>>
         return presenter;
     }
 
-    public static String getActivityId(Activity activity) {
+    public static String getId(Activity activity) {
         final Intent intent = activity.getIntent();
         if (intent.hasExtra(SLICK_UNIQUE_KEY)) {
             return intent.getStringExtra(SLICK_UNIQUE_KEY);

@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.support.annotation.IdRes;
 
 import com.github.slick.OnDestroyListener;
-import com.github.slick.SlickDelegate;
+import com.github.slick.SlickActivityDelegate;
 
 import java.lang.Override;
 import java.lang.String;
@@ -13,15 +13,15 @@ import java.util.HashMap;
 public class ExampleActivity_Slick implements OnDestroyListener {
 
     private static ExampleActivity_Slick hostInstance;
-    private final HashMap<String, SlickDelegate<ExampleView, ExamplePresenter>> delegates = new HashMap<>();
+    private final HashMap<String, SlickActivityDelegate<ExampleView, ExamplePresenter>> delegates = new HashMap<>();
 
     public static <T extends Activity & ExampleView> void bind(T exampleActivity, @IdRes int i, float f) {
-        final String id = SlickDelegate.getActivityId(exampleActivity);
+        final String id = SlickActivityDelegate.getId(exampleActivity);
         if (hostInstance == null) hostInstance = new ExampleActivity_Slick();
-        SlickDelegate<ExampleView, ExamplePresenter> delegate = hostInstance.delegates.get(id)
+        SlickActivityDelegate<ExampleView, ExamplePresenter> delegate = hostInstance.delegates.get(id)
         if (delegate == null) {
             final ExamplePresenter presenter = new ExamplePresenter(i, f);
-            delegate = new SlickDelegate<>(presenter, exampleActivity.getClass(), id);
+            delegate = new SlickActivityDelegate<>(presenter, exampleActivity.getClass(), id);
             delegate.setListener(hostInstance);
             hostInstance.delegates.put(id, delegate);
             exampleActivity.getApplication().registerActivityLifecycleCallbacks(delegate);

@@ -19,10 +19,6 @@ public class SlickFragmentDelegate<V, P extends SlickPresenter<V>> {
     private Class cls;
     private boolean multiInstance = false;
 
-
-    public SlickFragmentDelegate() {
-    }
-
     public SlickFragmentDelegate(P presenter, Class cls, String id) {
         if (presenter == null) {
             throw new IllegalStateException("Presenter cannot be null.");
@@ -99,13 +95,13 @@ public class SlickFragmentDelegate<V, P extends SlickPresenter<V>> {
     }
 
 
-    public static String getFragmentId(Object view) {
+    public static String getId(Object view) {
         if (view instanceof SlickUniqueId) return ((SlickUniqueId) view).getUniqueId();
         return null;
     }
 
     private boolean isSameInstance(Object view) {
-        final String id = getFragmentId(view);
+        final String id = getId(view);
         return id != null && id.equals(this.id);
     }
 }

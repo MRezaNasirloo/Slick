@@ -20,7 +20,7 @@ public class AddMethodGeneratorFragmentImpl implements AddMethodGenerator {
         final MethodSignatureGeneratorDaggerImpl generatorDagger = new MethodSignatureGeneratorDaggerImpl();
         for (String name : methodNames) {
             MethodSpec methodSpec = generatorDagger.generate(name, ap, TypeName.get(void.class))
-                    .addStatement("$L.$L.get($T.getFragmentId($L)).$L($L)", "hostInstance",
+                    .addStatement("$L.$L.get($T.getId($L)).$L($L)", "hostInstance",
                             "delegates", ap.getDelegateType(), ap.getViewVarName(), name, ap.getViewVarName())
                     .returns(void.class).build();
             list.add(methodSpec);

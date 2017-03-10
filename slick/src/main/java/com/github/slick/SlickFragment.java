@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 
 import java.util.UUID;
 
-import static com.github.slick.SlickDelegate.SLICK_UNIQUE_KEY;
+import static com.github.slick.SlickActivityDelegate.SLICK_UNIQUE_KEY;
 
 
 /**
@@ -15,12 +15,10 @@ import static com.github.slick.SlickDelegate.SLICK_UNIQUE_KEY;
  *         Created on: 2016-11-07
  */
 
-public abstract class SlickFragment<V, P extends SlickPresenter<V>> extends Fragment
-        implements SlickUniqueId {
+public abstract class SlickFragment<V, P extends SlickPresenter<V>> extends Fragment implements SlickUniqueId {
 
     private SlickFragmentDelegate<V, P> delegate;
     private String id;
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

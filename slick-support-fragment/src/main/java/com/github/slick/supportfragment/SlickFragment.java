@@ -3,13 +3,12 @@ package com.github.slick.supportfragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 
 import com.github.slick.SlickUniqueId;
 
 import java.util.UUID;
 
-import static com.github.slick.SlickDelegate.SLICK_UNIQUE_KEY;
+import static com.github.slick.SlickActivityDelegate.SLICK_UNIQUE_KEY;
 
 
 /**
