@@ -13,9 +13,9 @@ public class DaggerController_Slick implements OnDestroyListener {
     private final HashMap<String, SlickDelegateConductor<ExampleView, ExamplePresenter>> delegates = new HashMap<>();
 
     public static <T extends Controller & ExampleView> void bind(T daggerController) {
-        final String id = daggerController.getInstanceId()
+        final String id = daggerController.getInstanceId();
         if (hostInstance == null) hostInstance = new DaggerController_Slick();
-        SlickDelegateConductor<ExampleView, ExamplePresenter> delegate = hostInstance.delegates.get(id)
+        SlickDelegateConductor<ExampleView, ExamplePresenter> delegate = hostInstance.delegates.get(id);
         if (delegate == null) {
             final ExamplePresenter presenter = ((DaggerController) daggerController).provider.get();
             delegate = new SlickDelegateConductor<>(presenter, daggerController.getClass(), id);
