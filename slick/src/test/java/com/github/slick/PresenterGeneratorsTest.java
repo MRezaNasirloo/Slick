@@ -83,11 +83,26 @@ public class PresenterGeneratorsTest {
     }
 
     @Test
-    public void CustomView() {
+    public void customView() {
         JavaFileObject sourceViewInterface = JavaFileObjects.forResource("resources/ExampleView.java");
         JavaFileObject sourcePresenter = JavaFileObjects.forResource("resources/ExamplePresenter.java");
         JavaFileObject sourceView = JavaFileObjects.forResource("resources/ExampleCustomView.java");
         JavaFileObject genSource = JavaFileObjects.forResource("resources/ExampleCustomView_Slick.java");
+
+        assertAbout(JavaSourcesSubjectFactory.javaSources())
+                .that(Arrays.asList(sourceViewInterface, sourcePresenter, sourceView))
+                .processedWith(new SlickProcessor())
+                .compilesWithoutError()
+                .and()
+                .generatesSources(genSource);
+    }
+
+    @Test
+    public void daggerCustomView() {
+        JavaFileObject sourceViewInterface = JavaFileObjects.forResource("resources/ExampleView.java");
+        JavaFileObject sourcePresenter = JavaFileObjects.forResource("resources/ExamplePresenter.java");
+        JavaFileObject sourceView = JavaFileObjects.forResource("resources/dagger/DaggerCustomView.java");
+        JavaFileObject genSource = JavaFileObjects.forResource("resources/dagger/DaggerCustomView_Slick.java");
 
         assertAbout(JavaSourcesSubjectFactory.javaSources())
                 .that(Arrays.asList(sourceViewInterface, sourcePresenter, sourceView))

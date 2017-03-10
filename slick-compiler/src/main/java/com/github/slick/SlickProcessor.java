@@ -128,6 +128,7 @@ public class SlickProcessor extends AbstractProcessor {
     private BindMethodBodyGenerator bmbgConductor = new BindMethodBodyGeneratorImpl(gvigConductor, pig, vcgConductor);
     private BindMethodBodyGenerator bmbgConductorDagger = new BindMethodBodyGeneratorImpl(gvigConductor, pigDagger, vcgConductor);
     private BindMethodBodyGenerator bmbgView = new BindMethodBodyGeneratorImpl(gvig, pig, vcgNoOp);
+    private BindMethodBodyGenerator bmbgViewDagger = new BindMethodBodyGeneratorImpl(gvig, pigDagger, vcgNoOp);
     private AddMethodGenerator amgFragment = new AddMethodGeneratorCallbackImpl("onStart", "onStop", "onDestroy");
     private AddMethodGenerator amgView = new AddMethodGeneratorCallbackImpl("onAttach", "onDetach");
     private PresenterGenerator generatorActivity = new BasePresenterGeneratorImpl(msg, bmbgActivity);
@@ -135,6 +136,7 @@ public class SlickProcessor extends AbstractProcessor {
     private PresenterGenerator generatorFragmentSupport = new BasePresenterGeneratorImpl(msg, bmbgFragmentSupport);
     private PresenterGenerator generatorConductor = new BasePresenterGeneratorImpl(msg, bmbgConductor);
     private PresenterGenerator generatorView = new BasePresenterGeneratorImpl(msg, bmbgView, amgView);
+    private PresenterGenerator generatorDaggerView = new BasePresenterGeneratorImpl(msgDagger, bmbgViewDagger, amgView);
     private PresenterGenerator generatorDaggerActivity = new BasePresenterGeneratorImpl(msgDagger, bmbgActivityDagger);
     private PresenterGenerator generatorDaggerFragment = new BasePresenterGeneratorImpl(msgDagger, bmbgFragmentDagger, amgFragment);
     private PresenterGenerator generatorDaggerFragmentSupport = new BasePresenterGeneratorImpl(msgDagger, bmbgFragmentSupportDagger);
@@ -239,6 +241,8 @@ public class SlickProcessor extends AbstractProcessor {
                 return generatorDaggerFragmentSupport.generate(ap);
             case DAGGER_CONDUCTOR:
                 return generatorDaggerConductor.generate(ap);
+            case DAGGER_VIEW:
+                return generatorDaggerView.generate(ap);
             default:
                 throw new UnsupportedOperationException(ap.getViewType() + " Type");
         }
