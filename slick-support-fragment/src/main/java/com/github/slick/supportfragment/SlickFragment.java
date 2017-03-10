@@ -8,7 +8,7 @@ import com.github.slick.SlickUniqueId;
 
 import java.util.UUID;
 
-import static com.github.slick.SlickActivityDelegate.SLICK_UNIQUE_KEY;
+import static com.github.slick.SlickDelegateActivity.SLICK_UNIQUE_KEY;
 
 
 /**

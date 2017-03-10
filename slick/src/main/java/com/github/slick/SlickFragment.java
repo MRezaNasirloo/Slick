@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 
 import java.util.UUID;
 
-import static com.github.slick.SlickActivityDelegate.SLICK_UNIQUE_KEY;
+import static com.github.slick.SlickDelegateActivity.SLICK_UNIQUE_KEY;
 
 
 /**
@@ -17,7 +17,7 @@ import static com.github.slick.SlickActivityDelegate.SLICK_UNIQUE_KEY;
 
 public abstract class SlickFragment<V, P extends SlickPresenter<V>> extends Fragment implements SlickUniqueId {
 
-    private SlickFragmentDelegate<V, P> delegate;
+    private SlickDelegateFragment<V, P> delegate;
     private String id;
 
     @Override
@@ -37,7 +37,7 @@ public abstract class SlickFragment<V, P extends SlickPresenter<V>> extends Frag
     @Override
     @SuppressWarnings("unchecked")
     public void onAttach(Context context) {
-        delegate = (SlickFragmentDelegate<V, P>) bind();
+        delegate = (SlickDelegateFragment<V, P>) bind();
         super.onAttach(context);
     }
 

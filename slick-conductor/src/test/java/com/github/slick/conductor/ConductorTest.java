@@ -78,7 +78,7 @@ public class ConductorTest {
                 +
                 "import com.github.slick.OnDestroyListener;\n"
                 +
-                "import com.github.slick.conductor.SlickConductorDelegate;\n"
+                "import com.github.slick.conductor.SlickDelegateConductor;\n"
                 +
                 "import java.lang.Override;\n"
                 +
@@ -92,7 +92,7 @@ public class ConductorTest {
                 +
                 "    private static ExampleController_Slick hostInstance;\n"
                 +
-                "    private final HashMap<String, SlickConductorDelegate<ExampleView, ExamplePresenter>>"
+                "    private final HashMap<String, SlickDelegateConductor<ExampleView, ExamplePresenter>>"
                 +
                 "                   delegates = new HashMap<>();\n"
 
@@ -105,13 +105,13 @@ public class ConductorTest {
                 +
                 "        if (hostInstance == null) hostInstance = new ExampleController_Slick();\n"
                 +
-                "        SlickConductorDelegate<ExampleView, ExamplePresenter> delegate = hostInstance.delegates.get(id)\n"
+                "        SlickDelegateConductor<ExampleView, ExamplePresenter> delegate = hostInstance.delegates.get(id)\n"
                 +
                 "        if (delegate == null) {\n"
                 +
                 "             final ExamplePresenter presenter = new ExamplePresenter(i, f);\n"
                 +
-                "             delegate = new SlickConductorDelegate<>(presenter, exampleController.getClass(), id);\n"
+                "             delegate = new SlickDelegateConductor<>(presenter, exampleController.getClass(), id);\n"
                 +
                 "             delegate.setListener(hostInstance);\n"
                 +

@@ -13,9 +13,9 @@ import com.github.slick.SlickPresenter;
  *         Created on: 2016-11-03
  */
 
-public class SlickConductorDelegate<V, P extends SlickPresenter<V>>
+public class SlickDelegateConductor<V, P extends SlickPresenter<V>>
         extends Controller.LifecycleListener {
-    private static final String TAG = SlickConductorDelegate.class.getSimpleName();
+    private static final String TAG = SlickDelegateConductor.class.getSimpleName();
 
     private String id;
     private OnDestroyListener listener;
@@ -24,10 +24,10 @@ public class SlickConductorDelegate<V, P extends SlickPresenter<V>>
     private Class<? extends Controller> cls;
     private boolean multiInstance = false;
 
-    public SlickConductorDelegate() {
+    public SlickDelegateConductor() {
     }
 
-    public SlickConductorDelegate(P presenter, Class<? extends Controller> cls, String id) {
+    public SlickDelegateConductor(P presenter, Class<? extends Controller> cls, String id) {
         if (presenter == null) {
             throw new IllegalStateException("Presenter cannot be null.");
         }
@@ -37,7 +37,7 @@ public class SlickConductorDelegate<V, P extends SlickPresenter<V>>
         if (id != null) multiInstance = true;
     }
 
-    public SlickConductorDelegate(P presenter, Class<? extends Controller> cls) {
+    public SlickDelegateConductor(P presenter, Class<? extends Controller> cls) {
         if (presenter == null) {
             throw new IllegalStateException("Presenter cannot be null.");
         }

@@ -14,7 +14,7 @@ import com.github.slick.SlickUniqueId;
  *         Created on: 2016-11-03
  */
 
-public class SlickFragmentDelegate<V, P extends SlickPresenter<V>> extends FragmentLifecycleCallbacks {
+public class SlickDelegateFragment<V, P extends SlickPresenter<V>> extends FragmentLifecycleCallbacks {
 
     private String id;
     private OnDestroyListener listener;
@@ -24,10 +24,10 @@ public class SlickFragmentDelegate<V, P extends SlickPresenter<V>> extends Fragm
     private boolean multiInstance = false;
 
 
-    public SlickFragmentDelegate() {
+    public SlickDelegateFragment() {
     }
 
-    public SlickFragmentDelegate(P presenter, Class cls, String id) {
+    public SlickDelegateFragment(P presenter, Class cls, String id) {
         if (presenter == null) {
             throw new IllegalStateException("Presenter cannot be null.");
         }
@@ -37,7 +37,7 @@ public class SlickFragmentDelegate<V, P extends SlickPresenter<V>> extends Fragm
         if (id != null) multiInstance = true;
     }
 
-    public SlickFragmentDelegate(P presenter, Class cls) {
+    public SlickDelegateFragment(P presenter, Class cls) {
         if (presenter == null) {
             throw new IllegalStateException("Presenter cannot be null.");
         }
@@ -100,13 +100,13 @@ public class SlickFragmentDelegate<V, P extends SlickPresenter<V>> extends Fragm
     }
 
 
-    public static String getFragmentId(Object view) {
+    public static String getId(Object view) {
         if (view instanceof SlickUniqueId) return ((SlickUniqueId) view).getUniqueId();
         return null;
     }
 
     private boolean isSameInstance(Object view) {
-        final String id = getFragmentId(view);
+        final String id = getId(view);
         return id != null && id.equals(this.id);
     }
 }

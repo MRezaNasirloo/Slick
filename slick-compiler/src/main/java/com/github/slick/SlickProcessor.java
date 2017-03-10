@@ -81,12 +81,12 @@ public class SlickProcessor extends AbstractProcessor {
     static final ClassName CLASS_NAME_CONTROLLER = get("com.bluelinelabs.conductor", "Controller");
     static final ClassName ClASS_NAME_HASH_MAP = get("java.util", "HashMap");
     static final ClassName ClASS_NAME_STRING = get("java.lang", "String");
-    static final ClassName CLASS_NAME_SLICK_DELEGATE = get(packageName, "SlickActivityDelegate");
-    static final ClassName CLASS_NAME_SLICK_FRAGMENT_DELEGATE = get(packageName, "SlickFragmentDelegate");
+    static final ClassName CLASS_NAME_SLICK_DELEGATE = get(packageName, "SlickDelegateActivity");
+    static final ClassName CLASS_NAME_SLICK_FRAGMENT_DELEGATE = get(packageName, "SlickDelegateFragment");
     static final ClassName CLASS_NAME_SLICK_FRAGMENT_SUPPORT_DELEGATE =
-            get("com.github.slick.supportfragment", "SlickFragmentDelegate");
+            get("com.github.slick.supportfragment", "SlickDelegateFragment");
     static final ClassName CLASS_NAME_SLICK_CONDUCTOR_DELEGATE =
-            get("com.github.slick.conductor", "SlickConductorDelegate");
+            get("com.github.slick.conductor", "SlickDelegateConductor");
     static final ClassName ClASS_NAME_ON_DESTROY_LISTENER = get(packageName, "OnDestroyListener");
 
     private Filer filer;

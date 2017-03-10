@@ -10,7 +10,7 @@ import android.app.Fragment;
  *         Created on: 2016-11-03
  */
 
-public class SlickFragmentDelegate<V, P extends SlickPresenter<V>> {
+public class SlickDelegateFragment<V, P extends SlickPresenter<V>> {
 
     private String id;
     private OnDestroyListener listener;
@@ -19,7 +19,7 @@ public class SlickFragmentDelegate<V, P extends SlickPresenter<V>> {
     private Class cls;
     private boolean multiInstance = false;
 
-    public SlickFragmentDelegate(P presenter, Class cls, String id) {
+    public SlickDelegateFragment(P presenter, Class cls, String id) {
         if (presenter == null) {
             throw new IllegalStateException("Presenter cannot be null.");
         }
@@ -29,7 +29,7 @@ public class SlickFragmentDelegate<V, P extends SlickPresenter<V>> {
         if (id != null) multiInstance = true;
     }
 
-    public SlickFragmentDelegate(P presenter, Class cls) {
+    public SlickDelegateFragment(P presenter, Class cls) {
         if (presenter == null) {
             throw new IllegalStateException("Presenter cannot be null.");
         }
