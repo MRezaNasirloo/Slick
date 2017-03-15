@@ -22,14 +22,14 @@ public class AnnotatedPresenter {
     public static final String DELEGATES_FIELD_NAME = "delegates";
 
     private final String presenterProvider;
-    private List<PresenterArgs> args;
+    private List<Arg> args;
     private String fieldName;
     private ClassName view;
     private SlickProcessor.ViewType viewType;
     private ClassName viewInterface;
     private ClassName presenter;
 
-    AnnotatedPresenter(String viewCanonicalName, List<PresenterArgs> args, String fieldName, ClassName view,
+    AnnotatedPresenter(String viewCanonicalName, List<Arg> args, String fieldName, ClassName view,
                        SlickProcessor.ViewType viewType,
                        ClassName presenter, String presenterProvider) {
         this.presenterProvider = presenterProvider;
@@ -65,7 +65,7 @@ public class AnnotatedPresenter {
     /**
      * @return a list of presenter's constructor parameters
      */
-    public List<PresenterArgs> getArgs() {
+    public List<Arg> getArgs() {
         return args;
     }
 

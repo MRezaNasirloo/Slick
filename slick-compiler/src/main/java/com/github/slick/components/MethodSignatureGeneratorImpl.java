@@ -1,7 +1,7 @@
 package com.github.slick.components;
 
 import com.github.slick.AnnotatedPresenter;
-import com.github.slick.PresenterArgs;
+import com.github.slick.Arg;
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
@@ -34,7 +34,7 @@ public class MethodSignatureGeneratorImpl implements MethodSignatureGenerator {
 
     protected Iterable<ParameterSpec> addExtraParameters(AnnotatedPresenter ap) {
         final List<ParameterSpec> list = new ArrayList<>(ap.getArgs().size());
-        for (PresenterArgs arg : ap.getArgs()) {
+        for (Arg arg : ap.getArgs()) {
             final ParameterSpec.Builder paramBuilder =
                     ParameterSpec.builder(TypeName.get(arg.getType()), arg.getName());
             for (AnnotationMirror annotationMirror : arg.getAnnotations()) {

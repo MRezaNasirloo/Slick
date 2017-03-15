@@ -267,7 +267,7 @@ public class SlickProcessor extends AbstractProcessor {
 
         final TypeElement viewTypeElement = (TypeElement) element.getEnclosingElement();
         ClassName viewTypeClassName = get(getViewType(typeElement, viewTypeElement));
-        List<PresenterArgs> args = null;
+        List<Arg> args = null;
 
         ViewType viewType = ViewType.UNSUPPORTED;
         String presenterProvider;
@@ -305,24 +305,24 @@ public class SlickProcessor extends AbstractProcessor {
 
     }
 
-    private List<PresenterArgs> scanPresenterArgs(TypeElement typeElement) {
+    private List<Arg> scanPresenterArgs(TypeElement typeElement) {
         final List<? extends Element> enclosedElements = typeElement.getEnclosedElements();
         for (Element enclosedElement : enclosedElements) {
             if (ElementKind.CONSTRUCTOR.equals(enclosedElement.getKind())) {
                 // TODO: 2017-02-01 restrict to one constructor only
                 final ExecutableElement constructor = (ExecutableElement) enclosedElement;
                 List<? extends VariableElement> parameters = constructor.getParameters();
-                List<PresenterArgs> args = new ArrayList<>(parameters.size());
+                List<Arg> args = new ArrayList<>(parameters.size());
                 for (VariableElement parameter : parameters) {
                     final List<? extends AnnotationMirror> annotationMirrors =
                             parameter.getAnnotationMirrors();
 
-                    final PresenterArgs presenterArgs = new PresenterArgs(
+                    final Arg presenterArg = new Arg(
                             parameter.getSimpleName().toString(),
                             parameter.asType(),
                             annotationMirrors);
 
-                    args.add(presenterArgs);
+                    args.add(presenterArg);
                 }
                 return args;
             }

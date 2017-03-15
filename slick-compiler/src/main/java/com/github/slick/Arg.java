@@ -12,12 +12,12 @@ import javax.lang.model.type.TypeMirror;
  *         Model class for presenter parameters
  */
 
-public class PresenterArgs {
+public class Arg {
     private String name;
     private TypeMirror type;
     private List<? extends AnnotationMirror> annotations;
 
-    PresenterArgs(String name, TypeMirror type, List<? extends AnnotationMirror> annotations) {
+    Arg(String name, TypeMirror type, List<? extends AnnotationMirror> annotations) {
         this.name = name;
         this.type = type;
         this.annotations = annotations;
