@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.github.slick.Middleware;
 import com.github.slick.sample.activity.ExampleActivity;
 import com.github.slick.sample.conductor.ConductorActivity;
 import com.github.slick.sample.cutstomview.CustomViewActivity;
@@ -16,6 +17,7 @@ import com.github.slick.sample.fragmentsupport.SupportFragmentHostActivity;
 public class MainActivity extends AppCompatActivity {
 
     @Override
+    @Middleware(MainActivity.class)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);

@@ -134,7 +134,7 @@ public class AnnotatedPresenter {
      * e.g: MainActivity -> mainActivity
      */
     public String getViewVarName() {
-        return SlickProcessor.deCapitalize(view.simpleName());
+        return Utils.deCapitalize(view.simpleName());
     }
 
     /**

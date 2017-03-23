@@ -391,8 +391,4 @@ public class SlickProcessor extends AbstractProcessor {
         messager.printMessage(kind, message, element);
     }
 
-    static String deCapitalize(String string) {
-        return Character.toLowerCase(string.charAt(0)) + string.substring(1);
-    }
-
 }
