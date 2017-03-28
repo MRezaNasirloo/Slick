@@ -1,4 +1,4 @@
-include ':app', ':slick-middleware'
+include ':app', ':slick-middleware', ':sample-middleware'
 include ':slick-compiler'
 include ':slick-annotations'
 include ':slick'

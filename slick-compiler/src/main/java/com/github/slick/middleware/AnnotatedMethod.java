@@ -55,17 +55,43 @@ public class AnnotatedMethod {
         return middleware;
     }
 
-    public String getMiddlewareFieldNames() {
+    public String getMiddlewareVarNamesAsString() {
         StringBuilder builder = new StringBuilder();
-        List<TypeMirror> middleware = getMiddleware();
-        for (int i = 0; i < middleware.size(); i++) {
-            TypeMirror typeMirror = middleware.get(i);
-            final ClassName className = ClassName.get(
-                    (TypeElement) MiddlewareProcessor.typeUtils.asElement(typeMirror));
-            builder.append(Utils.deCapitalize(className.simpleName()));
-            if (i < middleware.size() - 1) builder.append(", ");
+        final String[] names = getMiddlewareVarNames();
+        for (int i = 0; i < names.length; i++) {
+            builder.append(names[i]);
+            if (i < names.length - 1) builder.append(", ");
         }
         return builder.toString();
+    }
+
+    public String[] getMiddlewareVarNames() {
+        final String[] names = getMiddlewareClassNamesAsStringArray();
+        final String[] varNames = new String[names.length];
+        for (int i = 0; i < names.length; i++) {
+            varNames[i] = Utils.deCapitalize(names[i]);
+        }
+        return varNames;
+    }
+
+    public String[] getMiddlewareClassNamesAsStringArray() {
+        final String[] names = new String[middleware.size()];
+        for (int i = 0; i < middleware.size(); i++) {
+            TypeMirror typeMirror = middleware.get(i);
+            final ClassName className =
+                    ClassName.get((TypeElement) MiddlewareProcessor.typeUtils.asElement(typeMirror));
+            names[i] = className.simpleName();
+        }
+        return names;
+    }
+
+    public ClassName[] getMiddlewareClassNames() {
+        final ClassName[] names = new ClassName[middleware.size()];
+        for (int i = 0; i < middleware.size(); i++) {
+            TypeMirror typeMirror = middleware.get(i);
+            names[i] = ClassName.get((TypeElement) MiddlewareProcessor.typeUtils.asElement(typeMirror));
+        }
+        return names;
     }
 
     public TypeName getReturnType() {

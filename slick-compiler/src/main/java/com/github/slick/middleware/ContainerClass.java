@@ -5,6 +5,7 @@ import com.squareup.javapoet.TypeName;
 
 import java.util.List;
 
+import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.TypeParameterElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeMirror;
@@ -35,6 +36,15 @@ public class ContainerClass {
 
     public List<? extends VariableElement> getArgs() {
         return args;
+    }
+
+    public String getArgsVarNames() {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < args.size(); i++) {
+            builder.append(args.get(i).getSimpleName());
+            if (i < args.size() - 1) builder.append(", ");
+        }
+        return builder.toString();
     }
 
     public List<? extends TypeParameterElement> getTypeParameters() {

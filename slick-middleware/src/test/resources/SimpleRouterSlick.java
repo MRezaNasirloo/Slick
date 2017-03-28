@@ -1,13 +1,10 @@
 package test;
 
-import android.database.Observable;
-import android.support.annotation.Nullable;
-
-import com.github.slick.Middleware;
 import com.github.slick.middleware.RequestSimple;
 import com.github.slick.middleware.RequestStack;
-
-import java.util.ArrayList;
+import java.lang.Integer;
+import java.lang.Override;
+import java.lang.String;
 import java.util.List;
 
 public class SimpleRouterSlick<A, B extends String> extends SimpleRouter<A, B> {
@@ -15,18 +12,18 @@ public class SimpleRouterSlick<A, B extends String> extends SimpleRouter<A, B> {
     private final MiddlewareNoOp middlewareNoOp;
     private final MiddlewareNoOp2 middlewareNoOp2;
 
-    public SimpleRouterSlick(test.MiddlewareNoOp middlewareNoOp, MiddlewareNoOp2 middlewareNoOp2) {
+    public SimpleRouterSlick(String string, Integer integer, long lng, MiddlewareNoOp middlewareNoOp, MiddlewareNoOp2 middlewareNoOp2) {
+        super(string, integer, lng);
         this.middlewareNoOp = middlewareNoOp;
         this.middlewareNoOp2 = middlewareNoOp2;
     }
 
-    @Nullable
     @Override
     public <R extends T, T> List<R> doSomething(B b) {
-        final RequestSimple<List<R>, R> request = new RequestSimple<List<R>, R>() {
+        final RequestSimple<List<R>, B> request = new RequestSimple<List<R>, B>() {
             @Override
-            public List<R> destination(R data) {
-                return SimpleRouter.super.doSomthing(data);
+            public List<R> target(B data) {
+                return SimpleRouterSlick.super.doSomething(data);
             }
         };
         request.with(b).through(middlewareNoOp, middlewareNoOp2).destination(null);

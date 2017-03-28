@@ -17,7 +17,6 @@ import com.github.slick.sample.fragmentsupport.SupportFragmentHostActivity;
 public class MainActivity extends AppCompatActivity {
 
     @Override
-    @Middleware(MainActivity.class)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);

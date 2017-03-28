@@ -9,7 +9,7 @@ import java.util.Stack;
  */
 
 public abstract class RequestSimple<R, P> extends Request {
-    RequestStack routerStack = RequestStack.getInstance();
+    private RequestStack routerStack = RequestStack.getInstance();
     private Middleware[] middleware;
     private P data;
     private Callback<R> callback;
@@ -18,7 +18,7 @@ public abstract class RequestSimple<R, P> extends Request {
     private int middlewareBackStack = 0;
     private boolean tooLateAlreadyFinished = false;
 
-    abstract public R destination(P data);
+    abstract public R target(P data);
 
     public RequestSimple<R, P> with(P data) {
         this.data = data;
@@ -50,7 +50,7 @@ public abstract class RequestSimple<R, P> extends Request {
         }
 
         if (this != routerStack.pop()) throw new AssertionError();
-        final R response = destination(data);
+        final R response = target(data);
         if (callback != null) {
             callback.onPass(response);
         }
