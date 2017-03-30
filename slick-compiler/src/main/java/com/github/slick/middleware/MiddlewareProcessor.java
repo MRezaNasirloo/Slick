@@ -2,6 +2,8 @@ package com.github.slick.middleware;
 
 import com.github.slick.Middleware;
 import com.github.slick.SlickVisitor;
+import com.github.slick.middleware.components.ConstructorGeneratorImpl;
+import com.github.slick.middleware.components.FieldGeneratorImpl;
 import com.github.slick.middleware.components.MiddlewareGenerator;
 import com.github.slick.middleware.components.MiddlewareGeneratorBaseImpl;
 import com.google.auto.service.AutoService;
@@ -67,15 +69,15 @@ public class MiddlewareProcessor extends AbstractProcessor {
 
     //Slick Request types
     public static final ClassName CLASS_NAME_REQUEST_COMPLETEBLE =
-            ClassName.get("com.github.slick.middleware", "RequestCompletable");
+            ClassName.get("com.github.slick.middleware.rx2", "RequestCompletable");
     public static final ClassName CLASS_NAME_REQUEST_OBSERVABLE =
-            ClassName.get("com.github.slick.middleware", "RequestObservable");
+            ClassName.get("com.github.slick.middleware.rx2", "RequestObservable");
     public static final ClassName CLASS_NAME_REQUEST_FLOWABLE =
-            ClassName.get("com.github.slick.middleware", "RequestFlowable");
+            ClassName.get("com.github.slick.middleware.rx2", "RequestFlowable");
     public static final ClassName CLASS_NAME_REQUEST_SINGLE =
-            ClassName.get("com.github.slick.middleware", "RequestSingle");
+            ClassName.get("com.github.slick.middleware.rx2", "RequestSingle");
     public static final ClassName CLASS_NAME_REQUEST_MAYBE =
-            ClassName.get("com.github.slick.middleware", "RequestMaybe");
+            ClassName.get("com.github.slick.middleware.rx2", "RequestMaybe");
     public static final ClassName CLASS_NAME_REQUEST_SIMPLE =
             ClassName.get("com.github.slick.middleware", "RequestSimple");
 
@@ -84,7 +86,10 @@ public class MiddlewareProcessor extends AbstractProcessor {
             ClassName.get("com.github.slick.middleware", "RequestStack");
     public static final ClassName CLASS_NAME_CALLBACK = ClassName.get("com.github.slick.middleware", "Callback");
 
-    private static final MiddlewareGenerator generator = new MiddlewareGeneratorBaseImpl();
+    private static final ConstructorGeneratorImpl constructorGenerator = new ConstructorGeneratorImpl();
+    private static final FieldGeneratorImpl fieldGenerator = new FieldGeneratorImpl();
+    private static final MiddlewareGenerator generator = new MiddlewareGeneratorBaseImpl(
+            constructorGenerator, fieldGenerator);
 
     private Filer filer;
     private Messager messager;

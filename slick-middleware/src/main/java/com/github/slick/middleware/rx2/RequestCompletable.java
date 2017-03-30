@@ -1,16 +1,24 @@
-package com.github.slick.middleware;
+package com.github.slick.middleware.rx2;
+
+
+import com.github.slick.middleware.Middleware;
+import com.github.slick.middleware.Request;
+import com.github.slick.middleware.RequestData;
+
+import io.reactivex.Completable;
 
 /**
  * @author : Pedramrn@gmail.com
  *         Created on: 2017-03-13
  */
 
-public abstract class RequestSimple<R, P> extends Request {
+public abstract class RequestCompletable<T extends Completable, R, P> extends Request {
     private P data;
-    private Callback<R> callback;
-    abstract public R target(P data);
+    private T source;
 
-    public RequestSimple<R, P> with(P data) {
+    public abstract T target(P data);
+
+    public RequestCompletable<T, R, P> with(P data) {
         this.data = data;
         if (!(data instanceof RequestData)) {
             requestData = new RequestData().putParameter(data);
@@ -18,7 +26,7 @@ public abstract class RequestSimple<R, P> extends Request {
         return this;
     }
 
-    public RequestSimple<R, P> through(Middleware... middleware) {
+    public RequestCompletable<T, R, P> through(Middleware... middleware) {
         this.middleware = middleware;
         return this;
     }
@@ -34,14 +42,14 @@ public abstract class RequestSimple<R, P> extends Request {
         }
 
         if (this != routerStack.pop()) throw new AssertionError();
-        final R response = target(data);
-        if (callback != null) {
-            callback.onPass(response);
+        final T response = target(data);
+        if (source != null) {
+            source.mergeWith(response);
         }
         tooLateAlreadyFinished = true;
     }
 
-    public void destination(Callback<R> callback) {
-        this.callback = callback;
+    public void destination(T source) {
+        this.source = source;
     }
 }

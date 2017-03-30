@@ -1,6 +1,5 @@
 package com.github.slick.middleware.components;
 
-import com.github.slick.Utils;
 import com.github.slick.middleware.AnnotatedMethod;
 import com.github.slick.middleware.ContainerClass;
 import com.github.slick.middleware.MiddlewareProcessor;
@@ -14,14 +13,12 @@ import com.squareup.javapoet.TypeVariableName;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeParameterElement;
-import javax.lang.model.element.VariableElement;
 
 /**
  * @author : Pedramrn@gmail.com
@@ -29,45 +26,27 @@ import javax.lang.model.element.VariableElement;
  */
 
 public class MiddlewareGeneratorBaseImpl implements MiddlewareGenerator {
+
+    private final ConstructorGenerator constructorGenerator;
+    private final FieldGenerator fieldGenerator;
+
+    public MiddlewareGeneratorBaseImpl(ConstructorGenerator constructorGenerator, FieldGenerator fieldGenerator) {
+        this.constructorGenerator = constructorGenerator;
+        this.fieldGenerator = fieldGenerator;
+    }
+
     @Override
     public TypeSpec generate(ContainerClass container, List<AnnotatedMethod> annotatedMethods) {
+        List<MethodSpec> methodSpecList = new ArrayList<>(annotatedMethods.size());
 
-        //add fields
         Set<ClassName> middleware = new LinkedHashSet<>();
 
         for (AnnotatedMethod annotatedMethod : annotatedMethods) {
             Collections.addAll(middleware, annotatedMethod.getMiddlewareClassNames());
         }
-
-        List<FieldSpec> fieldSpecs = new ArrayList<>(middleware.size());
-        for (ClassName className : middleware) {
-            final FieldSpec.Builder builder =
-                    FieldSpec.builder(className, Utils.deCapitalize(className.simpleName()), Modifier.FINAL,
-                            Modifier.PRIVATE);
-            fieldSpecs.add(builder.build());
-        }
-
-        //add constructor
-        List<MethodSpec> methodSpecs = new ArrayList<>(annotatedMethods.size());
-
-        final MethodSpec.Builder builder = MethodSpec.constructorBuilder();
-        for (VariableElement variableElement : container.getArgs()) {
-            final Set<Modifier> modifiers = variableElement.getModifiers();
-            builder.addParameter(TypeName.get(variableElement.asType()),
-                    variableElement.getSimpleName().toString(), modifiers
-                            .toArray(new Modifier[modifiers.size()]));
-        }
-        builder.addStatement("super($L)", container.getArgsVarNames());
-
-        for (ClassName className : middleware) {
-            final String name = Utils.deCapitalize(className.simpleName());
-            builder.addParameter(className, name);
-            builder.addStatement("this.$L = $L", name, name);
-        }
-
-        methodSpecs.add(builder.addModifiers(Modifier.PUBLIC).build());
-
-
+        final List<FieldSpec> fieldSpecs = fieldGenerator.generate(middleware);
+        final MethodSpec constructor = constructorGenerator.generate(container, middleware);
+        methodSpecList.add(constructor);
 
 
         List<TypeVariableName> typeVariableNames = new ArrayList<>(container.getTypeParameters().size());
@@ -75,7 +54,6 @@ public class MiddlewareGeneratorBaseImpl implements MiddlewareGenerator {
             final TypeName typeName = TypeVariableName.get(element.asType());
             typeVariableNames.add((TypeVariableName) typeName);
         }
-
 
 
         //add methods
@@ -110,7 +88,8 @@ public class MiddlewareGeneratorBaseImpl implements MiddlewareGenerator {
                     .beginControlFlow("final $T request = new $T()", requestType, requestType)
                     .addCode("@Override ")
                     .beginControlFlow("public $T target($T data)", am.getReturnType().box(), requestDataType)
-                    .addStatement("$L$T.super.$L(data$L)", handleReturn(am, builder), container.getSubclass(), am.getMethodName(), requestCallback != null ? ", null" : "");
+                    .addStatement("$L$T.super.$L(data$L)", handleReturn(am), container.getSubclass(),
+                            am.getMethodName(), requestCallback != null ? ", null" : "");
             returnNullIfNeeded(methodBuilder, am)
                     .endControlFlow()
                     .endControlFlow("")
@@ -120,14 +99,14 @@ public class MiddlewareGeneratorBaseImpl implements MiddlewareGenerator {
                             MiddlewareProcessor.CLASS_NAME_REQUEST_STACK);
             returnNullIfNeededAtTheEnd(methodBuilder, am);
 
-            methodSpecs.add(methodBuilder.build());
+            methodSpecList.add(methodBuilder.build());
         }
 
         return TypeSpec.classBuilder(container.getSubclass())
                 .addModifiers(Modifier.PUBLIC)
                 .superclass(container.getSuperClass())
                 .addTypeVariables(typeVariableNames)
-                .addMethods(methodSpecs)
+                .addMethods(methodSpecList)
                 .addFields(fieldSpecs)
                 .build();
     }
@@ -148,7 +127,7 @@ public class MiddlewareGeneratorBaseImpl implements MiddlewareGenerator {
 
     }
 
-    private String handleReturn(AnnotatedMethod am, MethodSpec.Builder builder) {
+    private String handleReturn(AnnotatedMethod am) {
         if (TypeName.get(void.class).equals(am.getReturnType())) {
             return "";
         }

@@ -30,6 +30,7 @@ dependencies {
     compile project(':slick-annotations')
     provided 'com.android.support:support-annotations:25.2.0'
 
+    provided 'io.reactivex.rxjava2:rxjava:2.0.7'
     testCompile 'junit:junit:4.12'
 
     testCompile 'com.google.truth:truth:0.28'
