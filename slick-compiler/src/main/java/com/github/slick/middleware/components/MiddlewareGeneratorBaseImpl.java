@@ -96,7 +96,7 @@ public class MiddlewareGeneratorBaseImpl implements MiddlewareGenerator {
                 .build();
     }
 
-    protected String getParams(AnnotatedMethod am) {
+    private String getParams(AnnotatedMethod am) {
         String paramString = "";
         final int size = am.getArgs().size();
         if (size == 1) {

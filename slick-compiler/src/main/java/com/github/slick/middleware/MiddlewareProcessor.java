@@ -9,9 +9,11 @@ import com.github.slick.middleware.components.FieldGeneratorImpl;
 import com.github.slick.middleware.components.MiddlewareGenerator;
 import com.github.slick.middleware.components.MiddlewareGeneratorBaseImpl;
 import com.github.slick.middleware.components.RequestTypeGenerator;
+import com.github.slick.middleware.components.RequestTypeGenerator1ArgsImpl;
 import com.github.slick.middleware.components.RequestTypeGenerator2ArgsImpl;
 import com.github.slick.middleware.components.RequestTypeGenerator3ArgsImpl;
 import com.github.slick.middleware.components.RxSourceGenerator;
+import com.github.slick.middleware.components.RxSourceGeneratorCompletableImpl;
 import com.github.slick.middleware.components.RxSourceGeneratorImpl;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
@@ -98,13 +100,15 @@ public class MiddlewareProcessor extends AbstractProcessor {
     private final MiddlewareGenerator generator = new MiddlewareGeneratorBaseImpl(constructorGenerator,
             fieldGenerator);
 
+    private static final RequestTypeGenerator REQUEST_TYPE_GENERATOR_1_ARGS = new RequestTypeGenerator1ArgsImpl();
     private static final RequestTypeGenerator REQUEST_TYPE_GENERATOR_2_ARGS = new RequestTypeGenerator2ArgsImpl();
     private static final RequestTypeGenerator REQUEST_TYPE_GENERATOR_3_ARGS = new RequestTypeGenerator3ArgsImpl();
     private static final RxSourceGenerator RX_SOURCE_GENERATOR = new RxSourceGeneratorImpl();
+    private static final RxSourceGenerator RX_SOURCE_GENERATOR_COMPLETABLE = new RxSourceGeneratorCompletableImpl();
 
     public enum MethodType {
-        COMPLETABLE(CLASS_NAME_COMPLETABLE_SUBJECT, CLASS_NAME_REQUEST_COMPLETEBLE, RX_SOURCE_GENERATOR,
-                REQUEST_TYPE_GENERATOR_2_ARGS),
+        COMPLETABLE(CLASS_NAME_COMPLETABLE_SUBJECT, CLASS_NAME_REQUEST_COMPLETEBLE, RX_SOURCE_GENERATOR_COMPLETABLE,
+                REQUEST_TYPE_GENERATOR_1_ARGS),
         OBSERVABLE(CLASS_NAME_PUBLISH_SUBJECT, CLASS_NAME_REQUEST_OBSERVABLE, RX_SOURCE_GENERATOR,
                 REQUEST_TYPE_GENERATOR_3_ARGS),
         FLOWABLE(CLASS_NAME_PUBLISH_PROCESSOR, CLASS_NAME_REQUEST_FLOWABLE, RX_SOURCE_GENERATOR,

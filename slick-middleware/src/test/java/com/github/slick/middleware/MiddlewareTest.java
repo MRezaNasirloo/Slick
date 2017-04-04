@@ -61,4 +61,19 @@ public class MiddlewareTest {
                 .and()
                 .generatesSources(genSource);
     }
+    @Test
+    public void requestCompletable() throws Exception {
+        JavaFileObject routerSource = JavaFileObjects.forResource("resources/RouterCompletable.java");
+        JavaFileObject genSource = JavaFileObjects.forResource("resources/RouterCompletableSlick.java");
+        JavaFileObject middlewareSource = JavaFileObjects.forResource("resources/MiddlewareNoOp.java");
+        JavaFileObject middlewareSource2 = JavaFileObjects.forResource("resources/MiddlewareNoOp2.java");
+
+        assertAbout(JavaSourcesSubjectFactory.javaSources())
+                .that(Arrays.asList(routerSource, middlewareSource, middlewareSource2))
+                .processedWith(new MiddlewareProcessor())
+                .compilesWithoutError()
+                .and()
+                .generatesSources(genSource);
+    }
+
 }
