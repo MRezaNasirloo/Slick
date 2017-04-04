@@ -31,4 +31,34 @@ public class MiddlewareTest {
                         .and()
                         .generatesSources(genSource);
     }
+
+    @Test
+    public void requestSimple() throws Exception {
+        JavaFileObject routerSource = JavaFileObjects.forResource("resources/RouterSimple.java");
+        JavaFileObject genSource = JavaFileObjects.forResource("resources/RouterSimpleSlick.java");
+        JavaFileObject middlewareSource = JavaFileObjects.forResource("resources/MiddlewareNoOp.java");
+        JavaFileObject middlewareSource2 = JavaFileObjects.forResource("resources/MiddlewareNoOp2.java");
+
+        assertAbout(JavaSourcesSubjectFactory.javaSources())
+                .that(Arrays.asList(routerSource, middlewareSource, middlewareSource2))
+                .processedWith(new MiddlewareProcessor())
+                .compilesWithoutError()
+                .and()
+                .generatesSources(genSource);
+    }
+
+    @Test
+    public void requestRx() throws Exception {
+        JavaFileObject routerSource = JavaFileObjects.forResource("resources/RouterRx.java");
+        JavaFileObject genSource = JavaFileObjects.forResource("resources/RouterRxSlick.java");
+        JavaFileObject middlewareSource = JavaFileObjects.forResource("resources/MiddlewareNoOp.java");
+        JavaFileObject middlewareSource2 = JavaFileObjects.forResource("resources/MiddlewareNoOp2.java");
+
+        assertAbout(JavaSourcesSubjectFactory.javaSources())
+                .that(Arrays.asList(routerSource, middlewareSource, middlewareSource2))
+                .processedWith(new MiddlewareProcessor())
+                .compilesWithoutError()
+                .and()
+                .generatesSources(genSource);
+    }
 }
