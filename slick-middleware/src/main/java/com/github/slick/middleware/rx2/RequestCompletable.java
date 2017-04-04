@@ -12,13 +12,13 @@ import io.reactivex.Completable;
  *         Created on: 2017-03-13
  */
 
-public abstract class RequestCompletable<T extends Completable, R, P> extends Request {
+public abstract class RequestCompletable<P> extends Request {
     private P data;
-    private T source;
+    private Completable source;
 
-    public abstract T target(P data);
+    public abstract Completable target(P data);
 
-    public RequestCompletable<T, R, P> with(P data) {
+    public RequestCompletable<P> with(P data) {
         this.data = data;
         if (!(data instanceof RequestData)) {
             requestData = new RequestData().putParameter(data);
@@ -26,7 +26,7 @@ public abstract class RequestCompletable<T extends Completable, R, P> extends Re
         return this;
     }
 
-    public RequestCompletable<T, R, P> through(Middleware... middleware) {
+    public RequestCompletable<P> through(Middleware... middleware) {
         this.middleware = middleware;
         return this;
     }
@@ -42,14 +42,14 @@ public abstract class RequestCompletable<T extends Completable, R, P> extends Re
         }
 
         if (this != routerStack.pop()) throw new AssertionError();
-        final T response = target(data);
+        final Completable response = target(data);
         if (source != null) {
             source.mergeWith(response);
         }
         tooLateAlreadyFinished = true;
     }
 
-    public void destination(T source) {
+    public void destination(Completable source) {
         this.source = source;
     }
 }

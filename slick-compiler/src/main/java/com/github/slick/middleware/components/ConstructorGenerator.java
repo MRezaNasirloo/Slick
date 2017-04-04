@@ -11,6 +11,6 @@ import java.util.Set;
  *         Created on: 2017-03-29
  */
 
-interface ConstructorGenerator {
+public interface ConstructorGenerator {
     MethodSpec generate(ContainerClass container, Set<ClassName> middleware);
 }

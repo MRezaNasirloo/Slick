@@ -12,6 +12,6 @@ import java.util.Set;
  *         Created on: 2017-03-29
  */
 
-interface FieldGenerator {
+public interface FieldGenerator {
     List<FieldSpec> generate(Set<ClassName> middleware);
 }

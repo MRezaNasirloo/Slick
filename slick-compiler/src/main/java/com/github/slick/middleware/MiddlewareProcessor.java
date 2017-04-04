@@ -2,10 +2,17 @@ package com.github.slick.middleware;
 
 import com.github.slick.Middleware;
 import com.github.slick.SlickVisitor;
+import com.github.slick.middleware.components.ConstructorGenerator;
 import com.github.slick.middleware.components.ConstructorGeneratorImpl;
+import com.github.slick.middleware.components.FieldGenerator;
 import com.github.slick.middleware.components.FieldGeneratorImpl;
 import com.github.slick.middleware.components.MiddlewareGenerator;
 import com.github.slick.middleware.components.MiddlewareGeneratorBaseImpl;
+import com.github.slick.middleware.components.RequestTypeGenerator;
+import com.github.slick.middleware.components.RequestTypeGenerator2ArgsImpl;
+import com.github.slick.middleware.components.RequestTypeGenerator3ArgsImpl;
+import com.github.slick.middleware.components.RxSourceGenerator;
+import com.github.slick.middleware.components.RxSourceGeneratorImpl;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
@@ -49,7 +56,7 @@ import javax.tools.Diagnostic;
 public class MiddlewareProcessor extends AbstractProcessor {
 
     //RxJava2 types
-    public static final ClassName CLASS_NAME_COMPLETEBLE = ClassName.get("io.reactivex", "Completable");
+    public static final ClassName CLASS_NAME_COMPLETABLE = ClassName.get("io.reactivex", "Completable");
     public static final ClassName CLASS_NAME_OBSERVABLE = ClassName.get("io.reactivex", "Observable");
     public static final ClassName CLASS_NAME_FLOWABLE = ClassName.get("io.reactivex", "Flowable");
     public static final ClassName CLASS_NAME_SINGLE = ClassName.get("io.reactivex", "Single");
@@ -86,32 +93,46 @@ public class MiddlewareProcessor extends AbstractProcessor {
             ClassName.get("com.github.slick.middleware", "RequestStack");
     public static final ClassName CLASS_NAME_CALLBACK = ClassName.get("com.github.slick.middleware", "Callback");
 
-    private static final ConstructorGeneratorImpl constructorGenerator = new ConstructorGeneratorImpl();
-    private static final FieldGeneratorImpl fieldGenerator = new FieldGeneratorImpl();
-    private static final MiddlewareGenerator generator = new MiddlewareGeneratorBaseImpl(
-            constructorGenerator, fieldGenerator);
+    private final ConstructorGenerator constructorGenerator = new ConstructorGeneratorImpl();
+    private final FieldGenerator fieldGenerator = new FieldGeneratorImpl();
+    private final MiddlewareGenerator generator = new MiddlewareGeneratorBaseImpl(constructorGenerator,
+            fieldGenerator);
+
+    private static final RequestTypeGenerator REQUEST_TYPE_GENERATOR_2_ARGS = new RequestTypeGenerator2ArgsImpl();
+    private static final RequestTypeGenerator REQUEST_TYPE_GENERATOR_3_ARGS = new RequestTypeGenerator3ArgsImpl();
+    private static final RxSourceGenerator RX_SOURCE_GENERATOR = new RxSourceGeneratorImpl();
+
+    public enum MethodType {
+        COMPLETABLE(CLASS_NAME_COMPLETABLE_SUBJECT, CLASS_NAME_REQUEST_COMPLETEBLE, RX_SOURCE_GENERATOR,
+                REQUEST_TYPE_GENERATOR_2_ARGS),
+        OBSERVABLE(CLASS_NAME_PUBLISH_SUBJECT, CLASS_NAME_REQUEST_OBSERVABLE, RX_SOURCE_GENERATOR,
+                REQUEST_TYPE_GENERATOR_3_ARGS),
+        FLOWABLE(CLASS_NAME_PUBLISH_PROCESSOR, CLASS_NAME_REQUEST_FLOWABLE, RX_SOURCE_GENERATOR,
+                REQUEST_TYPE_GENERATOR_3_ARGS),
+        SINGLE(CLASS_NAME_SINGLE_SUBJECT, CLASS_NAME_REQUEST_SINGLE, RX_SOURCE_GENERATOR,
+                REQUEST_TYPE_GENERATOR_3_ARGS),
+        MAYBE(CLASS_NAME_MAYBE_SUBJECT, CLASS_NAME_REQUEST_MAYBE, RX_SOURCE_GENERATOR,
+                REQUEST_TYPE_GENERATOR_3_ARGS),
+        SIMPLE(null, CLASS_NAME_REQUEST_SIMPLE, RX_SOURCE_GENERATOR, REQUEST_TYPE_GENERATOR_2_ARGS),
+        UNSUPPORTED(null, null, null, null);
+
+        public final ClassName bridgeType;
+        public final ClassName requestType;
+        public final RxSourceGenerator rxSourceGenerator;
+        public final RequestTypeGenerator requestTypeGenerator;
+
+        MethodType(ClassName bridgeType, ClassName requestType, RxSourceGenerator rxSourceGenerator,
+                   RequestTypeGenerator requestTypeGenerator) {
+            this.bridgeType = bridgeType;
+            this.requestType = requestType;
+            this.rxSourceGenerator = rxSourceGenerator;
+            this.requestTypeGenerator = requestTypeGenerator;
+        }
+    }
 
     private Filer filer;
     private Messager messager;
     public static Types typeUtils;
-
-    public enum MethodType {
-        COMPLETABLE(CLASS_NAME_COMPLETABLE_SUBJECT, CLASS_NAME_REQUEST_COMPLETEBLE),
-        OBSERVABLE(CLASS_NAME_PUBLISH_SUBJECT, CLASS_NAME_REQUEST_OBSERVABLE),
-        FLOWABLE(CLASS_NAME_PUBLISH_PROCESSOR, CLASS_NAME_REQUEST_FLOWABLE),
-        SINGLE(CLASS_NAME_SINGLE_SUBJECT, CLASS_NAME_REQUEST_SINGLE),
-        MAYBE(CLASS_NAME_MAYBE_SUBJECT, CLASS_NAME_REQUEST_MAYBE),
-        SIMPLE(null, CLASS_NAME_REQUEST_SIMPLE),
-        UNSUPPORTED(null, null);
-
-        public final ClassName bridgeType;
-        public final ClassName requestType;
-
-        MethodType(ClassName bridgeType, ClassName requestType) {
-            this.bridgeType = bridgeType;
-            this.requestType = requestType;
-        }
-    }
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnvironment) {
@@ -164,7 +185,8 @@ public class MiddlewareProcessor extends AbstractProcessor {
                 }
             }
             if (map.containsKey(container)) {
-                annotatedMethods = map.get(container);
+                //                already processed
+                break;
             } else {
                 annotatedMethods = new ArrayList<>();
                 map.put(container, annotatedMethods);
@@ -195,9 +217,12 @@ public class MiddlewareProcessor extends AbstractProcessor {
                         type = MethodType.MAYBE;
                     } else if (returnTypeName.equals(CLASS_NAME_SINGLE)) {
                         type = MethodType.SINGLE;
-                    } else if (returnTypeName.equals(CLASS_NAME_COMPLETEBLE)) {
+                    } else if (returnTypeName.equals(CLASS_NAME_COMPLETABLE)) {
                         type = MethodType.COMPLETABLE;
                     } else {
+                        type = MethodType.SIMPLE;
+                    }
+                    if (!(typeName instanceof ParameterizedTypeName) && type != MethodType.COMPLETABLE) {
                         type = MethodType.SIMPLE;
                     }
 
@@ -245,13 +270,14 @@ public class MiddlewareProcessor extends AbstractProcessor {
     private boolean is2ndArgNotOk(List<? extends VariableElement> parameters, TypeName typeName, Element element) {
         if (parameters.size() == 2) {
             final TypeName callback = ClassName.get(parameters.get(1).asType());
-            if (callback instanceof ParameterizedTypeName){
+            if (callback instanceof ParameterizedTypeName) {
                 final List<TypeName> typeArguments = ((ParameterizedTypeName) callback).typeArguments;
-                if (typeArguments.size() != 1 ) {
+                if (typeArguments.size() != 1) {
                     return true;
                 }
                 if (!typeArguments.get(0).equals(typeName)) {
-                    messager.printMessage(Diagnostic.Kind.NOTE, "Callback parametrized type should be same as the method return type.", element);
+                    messager.printMessage(Diagnostic.Kind.NOTE,
+                            "Callback parametrized type should be same as the method return type.", element);
                     return true;
                 }
             }

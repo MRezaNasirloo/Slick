@@ -20,6 +20,8 @@ import java.util.Set;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeParameterElement;
 
+import static com.github.slick.middleware.MiddlewareProcessor.CLASS_NAME_REQUEST_SIMPLE;
+
 /**
  * @author : Pedramrn@gmail.com
  *         Created on: 2017-03-22
@@ -58,43 +60,26 @@ public class MiddlewareGeneratorBaseImpl implements MiddlewareGenerator {
 
         //add methods
         for (AnnotatedMethod am : annotatedMethods) {
-            final TypeName requestDataType;
-            final String requestDataArg;
-            final String requestCallback;
-            final int size = am.getArgs().size();
-            if (size > 0 && size <= 2) {
-                requestDataType = ClassName.get(am.getArgs().get(0).asType());
-                requestDataArg = am.getArgs().get(0).toString();
-                if (size == 2) {
-                    requestCallback = am.getArgs().get(1).toString();
-                } else {
-                    requestCallback = null;
-                }
-            } else if (size == 0) {
-                requestDataType = ClassName.get(Void.class);
-                requestDataArg = null;
-                requestCallback = "";
-            } else {
-                //only 2 param allowed
-                throw new RuntimeException();
-                // TODO: 2017-03-22 log error with stacktrace
-            }
-            final ParameterizedTypeName requestType =
-                    ParameterizedTypeName.get(am.getMethodType().requestType,
-                            am.getReturnType().box(), requestDataType);
+
+            final ParameterizedTypeName parametrizedType =
+                    am.getMethodType().requestTypeGenerator.generate(am);
 
 
             final MethodSpec.Builder methodBuilder = MethodSpec.overriding(am.getSuperMethod())
-                    .beginControlFlow("final $T request = new $T()", requestType, requestType)
+                    .beginControlFlow("final $T request = new $T()", parametrizedType, parametrizedType)
                     .addCode("@Override ")
-                    .beginControlFlow("public $T target($T data)", am.getReturnType().box(), requestDataType)
-                    .addStatement("$L$T.super.$L(data$L)", handleReturn(am), container.getSubclass(),
-                            am.getMethodName(), requestCallback != null ? ", null" : "");
+                    .beginControlFlow("public $T target($T data)", am.getReturnType().box(), am.getParamType())
+                    .addStatement("$L$T.super.$L($L)", handleReturn(am), container.getSubclass(),
+                            am.getMethodName(), getParams(am));
             returnNullIfNeeded(methodBuilder, am)
                     .endControlFlow()
-                    .endControlFlow("")
-                    .addStatement("request.with($L).through($L).destination($L)", requestDataArg,
-                            am.getMiddlewareVarNamesAsString(), requestCallback)
+                    .endControlFlow("");
+            am.getMethodType().rxSourceGenerator.generate(am, methodBuilder)
+                    .addStatement("request.with($L).through($L).destination($L)", am.getParamName(),
+                            am.getMiddlewareVarNamesAsString(),
+                            CLASS_NAME_REQUEST_SIMPLE.equals(am.getMethodType().requestType) ?
+                                    am.getCallbackName() :
+                                    "source")
                     .addStatement("$T.getInstance().push(request).processLastRequest()",
                             MiddlewareProcessor.CLASS_NAME_REQUEST_STACK);
             returnNullIfNeededAtTheEnd(methodBuilder, am);
@@ -111,6 +96,18 @@ public class MiddlewareGeneratorBaseImpl implements MiddlewareGenerator {
                 .build();
     }
 
+    protected String getParams(AnnotatedMethod am) {
+        String paramString = "";
+        final int size = am.getArgs().size();
+        if (size == 1) {
+            paramString += am.isCallback(0) ? "null" : "data";
+        } else if (size == 2) {
+            paramString += am.isCallback(0) ? "null, " : "data" + ", ";
+            paramString += am.isCallback(1) ? "null" : "data";
+        }
+        return paramString;
+    }
+
     private MethodSpec.Builder returnNullIfNeeded(MethodSpec.Builder builder, AnnotatedMethod am) {
         if (TypeName.get(void.class).equals(am.getReturnType())) {
             return builder.addStatement("return null");
@@ -121,7 +118,11 @@ public class MiddlewareGeneratorBaseImpl implements MiddlewareGenerator {
 
     private MethodSpec.Builder returnNullIfNeededAtTheEnd(MethodSpec.Builder builder, AnnotatedMethod am) {
         if (!TypeName.get(void.class).equals(am.getReturnType())) {
-            return builder.addStatement("return null");
+            if (CLASS_NAME_REQUEST_SIMPLE.equals(am.getMethodType().requestType)) {
+                builder.addStatement("return null");
+            } else {
+                builder.addStatement("return source");
+            }
         }
         return builder;
 
