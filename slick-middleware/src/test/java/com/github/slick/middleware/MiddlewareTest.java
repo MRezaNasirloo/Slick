@@ -18,9 +18,9 @@ import static com.google.common.truth.Truth.assertAbout;
  */
 public class MiddlewareTest {
     @Test
-    public void simpleRequest() throws Exception {
-        JavaFileObject routerSource = JavaFileObjects.forResource("resources/SimpleRouter.java");
-        JavaFileObject genSource = JavaFileObjects.forResource("resources/SimpleRouterSlick.java");
+    public void requestGeneric() throws Exception {
+        JavaFileObject routerSource = JavaFileObjects.forResource("resources/RouterGeneric.java");
+        JavaFileObject genSource = JavaFileObjects.forResource("resources/RouterGenericSlick.java");
         JavaFileObject middlewareSource = JavaFileObjects.forResource("resources/MiddlewareNoOp.java");
         JavaFileObject middlewareSource2 = JavaFileObjects.forResource("resources/MiddlewareNoOp2.java");
 
