@@ -21,7 +21,7 @@ public class Slick {
         for (int i = 0; i < args.length; i++) {
             presentersArgs[i + 1] = args[i];
         }
-        return invokeMethod(presentersArgs, "bind");
+        return invokeMethod(view, "bind", presentersArgs);
 
     }
 
@@ -49,13 +49,17 @@ public class Slick {
         invokeMethod(view, "onDetach");
     }
 
-    private static Object invokeMethod(@NonNull Object view, String methodName) {
+    private static Object invokeMethod(@NonNull Object view, String methodName, Object... args) {
         try {
             final Class<?> presenter = Class.forName(view.getClass().getCanonicalName() + "_Slick");
             final Method[] bind = presenter.getDeclaredMethods();
             for (Method method : bind) {
                 if (methodName.equals(method.getName()) && Modifier.isStatic(method.getModifiers())) {
-                    return method.invoke(null, view);
+                    if (args.length == 0) {
+                        return method.invoke(null, view);
+                    } else {
+                        return method.invoke(null, args);
+                    }
                 }
             }
         } catch (ClassNotFoundException e) {

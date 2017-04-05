@@ -1,6 +1,10 @@
 package com.github.slick.middleware;
 
+import android.content.Context;
+
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -10,8 +14,8 @@ import java.util.Stack;
 
 public abstract class Request {
     protected RequestStack routerStack = RequestStack.getInstance();
-    protected Middleware[] middleware;
-    protected RequestData requestData;
+    protected List<Middleware> middleware;
+    protected SlickBundle slickBundle;
     protected Stack<Middleware> middlewareStack = new Stack<>();
     protected int middlewareBackStack = 0;
     protected boolean tooLateAlreadyFinished = false;
@@ -20,7 +24,9 @@ public abstract class Request {
 
     protected void refill() {
         middlewareStack.clear();
-        middlewareStack.addAll(Arrays.asList(middleware));
+        middlewareStack.addAll(middleware);
+        middlewareBackStack = 0;
     }
 
+//    public abstract void stopped();
 }

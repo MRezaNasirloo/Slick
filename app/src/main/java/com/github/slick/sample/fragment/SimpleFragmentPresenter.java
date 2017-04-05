@@ -1,6 +1,5 @@
 package com.github.slick.sample.fragment;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.github.slick.SlickPresenter;

@@ -40,7 +40,7 @@ public class DaggerCustomView extends LinearLayout implements ExampleView {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        App.getDDaggerComponent(getContext()).inject(this);
+        App.getDaggerComponent(getContext()).inject(this);
         DaggerCustomView_Slick.bind(this);
         DaggerCustomView_Slick.onAttach(this);
 

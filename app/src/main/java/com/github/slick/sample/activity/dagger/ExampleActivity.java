@@ -23,7 +23,7 @@ public class ExampleActivity extends AppCompatActivity implements ExampleActivit
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        App.getDDaggerComponent(this).inject(this);
+        App.getDaggerComponent(this).inject(this);
         Slick.bind(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_example);
@@ -32,10 +32,10 @@ public class ExampleActivity extends AppCompatActivity implements ExampleActivit
 
     @Override
     protected void onDestroy() {
+        super.onDestroy();
         if (isFinishing()) {
             Log.e(TAG, "onDestroy() called disposing");
-            App.disposeDDaggerComponent(this);
+            App.disposeDaggerComponent(this);
         }
-        super.onDestroy();
     }
 }

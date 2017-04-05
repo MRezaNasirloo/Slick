@@ -8,21 +8,21 @@ import java.util.Map;
  *         Created on: 2017-03-13
  */
 
-public class RequestData {
+public class SlickBundle {
 
     private Map<String, Object> map = new HashMap<>();
 
-    public RequestData putInteger(String key, Integer i) {
+    public SlickBundle putInteger(String key, Integer i) {
         map.put(key, i);
         return this;
     }
 
-    public RequestData putString(String key, String s) {
+    public SlickBundle putString(String key, String s) {
         map.put(key, s);
         return this;
     }
 
-    public RequestData putObject(String key, Object o) {
+    public SlickBundle putObject(String key, Object o) {
         map.put(key, o);
         return this;
     }
@@ -59,7 +59,7 @@ public class RequestData {
         return def;
     }
 
-    public RequestData putParameter(Object o){
+    public SlickBundle putParameter(Object o){
         map.put("$parameter$", o);
         return this;
     }

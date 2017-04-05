@@ -1,7 +1,6 @@
 package com.github.slick.sample.fragmentsupport.dagger;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -45,17 +44,17 @@ public class DaggerFragmentSupport extends Fragment implements DaggerFragmentVie
     }
 
     @Override
-    public void onAttach(Context context) {
-        App.getDDaggerComponent(getActivity()).inject(this);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        App.getDaggerComponent(getActivity()).inject(this);
         Slick.bind(this);
-        super.onAttach(context);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         if (getActivity().isFinishing()) {
-            App.disposeDDaggerComponent(getActivity());
+            App.disposeDaggerComponent(getActivity());
         }
     }
 }

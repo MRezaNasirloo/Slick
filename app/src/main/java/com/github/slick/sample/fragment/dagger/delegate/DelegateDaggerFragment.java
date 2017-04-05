@@ -2,7 +2,6 @@ package com.github.slick.sample.fragment.dagger.delegate;
 
 
 import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -21,7 +20,7 @@ import javax.inject.Provider;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DelegateDaggerSlickFragment extends Fragment implements DelegateDaggerFragmentView {
+public class DelegateDaggerFragment extends Fragment implements DelegateDaggerFragmentView {
 
     @Inject
     Provider<DelegateDaggerFragmentPresenter> provider;
@@ -29,12 +28,12 @@ public class DelegateDaggerSlickFragment extends Fragment implements DelegateDag
     DelegateDaggerFragmentPresenter presenter;
 
 
-    public DelegateDaggerSlickFragment() {
+    public DelegateDaggerFragment() {
         // Required empty public constructor
     }
 
-    public static DelegateDaggerSlickFragment newInstance() {
-        return new DelegateDaggerSlickFragment();
+    public static DelegateDaggerFragment newInstance() {
+        return new DelegateDaggerFragment();
     }
 
     @Nullable
@@ -46,10 +45,10 @@ public class DelegateDaggerSlickFragment extends Fragment implements DelegateDag
     }
 
     @Override
-    public void onAttach(Context context) {
-        App.getDDaggerComponent(getActivity()).inject(this);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        App.getDaggerComponent(getActivity()).inject(this);
         Slick.bind(this);
-        super.onAttach(context);
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -69,7 +68,7 @@ public class DelegateDaggerSlickFragment extends Fragment implements DelegateDag
         Slick.onDestroy(this);
         super.onDestroy();
         if (getActivity().isFinishing()) {
-            App.disposeDDaggerComponent(getActivity());
+            App.disposeDaggerComponent(getActivity());
         }
     }
 }

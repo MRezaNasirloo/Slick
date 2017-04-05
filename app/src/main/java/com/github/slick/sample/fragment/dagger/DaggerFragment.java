@@ -2,7 +2,6 @@ package com.github.slick.sample.fragment.dagger;
 
 
 import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -47,9 +46,9 @@ public class DaggerFragment extends SlickFragment<DaggerFragmentView, DaggerFrag
     }
 
     @Override
-    public void onAttach(Context context) {
-        App.getDDaggerComponent(getActivity()).inject(this);
-        super.onAttach(context);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        App.getDaggerComponent(getActivity()).inject(this);
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -61,7 +60,7 @@ public class DaggerFragment extends SlickFragment<DaggerFragmentView, DaggerFrag
     public void onDestroy() {
         super.onDestroy();
         if (getActivity().isFinishing()) {
-            App.disposeDDaggerComponent(getActivity());
+            App.disposeDaggerComponent(getActivity());
         }
     }
 }

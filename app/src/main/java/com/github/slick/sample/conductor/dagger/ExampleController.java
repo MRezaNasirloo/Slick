@@ -29,13 +29,13 @@ public class ExampleController extends Controller implements ConductorView {
     @NonNull
     @Override
     protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
-        App.getDDaggerComponent(getApplicationContext()).inject(this);
+        App.getDaggerComponent(getApplicationContext()).inject(this);
         Slick.bind(this);
         return inflater.inflate(R.layout.home_layout, container, false);
     }
 
     @Override
     protected void onDestroy() {
-        App.disposeDDaggerComponent(getApplicationContext());
+        App.disposeDaggerComponent(getApplicationContext());
     }
 }

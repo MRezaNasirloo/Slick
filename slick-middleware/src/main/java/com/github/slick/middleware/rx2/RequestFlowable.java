@@ -3,7 +3,10 @@ package com.github.slick.middleware.rx2;
 
 import com.github.slick.middleware.Middleware;
 import com.github.slick.middleware.Request;
-import com.github.slick.middleware.RequestData;
+import com.github.slick.middleware.SlickBundle;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 import io.reactivex.Flowable;
 
@@ -20,24 +23,25 @@ public abstract class RequestFlowable<T extends Flowable<R>, R, P> extends Reque
 
     public RequestFlowable<T, R, P> with(P data) {
         this.data = data;
-        if (!(data instanceof RequestData)) {
-            requestData = new RequestData().putParameter(data);
+        if (!(data instanceof SlickBundle)) {
+            slickBundle = new SlickBundle().putParameter(data);
         }
         return this;
     }
 
     public RequestFlowable<T, R, P> through(Middleware... middleware) {
-        this.middleware = middleware;
+        this.middleware = Arrays.asList(middleware);
+        Collections.reverse(this.middleware);
         return this;
     }
 
     @Override
     public void next() {
         if (middlewareStack.size() > 0) {
-            middlewareStack.pop().handle(this, requestData == null ? (RequestData) data : requestData);
+            middlewareStack.pop().handle(this, slickBundle == null ? (SlickBundle) data : slickBundle);
         }
         middlewareBackStack++;
-        if (!(middlewareBackStack - 1 == this.middleware.length && !tooLateAlreadyFinished)) {
+        if (!(middlewareBackStack - 1 == this.middleware.size() && !tooLateAlreadyFinished)) {
             return;
         }
 

@@ -1,6 +1,7 @@
 package com.github.slick.sample.fragment.delegate;
 
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -41,9 +42,9 @@ public class DelegateFragment extends Fragment implements DelegateFragmentView {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         Slick.bind(this, 1, "2");
-        super.onAttach(context);
+        super.onCreate(savedInstanceState);
     }
 
     @Override

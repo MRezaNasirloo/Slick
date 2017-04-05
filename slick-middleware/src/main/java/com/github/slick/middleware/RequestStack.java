@@ -1,6 +1,8 @@
 package com.github.slick.middleware;
 
 import android.app.Activity;
+import android.app.Application;
+import android.os.Bundle;
 
 import java.util.Stack;
 
@@ -14,6 +16,7 @@ public class RequestStack {
     private static RequestStack requestStack;
     private final Stack<Request> stack;
     private boolean changingConfigurations;
+    private ActivityListener activityListener = new ActivityListener();
 
     public static RequestStack getInstance() {
         if (requestStack == null) {
@@ -26,6 +29,9 @@ public class RequestStack {
         stack = new Stack<>();
     }
 
+    public void init(Application application) {
+        application.registerActivityLifecycleCallbacks(activityListener);
+    }
 
     public RequestStack push(Request request) {
         if (stack.contains(request)) {
@@ -71,17 +77,44 @@ public class RequestStack {
         stack.clear();
     }
 
-    public void handle() {
+    public void handleBack() {
         if (stack.size() > 0) {
             stack.pop();
         }
     }
 
-    public void onResume(Activity activity) {
-        changingConfigurations = activity.isChangingConfigurations();
+    private class ActivityListener implements Application.ActivityLifecycleCallbacks {
+
+
+        @Override
+        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+        }
+
+        @Override
+        public void onActivityStarted(Activity activity) {
+        }
+
+        @Override
+        public void onActivityResumed(Activity activity) {
+            changingConfigurations = activity.isChangingConfigurations();
+        }
+
+        @Override
+        public void onActivityPaused(Activity activity) {
+            changingConfigurations = activity.isChangingConfigurations();
+        }
+
+        @Override
+        public void onActivityStopped(Activity activity) {
+        }
+
+        @Override
+        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+        }
+
+        @Override
+        public void onActivityDestroyed(Activity activity) {
+        }
     }
 
-    public void onPause(Activity activity) {
-        changingConfigurations = activity.isChangingConfigurations();
-    }
 }
