@@ -1,9 +1,5 @@
 package com.github.slick.middleware;
 
-import android.content.Context;
-
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
@@ -12,10 +8,11 @@ import java.util.Stack;
  *         Created on: 2017-03-16
  */
 
-public abstract class Request {
+public abstract class Request<P> {
     protected RequestStack routerStack = RequestStack.getInstance();
+    protected P data;
     protected List<Middleware> middleware;
-    protected SlickBundle slickBundle;
+    protected BundleSlick bundleSlick;
     protected Stack<Middleware> middlewareStack = new Stack<>();
     protected int middlewareBackStack = 0;
     protected boolean tooLateAlreadyFinished = false;
@@ -28,5 +25,11 @@ public abstract class Request {
         middlewareBackStack = 0;
     }
 
-//    public abstract void stopped();
+    protected boolean hasPassed() {
+        if (middlewareStack.size() > 0) {
+            middlewareStack.pop().handle(this, bundleSlick == null ? (BundleSlick) data : bundleSlick);
+        }
+        middlewareBackStack++;
+        return (middlewareBackStack - 1 == this.middleware.size() && !tooLateAlreadyFinished);
+    }
 }

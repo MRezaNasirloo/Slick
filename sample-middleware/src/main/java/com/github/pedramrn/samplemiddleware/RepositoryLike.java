@@ -1,16 +1,18 @@
 package com.github.pedramrn.samplemiddleware;
 
+import io.reactivex.Single;
+
 /**
  * @author : Pedramrn@gmail.com
  *         Created on: 2017-03-29
  */
-public class LikeRepository {
+public class RepositoryLike {
 
     public String like(String id) {
         return "Result something";
     }
 
-    public String unLike(String id) {
-        return "Result ...";
+    public Single<Boolean> unLike() {
+        return Single.just(true);
     }
 }

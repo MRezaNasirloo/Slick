@@ -1,13 +1,11 @@
 package com.github.pedramrn.samplemiddleware;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
-import android.widget.Toast;
 
 import com.github.slick.middleware.Middleware;
 import com.github.slick.middleware.Request;
-import com.github.slick.middleware.SlickBundle;
+import com.github.slick.middleware.BundleSlick;
 
 /**
  * @author : Pedramrn@gmail.com
@@ -24,7 +22,7 @@ public class MiddlewareInternetAccess extends Middleware {
     }
 
     @Override
-    public void handle(Request request, SlickBundle date) {
+    public void handle(Request request, BundleSlick date) {
         if (isNetworkAvailable(context)) {
             request.next();// process the next request
         } else {

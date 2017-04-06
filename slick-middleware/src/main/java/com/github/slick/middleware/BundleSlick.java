@@ -8,21 +8,21 @@ import java.util.Map;
  *         Created on: 2017-03-13
  */
 
-public class SlickBundle {
+public class BundleSlick {
 
     private Map<String, Object> map = new HashMap<>();
 
-    public SlickBundle putInteger(String key, Integer i) {
+    public BundleSlick putInteger(String key, Integer i) {
         map.put(key, i);
         return this;
     }
 
-    public SlickBundle putString(String key, String s) {
+    public BundleSlick putString(String key, String s) {
         map.put(key, s);
         return this;
     }
 
-    public SlickBundle putObject(String key, Object o) {
+    public BundleSlick putObject(String key, Object o) {
         map.put(key, o);
         return this;
     }
@@ -59,7 +59,7 @@ public class SlickBundle {
         return def;
     }
 
-    public SlickBundle putParameter(Object o){
+    public BundleSlick putParameter(Object o) {
         map.put("$parameter$", o);
         return this;
     }

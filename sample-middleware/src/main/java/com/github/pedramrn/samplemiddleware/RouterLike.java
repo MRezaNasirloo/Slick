@@ -3,14 +3,16 @@ package com.github.pedramrn.samplemiddleware;
 import com.github.slick.Middleware;
 import com.github.slick.middleware.Callback;
 
+import io.reactivex.Single;
+
 /**
  * @author : Pedramrn@gmail.com
  *         Created on: 2017-03-29
  */
 
-public class LikeRouter {
+public class RouterLike {
 
-    private LikeRepository voteRepository = new LikeRepository();
+    private RepositoryLike voteRepository = new RepositoryLike();
 
     @Middleware({MiddlewareInternetAccess.class, MiddlewareLogin.class})
     public String like(String id, Callback<String> stuff) {
@@ -18,7 +20,7 @@ public class LikeRouter {
     }
 
     @Middleware({MiddlewareInternetAccess.class, MiddlewareLogin.class})
-    public String unlike(String id,Callback<String> callback) {
-        return voteRepository.unLike(id);
+    public Single<Boolean> unlike() {
+        return voteRepository.unLike();
     }
 }

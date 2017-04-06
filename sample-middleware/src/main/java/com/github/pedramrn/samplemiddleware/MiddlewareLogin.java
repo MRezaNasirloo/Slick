@@ -4,7 +4,7 @@ import android.content.SharedPreferences;
 
 import com.github.slick.middleware.Middleware;
 import com.github.slick.middleware.Request;
-import com.github.slick.middleware.SlickBundle;
+import com.github.slick.middleware.BundleSlick;
 
 /**
  * @author : Pedramrn@gmail.com
@@ -21,7 +21,7 @@ public class MiddlewareLogin extends Middleware {
     }
 
     @Override
-    public void handle(Request request, SlickBundle date) {
+    public void handle(Request request, BundleSlick date) {
         if (sp.getBoolean("HAS_LOGGED_IN", false)) {
             request.next();// process the next request
         } else {

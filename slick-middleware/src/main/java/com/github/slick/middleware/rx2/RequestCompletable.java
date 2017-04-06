@@ -3,28 +3,28 @@ package com.github.slick.middleware.rx2;
 
 import com.github.slick.middleware.Middleware;
 import com.github.slick.middleware.Request;
-import com.github.slick.middleware.SlickBundle;
+import com.github.slick.middleware.BundleSlick;
 
 import java.util.Arrays;
 import java.util.Collections;
 
 import io.reactivex.Completable;
+import io.reactivex.CompletableObserver;
 
 /**
  * @author : Pedramrn@gmail.com
  *         Created on: 2017-03-13
  */
 
-public abstract class RequestCompletable<P> extends Request {
-    private P data;
-    private Completable source;
+public abstract class RequestCompletable<P> extends Request<P> {
+    private CompletableObserver source;
 
     public abstract Completable target(P data);
 
     public RequestCompletable<P> with(P data) {
         this.data = data;
-        if (!(data instanceof SlickBundle)) {
-            slickBundle = new SlickBundle().putParameter(data);
+        if (!(data instanceof BundleSlick)) {
+            bundleSlick = new BundleSlick().putParameter(data);
         }
         return this;
     }
@@ -37,23 +37,19 @@ public abstract class RequestCompletable<P> extends Request {
 
     @Override
     public void next() {
-        if (middlewareStack.size() > 0) {
-            middlewareStack.pop().handle(this, slickBundle == null ? (SlickBundle) data : slickBundle);
-        }
-        middlewareBackStack++;
-        if (!(middlewareBackStack - 1 == this.middleware.size() && !tooLateAlreadyFinished)) {
+        if (!hasPassed()) {
             return;
         }
 
         if (this != routerStack.pop()) throw new AssertionError();
         final Completable response = target(data);
         if (source != null) {
-            source.mergeWith(response);
+            response.subscribe(source);
         }
         tooLateAlreadyFinished = true;
     }
 
-    public void destination(Completable source) {
+    public void destination(CompletableObserver source) {
         this.source = source;
     }
 }

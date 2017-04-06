@@ -11,6 +11,11 @@ import com.varunest.sparkbutton.SparkButton;
 
 import java.util.List;
 
+import io.reactivex.CompletableObserver;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+
 /**
  * @author : Pedramrn@gmail.com
  *         Created on: 2017-04-05
@@ -20,11 +25,13 @@ public class QuoteRecyclerView extends RecyclerView.Adapter<QuoteRecyclerView.Vi
 
 
     private List<String> quotes;
-    private LikeRouter likeRouter;
+    private RouterLike routerLike;
+    private final RouterStar routerStar;
 
-    public QuoteRecyclerView(List<String> quotes, LikeRouter likeRouter) {
+    public QuoteRecyclerView(List<String> quotes, RouterLike routerLike, RouterStar routerStar) {
         this.quotes = quotes;
-        this.likeRouter = likeRouter;
+        this.routerLike = routerLike;
+        this.routerStar = routerStar;
     }
 
     @Override
@@ -37,22 +44,60 @@ public class QuoteRecyclerView extends RecyclerView.Adapter<QuoteRecyclerView.Vi
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.textView.setText(quotes.get(position));
 
-        holder.likeButton.setOnClickListener(new View.OnClickListener() {
+        holder.buttonLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (holder.likeButton.isChecked()) {
-                    likeRouter.unlike("some_id", new Callback<String>() {
+                if (holder.buttonLike.isChecked()) {
+                    routerLike.unlike().subscribe(new Consumer<Boolean>() {
                         @Override
-                        public void onPass(String s) {
-                            holder.likeButton.setChecked(false);
+                        public void accept(@NonNull Boolean aBoolean) throws Exception {
+                            holder.buttonLike.setChecked(false);
                         }
                     });
                 } else {
-                    likeRouter.like("some_other_id", new Callback<String>() {
+                    routerLike.like("some_other_id", new Callback<String>() {
                         @Override
                         public void onPass(String s) {
-                            holder.likeButton.playAnimation();
-                            holder.likeButton.setChecked(true);
+                            holder.buttonLike.playAnimation();
+                            holder.buttonLike.setChecked(true);
+                        }
+                    });
+                }
+            }
+        });
+
+        holder.buttonStar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holder.buttonStar.isChecked()) {
+                    routerStar.unStar("some_id").subscribe(new CompletableObserver() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            holder.buttonStar.setChecked(false);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+                    });
+                } else {
+                    routerStar.star("some_other_id").subscribe(new Consumer<Boolean>() {
+                        @Override
+                        public void accept(@NonNull Boolean aBoolean) throws Exception {
+                            holder.buttonStar.playAnimation();
+                            holder.buttonStar.setChecked(true);
+
+                        }
+                    }, new Consumer<Throwable>() {
+                        @Override
+                        public void accept(@NonNull Throwable throwable) throws Exception {
+
                         }
                     });
                 }
@@ -68,12 +113,14 @@ public class QuoteRecyclerView extends RecyclerView.Adapter<QuoteRecyclerView.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         final TextView textView;
-        final SparkButton likeButton;
+        final SparkButton buttonLike;
+        final SparkButton buttonStar;
 
         public ViewHolder(View itemView) {
             super(itemView);
             textView = ((TextView) itemView.findViewById(R.id.textView_quote));
-            likeButton = ((SparkButton) itemView.findViewById(R.id.button_like));
+            buttonLike = ((SparkButton) itemView.findViewById(R.id.button_like));
+            buttonStar = ((SparkButton) itemView.findViewById(R.id.button_star));
         }
     }
 }

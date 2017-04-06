@@ -2,12 +2,12 @@ package test;
 
 import com.github.slick.middleware.Middleware;
 import com.github.slick.middleware.Request;
-import com.github.slick.middleware.SlickBundle;
+import com.github.slick.middleware.BundleSlick;
 
 public class MiddlewareNoOp2 implements Middleware {
 
     @Override
-    public void handle(Request request, SlickBundle date) {
+    public void handle(Request request, BundleSlick date) {
         request.next();
     }
 }
