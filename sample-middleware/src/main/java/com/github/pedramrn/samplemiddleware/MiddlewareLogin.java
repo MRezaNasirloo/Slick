@@ -26,7 +26,7 @@ public class MiddlewareLogin extends Middleware {
             request.next();// process the next request
         } else {
             //            request.stopped();// optional, let the callback know about it
-            AppRouter.go(ActivityLogin.class);
+            Navigator.go(ActivityLogin.class);
         }
     }
 }

@@ -12,7 +12,7 @@ import java.lang.ref.WeakReference;
  *         Created on: 2017-04-05
  */
 
-public class AppRouter {
+public class Navigator {
 
     private static WeakReference<Activity> weakReference;
 

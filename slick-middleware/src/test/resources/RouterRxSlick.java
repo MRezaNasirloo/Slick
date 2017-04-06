@@ -10,9 +10,9 @@ import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.processors.PublishProcessor;
+import io.reactivex.processors.ReplayProcessor;
 import io.reactivex.subjects.MaybeSubject;
-import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.ReplaySubject;
 import io.reactivex.subjects.SingleSubject;
 
 import java.lang.Integer;
@@ -40,7 +40,7 @@ public class RouterRxSlick extends RouterRx {
                         return RouterRxSlick.super.method1(data);
                     }
                 };
-        final PublishSubject<String> source = PublishSubject.create();
+        final ReplaySubject<String> source = ReplaySubject.create();
         request.with(id).through(middlewareNoOp).destination(source);
         RequestStack.getInstance().push(request).processLastRequest();
         return source;
@@ -55,7 +55,7 @@ public class RouterRxSlick extends RouterRx {
                         return RouterRxSlick.super.method2();
                     }
                 };
-        final PublishSubject<String> source = PublishSubject.create();
+        final ReplaySubject<String> source = ReplaySubject.create();
         request.with(null).through(middlewareNoOp2).destination(source);
         RequestStack.getInstance().push(request).processLastRequest();
         return source;
@@ -70,7 +70,7 @@ public class RouterRxSlick extends RouterRx {
                         return RouterRxSlick.super.method3();
                     }
                 };
-        final PublishProcessor<String> source = PublishProcessor.create();
+        final ReplayProcessor<String> source = ReplayProcessor.create();
         request.with(null).through(middlewareNoOp2).destination(source);
         RequestStack.getInstance().push(request).processLastRequest();
         return source;

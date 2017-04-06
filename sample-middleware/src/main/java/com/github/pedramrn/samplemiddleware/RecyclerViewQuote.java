@@ -21,14 +21,14 @@ import io.reactivex.functions.Consumer;
  *         Created on: 2017-04-05
  */
 
-public class QuoteRecyclerView extends RecyclerView.Adapter<QuoteRecyclerView.ViewHolder> {
+public class RecyclerViewQuote extends RecyclerView.Adapter<RecyclerViewQuote.ViewHolder> {
 
 
     private List<String> quotes;
     private RouterLike routerLike;
     private final RouterStar routerStar;
 
-    public QuoteRecyclerView(List<String> quotes, RouterLike routerLike, RouterStar routerStar) {
+    public RecyclerViewQuote(List<String> quotes, RouterLike routerLike, RouterStar routerStar) {
         this.quotes = quotes;
         this.routerLike = routerLike;
         this.routerStar = routerStar;

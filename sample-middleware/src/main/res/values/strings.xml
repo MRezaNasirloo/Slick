@@ -13,4 +13,5 @@
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
     <string name="logout">logout</string>
+    <string name="login">LOGIN</string>
 </resources>

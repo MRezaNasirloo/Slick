@@ -27,7 +27,7 @@ public class MiddlewareInternetAccess extends Middleware {
             request.next();// process the next request
         } else {
             //            request.stopped();// optional, let the callback know about it
-            AppRouter.go(ActivityError.class);
+            Navigator.go(ActivityError.class);
         }
     }
 
