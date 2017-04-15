@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import com.bluelinelabs.conductor.Controller;
 import com.github.slick.Presenter;
 import com.github.slick.sample.R;
-import com.github.slick.sample.Slick;
+import com.github.slick.Slick;
 
 /**
  * @author : Pedramrn@gmail.com

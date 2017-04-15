@@ -1,20 +1,18 @@
 package test;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 
 import com.github.slick.Presenter;
-import com.github.slick.R;
 
-public class ExampleActivity extends AppCompatActivity implements ExampleActivityView {
+public class ExampleActivity extends Activity implements ExampleView {
 
     @Presenter
-    ExampleActivityPresenter presenter;
+    ExamplePresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Slick.bind(this, R.id.textView3, "foo");
+        ExampleActivity_Slick.bind(this, 1, 2.0f);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_callback);
     }
 }

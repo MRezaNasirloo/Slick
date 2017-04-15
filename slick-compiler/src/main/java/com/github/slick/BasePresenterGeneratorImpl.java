@@ -1,17 +1,22 @@
 package com.github.slick;
 
-import com.squareup.javapoet.ClassName;
+import com.github.slick.components.AddMethodGenerator;
+import com.github.slick.components.BindMethodBodyGenerator;
+import com.github.slick.components.MethodSignatureGenerator;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
+import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
-import com.squareup.javapoet.TypeVariableName;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import javax.lang.model.element.Modifier;
 
+import static com.github.slick.AnnotatedPresenter.DELEGATES_FIELD_NAME;
+import static com.github.slick.AnnotatedPresenter.HOST_INSTANCE_VAR_NAME;
+import static com.github.slick.SlickProcessor.ClASS_NAME_HASH_MAP;
 import static com.github.slick.SlickProcessor.ClASS_NAME_ON_DESTROY_LISTENER;
 import static com.github.slick.SlickProcessor.ClASS_NAME_STRING;
 
@@ -19,126 +24,90 @@ import static com.github.slick.SlickProcessor.ClASS_NAME_STRING;
  * @author : Pedramrn@gmail.com
  *         Created on: 2017-02-05
  */
-public abstract class BasePresenterGeneratorImpl implements PresenterGenerator {
+class BasePresenterGeneratorImpl implements PresenterGenerator {
 
-    protected String varNameDelegate = "delegate";
-    protected String fieldNameDelegates = "delegates";
-    protected String hostInstanceName = "hostInstance";
-    protected String presenterName = "presenter";
+    private final MethodSignatureGenerator methodSignatureGenerator;
+    private final BindMethodBodyGenerator methodBodyGenerator;
+    private AddMethodGenerator addMethodGenerator;
+
+    public BasePresenterGeneratorImpl(MethodSignatureGenerator methodSignatureGenerator,
+                                      BindMethodBodyGenerator methodBodyGenerator) {
+        this.methodSignatureGenerator = methodSignatureGenerator;
+        this.methodBodyGenerator = methodBodyGenerator;
+    }
+
+    public BasePresenterGeneratorImpl(MethodSignatureGenerator methodSignatureGenerator,
+                                      BindMethodBodyGenerator methodBodyGenerator,
+                                      AddMethodGenerator addMethodGenerator) {
+        this.methodSignatureGenerator = methodSignatureGenerator;
+        this.methodBodyGenerator = methodBodyGenerator;
+        this.addMethodGenerator = addMethodGenerator;
+    }
 
     @Override
     public TypeSpec generate(AnnotatedPresenter ap) {
-        final ClassName view = ap.getView();
-        final ClassName viewInterface = ap.getViewInterface();
-        final ClassName presenter = ap.getPresenter();
-        final ClassName presenterHost = ap.getPresenterHost();
-        final List<PresenterArgs> args = ap.getArgs();
-        final String fieldName = ap.getFieldName();
-        final String argNameView = deCapitalize(ap.getView().simpleName());
-        final String presenterArgName = deCapitalize(ap.getPresenter().simpleName());
-
-        final TypeVariableName activityGenericType = TypeVariableName.get("T", getClassNameViewType());
-
-        final ParameterizedTypeName typeNameDelegate =
-                ParameterizedTypeName.get(getClassNameDelegate(), viewInterface, presenter);
-
-        final FieldSpec delegate = getDelegateField(typeNameDelegate);
-
-        final FieldSpec hostInstance = FieldSpec.builder(presenterHost, hostInstanceName)
+        final FieldSpec hostInstance = FieldSpec.builder(ap.getPresenterHost(), HOST_INSTANCE_VAR_NAME)
                 .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
                 .build();
 
-        StringBuilder argsCode = new StringBuilder(args.size() * 10);
-        if (args.size() > 0) {
+        final MethodSpec.Builder bindMethodSignature =
+                methodSignatureGenerator.generate("bind", ap, TypeName.get(void.class));
 
-            for (int i = 0; i < args.size() - 1; i++) {
-                argsCode.append(args.get(i).getName()).append(", ");
+        final MethodSpec.Builder methodBuilder = methodBodyGenerator.generate(bindMethodSignature, ap);
 
-            }
-            argsCode.append(args.get(args.size() - 1).getName());
-        }
-
-        final MethodSpec.Builder methodBuilder = bindMethod(view,
-                presenter,
-                presenterHost,
-                getClassNameDelegate(),
-                fieldName,
-                argNameView,
-                presenterArgName,
-                activityGenericType,
-                typeNameDelegate, argsCode);
-
-        final MethodSpec bind = addConstructorParameter(args, methodBuilder).build();
-
-        final MethodSpec onDestroy = onDestroyMethod();
-
-
-        return TypeSpec.classBuilder(presenterHost)
+        return TypeSpec.classBuilder(ap.getPresenterHost())
                 .addModifiers(Modifier.PUBLIC)
                 .addSuperinterface(ClASS_NAME_ON_DESTROY_LISTENER)
-                .addField(delegate)
+                .addField(getDelegateField(ap))
                 .addField(hostInstance)
-                .addMethod(bind)
-                .addMethod(onDestroy)
+                .addMethod(methodBuilder.build())
+                .addMethods(addMethods(ap))
+                .addMethod(onDestroyMethod(ap))
                 .build();
     }
 
-    protected MethodSpec onDestroyMethod() {
+    /**
+     * @param ap annotated presenter object
+     * @return method spec
+     */
+    public MethodSpec onDestroyMethod(AnnotatedPresenter ap) {
         return MethodSpec.methodBuilder("onDestroy")
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
                 .addParameter(ParameterSpec.builder(ClASS_NAME_STRING, "id").build())
-                .addStatement("$L.$L.remove(id)", hostInstanceName, fieldNameDelegates)
-                .beginControlFlow("if ($L.$L.size() == 0)", hostInstanceName, fieldNameDelegates)
-                .addStatement("$L = null", hostInstanceName)
+                .addStatement("$L.$L.remove(id)", HOST_INSTANCE_VAR_NAME, DELEGATES_FIELD_NAME)
+                .beginControlFlow("if ($L.$L.size() == 0)", HOST_INSTANCE_VAR_NAME, DELEGATES_FIELD_NAME)
+                .addStatement("$L = null", HOST_INSTANCE_VAR_NAME)
                 .endControlFlow()
                 .build();
     }
 
-    protected String deCapitalize(String string) {
-        return Character.toLowerCase(string.charAt(0)) + string.substring(1);
+    /**
+     * @param ap annotated presenter object
+     * @return delegate field
+     */
+    private FieldSpec getDelegateField(AnnotatedPresenter ap) {
+        final ParameterizedTypeName parametrizedMapTypeName =
+                ParameterizedTypeName.get(ClASS_NAME_HASH_MAP, ClASS_NAME_STRING,
+                        ap.getParametrizedDelegateType());
+
+        return FieldSpec.builder(parametrizedMapTypeName, DELEGATES_FIELD_NAME)
+                .addModifiers(Modifier.PRIVATE, Modifier.FINAL)
+                .initializer("new $T<>()", ClASS_NAME_HASH_MAP)
+                .build();
     }
 
     /**
-     * Builds the bind method
+     * Utility to add extra arbitrary methods
      *
-     * @param view                the class which implements the view interface
-     * @param presenter           presenter class
-     * @param presenterHost       presenter host class
-     * @param fieldName           presenter name in view class
-     * @param argNameView         activity parameter name
-     * @param presenterArgName
-     *@param viewGenericType activity type
-     * @param typeNameDelegate    delegate type
-     * @param argsCode            the presenter parameters in a comma separated string    @return bind method builder
+     * @param ap annotated presenter object
+     * @return a list of method specs
      */
-    protected abstract MethodSpec.Builder bindMethod(ClassName view, ClassName presenter, ClassName presenterHost,
-                                                     ClassName classNameDelegate,
-                                                     String fieldName, String argNameView,
-                                                     String presenterArgName, TypeVariableName viewGenericType,
-                                                     ParameterizedTypeName typeNameDelegate,
-                                                     StringBuilder argsCode);
-
-    /**
-     * @return ClassName for generic view
-     */
-    protected abstract ClassName getClassNameViewType();
-
-
-    /**
-     * @return ClassName for parametrized delegate
-     */
-    protected abstract ClassName getClassNameDelegate();
-
-    /**
-     * @param typeNameDelegate delegate parametrized type
-     * @return delegate field
-     */
-    protected abstract FieldSpec getDelegateField(ParameterizedTypeName typeNameDelegate);
-
-    protected MethodSpec.Builder addConstructorParameter(List<PresenterArgs> args,
-                                                         MethodSpec.Builder methodBuilder) {
-        return methodBuilder;
+    private Iterable<MethodSpec> addMethods(AnnotatedPresenter ap) {
+        if (addMethodGenerator != null) {
+            return addMethodGenerator.generate(ap);
+        }
+        return new ArrayList<>(0);
     }
 
 }

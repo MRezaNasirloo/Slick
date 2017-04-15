@@ -1,8 +1,29 @@
 package com.github.slick;
 
+import com.github.slick.components.AddMethodGenerator;
+import com.github.slick.components.AddMethodGeneratorCallbackImpl;
+import com.github.slick.components.BindMethodBodyGenerator;
+import com.github.slick.components.BindMethodBodyGeneratorFragmentImpl;
+import com.github.slick.components.BindMethodBodyGeneratorImpl;
+import com.github.slick.components.GetViewIdGenerator;
+import com.github.slick.components.GetViewIdGeneratorConductorImpl;
+import com.github.slick.components.GetViewIdGeneratorImpl;
+import com.github.slick.components.MethodSignatureGenerator;
+import com.github.slick.components.MethodSignatureGeneratorDaggerImpl;
+import com.github.slick.components.MethodSignatureGeneratorImpl;
+import com.github.slick.components.PresenterInstantiationGenerator;
+import com.github.slick.components.PresenterInstantiationGeneratorDaggerImpl;
+import com.github.slick.components.PresenterInstantiationGeneratorImpl;
+import com.github.slick.components.ViewCallbackGenerator;
+import com.github.slick.components.ViewCallbackGeneratorActivityImpl;
+import com.github.slick.components.ViewCallbackGeneratorConductorImpl;
+import com.github.slick.components.ViewCallbackGeneratorFragmentSupportImpl;
+import com.github.slick.components.ViewCallbackGeneratorNoOpImpl;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.ParameterizedTypeName;
+import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
 import java.io.IOException;
@@ -12,7 +33,6 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -22,9 +42,9 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.inject.Inject;
+import javax.inject.Provider;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.AnnotationMirror;
-import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
@@ -41,22 +61,37 @@ import static com.squareup.javapoet.ClassName.get;
 @AutoService(Processor.class)
 public class SlickProcessor extends AbstractProcessor {
 
-    enum ViewType {
-        ACTIVITY,
-        FRAGMENT,
-        CONDUCTOR,
-        DAGGER_ACTIVITY,
-        DAGGER_FRAGMENT,
-        DAGGER_CONDUCTOR,
-        UNSUPPORTED
+    public enum ViewType {
+        ACTIVITY(ClASS_NAME_ACTIVITY, CLASS_NAME_SLICK_DELEGATE_ACTIVITY),
+        FRAGMENT(ClASS_NAME_FRAGMENT, CLASS_NAME_SLICK_DELEGATE_FRAGMENT),
+        FRAGMENT_SUPPORT(ClASS_NAME_FRAGMENT_SUPPORT, CLASS_NAME_SLICK_DELEGATE_FRAGMENT_SUPPORT),
+        CONDUCTOR(CLASS_NAME_CONTROLLER, CLASS_NAME_SLICK_DELEGATE_CONDUCTOR),
+        VIEW(ClASS_NAME_VIEW, CLASS_NAME_SLICK_DELEGATE_VIEW),
+        DAGGER_ACTIVITY(ClASS_NAME_ACTIVITY, CLASS_NAME_SLICK_DELEGATE_ACTIVITY),
+        DAGGER_FRAGMENT(ClASS_NAME_FRAGMENT, CLASS_NAME_SLICK_DELEGATE_FRAGMENT),
+        DAGGER_FRAGMENT_SUPPORT(ClASS_NAME_FRAGMENT_SUPPORT, CLASS_NAME_SLICK_DELEGATE_FRAGMENT_SUPPORT),
+        DAGGER_CONDUCTOR(CLASS_NAME_CONTROLLER, CLASS_NAME_SLICK_DELEGATE_CONDUCTOR),
+        DAGGER_VIEW(ClASS_NAME_VIEW, CLASS_NAME_SLICK_DELEGATE_VIEW),
+        UNSUPPORTED(null, null);
+
+        private final ClassName className;
+        private final ClassName delegateType;
+
+        public ClassName className() {
+            return className;
+        }
+
+        public ClassName delegateType() {
+            return delegateType;
+        }
+
+        ViewType(ClassName className, ClassName delegateType) {
+            this.className = className;
+            this.delegateType = delegateType;
+        }
     }
 
-//    static final String INJECT = "javax.inject.Inject";
-//    static final String ACTIVITY = "android.app.Activity";
-//    static final String FRAGMENT = "android.app.Fragment";
-//    static final String FRAGMENT_SUPPORT = "android.support.v4.app.Fragment";
-//    static final String CONDUCTOR = "com.bluelinelabs.conductor.Controller";
-//    static final String VIEW = "android.view.View";
+    private static final String pkgName = "com.github.slick";
     static final ClassName ClASS_NAME_ACTIVITY = get("android.app", "Activity");
     static final ClassName ClASS_NAME_FRAGMENT = get("android.app", "Fragment");
     static final ClassName ClASS_NAME_FRAGMENT_SUPPORT = get("android.support.v4.app", "Fragment");
@@ -64,23 +99,48 @@ public class SlickProcessor extends AbstractProcessor {
     static final ClassName CLASS_NAME_CONTROLLER = get("com.bluelinelabs.conductor", "Controller");
     static final ClassName ClASS_NAME_HASH_MAP = get("java.util", "HashMap");
     static final ClassName ClASS_NAME_STRING = get("java.lang", "String");
-    static final ClassName CLASS_NAME_SLICK_DELEGATOR = get("com.github.slick", "SlickDelegator");
-    static final ClassName CLASS_NAME_SLICK_DELEGATE = get("com.github.slick", "SlickDelegate");
-    static final ClassName CLASS_NAME_SLICK_CONDUCTOR_DELEGATE =
-            get("com.github.slick.conductor", "SlickConductorDelegate");
-    static final ClassName ClASS_NAME_ON_DESTROY_LISTENER = get("com.github.slick", "OnDestroyListener");
-    static final ClassName ClASS_NAME_SLICK_VIEW = get("com.github.slick", "SlickView");
-    static final SlickVisitor SLICK_VISITOR = new SlickVisitor();
+    static final ClassName CLASS_NAME_SLICK_DELEGATE_ACTIVITY = get(pkgName, "SlickDelegateActivity");
+    static final ClassName CLASS_NAME_SLICK_DELEGATE_FRAGMENT = get(pkgName, "SlickDelegateFragment");
+    static final ClassName CLASS_NAME_SLICK_DELEGATE_VIEW = get(pkgName, "SlickDelegateView");
+    static final ClassName CLASS_NAME_SLICK_DELEGATE_FRAGMENT_SUPPORT = get("com.github.slick.supportfragment", "SlickDelegateFragment");
+    static final ClassName CLASS_NAME_SLICK_DELEGATE_CONDUCTOR = get("com.github.slick.conductor", "SlickDelegateConductor");
+    static final ClassName ClASS_NAME_ON_DESTROY_LISTENER = get(pkgName, "OnDestroyListener");
 
     private Filer filer;
     private Messager messager;
     private Types typeUtils;
-    private PresenterGenerator generatorActivity = new PresenterGeneratorActivityImpl();
-    private PresenterGenerator generatorFragment = new PresenterGeneratorFragmentImpl();
-    private PresenterGenerator generatorConductor = new PresenterGeneratorConductorImpl();
-    private PresenterGenerator generatorDaggerActivity = new PresenterGeneratorDaggerActivityImpl();
-//    private PresenterGenerator generatorDaggerFragment = new PresenterGeneratorFragmentImpl();
-    private PresenterGenerator generatorDaggerConductor = new PresenterGeneratorDaggerConductorImpl();
+    private MethodSignatureGenerator msg = new MethodSignatureGeneratorImpl();
+    private MethodSignatureGenerator msgDagger = new MethodSignatureGeneratorDaggerImpl();
+    private GetViewIdGenerator gvig = new GetViewIdGeneratorImpl();
+    private GetViewIdGenerator gvigConductor = new GetViewIdGeneratorConductorImpl();
+    private PresenterInstantiationGenerator pig = new PresenterInstantiationGeneratorImpl();
+    private PresenterInstantiationGenerator pigDagger = new PresenterInstantiationGeneratorDaggerImpl();
+    private ViewCallbackGenerator vcgActivity = new ViewCallbackGeneratorActivityImpl();
+    private ViewCallbackGenerator vcgNoOp = new ViewCallbackGeneratorNoOpImpl();
+    private ViewCallbackGenerator vcgFragmentSupport = new ViewCallbackGeneratorFragmentSupportImpl();
+    private ViewCallbackGenerator vcgConductor = new ViewCallbackGeneratorConductorImpl();
+    private BindMethodBodyGenerator bmbgActivity = new BindMethodBodyGeneratorImpl(gvig, pig, vcgActivity);
+    private BindMethodBodyGenerator bmbgActivityDagger = new BindMethodBodyGeneratorImpl(gvig, pigDagger, vcgActivity);
+    private BindMethodBodyGenerator bmbgFragment = new BindMethodBodyGeneratorFragmentImpl(gvig, pig, vcgNoOp);
+    private BindMethodBodyGenerator bmbgFragmentDagger = new BindMethodBodyGeneratorFragmentImpl(gvig, pigDagger, vcgNoOp);
+    private BindMethodBodyGenerator bmbgFragmentSupport = new BindMethodBodyGeneratorImpl(gvig, pig, vcgFragmentSupport);
+    private BindMethodBodyGenerator bmbgFragmentSupportDagger = new BindMethodBodyGeneratorImpl(gvig, pigDagger, vcgFragmentSupport);
+    private BindMethodBodyGenerator bmbgConductor = new BindMethodBodyGeneratorImpl(gvigConductor, pig, vcgConductor);
+    private BindMethodBodyGenerator bmbgConductorDagger = new BindMethodBodyGeneratorImpl(gvigConductor, pigDagger, vcgConductor);
+    private BindMethodBodyGenerator bmbgView = new BindMethodBodyGeneratorImpl(gvig, pig, vcgNoOp);
+    private BindMethodBodyGenerator bmbgViewDagger = new BindMethodBodyGeneratorImpl(gvig, pigDagger, vcgNoOp);
+    private AddMethodGenerator amgFragment = new AddMethodGeneratorCallbackImpl("onStart", "onStop", "onDestroy");
+    private AddMethodGenerator amgView = new AddMethodGeneratorCallbackImpl("onAttach", "onDetach");
+    private PresenterGenerator generatorActivity = new BasePresenterGeneratorImpl(msg, bmbgActivity);
+    private PresenterGenerator generatorFragment = new BasePresenterGeneratorImpl(msg, bmbgFragment, amgFragment);
+    private PresenterGenerator generatorFragmentSupport = new BasePresenterGeneratorImpl(msg, bmbgFragmentSupport);
+    private PresenterGenerator generatorConductor = new BasePresenterGeneratorImpl(msg, bmbgConductor);
+    private PresenterGenerator generatorView = new BasePresenterGeneratorImpl(msg, bmbgView, amgView);
+    private PresenterGenerator generatorDaggerView = new BasePresenterGeneratorImpl(msgDagger, bmbgViewDagger, amgView);
+    private PresenterGenerator generatorDaggerActivity = new BasePresenterGeneratorImpl(msgDagger, bmbgActivityDagger);
+    private PresenterGenerator generatorDaggerFragment = new BasePresenterGeneratorImpl(msgDagger, bmbgFragmentDagger, amgFragment);
+    private PresenterGenerator generatorDaggerFragmentSupport = new BasePresenterGeneratorImpl(msgDagger, bmbgFragmentSupportDagger);
+    private PresenterGenerator generatorDaggerConductor = new BasePresenterGeneratorImpl(msgDagger, bmbgConductorDagger);
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnvironment) {
@@ -106,11 +166,12 @@ public class SlickProcessor extends AbstractProcessor {
     // 2017-02-01 fill the annotatedPresenter with more data - DONE
     // 2017-02-01 generate the constructors args - DONE
     // 2017-02-01 generate dagger delegate - DONE
-    // TODO: 2017-02-01 generate host for fragment's presenter
+    // 2017-02-01 generate host for fragment's presenter - DONE
     // 2017-02-01 refactor the code generating part to its own class - DONE
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         final Set<? extends Element> elementsAnnotatedWith = roundEnv.getElementsAnnotatedWith(Presenter.class);
+        // TODO: 2017-02-23 extract this to a validator
         List<AnnotatedPresenter> annotatedPresenters = new ArrayList<>(elementsAnnotatedWith.size());
         for (Element element : elementsAnnotatedWith) {
             final TypeElement typeElement = (TypeElement) typeUtils.asElement(element.asType());
@@ -133,19 +194,25 @@ public class SlickProcessor extends AbstractProcessor {
             }
         }
         for (AnnotatedPresenter annotatedPresenter : annotatedPresenters) {
-
             final TypeSpec cls = generatePresenterHost(annotatedPresenter);
-
-            final JavaFile javaFile =
-                    JavaFile.builder(annotatedPresenter.getPresenter().packageName(), cls).build();
-            try {
-                javaFile.writeTo(filer);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            brewJava(annotatedPresenter.getPresenter().packageName(), cls);
         }
 
+        /*final TypeSpec cls = generateSlickClass(annotatedPresenters);
+        brewJava(pkgName, cls);*/
+
+
         return true;
+    }
+
+    protected void brewJava(String packageName, TypeSpec cls) {
+        final JavaFile javaFile =
+                JavaFile.builder(packageName, cls).build();
+        try {
+            javaFile.writeTo(filer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -160,17 +227,24 @@ public class SlickProcessor extends AbstractProcessor {
                 return generatorActivity.generate(ap);
             case FRAGMENT:
                 return generatorFragment.generate(ap);
+            case FRAGMENT_SUPPORT:
+                return generatorFragmentSupport.generate(ap);
             case CONDUCTOR:
                 return generatorConductor.generate(ap);
+            case VIEW:
+                return generatorView.generate(ap);
             case DAGGER_ACTIVITY:
                 return generatorDaggerActivity.generate(ap);
             case DAGGER_FRAGMENT:
-                // TODO: 2017-02-13 dagger fragments do not need code generating
-                throw new UnsupportedOperationException();
+                return generatorDaggerFragment.generate(ap);
+            case DAGGER_FRAGMENT_SUPPORT:
+                return generatorDaggerFragmentSupport.generate(ap);
             case DAGGER_CONDUCTOR:
                 return generatorDaggerConductor.generate(ap);
+            case DAGGER_VIEW:
+                return generatorDaggerView.generate(ap);
             default:
-                throw new IllegalStateException();
+                throw new UnsupportedOperationException(ap.getViewType() + " Type");
         }
 
     }
@@ -188,56 +262,84 @@ public class SlickProcessor extends AbstractProcessor {
                                              List<? extends TypeMirror> typeArguments)
             throws IllegalArgumentException, IllegalStateException {
         final ClassName presenter = getClassName(typeElement);
-        final ClassName presenterHost = get(presenter.packageName(),
-                typeElement.getSimpleName().toString() + "_Slick");
 
         final String fieldName = element.getSimpleName().toString();
 
         final TypeElement viewTypeElement = (TypeElement) element.getEnclosingElement();
         ClassName viewTypeClassName = get(getViewType(typeElement, viewTypeElement));
+        List<Arg> args = null;
 
         ViewType viewType = ViewType.UNSUPPORTED;
-        if (element.getAnnotation(Inject.class) != null) {
+        String presenterProvider;
+        if ((presenterProvider = findPresenterProvider(element)) != null) {
             if (ClASS_NAME_ACTIVITY.equals(viewTypeClassName)) {
                 viewType = ViewType.DAGGER_ACTIVITY;
             } else if (CLASS_NAME_CONTROLLER.equals(viewTypeClassName)) {
                 viewType = ViewType.DAGGER_CONDUCTOR;
-            } else if (ClASS_NAME_FRAGMENT.equals(viewTypeClassName) ||
-                    ClASS_NAME_FRAGMENT_SUPPORT.equals(viewTypeClassName)) {
+            } else if (ClASS_NAME_FRAGMENT.equals(viewTypeClassName)) {
                 viewType = ViewType.DAGGER_FRAGMENT;
+            } else if (ClASS_NAME_FRAGMENT_SUPPORT.equals(viewTypeClassName)) {
+                viewType = ViewType.DAGGER_FRAGMENT_SUPPORT;
+            } else if (ClASS_NAME_VIEW.equals(viewTypeClassName)) {
+                viewType = ViewType.DAGGER_VIEW;
             }
+
         } else {
             if (ClASS_NAME_ACTIVITY.equals(viewTypeClassName)) {
                 viewType = ACTIVITY;
             } else if (CLASS_NAME_CONTROLLER.equals(viewTypeClassName)) {
                 viewType = ViewType.CONDUCTOR;
-            } else if (ClASS_NAME_FRAGMENT.equals(viewTypeClassName) ||
-                    ClASS_NAME_FRAGMENT_SUPPORT.equals(viewTypeClassName)) {
+            } else if (ClASS_NAME_FRAGMENT.equals(viewTypeClassName)) {
                 viewType = ViewType.FRAGMENT;
+            } else if (ClASS_NAME_FRAGMENT_SUPPORT.equals(viewTypeClassName)) {
+                viewType = ViewType.FRAGMENT_SUPPORT;
+            } else if (ClASS_NAME_VIEW.equals(viewTypeClassName)) {
+                viewType = ViewType.VIEW;
             }
+
+            args = scanPresenterArgs(typeElement);
         }
 
+        return new AnnotatedPresenter(typeArguments.get(0).toString(), args, fieldName,
+                getClassName(viewTypeElement), viewType, presenter, presenterProvider);
+
+    }
+
+    private List<Arg> scanPresenterArgs(TypeElement typeElement) {
         final List<? extends Element> enclosedElements = typeElement.getEnclosedElements();
         for (Element enclosedElement : enclosedElements) {
             if (ElementKind.CONSTRUCTOR.equals(enclosedElement.getKind())) {
                 // TODO: 2017-02-01 restrict to one constructor only
                 final ExecutableElement constructor = (ExecutableElement) enclosedElement;
                 List<? extends VariableElement> parameters = constructor.getParameters();
-                List<PresenterArgs> args = new ArrayList<>(parameters.size());
+                List<Arg> args = new ArrayList<>(parameters.size());
                 for (VariableElement parameter : parameters) {
                     final List<? extends AnnotationMirror> annotationMirrors =
                             parameter.getAnnotationMirrors();
-                    final PresenterArgs presenterArgs = new PresenterArgs(parameter.getSimpleName().toString(),
-                            parameter.asType(), annotationMirrors);
 
-                    args.add(presenterArgs);
+                    final Arg presenterArg = new Arg(
+                            parameter.getSimpleName().toString(),
+                            parameter.asType(),
+                            annotationMirrors);
+
+                    args.add(presenterArg);
                 }
-                return new AnnotatedPresenter(typeArguments.get(0).toString(), args, fieldName,
-                        getClassName(viewTypeElement), viewType, presenter,
-                        presenterHost);
+                return args;
             }
         }
-        throw new IllegalStateException("Could not scan presenter");
+        return new ArrayList<>(0);
+    }
+
+    private String findPresenterProvider(Element element) {
+        for (Element sibling : element.getEnclosingElement().getEnclosedElements()) {
+            if (sibling.getKind().equals(ElementKind.FIELD) &&
+                    sibling.getAnnotation(Inject.class) != null &&
+                    ParameterizedTypeName.get(get(Provider.class), TypeName.get(element.asType()))
+                            .equals(get(sibling.asType()))) {
+                return sibling.getSimpleName().toString();
+            }
+        }
+        return null;
     }
 
     private ClassName getClassName(TypeElement typeElement) {
@@ -266,18 +368,6 @@ public class SlickProcessor extends AbstractProcessor {
                 throw new IllegalArgumentException("error");
             }
         }
-    }
-
-    private TypeMirror getViewTypeMirror(TypeElement typeElement) {
-        final List<? extends AnnotationMirror> annotationMirrors = typeElement.getAnnotationMirrors();
-        for (AnnotationMirror annotationMirror : annotationMirrors) {
-            for (Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> entry : annotationMirror
-                    .getElementValues()
-                    .entrySet()) {
-                return entry.getValue().accept(SLICK_VISITOR, null);
-            }
-        }
-        return null;
     }
 
     private void logParsingError(Element element, Class<? extends Annotation> annotation, Exception e) {

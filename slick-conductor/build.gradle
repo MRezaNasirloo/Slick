@@ -27,9 +27,9 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile project(':slick')
-    compile 'com.bluelinelabs:conductor:2.1.0'
-    compile 'javax.inject:javax.inject:1'
+    provided project(':slick')
+    provided 'com.bluelinelabs:conductor:2.1.0'
+    provided 'javax.inject:javax.inject:1'
 
     testCompile project(':slick-compiler')
     testCompile 'javax.inject:javax.inject:1'
@@ -39,6 +39,14 @@ dependencies {
     testCompile files(getRuntimeJar())
     testCompile files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
 }
+
+task copyResDirectoryToClasses(type: Copy) {
+    //TODO: delete the directory before copying
+    from "${projectDir}/src/test/resources"
+    into "${buildDir}/intermediates/classes/test/debug/resources"
+}
+
+preBuild.dependsOn(copyResDirectoryToClasses)
 
 def getRuntimeJar() {
     try {
@@ -53,3 +61,5 @@ def getRuntimeJar() {
         throw new RuntimeException(e);
     }
 }
+
+apply from: rootProject.file('local-maven.gradle')

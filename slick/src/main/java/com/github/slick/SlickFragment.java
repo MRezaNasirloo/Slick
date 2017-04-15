@@ -1,8 +1,13 @@
 package com.github.slick;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.util.Log;
+
+import java.util.UUID;
+
+import static com.github.slick.SlickDelegateActivity.SLICK_UNIQUE_KEY;
 
 
 /**
@@ -10,32 +15,51 @@ import android.support.v4.app.Fragment;
  *         Created on: 2016-11-07
  */
 
-public abstract class SlickFragment<V extends SlickView, P extends SlickPresenter<V>> extends Fragment implements SlickDelegator {
-
-    protected P presenter;
-    private final SlickDelegate<V, P> delegate = new SlickDelegate<>();
-
+public abstract class SlickFragment<V, P extends SlickPresenter<V>> extends Fragment implements SlickUniqueId {
+    private static final String TAG = SlickFragment.class.getSimpleName();
+    private SlickDelegateFragment<V, P> delegate;
+    private String id;
 
     @Override
+    @SuppressWarnings("unchecked")
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate() called");
         super.onCreate(savedInstanceState);
-        presenter = delegate.onCreate(getPresenter());
+        if (savedInstanceState != null) {
+            id = savedInstanceState.getString(SLICK_UNIQUE_KEY);
+        }
+        delegate = (SlickDelegateFragment<V, P>) bind();
     }
 
-    protected abstract P getPresenter();
+    @Override
+    @SuppressWarnings("unchecked")
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(SLICK_UNIQUE_KEY, id);
+    }
+
+
+    /*@Override
+    @SuppressWarnings({"unchecked", "deprecation"})
+    public void onAttach(Activity activity) {
+        //onAttach(Context context) is not called for android prior to marshmallow
+        //onAttach(Activity activity) is called on all api levels so we can use it safely
+        delegate = (SlickDelegateFragment<V, P>) bind();
+        super.onAttach(activity);
+    }*/
 
     @Override
     @SuppressWarnings("unchecked")
     public void onStart() {
+        delegate.onStart((V) this);
         super.onStart();
-        delegate.onStart((V)this);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public void onStop() {
+        delegate.onStop((V) this);
         super.onStop();
-        delegate.onStop((V)this);
     }
 
     @Override
@@ -45,7 +69,11 @@ public abstract class SlickFragment<V extends SlickView, P extends SlickPresente
         super.onDestroy();
     }
 
-    public SlickDelegate getSlickDelegate() {
-        return delegate;
+    @Override
+    public String getUniqueId() {
+        return id = id != null ? id : UUID.randomUUID().toString();
     }
+
+    @SuppressWarnings("unchecked")
+    protected abstract Object bind();
 }

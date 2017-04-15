@@ -9,9 +9,10 @@ import com.bluelinelabs.conductor.Controller;
 import com.github.slick.Presenter;
 import com.github.slick.sample.App;
 import com.github.slick.sample.R;
-import com.github.slick.sample.Slick;
+import com.github.slick.Slick;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 /**
  * @author : Pedramrn@gmail.com
@@ -21,19 +22,20 @@ import javax.inject.Inject;
 public class ExampleController extends Controller implements ConductorView {
 
     @Inject
+    Provider<ConductorPresenter> provider;
     @Presenter
     ConductorPresenter presenter;
 
     @NonNull
     @Override
     protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
-        App.getDDaggerComponent(getApplicationContext()).inject(this);
-        Slick.bind(this, presenter);
+        App.getDaggerComponent(getApplicationContext()).inject(this);
+        Slick.bind(this);
         return inflater.inflate(R.layout.home_layout, container, false);
     }
 
     @Override
     protected void onDestroy() {
-        App.disposeDDaggerComponent(getApplicationContext());
+        App.disposeDaggerComponent(getApplicationContext());
     }
 }

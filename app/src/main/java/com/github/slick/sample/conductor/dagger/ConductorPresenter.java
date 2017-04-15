@@ -6,14 +6,12 @@ import android.util.Log;
 import com.github.slick.SlickPresenter;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 
 /**
  * @author : Pedramrn@gmail.com
  *         Created on: 2016-11-03
  */
-@Singleton
 public class ConductorPresenter extends SlickPresenter<ConductorView> {
 
     private static final String TAG = ConductorPresenter.class.getSimpleName();

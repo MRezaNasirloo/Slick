@@ -1,1 +1,7 @@
-include ':app', ':slick-compiler', ':slick-annotations', ':slick', ':slick-conductor'
+include ':app', ':slick-middleware', ':sample-middleware'
+include ':slick-compiler'
+include ':slick-annotations'
+include ':slick'
+include ':slick-conductor'
+include ':slick-support-fragment'
+rootProject.name = 'slick'

@@ -1,5 +1,8 @@
 package com.github.slick;
 
+import java.util.List;
+
+import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.SimpleAnnotationValueVisitor7;
 
@@ -8,9 +11,18 @@ import javax.lang.model.util.SimpleAnnotationValueVisitor7;
  *         Created on: 2017-02-01
  */
 
-class SlickVisitor extends SimpleAnnotationValueVisitor7 <TypeMirror, Void> {
+public class SlickVisitor extends SimpleAnnotationValueVisitor7 <TypeMirror, List<TypeMirror>> {
     @Override
-    public TypeMirror visitType(TypeMirror typeMirror, Void avoid) {
+    public TypeMirror visitType(TypeMirror typeMirror, List<TypeMirror> list) {
+        list.add(typeMirror);
         return typeMirror;
+    }
+
+    @Override
+    public TypeMirror visitArray(List<? extends AnnotationValue> list, List<TypeMirror> resultList) {
+        for (AnnotationValue value : list) {
+            value.accept(this, resultList);
+        }
+        return super.visitArray(list, resultList);
     }
 }

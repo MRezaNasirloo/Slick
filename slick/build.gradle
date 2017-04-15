@@ -26,21 +26,32 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.1.0'
+
+    compile project(':slick-annotations')
+    provided 'com.android.support:support-annotations:25.2.0'
+
     testCompile 'junit:junit:4.12'
 
     testCompile 'com.google.truth:truth:0.28'
     testCompile 'com.google.testing.compile:compile-testing:0.8'
 
-    compile project(':slick-annotations')
-    compile project(':slick-compiler')
-
-    compile 'javax.inject:javax.inject:1'
     testCompile 'javax.inject:javax.inject:1'
+    testCompile 'com.android.support:support-annotations:25.2.0'
+    testCompile 'com.android.support:appcompat-v7:25.2.0'
+    testCompile project(':slick-compiler')
 
     testCompile files(getRuntimeJar())
     testCompile files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
+//    testCompile files(file("${System.env.ANDROID_HOME}/platforms/android-25/android.jar"))
 }
+
+task copyResDirectoryToClasses(type: Copy) {
+    //TODO: delete the directory before copying
+    from "${projectDir}/src/test/resources"
+    into "${buildDir}/intermediates/classes/test/debug/resources"
+}
+
+preBuild.dependsOn(copyResDirectoryToClasses)
 
 def getRuntimeJar() {
     try {
@@ -55,3 +66,5 @@ def getRuntimeJar() {
         throw new RuntimeException(e);
     }
 }
+
+apply from: rootProject.file('local-maven.gradle')

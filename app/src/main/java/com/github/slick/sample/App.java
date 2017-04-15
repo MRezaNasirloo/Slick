@@ -29,7 +29,7 @@ public class App extends Application {
                 .build();
     }
 
-    public static AppComponent.DaggerComponent getDDaggerComponent(Context context) {
+    public static AppComponent.DaggerComponent getDaggerComponent(Context context) {
         final App app = (App) context.getApplicationContext();
         if (app.dDaggerComponent == null) {
             app.dDaggerComponent = app.component.add(new DaggerModule());
@@ -37,7 +37,7 @@ public class App extends Application {
         return app.dDaggerComponent;
     }
 
-    public static void disposeDDaggerComponent(Context context) {
+    public static void disposeDaggerComponent(Context context) {
         ((App) context.getApplicationContext()).dDaggerComponent = null;
         Log.d(TAG, "disposeDDaggerComponent() called");
     }
