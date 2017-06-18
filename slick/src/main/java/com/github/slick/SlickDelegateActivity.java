@@ -16,7 +16,7 @@ import java.util.UUID;
 
 public class SlickDelegateActivity<V, P extends SlickPresenter<V>> implements ActivityLifecycleCallbacks {
 
-    private String id;
+    private int id;
     private OnDestroyListener listener;
 
     private P presenter;
@@ -25,14 +25,14 @@ public class SlickDelegateActivity<V, P extends SlickPresenter<V>> implements Ac
 
     public static String SLICK_UNIQUE_KEY = "SLICK_UNIQUE_KEY";
 
-    public SlickDelegateActivity(P presenter, Class<? extends Activity> cls, String id) {
+    public SlickDelegateActivity(P presenter, Class<? extends Activity> cls, int id) {
         if (presenter == null) {
             throw new IllegalStateException("Presenter cannot be null.");
         }
         this.presenter = presenter;
         this.cls = cls;
         this.id = id;
-        if (id != null) multiInstance = true;
+        if (id != -1) multiInstance = true;
     }
 
     public void onDestroy(V view) {
@@ -118,12 +118,12 @@ public class SlickDelegateActivity<V, P extends SlickPresenter<V>> implements Ac
         return presenter;
     }
 
-    public static String getId(Activity activity) {
+    public static int getId(Activity activity) {
         final Intent intent = activity.getIntent();
         if (intent.hasExtra(SLICK_UNIQUE_KEY)) {
-            return intent.getStringExtra(SLICK_UNIQUE_KEY);
+            return intent.getIntExtra(SLICK_UNIQUE_KEY , -1);
         } else {
-            String id = UUID.randomUUID().toString();
+            int id = UUID.randomUUID().toString().hashCode();
             intent.putExtra(SLICK_UNIQUE_KEY, id);
             activity.setIntent(intent);
             return id;
@@ -131,7 +131,7 @@ public class SlickDelegateActivity<V, P extends SlickPresenter<V>> implements Ac
     }
 
     private boolean isSameInstance(Activity activity) {
-        final String id = activity.getIntent().getStringExtra(SLICK_UNIQUE_KEY);
-        return id != null && id.equals(this.id);
+        final int id = activity.getIntent().getIntExtra(SLICK_UNIQUE_KEY, -1);
+        return id != -1 && id == this.id;
     }
 }

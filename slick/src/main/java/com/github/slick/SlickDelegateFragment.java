@@ -11,21 +11,21 @@ import android.app.Fragment;
 
 public class SlickDelegateFragment<V, P extends SlickPresenter<V>> {
 
-    private String id;
+    private int id;
     private OnDestroyListener listener;
 
     private P presenter;
     private Class cls;
     private boolean multiInstance = false;
 
-    public SlickDelegateFragment(P presenter, Class cls, String id) {
+    public SlickDelegateFragment(P presenter, Class cls, int id) {
         if (presenter == null) {
             throw new IllegalStateException("Presenter cannot be null.");
         }
         this.presenter = presenter;
         this.cls = cls;
         this.id = id;
-        if (id != null) multiInstance = true;
+        if (id != -1) multiInstance = true;
     }
 
     public SlickDelegateFragment(P presenter, Class cls) {
@@ -93,13 +93,13 @@ public class SlickDelegateFragment<V, P extends SlickPresenter<V>> {
     }
 
 
-    public static String getId(Object view) {
-        if (view instanceof SlickUniqueId) return ((SlickUniqueId) view).getUniqueId();
-        return null;
+    public static int getId(Object view) {
+        if (view instanceof SlickUniqueId) return ((SlickUniqueId) view).getUniqueId().hashCode();
+        return -1;
     }
 
     private boolean isSameInstance(Object view) {
-        final String id = getId(view);
-        return id != null && id.equals(this.id);
+        final int id = getId(view);
+        return id != -1 && id == this.id;
     }
 }

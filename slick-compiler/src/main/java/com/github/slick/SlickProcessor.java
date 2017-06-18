@@ -97,7 +97,7 @@ public class SlickProcessor extends AbstractProcessor {
     static final ClassName ClASS_NAME_FRAGMENT_SUPPORT = get("android.support.v4.app", "Fragment");
     static final ClassName ClASS_NAME_VIEW = get("android.view", "View");
     static final ClassName CLASS_NAME_CONTROLLER = get("com.bluelinelabs.conductor", "Controller");
-    static final ClassName ClASS_NAME_HASH_MAP = get("java.util", "HashMap");
+    static final ClassName ClASS_NAME_HASH_MAP = get("android.util", "SparseArray");
     static final ClassName ClASS_NAME_STRING = get("java.lang", "String");
     static final ClassName CLASS_NAME_SLICK_DELEGATE_ACTIVITY = get(pkgName, "SlickDelegateActivity");
     static final ClassName CLASS_NAME_SLICK_DELEGATE_FRAGMENT = get(pkgName, "SlickDelegateFragment");

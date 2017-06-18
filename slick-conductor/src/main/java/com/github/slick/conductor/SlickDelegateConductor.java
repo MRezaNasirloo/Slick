@@ -17,21 +17,21 @@ public class SlickDelegateConductor<V, P extends SlickPresenter<V>>
         extends Controller.LifecycleListener {
     private static final String TAG = SlickDelegateConductor.class.getSimpleName();
 
-    private String id;
+    private int id;
     private OnDestroyListener listener;
 
     private P presenter;
     private Class<? extends Controller> cls;
     private boolean multiInstance = false;
 
-    public SlickDelegateConductor(P presenter, Class<? extends Controller> cls, String id) {
+    public SlickDelegateConductor(P presenter, Class<? extends Controller> cls, int id) {
         if (presenter == null) {
             throw new IllegalStateException("Presenter cannot be null.");
         }
         this.presenter = presenter;
         this.cls = cls;
         this.id = id;
-        if (id != null) multiInstance = true;
+        if (id != -1) multiInstance = true;
     }
 
     public void onDestroy(Controller controller) {
@@ -86,7 +86,7 @@ public class SlickDelegateConductor<V, P extends SlickPresenter<V>>
     }
 
     private boolean isSameInstance(Controller controller) {
-        return controller.getInstanceId().equals(this.id);
+        return controller.getInstanceId().hashCode() == this.id;
     }
 
 }

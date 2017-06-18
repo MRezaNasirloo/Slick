@@ -5,5 +5,5 @@ package com.github.slick;
  *         Created on: 2016-11-01
  */
 public interface OnDestroyListener {
-    void onDestroy(String id);
+    void onDestroy(int id);
 }

@@ -74,7 +74,7 @@ class BasePresenterGeneratorImpl implements PresenterGenerator {
         return MethodSpec.methodBuilder("onDestroy")
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
-                .addParameter(ParameterSpec.builder(ClASS_NAME_STRING, "id").build())
+                .addParameter(ParameterSpec.builder(int.class, "id").build())
                 .addStatement("$L.$L.remove(id)", HOST_INSTANCE_VAR_NAME, DELEGATES_FIELD_NAME)
                 .beginControlFlow("if ($L.$L.size() == 0)", HOST_INSTANCE_VAR_NAME, DELEGATES_FIELD_NAME)
                 .addStatement("$L = null", HOST_INSTANCE_VAR_NAME)
@@ -88,8 +88,7 @@ class BasePresenterGeneratorImpl implements PresenterGenerator {
      */
     private FieldSpec getDelegateField(AnnotatedPresenter ap) {
         final ParameterizedTypeName parametrizedMapTypeName =
-                ParameterizedTypeName.get(ClASS_NAME_HASH_MAP, ClASS_NAME_STRING,
-                        ap.getParametrizedDelegateType());
+                ParameterizedTypeName.get(ClASS_NAME_HASH_MAP, ap.getParametrizedDelegateType());
 
         return FieldSpec.builder(parametrizedMapTypeName, DELEGATES_FIELD_NAME)
                 .addModifiers(Modifier.PRIVATE, Modifier.FINAL)

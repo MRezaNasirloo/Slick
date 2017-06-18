@@ -11,6 +11,6 @@ import com.squareup.javapoet.MethodSpec;
 public class GetViewIdGeneratorImpl implements GetViewIdGenerator {
     @Override
     public MethodSpec.Builder generate(MethodSpec.Builder builder, AnnotatedPresenter ap) {
-        return builder.addStatement("final String id = $T.getId($L)", ap.getDelegateType(), ap.getViewVarName());
+        return builder.addStatement("final int id = $T.getId($L)", ap.getDelegateType(), ap.getViewVarName());
     }
 }
