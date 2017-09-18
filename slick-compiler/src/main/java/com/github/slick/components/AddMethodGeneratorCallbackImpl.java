@@ -1,6 +1,7 @@
 package com.github.slick.components;
 
 import com.github.slick.AnnotatedPresenter;
+import com.github.slick.SlickProcessor;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
 
@@ -24,11 +25,16 @@ public class AddMethodGeneratorCallbackImpl implements AddMethodGenerator {
         final ArrayList<MethodSpec> list = new ArrayList<>(3);
         final MethodSignatureGeneratorDaggerImpl generatorDagger = new MethodSignatureGeneratorDaggerImpl();
         for (String name : methodNames) {
-            MethodSpec methodSpec = generatorDagger.generate(name, ap, TypeName.get(void.class))
-                    .addStatement("$L.$L.get($T.getId($L)).$L($L)", "hostInstance",
-                            "delegates", ap.getDelegateType(), ap.getViewVarName(), name, ap.getViewVarName())
-                    .returns(void.class).build();
-            list.add(methodSpec);
+            MethodSpec.Builder builder = generatorDagger.generate(name, ap, TypeName.get(void.class));
+            if (name.equals("onDetach") && (SlickProcessor.ViewType.VIEW.equals(ap.getViewType())
+                    || SlickProcessor.ViewType.DAGGER_VIEW.equals(ap.getViewType()))) {
+                builder.addStatement("if(hostInstance == null) return").addComment("Already has called by its delegate.");
+            }
+            builder.addStatement("$L.$L.get($T.getId($L)).$L($L)", "hostInstance",
+                                 "delegates", ap.getDelegateType(), ap.getViewVarName(), name, ap.getViewVarName()
+            ).returns(void.class);
+
+            list.add(builder.build());
         }
         return list;
     }

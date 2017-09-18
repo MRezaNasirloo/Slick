@@ -17,6 +17,10 @@ public class SlickDelegateView<V, P extends SlickPresenter<V>> {
     private P presenter;
     private Class cls;
     private boolean multiInstance = false;
+    /**
+     * to ensure not to call onViewDown after onDestroy
+     */
+    private boolean hasOnViewDownCalled = false;
 
     public SlickDelegateView(P presenter, Class cls, int id) {
         if (presenter == null) {
@@ -32,10 +36,12 @@ public class SlickDelegateView<V, P extends SlickPresenter<V>> {
         if (multiInstance) {
             if (isSameInstance(view)) {
                 presenter.onViewUp(view);
+                hasOnViewDownCalled = false;
             }
 
         } else if (cls.isInstance(view)) {
             presenter.onViewUp(view);
+            hasOnViewDownCalled = false;
         }
     }
 
@@ -43,9 +49,11 @@ public class SlickDelegateView<V, P extends SlickPresenter<V>> {
         if (multiInstance) {
             if (isSameInstance(view)) {
                 presenter.onViewDown();
+                hasOnViewDownCalled = true;
             }
         } else if (cls.isInstance(view)) {
             presenter.onViewDown();
+            hasOnViewDownCalled = true;
         }
     }
 
@@ -62,6 +70,7 @@ public class SlickDelegateView<V, P extends SlickPresenter<V>> {
     private void destroy(V view) {
         final Activity activity = (Activity) ((View) view).getContext();
         if (!activity.isChangingConfigurations()) {
+            if (!hasOnViewDownCalled) onDetach(view);
             presenter.onDestroy();
             if (listener != null) {
                 listener.onDestroy(id);

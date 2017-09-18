@@ -31,6 +31,7 @@ public class ExampleCustomView_Slick implements InternalOnDestroyListener {
     }
 
     public static <T extends View & ExampleView & OnDestroyListener> void onDetach(T exampleCustomView) {
+        if (hostInstance == null) return; //Already called by its delegate
         hostInstance.delegates.get(SlickDelegateView.getId(exampleCustomView)).onDetach(exampleCustomView);
     }
 

@@ -40,6 +40,7 @@ public class DaggerCustomView extends LinearLayout implements ExampleView, OnDes
 
     @Override
     protected void onAttachedToWindow() {
+        System.out.println("DaggerCustomView.onAttachedToWindow");
         super.onAttachedToWindow();
         App.getDaggerComponent(getContext()).inject(this);
         DaggerCustomView_Slick.bind(this);
@@ -51,12 +52,14 @@ public class DaggerCustomView extends LinearLayout implements ExampleView, OnDes
 
     @Override
     protected void onDetachedFromWindow() {
+        System.out.println("DaggerCustomView.onDetachedFromWindow");
         super.onDetachedFromWindow();
         DaggerCustomView_Slick.onDetach(this);
     }
 
     @Override
     public void onDestroy() {
+        System.out.println("DaggerCustomView.onDestroy");
         DaggerCustomView_Slick.onDestroy(this);
     }
 }

@@ -12,12 +12,25 @@ public class DaggerCustomViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_custom_view);
+        setContentView(R.layout.activity_custom_view_dagger);
         customView = (DaggerCustomView) findViewById(R.id.custom_view_dagger);
     }
 
     @Override
+    protected void onPause() {
+        System.out.println("DaggerCustomViewActivity.onPause");
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        System.out.println("DaggerCustomViewActivity.onStop");
+        super.onStop();
+    }
+
+    @Override
     protected void onDestroy() {
+        System.out.println("DaggerCustomViewActivity.onDestroy");
         super.onDestroy();
         customView.onDestroy();
     }
