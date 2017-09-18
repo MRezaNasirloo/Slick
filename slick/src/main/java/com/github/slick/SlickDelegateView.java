@@ -43,10 +43,18 @@ public class SlickDelegateView<V, P extends SlickPresenter<V>> {
         if (multiInstance) {
             if (isSameInstance(view)) {
                 presenter.onViewDown();
-                destroy(view);
             }
         } else if (cls.isInstance(view)) {
             presenter.onViewDown();
+        }
+    }
+
+    public void onDestroy(V view) {
+        if (multiInstance) {
+            if (isSameInstance(view)) {
+                destroy(view);
+            }
+        } else if (cls.isInstance(view)) {
             destroy(view);
         }
     }

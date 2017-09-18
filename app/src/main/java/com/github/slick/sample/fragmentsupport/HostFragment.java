@@ -49,4 +49,35 @@ public class HostFragment extends Fragment implements SimpleFragmentView {
         });
         return view;
     }
+
+    @Override
+    public void onPause() {
+        System.out.println("HostFragment.onPause");
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        System.out.println("HostFragment.onStop");
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        System.out.println("HostFragment.onDestroy");
+        super.onDestroy();
+    }
+
+    @Override
+    public void onDestroyView() {
+        System.out.println("HostFragment.onDestroyView");
+        System.out.println("HostFragment.onDestroyView is Removing: " + isRemoving());
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDetach() {
+        System.out.println("HostFragment.onDetach");
+        super.onDetach();
+    }
 }

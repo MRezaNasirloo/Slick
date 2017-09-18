@@ -4,6 +4,7 @@ import android.support.annotation.IdRes;
 import android.util.SparseArray;
 import android.view.View;
 import com.github.slick.InternalOnDestroyListener;
+import com.github.slick.OnDestroyListener;
 import com.github.slick.SlickDelegateView;
 import java.lang.Override;
 
@@ -12,7 +13,7 @@ public class ExampleCustomView_Slick implements InternalOnDestroyListener {
 
     private final SparseArray<SlickDelegateView<ExampleView, ExamplePresenter>> delegates = new SparseArray<>();
 
-    public static <T extends View & ExampleView> void bind(T exampleCustomView, @IdRes int i, float f) {
+    public static <T extends View & ExampleView & OnDestroyListener> void bind(T exampleCustomView, @IdRes int i, float f) {
         final int id = SlickDelegateView.getId(exampleCustomView);
         if (hostInstance == null) hostInstance = new ExampleCustomView_Slick();
         SlickDelegateView<ExampleView, ExamplePresenter> delegate = hostInstance.delegates.get(id);
@@ -25,12 +26,16 @@ public class ExampleCustomView_Slick implements InternalOnDestroyListener {
         ((ExampleCustomView) exampleCustomView).presenter = delegate.getPresenter();
     }
 
-    public static <T extends View & ExampleView> void onAttach(T exampleCustomView) {
+    public static <T extends View & ExampleView & OnDestroyListener> void onAttach(T exampleCustomView) {
         hostInstance.delegates.get(SlickDelegateView.getId(exampleCustomView)).onAttach(exampleCustomView);
     }
 
-    public static <T extends View & ExampleView> void onDetach(T exampleCustomView) {
+    public static <T extends View & ExampleView & OnDestroyListener> void onDetach(T exampleCustomView) {
         hostInstance.delegates.get(SlickDelegateView.getId(exampleCustomView)).onDetach(exampleCustomView);
+    }
+
+    public static <T extends View & ExampleView & OnDestroyListener> void onDestroy(T exampleCustomView) {
+        hostInstance.delegates.get(SlickDelegateView.getId(exampleCustomView)).onDestroy(exampleCustomView);
     }
 
     @Override

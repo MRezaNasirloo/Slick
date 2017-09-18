@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.slick.OnDestroyListener;
 import com.github.slick.Presenter;
 import com.github.slick.sample.App;
 import com.github.slick.sample.R;
@@ -18,7 +19,7 @@ import javax.inject.Provider;
  *         Created on: 2017-03-09
  */
 
-public class DaggerCustomView extends LinearLayout implements ExampleView {
+public class DaggerCustomView extends LinearLayout implements ExampleView, OnDestroyListener {
 
     @Inject
     Provider<ViewPresenter> provider;
@@ -52,5 +53,10 @@ public class DaggerCustomView extends LinearLayout implements ExampleView {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         DaggerCustomView_Slick.onDetach(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        DaggerCustomView_Slick.onDestroy(this);
     }
 }

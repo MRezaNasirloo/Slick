@@ -104,7 +104,8 @@ public class SlickProcessor extends AbstractProcessor {
     static final ClassName CLASS_NAME_SLICK_DELEGATE_VIEW = get(pkgName, "SlickDelegateView");
     static final ClassName CLASS_NAME_SLICK_DELEGATE_FRAGMENT_SUPPORT = get("com.github.slick.supportfragment", "SlickDelegateFragment");
     static final ClassName CLASS_NAME_SLICK_DELEGATE_CONDUCTOR = get("com.github.slick.conductor", "SlickDelegateConductor");
-    static final ClassName ClASS_NAME_ON_DESTROY_LISTENER = get(pkgName, "InternalOnDestroyListener");
+    static final ClassName ClASS_NAME_INTERNAL_ON_DESTROY_LISTENER = get(pkgName, "InternalOnDestroyListener");
+    public static final ClassName ClASS_NAME_ON_DESTROY_LISTENER = get(pkgName, "OnDestroyListener");
 
     private Filer filer;
     private Messager messager;
@@ -130,7 +131,7 @@ public class SlickProcessor extends AbstractProcessor {
     private BindMethodBodyGenerator bmbgView = new BindMethodBodyGeneratorImpl(gvig, pig, vcgNoOp);
     private BindMethodBodyGenerator bmbgViewDagger = new BindMethodBodyGeneratorImpl(gvig, pigDagger, vcgNoOp);
     private AddMethodGenerator amgFragment = new AddMethodGeneratorCallbackImpl("onStart", "onStop", "onDestroy");
-    private AddMethodGenerator amgView = new AddMethodGeneratorCallbackImpl("onAttach", "onDetach");
+    private AddMethodGenerator amgView = new AddMethodGeneratorCallbackImpl("onAttach", "onDetach", "onDestroy");
     private PresenterGenerator generatorActivity = new BasePresenterGeneratorImpl(msg, bmbgActivity);
     private PresenterGenerator generatorFragment = new BasePresenterGeneratorImpl(msg, bmbgFragment, amgFragment);
     private PresenterGenerator generatorFragmentSupport = new BasePresenterGeneratorImpl(msg, bmbgFragmentSupport);

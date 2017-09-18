@@ -17,8 +17,7 @@ import javax.lang.model.element.Modifier;
 import static com.github.slick.AnnotatedPresenter.DELEGATES_FIELD_NAME;
 import static com.github.slick.AnnotatedPresenter.HOST_INSTANCE_VAR_NAME;
 import static com.github.slick.SlickProcessor.ClASS_NAME_HASH_MAP;
-import static com.github.slick.SlickProcessor.ClASS_NAME_ON_DESTROY_LISTENER;
-import static com.github.slick.SlickProcessor.ClASS_NAME_STRING;
+import static com.github.slick.SlickProcessor.ClASS_NAME_INTERNAL_ON_DESTROY_LISTENER;
 
 /**
  * @author : Pedramrn@gmail.com
@@ -57,7 +56,7 @@ class BasePresenterGeneratorImpl implements PresenterGenerator {
 
         return TypeSpec.classBuilder(ap.getPresenterHost())
                 .addModifiers(Modifier.PUBLIC)
-                .addSuperinterface(ClASS_NAME_ON_DESTROY_LISTENER)
+                .addSuperinterface(ClASS_NAME_INTERNAL_ON_DESTROY_LISTENER)
                 .addField(getDelegateField(ap))
                 .addField(hostInstance)
                 .addMethod(methodBuilder.build())

@@ -2,7 +2,10 @@ package com.github.slick.components;
 
 import com.github.slick.AnnotatedPresenter;
 import com.github.slick.Arg;
+import com.github.slick.SlickProcessor;
+import com.github.slick.SlickProcessor.ViewType;
 import com.squareup.javapoet.AnnotationSpec;
+import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeName;
@@ -22,8 +25,13 @@ public class MethodSignatureGeneratorImpl implements MethodSignatureGenerator {
 
     @Override
     public MethodSpec.Builder generate(String name, AnnotatedPresenter ap, TypeName returns) {
+        List<ClassName> bounds = new ArrayList<>(2);
+        bounds.add(ap.getViewInterface());
+        if (ViewType.VIEW.equals(ap.getViewType()) || ViewType.DAGGER_VIEW.equals(ap.getViewType())) {
+            bounds.add(SlickProcessor.ClASS_NAME_ON_DESTROY_LISTENER);
+        }
         final TypeVariableName typeVariableName = TypeVariableName.get("T",
-                ap.getViewType().className()).withBounds(ap.getViewInterface());
+                ap.getViewType().className()).withBounds(bounds);
         return MethodSpec.methodBuilder(name)
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .addTypeVariable(typeVariableName)

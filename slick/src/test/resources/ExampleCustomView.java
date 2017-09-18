@@ -6,9 +6,10 @@ import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.slick.OnDestroyListener;
 import com.github.slick.Presenter;
 
-public class ExampleCustomView extends LinearLayout implements ExampleView {
+public class ExampleCustomView extends LinearLayout implements ExampleView, OnDestroyListener {
 
     @Presenter
     ExamplePresenter presenter;
@@ -36,5 +37,10 @@ public class ExampleCustomView extends LinearLayout implements ExampleView {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         ExampleCustomView_Slick.onDetach(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        ExampleCustomView_Slick.onDestroy(this);
     }
 }
