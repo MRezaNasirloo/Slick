@@ -36,7 +36,7 @@ public class CustomView extends LinearLayout implements ExampleView, OnDestroyLi
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        Slick.bind(this);
+        CustomView_Slick.bind(this);
         CustomView_Slick.onAttach(this);
 
         final TextView textView = (TextView) findViewById(R.id.textView_custom_view);
