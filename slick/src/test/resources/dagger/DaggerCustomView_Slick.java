@@ -30,7 +30,8 @@ public class DaggerCustomView_Slick implements InternalOnDestroyListener {
     }
 
     public static <T extends View & ExampleView & OnDestroyListener> void onDetach(T daggerCustomView) {
-        if (hostInstance == null) return; //Already called by its delegate
+        if(hostInstance == null || hostInstance.delegates.get(SlickDelegateView.getId(daggerCustomView)) == null) return;
+        // Already has called by its delegate.
         hostInstance.delegates.get(SlickDelegateView.getId(daggerCustomView)).onDetach(daggerCustomView);
     }
 

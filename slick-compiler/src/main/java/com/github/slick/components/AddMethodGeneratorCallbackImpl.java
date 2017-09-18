@@ -28,7 +28,9 @@ public class AddMethodGeneratorCallbackImpl implements AddMethodGenerator {
             MethodSpec.Builder builder = generatorDagger.generate(name, ap, TypeName.get(void.class));
             if (name.equals("onDetach") && (SlickProcessor.ViewType.VIEW.equals(ap.getViewType())
                     || SlickProcessor.ViewType.DAGGER_VIEW.equals(ap.getViewType()))) {
-                builder.addStatement("if(hostInstance == null) return").addComment("Already has called by its delegate.");
+                builder.addStatement("if($L == null || $L.$L.get($T.getId($L)) == null) return", "hostInstance", "hostInstance",
+                                     "delegates", ap.getDelegateType(), ap.getViewVarName())
+                        .addComment("Already has called by its delegate.");
             }
             builder.addStatement("$L.$L.get($T.getId($L)).$L($L)", "hostInstance",
                                  "delegates", ap.getDelegateType(), ap.getViewVarName(), name, ap.getViewVarName()
