@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.bluelinelabs.conductor.Controller;
-import com.github.slick.OnDestroyListener;
+import com.github.slick.InternalOnDestroyListener;
 import com.github.slick.SlickPresenter;
 
 
@@ -18,7 +18,7 @@ public class SlickDelegateConductor<V, P extends SlickPresenter<V>>
     private static final String TAG = SlickDelegateConductor.class.getSimpleName();
 
     private int id;
-    private OnDestroyListener listener;
+    private InternalOnDestroyListener listener;
 
     private P presenter;
     private Class<? extends Controller> cls;
@@ -77,7 +77,7 @@ public class SlickDelegateConductor<V, P extends SlickPresenter<V>>
         }
     }
 
-    public void setListener(OnDestroyListener listener) {
+    public void setListener(InternalOnDestroyListener listener) {
         this.listener = listener;
     }
 

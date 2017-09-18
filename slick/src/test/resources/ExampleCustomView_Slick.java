@@ -1,22 +1,19 @@
 package test;
 
 import android.support.annotation.IdRes;
+import android.util.SparseArray;
 import android.view.View;
-
-import com.github.slick.OnDestroyListener;
+import com.github.slick.InternalOnDestroyListener;
 import com.github.slick.SlickDelegateView;
-
 import java.lang.Override;
-import java.lang.String;
-import java.util.HashMap;
 
-public class ExampleCustomView_Slick implements OnDestroyListener {
+public class ExampleCustomView_Slick implements InternalOnDestroyListener {
     private static ExampleCustomView_Slick hostInstance;
 
-    private final HashMap<String, SlickDelegateView<ExampleView, ExamplePresenter>> delegates = new HashMap<>();
+    private final SparseArray<SlickDelegateView<ExampleView, ExamplePresenter>> delegates = new SparseArray<>();
 
     public static <T extends View & ExampleView> void bind(T exampleCustomView, @IdRes int i, float f) {
-        final String id = SlickDelegateView.getId(exampleCustomView);
+        final int id = SlickDelegateView.getId(exampleCustomView);
         if (hostInstance == null) hostInstance = new ExampleCustomView_Slick();
         SlickDelegateView<ExampleView, ExamplePresenter> delegate = hostInstance.delegates.get(id);
         if (delegate == null) {
@@ -37,7 +34,7 @@ public class ExampleCustomView_Slick implements OnDestroyListener {
     }
 
     @Override
-    public void onDestroy(String id) {
+    public void onDestroy(int id) {
         hostInstance.delegates.remove(id);
         if (hostInstance.delegates.size() == 0) {
             hostInstance = null;

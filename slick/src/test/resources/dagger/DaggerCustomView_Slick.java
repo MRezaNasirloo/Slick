@@ -1,21 +1,18 @@
 package test;
 
+import android.util.SparseArray;
 import android.view.View;
-
-import com.github.slick.OnDestroyListener;
+import com.github.slick.InternalOnDestroyListener;
 import com.github.slick.SlickDelegateView;
-
 import java.lang.Override;
-import java.lang.String;
-import java.util.HashMap;
 
-public class DaggerCustomView_Slick implements OnDestroyListener {
+public class DaggerCustomView_Slick implements InternalOnDestroyListener {
     private static DaggerCustomView_Slick hostInstance;
 
-    private final HashMap<String, SlickDelegateView<ExampleView, ExamplePresenter>> delegates = new HashMap<>();
+    private final SparseArray<SlickDelegateView<ExampleView, ExamplePresenter>> delegates = new SparseArray<>();
 
     public static <T extends View & ExampleView> void bind(T daggerCustomView) {
-        final String id = SlickDelegateView.getId(daggerCustomView);
+        final int id = SlickDelegateView.getId(daggerCustomView);
         if (hostInstance == null) hostInstance = new DaggerCustomView_Slick();
         SlickDelegateView<ExampleView, ExamplePresenter> delegate = hostInstance.delegates.get(id);
         if (delegate == null) {
@@ -36,7 +33,7 @@ public class DaggerCustomView_Slick implements OnDestroyListener {
     }
 
     @Override
-    public void onDestroy(String id) {
+    public void onDestroy(int id) {
         hostInstance.delegates.remove(id);
         if (hostInstance.delegates.size() == 0) {
             hostInstance = null;

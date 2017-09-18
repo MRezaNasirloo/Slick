@@ -1,14 +1,14 @@
 package test;
 
 import com.bluelinelabs.conductor.Controller;
-import com.github.slick.OnDestroyListener;
+import com.github.slick.InternalOnDestroyListener;
 import com.github.slick.conductor.SlickDelegateConductor;
 
 import java.lang.Override;
 import java.lang.String;
 import java.util.HashMap;
 
-public class DaggerController_Slick implements OnDestroyListener {
+public class DaggerController_Slick implements InternalOnDestroyListener {
     private static DaggerController_Slick hostInstance;
     private final HashMap<String, SlickDelegateConductor<ExampleView, ExamplePresenter>> delegates = new HashMap<>();
 

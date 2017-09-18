@@ -12,7 +12,7 @@ import android.app.Fragment;
 public class SlickDelegateFragment<V, P extends SlickPresenter<V>> {
 
     private int id;
-    private OnDestroyListener listener;
+    private InternalOnDestroyListener listener;
 
     private P presenter;
     private Class cls;
@@ -88,7 +88,7 @@ public class SlickDelegateFragment<V, P extends SlickPresenter<V>> {
         return presenter;
     }
 
-    public void setListener(OnDestroyListener listener) {
+    public void setListener(InternalOnDestroyListener listener) {
         this.listener = listener;
     }
 

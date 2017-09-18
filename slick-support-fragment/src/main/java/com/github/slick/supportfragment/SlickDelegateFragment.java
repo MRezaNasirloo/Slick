@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentManager.FragmentLifecycleCallbacks;
 
-import com.github.slick.OnDestroyListener;
+import com.github.slick.InternalOnDestroyListener;
 import com.github.slick.SlickPresenter;
 import com.github.slick.SlickUniqueId;
 
@@ -17,7 +17,7 @@ import com.github.slick.SlickUniqueId;
 public class SlickDelegateFragment<V, P extends SlickPresenter<V>> extends FragmentLifecycleCallbacks {
 
     private int id;
-    private OnDestroyListener listener;
+    private InternalOnDestroyListener listener;
 
     private P presenter;
     private Class cls;
@@ -83,7 +83,7 @@ public class SlickDelegateFragment<V, P extends SlickPresenter<V>> extends Fragm
         return presenter;
     }
 
-    public void setListener(OnDestroyListener listener) {
+    public void setListener(InternalOnDestroyListener listener) {
         this.listener = listener;
     }
 

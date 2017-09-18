@@ -1,7 +1,6 @@
 package com.github.slick;
 
 import android.app.Activity;
-import android.app.Application;
 import android.app.Application.ActivityLifecycleCallbacks;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +16,7 @@ import java.util.UUID;
 public class SlickDelegateActivity<V, P extends SlickPresenter<V>> implements ActivityLifecycleCallbacks {
 
     private int id;
-    private OnDestroyListener listener;
+    private InternalOnDestroyListener listener;
 
     private P presenter;
     private Class<? extends Activity> cls;
@@ -110,7 +109,7 @@ public class SlickDelegateActivity<V, P extends SlickPresenter<V>> implements Ac
         }
     }
 
-    public void setListener(OnDestroyListener listener) {
+    public void setListener(InternalOnDestroyListener listener) {
         this.listener = listener;
     }
 

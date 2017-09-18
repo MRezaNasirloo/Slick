@@ -3,14 +3,14 @@ package test;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 
-import com.github.slick.OnDestroyListener;
+import com.github.slick.InternalOnDestroyListener;
 import com.github.slick.supportfragment.SlickDelegateFragment;
 
 import java.lang.Override;
 import java.lang.String;
 import java.util.HashMap;
 
-public class ExampleFragment_Slick implements OnDestroyListener {
+public class ExampleFragment_Slick implements InternalOnDestroyListener {
 
     private static ExampleFragment_Slick hostInstance;
     private final HashMap<String, SlickDelegateFragment<ExampleView, ExamplePresenter>> delegates = new HashMap<>();

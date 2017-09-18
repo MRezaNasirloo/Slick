@@ -12,7 +12,7 @@ import android.view.View;
 public class SlickDelegateView<V, P extends SlickPresenter<V>> {
 
     private int id;
-    private OnDestroyListener listener;
+    private InternalOnDestroyListener listener;
 
     private P presenter;
     private Class cls;
@@ -66,7 +66,7 @@ public class SlickDelegateView<V, P extends SlickPresenter<V>> {
         return presenter;
     }
 
-    public void setListener(OnDestroyListener listener) {
+    public void setListener(InternalOnDestroyListener listener) {
         this.listener = listener;
     }
 

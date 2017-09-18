@@ -3,14 +3,14 @@ package test;
 import android.support.annotation.IdRes;
 
 import com.bluelinelabs.conductor.Controller;
-import com.github.slick.OnDestroyListener;
+import com.github.slick.InternalOnDestroyListener;
 import com.github.slick.conductor.SlickDelegateConductor;
 
 import java.lang.Override;
 import java.lang.String;
 import java.util.HashMap;
 
-public class ExampleController_Slick implements OnDestroyListener {
+public class ExampleController_Slick implements InternalOnDestroyListener {
     private static ExampleController_Slick hostInstance;
     private final HashMap<String, SlickDelegateConductor<ExampleView, ExamplePresenter>> delegates =
             new HashMap<>();

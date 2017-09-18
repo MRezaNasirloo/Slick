@@ -104,7 +104,7 @@ public class SlickProcessor extends AbstractProcessor {
     static final ClassName CLASS_NAME_SLICK_DELEGATE_VIEW = get(pkgName, "SlickDelegateView");
     static final ClassName CLASS_NAME_SLICK_DELEGATE_FRAGMENT_SUPPORT = get("com.github.slick.supportfragment", "SlickDelegateFragment");
     static final ClassName CLASS_NAME_SLICK_DELEGATE_CONDUCTOR = get("com.github.slick.conductor", "SlickDelegateConductor");
-    static final ClassName ClASS_NAME_ON_DESTROY_LISTENER = get(pkgName, "OnDestroyListener");
+    static final ClassName ClASS_NAME_ON_DESTROY_LISTENER = get(pkgName, "InternalOnDestroyListener");
 
     private Filer filer;
     private Messager messager;
