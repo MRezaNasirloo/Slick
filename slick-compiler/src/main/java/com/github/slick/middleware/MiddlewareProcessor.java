@@ -168,7 +168,7 @@ public class MiddlewareProcessor extends AbstractProcessor {
                     final ExecutableElement constructor = (ExecutableElement) enclosedElement;
                     constrictorParameters = constructor.getParameters();
                     container = new ContainerClass(TypeName.get(containerClass.asType()),
-                            get(containerClass), constrictorParameters, typeParameters);
+                            get(containerClass), constrictorParameters, typeParameters, constructor.getAnnotationMirrors());
                     break;
                 }
             }
@@ -182,8 +182,7 @@ public class MiddlewareProcessor extends AbstractProcessor {
             for (Element enclosedElement : enclosedElements) {
                 if (ElementKind.METHOD.equals(enclosedElement.getKind()) &&
                         null != enclosedElement.getAnnotation(Middleware.class)) {
-                    final List<? extends AnnotationMirror> annotationMirrors =
-                            enclosedElement.getAnnotationMirrors();
+                    final List<? extends AnnotationMirror> annotationMirrors = enclosedElement.getAnnotationMirrors();
                     final ExecutableElement executableElement = (ExecutableElement) enclosedElement;
 
 

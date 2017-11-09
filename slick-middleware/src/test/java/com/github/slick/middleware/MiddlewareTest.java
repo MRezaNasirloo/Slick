@@ -76,4 +76,18 @@ public class MiddlewareTest {
                 .generatesSources(genSource);
     }
 
+    @Test
+    public void middlewareDagger() throws Exception {
+        JavaFileObject routerSource = JavaFileObjects.forResource("resources/RouterDagger.java");
+        JavaFileObject genSource = JavaFileObjects.forResource("resources/RouterDaggerSlick.java");
+        JavaFileObject middlewareSource = JavaFileObjects.forResource("resources/MiddlewareNoOp.java");
+
+        assertAbout(JavaSourcesSubjectFactory.javaSources())
+                .that(Arrays.asList(routerSource, middlewareSource))
+                .processedWith(new MiddlewareProcessor())
+                .compilesWithoutError()
+                .and()
+                .generatesSources(genSource);
+    }
+
 }

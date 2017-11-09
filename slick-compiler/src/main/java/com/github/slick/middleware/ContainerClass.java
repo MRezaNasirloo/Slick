@@ -3,8 +3,10 @@ package com.github.slick.middleware;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.TypeName;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.TypeParameterElement;
 import javax.lang.model.element.VariableElement;
@@ -20,13 +22,15 @@ public class ContainerClass {
     private final TypeName superClass;
     private final List<? extends VariableElement> args;
     private final List<? extends TypeParameterElement> typeParameters;
+    private final List<? extends AnnotationMirror> annotations;
 
     public ContainerClass(TypeName superClass, ClassName className, List<? extends VariableElement> args,
-                          List<? extends TypeParameterElement> typeParameters) {
+                          List<? extends TypeParameterElement> typeParameters, List<? extends AnnotationMirror> annotations) {
         this.superClass = superClass;
         this.className = className;
         this.args = args;
         this.typeParameters = typeParameters;
+        this.annotations = annotations;
     }
 
 
@@ -62,6 +66,10 @@ public class ContainerClass {
      */
     public ClassName getSubclass() {
         return ClassName.get(className.packageName(), className.simpleName() + "Slick");
+    }
+
+    public List<? extends AnnotationMirror> getAnnotations() {
+        return annotations;
     }
 
     @Override

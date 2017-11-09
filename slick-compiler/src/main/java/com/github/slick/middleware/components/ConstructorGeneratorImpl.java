@@ -2,12 +2,14 @@ package com.github.slick.middleware.components;
 
 import com.github.slick.Utils;
 import com.github.slick.middleware.ContainerClass;
+import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
 
 import java.util.Set;
 
+import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.VariableElement;
 
@@ -21,6 +23,9 @@ public class ConstructorGeneratorImpl implements ConstructorGenerator {
     public MethodSpec generate(ContainerClass container, Set<ClassName> middleware) {
         final MethodSpec.Builder builder = MethodSpec.constructorBuilder();
         builder.addModifiers(Modifier.PUBLIC);
+        for (AnnotationMirror annotationMirror : container.getAnnotations()) {
+            builder.addAnnotation(AnnotationSpec.get(annotationMirror));
+        }
         for (VariableElement variableElement : container.getArgs()) {
             final Set<Modifier> modifiers = variableElement.getModifiers();
             builder.addParameter(TypeName.get(variableElement.asType()),
