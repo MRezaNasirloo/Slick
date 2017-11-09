@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<template
+    format="4"
+    revision="1"
+    name="Controller (Conductor)"
+    description="Creates a Conductor controller.">
+
+	<category value="Slick"/>
+    <formfactor value="Mobile"/>
+
+	<parameter
+        id="className"
+        name="Controller Name"
+        type="string"
+        constraints="class|nonempty|unique"
+        default="Blank"
+        help="The name of the controller class to create" />
+
+	<parameter id="includeLayout"
+        name="Create layout XML?"
+        type="boolean"
+        default="true"
+        help="Generate a layout XML for the controller"/>
+
+    <parameter id="controllerName"
+        name="controller Layout Name"
+        type="string"
+        constraints="layout|nonempty|unique"
+        default="controller_blank"
+        visibility="includeLayout"
+        suggest="controller_${classToResource(className)}"
+        help="The name of the layout to create" />
+
+    <thumbs>
+        <thumb>template_blank_controller.png</thumb>
+    </thumbs>
+
+	<globals file="globals.xml.ftl" />
+    <execute file="recipe.xml.ftl" />
+
+</template>
