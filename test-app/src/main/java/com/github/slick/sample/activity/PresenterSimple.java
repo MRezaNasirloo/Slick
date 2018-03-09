@@ -4,22 +4,22 @@ import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.github.slick.SlickPresenter;
+import com.github.slick.test.SlickPresenterTestable;
 
 
 /**
  * @author : Pedramrn@gmail.com
  *         Created on: 2016-11-03
  */
-public class ExampleActivityPresenter extends SlickPresenter<ExampleActivityView> {
+public class PresenterSimple extends SlickPresenterTestable<ViewSimple> {
 
-    private static final String TAG = ExampleActivityPresenter.class.getSimpleName();
+    private static final String TAG = PresenterSimple.class.getSimpleName();
 
-    public ExampleActivityPresenter(@IdRes @NonNull Integer integer, String s) {
+    public PresenterSimple(@IdRes @NonNull Integer integer, String s) {
     }
 
     @Override
-    public void onViewUp(ExampleActivityView view) {
+    public void onViewUp(ViewSimple view) {
         Log.d(TAG, "onViewUp() called");
         super.onViewUp(view);
     }

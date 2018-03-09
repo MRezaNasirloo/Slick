@@ -41,6 +41,6 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
     testCompile 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:2.7.22'
+    implementation 'org.mockito:mockito-core:2.7.22'
     androidTestImplementation 'org.mockito:mockito-android:2.7.22'
 }
