@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    buildToolsVersion "26.0.3"
 
     defaultConfig {
         minSdkVersion 16
@@ -28,17 +28,23 @@ dependencies {
     })
 
     compile project(':slick-annotations')
-    provided 'com.android.support:support-annotations:25.2.0'
+    provided 'com.android.support:support-annotations:26.1.0'
 
     testCompile 'junit:junit:4.12'
 
-    testCompile 'com.google.truth:truth:0.28'
-    testCompile 'com.google.testing.compile:compile-testing:0.8'
+    testCompile 'com.google.truth:truth:0.35'
+    testCompile 'com.google.testing.compile:compile-testing:0.10'
 
     testCompile 'javax.inject:javax.inject:1'
-    testCompile 'com.android.support:support-annotations:25.2.0'
-    testCompile 'com.android.support:appcompat-v7:25.2.0'
+    testCompile 'com.android.support:support-annotations:26.1.0'
+    testCompile 'com.android.support:appcompat-v7:26.1.0'
     testCompile project(':slick-compiler')
+
+    androidTestCompile 'com.android.support:appcompat-v7:26.1.0'
+    androidTestCompile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    testImplementation 'org.mockito:mockito-core:2.7.22'
+    androidTestImplementation 'org.mockito:mockito-android:2.7.22'
 
     testCompile files(getRuntimeJar())
     testCompile files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
