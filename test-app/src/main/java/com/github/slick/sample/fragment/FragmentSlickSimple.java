@@ -71,7 +71,7 @@ public class FragmentSlickSimple extends SlickFragment<ViewFragmentSimple, Prese
 
     @Override
     protected Object bind() {
-        return FragmentSlickSimple_Slick.bind(this, 1, "2");
+        return PresenterFragmentSimple_Slick.bind(this, 1, "2");
         // return Slick.bind(this, 1, "2");
     }
 

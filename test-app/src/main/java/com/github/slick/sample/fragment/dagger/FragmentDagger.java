@@ -55,7 +55,7 @@ public class FragmentDagger extends SlickFragment<ViewFragmentDagger, PresenterF
 
     @Override
     protected Object bind() {
-        return FragmentDagger_Slick.bind(this);
+        return PresenterFragmentDagger_Slick.bind(this);
     }
 
     @Override

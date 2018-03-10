@@ -43,8 +43,8 @@ public class DaggerCustomView extends LinearLayout implements ExampleView, OnDes
         System.out.println("DaggerCustomView.onAttachedToWindow");
         super.onAttachedToWindow();
         App.getDaggerComponent(getContext()).inject(this);
-        DaggerCustomView_Slick.bind(this);
-        DaggerCustomView_Slick.onAttach(this);
+        ViewPresenter_Slick.bind(this);
+        ViewPresenter_Slick.onAttach(this);
 
         final TextView textView = (TextView) findViewById(R.id.textView_custom_view);
         textView.setText(presenter.getData());
@@ -54,12 +54,12 @@ public class DaggerCustomView extends LinearLayout implements ExampleView, OnDes
     protected void onDetachedFromWindow() {
         System.out.println("DaggerCustomView.onDetachedFromWindow");
         super.onDetachedFromWindow();
-        DaggerCustomView_Slick.onDetach(this);
+        ViewPresenter_Slick.onDetach(this);
     }
 
     @Override
     public void onDestroy() {
         System.out.println("DaggerCustomView.onDestroy");
-        DaggerCustomView_Slick.onDestroy(this);
+        ViewPresenter_Slick.onDestroy(this);
     }
 }

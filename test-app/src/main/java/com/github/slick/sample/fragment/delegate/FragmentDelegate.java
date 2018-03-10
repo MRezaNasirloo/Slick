@@ -42,25 +42,25 @@ public class FragmentDelegate extends Fragment implements ViewFragmentDelegate {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        FragmentDelegate_Slick.bind(this, 1, "2");
+        PresenterFragmentDelegate_Slick.bind(this, 1, "2");
         super.onCreate(savedInstanceState);
     }
 
     @Override
     public void onStart() {
-        FragmentDelegate_Slick.onStart(this);
+        PresenterFragmentDelegate_Slick.onStart(this);
         super.onStart();
     }
 
     @Override
     public void onStop() {
-        FragmentDelegate_Slick.onStop(this);
+        PresenterFragmentDelegate_Slick.onStop(this);
         super.onStop();
     }
 
     @Override
     public void onDestroy() {
-        FragmentDelegate_Slick.onDestroy(this);
+        PresenterFragmentDelegate_Slick.onDestroy(this);
         super.onDestroy();
     }
 

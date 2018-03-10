@@ -48,7 +48,7 @@ public class FragmentSupportDagger extends Fragment implements ViewFragmentSuppo
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         App.getDaggerComponent(getActivity()).inject(this);
-        FragmentSupportDagger_Slick.bind(this);
+        PresenterFragmentSupportDagger_Slick.bind(this);
     }
 
     @Override

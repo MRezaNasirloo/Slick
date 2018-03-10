@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.github.slick.OnDestroyListener;
 import com.github.slick.Presenter;
-import com.github.slick.Slick;
 import com.github.slick.sample.R;
 
 /**
@@ -36,8 +35,8 @@ public class CustomView extends LinearLayout implements ExampleView, OnDestroyLi
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        CustomView_Slick.bind(this);
-        CustomView_Slick.onAttach(this);
+        ViewPresenter_Slick.bind(this);
+        ViewPresenter_Slick.onAttach(this);
 
         final TextView textView = (TextView) findViewById(R.id.textView_custom_view);
         textView.setText(presenter.getData());
@@ -46,11 +45,11 @@ public class CustomView extends LinearLayout implements ExampleView, OnDestroyLi
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        CustomView_Slick.onDetach(this);
+        ViewPresenter_Slick.onDetach(this);
     }
 
     @Override
     public void onDestroy() {
-        CustomView_Slick.onDestroy(this);
+        ViewPresenter_Slick.onDestroy(this);
     }
 }

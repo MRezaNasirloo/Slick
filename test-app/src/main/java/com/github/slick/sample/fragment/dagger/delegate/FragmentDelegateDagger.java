@@ -48,26 +48,26 @@ public class FragmentDelegateDagger extends Fragment implements ViewFragmentDele
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         App.getDaggerComponent(getActivity()).inject(this);
-        FragmentDelegateDagger_Slick.bind(this);
+        PresenterFragmentDelegateDagger_Slick.bind(this);
         super.onCreate(savedInstanceState);
     }
 
     @Override
     public void onStart() {
-        FragmentDelegateDagger_Slick.onStart(this);
+        PresenterFragmentDelegateDagger_Slick.onStart(this);
         super.onStart();
     }
 
     @Override
     public void onStop() {
-        FragmentDelegateDagger_Slick.onStop(this);
+        PresenterFragmentDelegateDagger_Slick.onStop(this);
         super.onStop();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        FragmentDelegateDagger_Slick.onDestroy(this);
+        PresenterFragmentDelegateDagger_Slick.onDestroy(this);
         if (getActivity().isFinishing()) {
             App.disposeDaggerComponent(getActivity());
         }

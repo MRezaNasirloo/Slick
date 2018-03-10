@@ -92,4 +92,14 @@
         android:layout_toRightOf="@+id/button_custom_view"
         android:text="Dagger Custom View"
         />
+
+    <Button
+        android:id="@+id/button_multi_presenters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/button_custom_view"
+        android:text="Multiple Presenters"
+        />
 </RelativeLayout>

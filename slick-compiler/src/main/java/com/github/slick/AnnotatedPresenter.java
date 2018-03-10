@@ -93,7 +93,7 @@ public class AnnotatedPresenter {
      * e.g: MainActivity_Slick
      */
     public ClassName getPresenterHost() {
-        return ClassName.get(presenter.packageName(), view.simpleName() + "_Slick");
+        return ClassName.get(presenter.packageName(), presenter.simpleName() + "_Slick");
     }
 
     /**

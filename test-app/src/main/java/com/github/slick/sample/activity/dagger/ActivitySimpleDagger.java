@@ -7,7 +7,6 @@ import android.util.Log;
 import com.github.slick.Presenter;
 import com.github.slick.sample.App;
 import com.github.slick.sample.R;
-import com.github.slick.Slick;
 import com.github.slick.sample.activity.ViewTestable;
 import com.github.slick.test.SlickPresenterTestable;
 
@@ -26,7 +25,7 @@ public class ActivitySimpleDagger extends AppCompatActivity implements ViewSimpl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         App.getDaggerComponent(this).inject(this);
-        ActivitySimpleDagger_Slick.bind(this);
+        PresenterSimpleDagger_Slick.bind(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_example);
     }

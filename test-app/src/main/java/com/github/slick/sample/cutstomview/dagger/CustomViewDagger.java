@@ -45,8 +45,8 @@ public class CustomViewDagger extends LinearLayout implements ViewCustomViewDagg
         System.out.println("DaggerCustomView.onAttachedToWindow");
         super.onAttachedToWindow();
         App.getDaggerComponent(getContext()).inject(this);
-        CustomViewDagger_Slick.bind(this);
-        CustomViewDagger_Slick.onAttach(this);
+        PresenterCustomViewDagger_Slick.bind(this);
+        PresenterCustomViewDagger_Slick.onAttach(this);
 
         final TextView textView = (TextView) findViewById(R.id.textView_custom_view);
         textView.setText(presenter.getData());
@@ -56,13 +56,13 @@ public class CustomViewDagger extends LinearLayout implements ViewCustomViewDagg
     protected void onDetachedFromWindow() {
         System.out.println("DaggerCustomView.onDetachedFromWindow");
         super.onDetachedFromWindow();
-        CustomViewDagger_Slick.onDetach(this);
+        PresenterCustomViewDagger_Slick.onDetach(this);
     }
 
     @Override
     public void onDestroy() {
         System.out.println("DaggerCustomView.onDestroy");
-        CustomViewDagger_Slick.onDestroy(this);
+        PresenterCustomViewDagger_Slick.onDestroy(this);
     }
 
     @Override

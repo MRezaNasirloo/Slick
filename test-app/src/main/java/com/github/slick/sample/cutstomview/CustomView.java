@@ -37,8 +37,8 @@ public class CustomView extends LinearLayout implements ViewCustomView, OnDestro
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        CustomView_Slick.bind(this);
-        CustomView_Slick.onAttach(this);
+        PresenterCustomView_Slick.bind(this);
+        PresenterCustomView_Slick.onAttach(this);
 
         final TextView textView = (TextView) findViewById(R.id.textView_custom_view);
         textView.setText(presenter.getData());
@@ -47,12 +47,12 @@ public class CustomView extends LinearLayout implements ViewCustomView, OnDestro
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        CustomView_Slick.onDetach(this);
+        PresenterCustomView_Slick.onDetach(this);
     }
 
     @Override
     public void onDestroy() {
-        CustomView_Slick.onDestroy(this);
+        PresenterCustomView_Slick.onDestroy(this);
     }
 
     @Override

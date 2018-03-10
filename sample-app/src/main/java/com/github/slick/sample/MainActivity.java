@@ -5,13 +5,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.github.slick.Middleware;
 import com.github.slick.sample.activity.ExampleActivity;
 import com.github.slick.sample.conductor.ConductorActivity;
 import com.github.slick.sample.cutstomview.CustomViewActivity;
 import com.github.slick.sample.cutstomview.dagger.DaggerCustomViewActivity;
 import com.github.slick.sample.fragment.FragmentHostActivity;
 import com.github.slick.sample.fragmentsupport.SupportFragmentHostActivity;
+import com.github.slick.sample.multi.ActivityMultiPresenter;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -70,6 +70,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, DaggerCustomViewActivity.class));
+            }
+        });
+        findViewById(R.id.button_multi_presenters).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ActivityMultiPresenter.class));
             }
         });
     }

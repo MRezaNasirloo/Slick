@@ -45,7 +45,7 @@ public class FragmentSupport extends Fragment implements ViewFragmentSupport {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FragmentSupport_Slick.bind(this, 1, "2");
+        PresenterFragmentSupport_Slick.bind(this, 1, "2");
     }
 
     @Override
