@@ -9,9 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.slick.sample.R;
-import com.github.slick.sample.fragment.ViewFragmentSimple;
-import com.github.slick.sample.fragmentsupport.dagger.DaggerFragmentSupport;
-import com.github.slick.sample.fragmentsupport.simple.SupportFragment;
+import com.github.slick.sample.fragmentsupport.dagger.FragmentSupportDagger;
+import com.github.slick.sample.fragmentsupport.simple.FragmentSupport;
 
 public class HostFragment extends Fragment {
 
@@ -32,7 +31,7 @@ public class HostFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.fragment, SupportFragment.newInstance())
+                        .replace(R.id.fragment, FragmentSupport.newInstance())
                         .addToBackStack(null)
                         .commit();
             }
@@ -42,7 +41,7 @@ public class HostFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.fragment, DaggerFragmentSupport.newInstance())
+                        .replace(R.id.fragment, FragmentSupportDagger.newInstance())
                         .addToBackStack(null)
                         .commit();
             }

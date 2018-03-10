@@ -1,15 +1,16 @@
-package com.github.slick.sample.fragment;
+package com.github.slick.sample.fragmentsupport;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.v4.app.Fragment;
 
 import com.github.slick.sample.MainActivity;
 import com.github.slick.sample.R;
 import com.github.slick.sample.activity.ActivityBaseTest;
 import com.github.slick.sample.activity.ViewTestable;
+import com.github.slick.sample.fragment.ActivityFragmentHost;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -20,7 +21,7 @@ import org.junit.runner.RunWith;
  */
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public abstract class FragmentBaseTest extends ActivityBaseTest {
+public abstract class FragmentSupportBaseTest extends ActivityBaseTest {
     @Before
     public void setUp() throws Exception {
         MainActivity activity = testRule.getActivity();
@@ -28,7 +29,7 @@ public abstract class FragmentBaseTest extends ActivityBaseTest {
         ActivityFragmentHost currentActivity = (ActivityFragmentHost) getCurrentActivity();
         assert currentActivity != null;
         Fragment fragment = createFragment();
-        currentActivity.getFragmentManager().beginTransaction()
+        currentActivity.getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment, fragment)
                 .addToBackStack(null)
                 .commit();

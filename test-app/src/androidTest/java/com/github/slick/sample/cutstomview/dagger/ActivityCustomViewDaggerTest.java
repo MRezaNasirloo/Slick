@@ -1,17 +1,22 @@
 package com.github.slick.sample.cutstomview.dagger;
 
 import android.content.Intent;
+import android.support.test.filters.LargeTest;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.github.slick.sample.MainActivity;
 import com.github.slick.sample.activity.ActivityBaseTest;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * @author : Pedramrn@gmail.com
  *         Created on: 2018-03-10
  */
+@LargeTest
+@RunWith(AndroidJUnit4.class)
 public class ActivityCustomViewDaggerTest extends ActivityBaseTest {
 
     @Before

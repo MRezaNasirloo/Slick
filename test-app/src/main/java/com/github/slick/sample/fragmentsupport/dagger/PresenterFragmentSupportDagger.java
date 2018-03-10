@@ -3,7 +3,7 @@ package com.github.slick.sample.fragmentsupport.dagger;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.github.slick.SlickPresenter;
+import com.github.slick.test.SlickPresenterTestable;
 
 import javax.inject.Inject;
 
@@ -12,16 +12,16 @@ import javax.inject.Inject;
  * @author : Pedramrn@gmail.com
  *         Created on: 2016-11-03
  */
-public class DaggerFragmentPresenter extends SlickPresenter<DaggerFragmentView> {
+public class PresenterFragmentSupportDagger extends SlickPresenterTestable<ViewFragmentSupportDagger> {
 
-    private static final String TAG = DaggerFragmentPresenter.class.getSimpleName();
+    private static final String TAG = PresenterFragmentSupportDagger.class.getSimpleName();
 
     @Inject
-    public DaggerFragmentPresenter(@NonNull Integer integer, String s) {
+    public PresenterFragmentSupportDagger(@NonNull Integer integer, String s) {
     }
 
     @Override
-    public void onViewUp(DaggerFragmentView view) {
+    public void onViewUp(ViewFragmentSupportDagger view) {
         Log.d(TAG, "onViewUp() called");
         super.onViewUp(view);
     }

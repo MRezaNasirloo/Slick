@@ -10,9 +10,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.slick.Presenter;
-import com.github.slick.Slick;
 import com.github.slick.sample.App;
 import com.github.slick.sample.R;
+import com.github.slick.sample.activity.ViewTestable;
+import com.github.slick.test.SlickPresenterTestable;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -20,19 +21,19 @@ import javax.inject.Provider;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DaggerFragmentSupport extends Fragment implements DaggerFragmentView {
+public class FragmentSupportDagger extends Fragment implements ViewFragmentSupportDagger {
 
     @Inject
-    Provider<DaggerFragmentPresenter> provider;
+    Provider<PresenterFragmentSupportDagger> provider;
     @Presenter
-    DaggerFragmentPresenter presenter;
+    PresenterFragmentSupportDagger presenter;
 
-    public DaggerFragmentSupport() {
+    public FragmentSupportDagger() {
         // Required empty public constructor
     }
 
-    public static DaggerFragmentSupport newInstance() {
-        return new DaggerFragmentSupport();
+    public static FragmentSupportDagger newInstance() {
+        return new FragmentSupportDagger();
     }
 
     @Nullable
@@ -47,7 +48,7 @@ public class DaggerFragmentSupport extends Fragment implements DaggerFragmentVie
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         App.getDaggerComponent(getActivity()).inject(this);
-        Slick.bind(this);
+        FragmentSupportDagger_Slick.bind(this);
     }
 
     @Override
@@ -56,5 +57,10 @@ public class DaggerFragmentSupport extends Fragment implements DaggerFragmentVie
         if (getActivity().isFinishing()) {
             App.disposeDaggerComponent(getActivity());
         }
+    }
+
+    @Override
+    public SlickPresenterTestable<? extends ViewTestable> presenter() {
+        return presenter;
     }
 }

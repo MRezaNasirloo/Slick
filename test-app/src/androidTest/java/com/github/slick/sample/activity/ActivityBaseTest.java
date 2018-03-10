@@ -6,7 +6,6 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.core.deps.guava.collect.Iterables;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
@@ -19,6 +18,7 @@ import com.github.slick.test.SlickPresenterTestable;
 import org.junit.Rule;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static android.support.test.espresso.Espresso.pressBack;
 import static junit.framework.Assert.assertEquals;
 
@@ -40,7 +40,7 @@ public class ActivityBaseTest {
      */
     protected void testPresenter() {
         //NOTE: These method should be called in order there are
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+        getInstrumentation().waitForIdleSync();
         testStart(view.presenter());
         testPreservePresenterOnRotate(view, view.presenter());
         testOnDestroy(view.presenter());
@@ -68,11 +68,10 @@ public class ActivityBaseTest {
         rotateScreen();
         getInstrumentation().waitForIdleSync();
         int hashCodeNew = view.presenter().hashCode();
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 
         // TODO: 2018-03-11 Use idling resources
         try {
-            Thread.sleep(500);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -82,6 +81,7 @@ public class ActivityBaseTest {
         assertEquals("onViewDown called once before rotation", 1, presenter.onViewDownCount());
         assertEquals("onViewUp called after rotation", 2, presenter.onViewUpCount());
         assertEquals("onDestroy not called with screen rotation", 0, presenter.onDestroyCount());
+
     }
 
     /**
@@ -91,8 +91,8 @@ public class ActivityBaseTest {
      */
     protected void testOnDestroy(SlickPresenterTestable presenter) {
         pressBack();
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
-        assertEquals("onViewDown called after back press", 2, presenter.onViewDownCount());
+        getInstrumentation().waitForIdleSync();
+        assertEquals("onViewDown called after back press", 3, presenter.onViewDownCount());
         assertEquals("onDestroy called once after activity finished", 1, presenter.onDestroyCount());
     }
 
@@ -117,7 +117,7 @@ public class ActivityBaseTest {
      * Rotate screen during test
      */
     protected void rotateScreen() {
-        Context context = InstrumentationRegistry.getTargetContext();
+        Context context = getTargetContext();
         int orientation = context.getResources().getConfiguration().orientation;
 
         Activity activity = getCurrentActivity();

@@ -1,6 +1,7 @@
 package com.github.slick.sample.fragmentsupport.simple;
 
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,27 +11,29 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.slick.Presenter;
-import com.github.slick.Slick;
 import com.github.slick.sample.R;
+import com.github.slick.sample.activity.ViewTestable;
+import com.github.slick.test.SlickPresenterTestable;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SupportFragment extends Fragment implements SupportFragmentView {
+public class FragmentSupport extends Fragment implements ViewFragmentSupport {
 
     @Presenter
-    SupportFragmentPresenter presenter;
+    PresenterFragmentSupport presenter;
 
-    public SupportFragment() {
+    public FragmentSupport() {
         // Required empty public constructor
     }
 
-    public static SupportFragment newInstance() {
-        return new SupportFragment();
+    public static FragmentSupport newInstance() {
+        return new FragmentSupport();
     }
 
     @Nullable
     @Override
+    @SuppressLint("SetTextI18n")
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_example, container, false);
@@ -42,6 +45,11 @@ public class SupportFragment extends Fragment implements SupportFragmentView {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Slick.bind(this, 1, "2");
+        FragmentSupport_Slick.bind(this, 1, "2");
+    }
+
+    @Override
+    public SlickPresenterTestable<? extends ViewTestable> presenter() {
+        return presenter;
     }
 }

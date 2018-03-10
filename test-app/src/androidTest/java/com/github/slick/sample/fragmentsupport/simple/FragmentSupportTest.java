@@ -1,27 +1,27 @@
-package com.github.slick.sample.fragment.dagger.delegate;
+package com.github.slick.sample.fragmentsupport.simple;
 
-import android.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.v4.app.Fragment;
 
-import com.github.slick.sample.fragment.FragmentBaseTest;
+import com.github.slick.sample.fragmentsupport.FragmentSupportBaseTest;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
  * @author : Pedramrn@gmail.com
- *         Created on: 2018-03-10
+ *         Created on: 2018-03-11
  */
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class FragmentDelegateDaggerTest extends FragmentBaseTest {
+public class FragmentSupportTest extends FragmentSupportBaseTest {
 
     @NonNull
     @Override
     protected Fragment createFragment() {
-        return FragmentDelegateDagger.newInstance();
+        return FragmentSupport.newInstance();
     }
 
     /**

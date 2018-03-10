@@ -8,11 +8,13 @@ import java.lang.annotation.Target;
 /**
  * @author : Pedramrn@gmail.com
  *         Created on: 2017-03-12
+ *
+ *         Exprimental, Not ready for production use.
  */
 @Retention(RetentionPolicy.CLASS)
-@Target({ElementType.FIELD, ElementType.METHOD})
+@Target(ElementType.METHOD)
 public @interface Middleware {
     Class[] value();
 
-    String[] methods() default {"all"};
+    // String[] methods() default {"all"};
 }
