@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.ActivitySimple"/>
-        <activity android:name=".activity.dagger.ExampleActivity"/>
+        <activity android:name=".activity.dagger.ActivitySimpleDagger"/>
         <activity android:name=".conductor.ConductorActivity"/>
         <activity android:name=".conductor.dagger.ConductorActivity"/>
         <activity android:name=".fragment.FragmentHostActivity"/>

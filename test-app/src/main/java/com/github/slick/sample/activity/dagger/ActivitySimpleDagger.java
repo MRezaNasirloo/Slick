@@ -8,34 +8,40 @@ import com.github.slick.Presenter;
 import com.github.slick.sample.App;
 import com.github.slick.sample.R;
 import com.github.slick.Slick;
+import com.github.slick.sample.activity.ViewTestable;
+import com.github.slick.test.SlickPresenterTestable;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
 
-public class ExampleActivity extends AppCompatActivity implements ExampleActivityView {
+public class ActivitySimpleDagger extends AppCompatActivity implements ViewSimpleDagger {
 
     @Inject
-    Provider<ExampleActivityPresenter> provider;
+    Provider<PresenterSimpleDagger> provider;
     @Presenter
-    ExampleActivityPresenter presenter;
+    PresenterSimpleDagger presenter;
 
-    private static final String TAG = ExampleActivity.class.getSimpleName();
+    private static final String TAG = ActivitySimpleDagger.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         App.getDaggerComponent(this).inject(this);
-        Slick.bind(this);
+        ActivitySimpleDagger_Slick.bind(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_example);
-        Log.e(TAG, presenter.toString());
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         if (isFinishing()) {
-            Log.e(TAG, "onDestroy() called disposing");
+            Log.d(TAG, "onDestroy() called disposing");
             App.disposeDaggerComponent(this);
         }
+    }
+
+    @Override
+    public SlickPresenterTestable<? extends ViewTestable> presenter() {
+        return presenter;
     }
 }
