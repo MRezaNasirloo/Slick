@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.github.slick.sample.R;
 
-public class FragmentHostActivity extends AppCompatActivity {
+public class ActivityFragmentHost extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,7 +14,7 @@ public class FragmentHostActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             getFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment, SimpleSlickFragment.newInstance())
+                    .replace(R.id.fragment, FragmentSlickSimple.newInstance(), "fragment")
                     .commit();
         }
     }

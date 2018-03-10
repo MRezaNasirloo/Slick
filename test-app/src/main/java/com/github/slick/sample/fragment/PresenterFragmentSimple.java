@@ -3,21 +3,22 @@ package com.github.slick.sample.fragment;
 import android.util.Log;
 
 import com.github.slick.SlickPresenter;
+import com.github.slick.test.SlickPresenterTestable;
 
 
 /**
  * @author : Pedramrn@gmail.com
  *         Created on: 2016-11-03
  */
-public class SimpleFragmentPresenter extends SlickPresenter<SimpleFragmentView> {
+public class PresenterFragmentSimple extends SlickPresenterTestable<ViewFragmentSimple> {
 
-    private static final String TAG = SimpleFragmentPresenter.class.getSimpleName();
+    private static final String TAG = PresenterFragmentSimple.class.getSimpleName();
 
-    public SimpleFragmentPresenter(int integer, String s) {
+    public PresenterFragmentSimple(int integer, String s) {
     }
 
     @Override
-    public void onViewUp(SimpleFragmentView view) {
+    public void onViewUp(ViewFragmentSimple view) {
         Log.d(TAG, "onViewUp() called");
         super.onViewUp(view);
     }

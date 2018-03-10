@@ -11,7 +11,7 @@ import com.github.slick.sample.conductor.ActivityConductorHost;
 import com.github.slick.sample.conductor.dagger.ActivityConductorHostDagger;
 import com.github.slick.sample.cutstomview.ActivityCustomView;
 import com.github.slick.sample.cutstomview.dagger.ActivityCustomViewDagger;
-import com.github.slick.sample.fragment.FragmentHostActivity;
+import com.github.slick.sample.fragment.ActivityFragmentHost;
 import com.github.slick.sample.fragmentsupport.SupportFragmentHostActivity;
 
 
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.fragment_delegate).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, FragmentHostActivity.class));
+                startActivity(new Intent(MainActivity.this, ActivityFragmentHost.class));
             }
         });
 

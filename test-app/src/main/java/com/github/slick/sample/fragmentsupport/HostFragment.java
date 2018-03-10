@@ -9,11 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.slick.sample.R;
-import com.github.slick.sample.fragment.SimpleFragmentView;
+import com.github.slick.sample.fragment.ViewFragmentSimple;
 import com.github.slick.sample.fragmentsupport.dagger.DaggerFragmentSupport;
 import com.github.slick.sample.fragmentsupport.simple.SupportFragment;
 
-public class HostFragment extends Fragment implements SimpleFragmentView {
+public class HostFragment extends Fragment {
 
     public HostFragment() {
         // Required empty public constructor
