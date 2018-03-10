@@ -20,8 +20,8 @@
         </activity>
         <activity android:name=".activity.ActivitySimple"/>
         <activity android:name=".activity.dagger.ActivitySimpleDagger"/>
-        <activity android:name=".conductor.ConductorActivity"/>
-        <activity android:name=".conductor.dagger.ConductorActivity"/>
+        <activity android:name=".conductor.ActivityConductorHost"/>
+        <activity android:name=".conductor.dagger.ActivityConductorHostDagger"/>
         <activity android:name=".fragment.FragmentHostActivity"/>
         <activity android:name=".fragmentsupport.SupportFragmentHostActivity"/>
         <activity android:name=".cutstomview.CustomViewActivity"/>

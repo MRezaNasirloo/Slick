@@ -3,18 +3,19 @@ package com.github.slick.sample.conductor;
 import android.util.Log;
 
 import com.github.slick.SlickPresenter;
+import com.github.slick.test.SlickPresenterTestable;
 
 
 /**
  * @author : Pedramrn@gmail.com
  *         Created on: 2016-11-03
  */
-public class ConductorPresenter extends SlickPresenter<ConductorView> {
+public class PresenterConductor extends SlickPresenterTestable<ViewConductor> {
 
-    private static final String TAG = ConductorPresenter.class.getSimpleName();
+    private static final String TAG = PresenterConductor.class.getSimpleName();
 
     @Override
-    public void onViewUp(ConductorView view) {
+    public void onViewUp(ViewConductor view) {
         Log.d(TAG, "onViewUp() called hashCode: " + hashCode());
         super.onViewUp(view);
     }

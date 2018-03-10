@@ -9,20 +9,20 @@ import com.bluelinelabs.conductor.Router;
 import com.bluelinelabs.conductor.RouterTransaction;
 import com.github.slick.sample.R;
 
-public class ConductorActivity extends AppCompatActivity implements ConductorView {
+public class ActivityConductorHostDagger extends AppCompatActivity {
 
-    private Router router;
+    Router router;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conductor);
 
-        ViewGroup container = (ViewGroup) findViewById(R.id.con_controller_container);
+        ViewGroup container = findViewById(R.id.con_controller_container);
 
         router = Conductor.attachRouter(this, container, savedInstanceState);
         if (!router.hasRootController()) {
-            router.setRoot(RouterTransaction.with(new ExampleController()));
+            router.setRoot(RouterTransaction.with(new ControllerDagger()).tag("ControllerDagger"));
         }
     }
 }

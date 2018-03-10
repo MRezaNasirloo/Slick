@@ -10,6 +10,8 @@ import com.github.slick.Presenter;
 import com.github.slick.sample.App;
 import com.github.slick.sample.R;
 import com.github.slick.Slick;
+import com.github.slick.sample.activity.ViewTestable;
+import com.github.slick.test.SlickPresenterTestable;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -19,12 +21,12 @@ import javax.inject.Provider;
  *         Created on: 2017-02-13
  */
 
-public class ExampleController extends Controller implements ConductorView {
+public class ControllerDagger extends Controller implements ViewConductorDagger {
 
     @Inject
-    Provider<ConductorPresenter> provider;
+    Provider<PresenterConductorDagger> provider;
     @Presenter
-    ConductorPresenter presenter;
+    PresenterConductorDagger presenter;
 
     @NonNull
     @Override
@@ -37,5 +39,10 @@ public class ExampleController extends Controller implements ConductorView {
     @Override
     protected void onDestroy() {
         App.disposeDaggerComponent(getApplicationContext());
+    }
+
+    @Override
+    public SlickPresenterTestable<? extends ViewTestable> presenter() {
+        return presenter;
     }
 }

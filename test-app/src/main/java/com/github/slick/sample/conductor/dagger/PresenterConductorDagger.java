@@ -3,7 +3,7 @@ package com.github.slick.sample.conductor.dagger;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.github.slick.SlickPresenter;
+import com.github.slick.test.SlickPresenterTestable;
 
 import javax.inject.Inject;
 
@@ -12,20 +12,20 @@ import javax.inject.Inject;
  * @author : Pedramrn@gmail.com
  *         Created on: 2016-11-03
  */
-public class ConductorPresenter extends SlickPresenter<ConductorView> {
+public class PresenterConductorDagger extends SlickPresenterTestable<ViewConductorDagger> {
 
-    private static final String TAG = ConductorPresenter.class.getSimpleName();
+    private static final String TAG = PresenterConductorDagger.class.getSimpleName();
     @NonNull
     private final Long lng;
     private final String s;
 
     @Inject
-    public ConductorPresenter(@NonNull Long lng, String s) {
+    public PresenterConductorDagger(@NonNull Long lng, String s) {
         this.lng = lng;
         this.s = s;
     }
     @Override
-    public void onViewUp(ConductorView view) {
+    public void onViewUp(ViewConductorDagger view) {
         Log.d(TAG, "onViewUp() called hashCode: " + hashCode());
         super.onViewUp(view);
     }

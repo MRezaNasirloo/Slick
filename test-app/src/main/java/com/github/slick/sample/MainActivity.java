@@ -7,7 +7,8 @@ import android.view.View;
 
 import com.github.slick.sample.activity.ActivitySimple;
 import com.github.slick.sample.activity.dagger.ActivitySimpleDagger;
-import com.github.slick.sample.conductor.ConductorActivity;
+import com.github.slick.sample.conductor.ActivityConductorHost;
+import com.github.slick.sample.conductor.dagger.ActivityConductorHostDagger;
 import com.github.slick.sample.cutstomview.CustomViewActivity;
 import com.github.slick.sample.cutstomview.dagger.DaggerCustomViewActivity;
 import com.github.slick.sample.fragment.FragmentHostActivity;
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.conductor).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, ConductorActivity.class));
+                startActivity(new Intent(MainActivity.this, ActivityConductorHost.class));
             }
         });
         findViewById(R.id.activity_dagger).setOnClickListener(new View.OnClickListener() {
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.conductor_dagger).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, com.github.slick.sample.conductor.dagger.ConductorActivity.class));
+                startActivity(new Intent(MainActivity.this, ActivityConductorHostDagger.class));
             }
         });
 
