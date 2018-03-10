@@ -1,4 +1,4 @@
-package com.github.slick.sample.fragment.dagger;
+package com.github.slick.sample.fragment.dagger.delegate;
 
 
 import android.app.Fragment;
@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.slick.Presenter;
-import com.github.slick.SlickFragment;
 import com.github.slick.sample.App;
 import com.github.slick.sample.R;
-import com.github.slick.Slick;
+import com.github.slick.sample.activity.ViewTestable;
+import com.github.slick.test.SlickPresenterTestable;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -21,46 +21,60 @@ import javax.inject.Provider;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DaggerFragment extends SlickFragment<DaggerFragmentView, DaggerFragmentPresenter>
-        implements DaggerFragmentView {
+public class FragmentDelegateDagger extends Fragment implements ViewFragmentDelegateDagger {
 
     @Inject
-    Provider<DaggerFragmentPresenter> presenterProvider;
+    Provider<PresenterFragmentDelegateDagger> provider;
     @Presenter
-    DaggerFragmentPresenter presenter;
+    PresenterFragmentDelegateDagger presenter;
 
-    public DaggerFragment() {
+
+    public FragmentDelegateDagger() {
         // Required empty public constructor
     }
 
-    public static DaggerFragment newInstance() {
-        return new DaggerFragment();
+    public static FragmentDelegateDagger newInstance() {
+        return new FragmentDelegateDagger();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_example, container, false);
-        ((TextView) view.findViewById(R.id.text_view_fragment)).setText("Dagger Fragment.");
+        ((TextView) view.findViewById(R.id.text_view_fragment)).setText("Delegate Dagger Fragment.");
         return view;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         App.getDaggerComponent(getActivity()).inject(this);
+        FragmentDelegateDagger_Slick.bind(this);
         super.onCreate(savedInstanceState);
     }
 
     @Override
-    protected Object bind() {
-        return Slick.bind(this);
+    public void onStart() {
+        FragmentDelegateDagger_Slick.onStart(this);
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        FragmentDelegateDagger_Slick.onStop(this);
+        super.onStop();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        FragmentDelegateDagger_Slick.onDestroy(this);
         if (getActivity().isFinishing()) {
             App.disposeDaggerComponent(getActivity());
         }
+    }
+
+    @Override
+    public SlickPresenterTestable<? extends ViewTestable> presenter() {
+        return presenter;
     }
 }

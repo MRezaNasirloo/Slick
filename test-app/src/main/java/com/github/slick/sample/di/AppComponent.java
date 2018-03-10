@@ -5,8 +5,8 @@ import com.github.slick.sample.activity.dagger.DaggerModule;
 import com.github.slick.sample.activity.dagger.ActivitySimpleDagger;
 import com.github.slick.sample.conductor.dagger.ControllerDagger;
 import com.github.slick.sample.cutstomview.dagger.CustomViewDagger;
-import com.github.slick.sample.fragment.dagger.DaggerFragment;
-import com.github.slick.sample.fragment.dagger.delegate.DelegateDaggerFragment;
+import com.github.slick.sample.fragment.dagger.FragmentDagger;
+import com.github.slick.sample.fragment.dagger.delegate.FragmentDelegateDagger;
 import com.github.slick.sample.fragmentsupport.dagger.DaggerFragmentSupport;
 
 import javax.inject.Singleton;
@@ -30,9 +30,9 @@ public interface AppComponent {
 
         void inject(ControllerDagger controller);
 
-        void inject(DaggerFragment fragment);
+        void inject(FragmentDagger fragment);
 
-        void inject(DelegateDaggerFragment delegateDaggerSlickFragment);
+        void inject(FragmentDelegateDagger delegateDaggerSlickFragment);
 
         void inject(DaggerFragmentSupport daggerFragment);
 

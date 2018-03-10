@@ -1,27 +1,25 @@
-package com.github.slick.sample.fragment.dagger.delegate;
+package com.github.slick.sample.fragment.delegate;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.github.slick.SlickPresenter;
-
-import javax.inject.Inject;
+import com.github.slick.test.SlickPresenterTestable;
 
 
 /**
  * @author : Pedramrn@gmail.com
  *         Created on: 2016-11-03
  */
-public class DelegateDaggerFragmentPresenter extends SlickPresenter<DelegateDaggerFragmentView> {
+public class PresenterFragmentDelegate extends SlickPresenterTestable<ViewFragmentDelegate> {
 
-    private static final String TAG = DelegateDaggerFragmentPresenter.class.getSimpleName();
+    private static final String TAG = PresenterFragmentDelegate.class.getSimpleName();
 
-    @Inject
-    public DelegateDaggerFragmentPresenter(@NonNull Integer integer, String s) {
+    public PresenterFragmentDelegate(@NonNull Integer integer, String s) {
     }
 
     @Override
-    public void onViewUp(DelegateDaggerFragmentView view) {
+    public void onViewUp(ViewFragmentDelegate view) {
         Log.d(TAG, "onViewUp() called");
         super.onViewUp(view);
     }

@@ -11,9 +11,9 @@ import com.github.slick.Presenter;
 import com.github.slick.SlickFragment;
 import com.github.slick.sample.R;
 import com.github.slick.sample.activity.ViewTestable;
-import com.github.slick.sample.fragment.dagger.DaggerFragment;
-import com.github.slick.sample.fragment.dagger.delegate.DelegateDaggerFragment;
-import com.github.slick.sample.fragment.delegate.DelegateFragment;
+import com.github.slick.sample.fragment.dagger.FragmentDagger;
+import com.github.slick.sample.fragment.dagger.delegate.FragmentDelegateDagger;
+import com.github.slick.sample.fragment.delegate.FragmentDelegate;
 import com.github.slick.test.SlickPresenterTestable;
 
 public class FragmentSlickSimple extends SlickFragment<ViewFragmentSimple, PresenterFragmentSimple> implements ViewFragmentSimple {
@@ -41,7 +41,7 @@ public class FragmentSlickSimple extends SlickFragment<ViewFragmentSimple, Prese
             @Override
             public void onClick(View v) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.fragment, DelegateFragment.newInstance())
+                        .replace(R.id.fragment, FragmentDelegate.newInstance(), "FragmentDelegate")
                         .addToBackStack(null)
                         .commit();
             }
@@ -51,7 +51,7 @@ public class FragmentSlickSimple extends SlickFragment<ViewFragmentSimple, Prese
             @Override
             public void onClick(View v) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.fragment, DaggerFragment.newInstance())
+                        .replace(R.id.fragment, FragmentDagger.newInstance(), "DaggerFragment")
                         .addToBackStack(null)
                         .commit();
             }
@@ -61,7 +61,7 @@ public class FragmentSlickSimple extends SlickFragment<ViewFragmentSimple, Prese
             @Override
             public void onClick(View v) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.fragment, DelegateDaggerFragment.newInstance())
+                        .replace(R.id.fragment, FragmentDelegateDagger.newInstance(), "DelegateDaggerFragment")
                         .addToBackStack(null)
                         .commit();
             }

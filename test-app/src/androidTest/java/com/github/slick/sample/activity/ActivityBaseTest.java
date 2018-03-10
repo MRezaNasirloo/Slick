@@ -17,7 +17,6 @@ import com.github.slick.sample.MainActivity;
 import com.github.slick.test.SlickPresenterTestable;
 
 import org.junit.Rule;
-import org.junit.Test;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.pressBack;
@@ -41,6 +40,7 @@ public class ActivityBaseTest {
      */
     protected void testPresenter() {
         //NOTE: These method should be called in order there are
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
         testStart(view.presenter());
         testPreservePresenterOnRotate(view, view.presenter());
         testOnDestroy(view.presenter());
@@ -68,6 +68,15 @@ public class ActivityBaseTest {
         rotateScreen();
         getInstrumentation().waitForIdleSync();
         int hashCodeNew = view.presenter().hashCode();
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+
+        // TODO: 2018-03-11 Use idling resources
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
 
         assertEquals("Presenters are the same after screen rotation.", hashCode, hashCodeNew);
         assertEquals("onViewDown called once before rotation", 1, presenter.onViewDownCount());
