@@ -1,30 +1,25 @@
-package com.github.slick.sample.cutstomview.dagger;
+package com.github.slick.sample.cutstomview;
 
 import android.util.Log;
 
 import com.github.slick.SlickPresenter;
-
-import javax.inject.Inject;
+import com.github.slick.test.SlickPresenterTestable;
 
 /**
  * @author : Pedramrn@gmail.com
  *         Created on: 2017-03-09
  */
 
-public class ViewPresenter extends SlickPresenter<ExampleView> {
+public class PresenterCustomView extends SlickPresenterTestable<ViewCustomView> {
 
-    private static final String TAG = ViewPresenter.class.getSimpleName();
-
-    @Inject
-    public ViewPresenter() {
-    }
+    private static final String TAG = PresenterCustomView.class.getSimpleName();
 
     public String getData() {
         return "Text data has received from presenter";
     }
 
     @Override
-    public void onViewUp(ExampleView view) {
+    public void onViewUp(ViewCustomView view) {
         super.onViewUp(view);
         Log.d(TAG, "onViewUp() called" + toString());
     }

@@ -9,8 +9,8 @@ import com.github.slick.sample.activity.ActivitySimple;
 import com.github.slick.sample.activity.dagger.ActivitySimpleDagger;
 import com.github.slick.sample.conductor.ActivityConductorHost;
 import com.github.slick.sample.conductor.dagger.ActivityConductorHostDagger;
-import com.github.slick.sample.cutstomview.CustomViewActivity;
-import com.github.slick.sample.cutstomview.dagger.DaggerCustomViewActivity;
+import com.github.slick.sample.cutstomview.ActivityCustomView;
+import com.github.slick.sample.cutstomview.dagger.ActivityCustomViewDagger;
 import com.github.slick.sample.fragment.FragmentHostActivity;
 import com.github.slick.sample.fragmentsupport.SupportFragmentHostActivity;
 
@@ -63,14 +63,14 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.button_custom_view).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, CustomViewActivity.class));
+                startActivity(new Intent(MainActivity.this, ActivityCustomView.class));
             }
         });
 
         findViewById(R.id.button_custom_view_dagger).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, DaggerCustomViewActivity.class));
+                startActivity(new Intent(MainActivity.this, ActivityCustomViewDagger.class));
             }
         });
     }

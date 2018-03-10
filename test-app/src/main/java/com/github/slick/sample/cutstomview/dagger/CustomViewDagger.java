@@ -10,6 +10,8 @@ import com.github.slick.OnDestroyListener;
 import com.github.slick.Presenter;
 import com.github.slick.sample.App;
 import com.github.slick.sample.R;
+import com.github.slick.sample.activity.ViewTestable;
+import com.github.slick.test.SlickPresenterTestable;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -19,22 +21,22 @@ import javax.inject.Provider;
  *         Created on: 2017-03-09
  */
 
-public class DaggerCustomView extends LinearLayout implements ExampleView, OnDestroyListener {
+public class CustomViewDagger extends LinearLayout implements ViewCustomViewDagger, OnDestroyListener {
 
     @Inject
-    Provider<ViewPresenter> provider;
+    Provider<PresenterCustomViewDagger> provider;
     @Presenter
-    ViewPresenter presenter;
+    PresenterCustomViewDagger presenter;
 
-    public DaggerCustomView(Context context) {
+    public CustomViewDagger(Context context) {
         super(context);
     }
 
-    public DaggerCustomView(Context context, @Nullable AttributeSet attrs) {
+    public CustomViewDagger(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public DaggerCustomView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public CustomViewDagger(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -43,8 +45,8 @@ public class DaggerCustomView extends LinearLayout implements ExampleView, OnDes
         System.out.println("DaggerCustomView.onAttachedToWindow");
         super.onAttachedToWindow();
         App.getDaggerComponent(getContext()).inject(this);
-        DaggerCustomView_Slick.bind(this);
-        DaggerCustomView_Slick.onAttach(this);
+        CustomViewDagger_Slick.bind(this);
+        CustomViewDagger_Slick.onAttach(this);
 
         final TextView textView = (TextView) findViewById(R.id.textView_custom_view);
         textView.setText(presenter.getData());
@@ -54,12 +56,17 @@ public class DaggerCustomView extends LinearLayout implements ExampleView, OnDes
     protected void onDetachedFromWindow() {
         System.out.println("DaggerCustomView.onDetachedFromWindow");
         super.onDetachedFromWindow();
-        DaggerCustomView_Slick.onDetach(this);
+        CustomViewDagger_Slick.onDetach(this);
     }
 
     @Override
     public void onDestroy() {
         System.out.println("DaggerCustomView.onDestroy");
-        DaggerCustomView_Slick.onDestroy(this);
+        CustomViewDagger_Slick.onDestroy(this);
+    }
+
+    @Override
+    public SlickPresenterTestable<? extends ViewTestable> presenter() {
+        return presenter;
     }
 }

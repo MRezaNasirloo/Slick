@@ -8,18 +8,19 @@ import android.widget.TextView;
 
 import com.github.slick.OnDestroyListener;
 import com.github.slick.Presenter;
-import com.github.slick.Slick;
 import com.github.slick.sample.R;
+import com.github.slick.sample.activity.ViewTestable;
+import com.github.slick.test.SlickPresenterTestable;
 
 /**
  * @author : Pedramrn@gmail.com
  *         Created on: 2017-03-09
  */
 
-public class CustomView extends LinearLayout implements ExampleView, OnDestroyListener {
+public class CustomView extends LinearLayout implements ViewCustomView, OnDestroyListener {
 
     @Presenter
-    ViewPresenter presenter;
+    PresenterCustomView presenter;
 
     public CustomView(Context context) {
         super(context);
@@ -52,5 +53,10 @@ public class CustomView extends LinearLayout implements ExampleView, OnDestroyLi
     @Override
     public void onDestroy() {
         CustomView_Slick.onDestroy(this);
+    }
+
+    @Override
+    public SlickPresenterTestable<? extends ViewTestable> presenter() {
+        return presenter;
     }
 }

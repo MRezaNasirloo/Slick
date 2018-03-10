@@ -5,11 +5,10 @@ import android.os.Bundle;
 
 import com.github.slick.SlickUniqueId;
 import com.github.slick.sample.R;
-import com.github.slick.sample.cutstomview.dagger.DaggerCustomView;
 
-public class CustomViewActivity extends AppCompatActivity implements SlickUniqueId {
+public class ActivityCustomView extends AppCompatActivity implements SlickUniqueId {
 
-    private CustomView customView;
+    CustomView customView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

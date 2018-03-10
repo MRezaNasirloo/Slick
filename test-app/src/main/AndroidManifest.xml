@@ -24,8 +24,8 @@
         <activity android:name=".conductor.dagger.ActivityConductorHostDagger"/>
         <activity android:name=".fragment.FragmentHostActivity"/>
         <activity android:name=".fragmentsupport.SupportFragmentHostActivity"/>
-        <activity android:name=".cutstomview.CustomViewActivity"/>
-        <activity android:name=".cutstomview.dagger.DaggerCustomViewActivity"/>
+        <activity android:name=".cutstomview.ActivityCustomView"/>
+        <activity android:name=".cutstomview.dagger.ActivityCustomViewDagger"/>
     </application>
 
 </manifest>
