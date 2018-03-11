@@ -23,9 +23,9 @@ public class ConductorTest {
     @Test
     public void controller() throws Exception {
         JavaFileObject sourceViewInterface = JavaFileObjects.forResource("resources/ExampleView.java");
-        JavaFileObject sourcePresenter = JavaFileObjects.forResource("resources/ExamplePresenter.java");
+        JavaFileObject sourcePresenter = JavaFileObjects.forResource("resources/PresenterSimple.java");
         JavaFileObject sourceView = JavaFileObjects.forResource("resources/ExampleController.java");
-        JavaFileObject genSource = JavaFileObjects.forResource("resources/ExampleController_Slick.java");
+        JavaFileObject genSource = JavaFileObjects.forResource("resources/PresenterSimple_Slick.java");
 
         assertAbout(JavaSourcesSubjectFactory.javaSources())
                 .that(Arrays.asList(sourceViewInterface, sourcePresenter, sourceView))
@@ -49,9 +49,9 @@ public class ConductorTest {
     public void conductorDagger() {
 
         JavaFileObject sourceViewInterface = JavaFileObjects.forResource("resources/ExampleView.java");
-        JavaFileObject sourcePresenter = JavaFileObjects.forResource("resources/ExamplePresenter.java");
+        JavaFileObject sourcePresenter = JavaFileObjects.forResource("resources/PresenterDagger.java");
         JavaFileObject sourceView = JavaFileObjects.forResource("resources/DaggerController.java");
-        JavaFileObject genSource = JavaFileObjects.forResource("resources/DaggerController_Slick.java");
+        JavaFileObject genSource = JavaFileObjects.forResource("resources/PresenterDagger_Slick.java");
 
         assertAbout(JavaSourcesSubjectFactory.javaSources())
                 .that(Arrays.asList(sourceViewInterface, sourcePresenter, sourceView))

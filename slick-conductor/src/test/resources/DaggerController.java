@@ -14,14 +14,14 @@ import javax.inject.Provider;
 public class DaggerController extends Controller implements ExampleView {
 
     @Inject
-    Provider<ExamplePresenter> provider;
+    Provider<PresenterDagger> provider;
 
     @Presenter
-    ExamplePresenter presenter;
+    PresenterDagger presenter;
 
     @Override
     protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
-        DaggerController_Slick.bind(this);
+        PresenterDagger_Slick.bind(this);
         return null;
     }
 }

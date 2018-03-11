@@ -14,11 +14,11 @@ import javax.inject.Provider;
 public class ExampleController extends Controller implements ExampleView {
 
     @Presenter
-    ExamplePresenter presenter;
+    PresenterSimple presenter;
 
     @Override
     protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
-        ExampleController_Slick.bind(this, 1, 2f);
+        PresenterSimple_Slick.bind(this, 1, 2f);
         return null;
     }
 }

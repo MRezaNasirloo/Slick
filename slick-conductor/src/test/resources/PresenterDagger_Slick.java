@@ -7,16 +7,16 @@ import com.github.slick.conductor.SlickDelegateConductor;
 import java.lang.Override;
 
 
-public class DaggerController_Slick implements InternalOnDestroyListener {
-    private static DaggerController_Slick hostInstance;
-    private final SparseArray<SlickDelegateConductor<ExampleView, ExamplePresenter>> delegates = new SparseArray<>();
+public class PresenterDagger_Slick implements InternalOnDestroyListener {
+    private static PresenterDagger_Slick hostInstance;
+    private final SparseArray<SlickDelegateConductor<ExampleView, PresenterDagger>> delegates = new SparseArray<>();
 
     public static <T extends Controller & ExampleView> void bind(T daggerController) {
         final int id = daggerController.getInstanceId().hashCode();
-        if (hostInstance == null) hostInstance = new DaggerController_Slick();
-        SlickDelegateConductor<ExampleView, ExamplePresenter> delegate = hostInstance.delegates.get(id);
+        if (hostInstance == null) hostInstance = new PresenterDagger_Slick();
+        SlickDelegateConductor<ExampleView, PresenterDagger> delegate = hostInstance.delegates.get(id);
         if (delegate == null) {
-            final ExamplePresenter presenter = ((DaggerController) daggerController).provider.get();
+            final PresenterDagger presenter = ((DaggerController) daggerController).provider.get();
             delegate = new SlickDelegateConductor<>(presenter, daggerController.getClass(), id);
             delegate.setListener(hostInstance);
             hostInstance.delegates.put(id, delegate);
