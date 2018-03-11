@@ -7,15 +7,15 @@ import com.github.slick.InternalOnDestroyListener;
 import com.github.slick.supportfragment.SlickDelegateFragment;
 import java.lang.Override;
 
-public class ExampleFragment_Slick implements InternalOnDestroyListener {
+public class ExamplePresenter_Slick implements InternalOnDestroyListener {
 
-    private static test.ExamplePresenter_Slick hostInstance;
+    private static ExamplePresenter_Slick hostInstance;
     private final SparseArray<SlickDelegateFragment<ExampleView, ExamplePresenter>> delegates = new SparseArray<>();
 
     public static <T extends Fragment & ExampleView> void bind(T exampleFragment, @IdRes
             int i, float f) {
         final int id = SlickDelegateFragment.getId(exampleFragment);
-        if (hostInstance == null) hostInstance = new test.ExamplePresenter_Slick();
+        if (hostInstance == null) hostInstance = new ExamplePresenter_Slick();
         SlickDelegateFragment<ExampleView, ExamplePresenter> delegate = hostInstance.delegates.get(id)
         if (delegate == null) {
             final ExamplePresenter presenter = new ExamplePresenter(i, f);

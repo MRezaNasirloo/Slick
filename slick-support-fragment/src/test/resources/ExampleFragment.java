@@ -16,7 +16,7 @@ public class ExampleFragment extends Fragment implements ExampleView {
 
     @Override
     public void onAttach(Context context) {
-        ExampleFragment_Slick.bind(this, 1, 2f);
+        ExamplePresenter_Slick.bind(this, 1, 2f);
         super.onAttach(context);
     }
 }

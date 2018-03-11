@@ -18,7 +18,7 @@ public class DaggerFragment extends Fragment implements ExampleView {
 
     @Override
     public void onAttach(Context context) {
-        DaggerFragment_Slick.bind(this);
+        ExamplePresenter_Slick.bind(this);
         super.onAttach(context);
     }
 }

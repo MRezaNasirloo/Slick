@@ -6,9 +6,7 @@ import com.google.testing.compile.JavaSourcesSubjectFactory;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import javax.tools.JavaFileObject;
 
@@ -26,7 +24,7 @@ public class SupportFragmentTest {
         JavaFileObject sourceViewInterface = JavaFileObjects.forResource("resources/ExampleView.java");
         JavaFileObject sourcePresenter = JavaFileObjects.forResource("resources/ExamplePresenter.java");
         JavaFileObject sourceView = JavaFileObjects.forResource("resources/ExampleFragment.java");
-        JavaFileObject genSource = JavaFileObjects.forResource("resources/ExampleFragment_Slick.java");
+        JavaFileObject genSource = JavaFileObjects.forResource("resources/ExamplePresenter_Slick.java");
 
         assertAbout(JavaSourcesSubjectFactory.javaSources())
                 .that(Arrays.asList(sourceViewInterface, sourcePresenter, sourceView))
@@ -41,7 +39,7 @@ public class SupportFragmentTest {
         JavaFileObject sourceViewInterface = JavaFileObjects.forResource("resources/ExampleView.java");
         JavaFileObject sourcePresenter = JavaFileObjects.forResource("resources/ExamplePresenter.java");
         JavaFileObject sourceView = JavaFileObjects.forResource("resources/dagger/DaggerFragment.java");
-        JavaFileObject genSource = JavaFileObjects.forResource("resources/dagger/DaggerFragment_Slick.java");
+        JavaFileObject genSource = JavaFileObjects.forResource("resources/dagger/ExamplePresenter_Slick.java");
 
         assertAbout(JavaSourcesSubjectFactory.javaSources())
                 .that(Arrays.asList(sourceViewInterface, sourcePresenter, sourceView))
