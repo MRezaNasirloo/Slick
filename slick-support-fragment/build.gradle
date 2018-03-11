@@ -22,30 +22,34 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    provided project(':slick')
-    provided 'com.android.support:support-fragment:26.1.0'
-    provided 'com.android.support:support-annotations:26.1.0'
-    provided 'javax.inject:javax.inject:1'
+    compileOnly project(':slick')
+    compileOnly project(':slick-annotations')
+    compileOnly Deps.depSupportAnnotation
+    compileOnly Deps.depSupportFragment
+    compileOnly Deps.depRxjava2
 
-    testCompile project(':slick-compiler')
-    testCompile 'javax.inject:javax.inject:1'
-    testCompile 'com.google.truth:truth:0.35'
-    testCompile 'com.google.testing.compile:compile-testing:0.10'
-    testCompile 'junit:junit:4.12'
-    testCompile files(getRuntimeJar())
-    testCompile files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
+    testImplementation project(':slick-compiler')
+    testImplementation Deps.depTestCompileTesting
+    testImplementation Deps.depSupportAnnotation
+    testImplementation Deps.depSupportAppCompat
+    testImplementation Deps.depTestJunit
+    testImplementation Deps.depTestTruth
+    testImplementation Deps.depJavax
+
+    testImplementation files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
+    testImplementation files(getRuntimeJar())
 }
 
 task copyResDirectoryToClasses(type: Copy) {
-    //TODO: delete the directory before copying
     from "${projectDir}/src/test/resources"
     into "${buildDir}/intermediates/classes/test/debug/resources"
 }
 
+task deleteResDirectoryFromClasess(type: Delete){
+    delete "${buildDir}/intermediates/classes/test/debug/resources"
+}
+
+copyResDirectoryToClasses.dependsOn(deleteResDirectoryFromClasess)
 preBuild.dependsOn(copyResDirectoryToClasses)
 
 def getRuntimeJar() {

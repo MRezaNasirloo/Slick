@@ -5,8 +5,8 @@ android {
         minSdkVersion Versions.vSdkMin
         targetSdkVersion Versions.vSdkTarget
         compileSdkVersion Versions.vSdkCompile
-        versionCode 1
-        versionName "1.0"
+        versionCode Versions.vVersionCode
+        versionName Versions.vVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
@@ -30,17 +30,13 @@ dependencies {
     //slick
     implementation project(':slick')
 
-    implementation Deps.depSupportLibrary
-    implementation Deps.depRxjava2
-    implementation Deps.depRxAndroid
-    implementation Deps.depJavax
-
-    implementation Deps.depTestJunit
+    compileOnly Deps.depSupportAppCompat
+    compileOnly Deps.depRxjava2
+    compileOnly Deps.depRxAndroid
+    compileOnly Deps.depJavax
 
     testImplementation Deps.depTestJunit
     testImplementation Deps.depTestMokito
-    androidTestImplementation Deps.depTestRunner
-    androidTestImplementation Deps.depTestEspressoCore
 }
 
 apply from: rootProject.file('local-maven.gradle')

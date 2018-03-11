@@ -1,14 +1,14 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion Versions.vSdkCompile
+    buildToolsVersion Versions.vBuildTool
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion Versions.vSdkMin
+        targetSdkVersion Versions.vSdkTarget
+        versionCode Versions.vVersionCode
+        versionName Versions.vVersionName
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -22,27 +22,20 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    api project(':slick-annotations')
+    compileOnly Deps.depSupportAnnotation
+    compileOnly Deps.depRxjava2
 
-    compile project(':slick-annotations')
-    provided 'com.android.support:support-annotations:26.1.0'
+    testImplementation project(':slick-compiler')
+//    testImplementation Deps.depJavax
+    testImplementation Deps.depTestJunit
+    testImplementation Deps.depTestTruth
+    testImplementation Deps.depSupportAppCompat
+    testImplementation Deps.depSupportAnnotation
+    testImplementation Deps.depTestCompileTesting
 
-    provided 'io.reactivex.rxjava2:rxjava:2.1.10'
-    testCompile 'junit:junit:4.12'
-
-    testCompile 'com.google.truth:truth:0.35'
-    testCompile 'com.google.testing.compile:compile-testing:0.10'
-
-//    testCompile 'javax.inject:javax.inject:1'
-    testCompile 'com.android.support:support-annotations:26.1.0'
-    testCompile 'com.android.support:appcompat-v7:26.1.0'
-    testCompile project(':slick-compiler')
-
-    testCompile files(getRuntimeJar())
-    testCompile files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
+    testImplementation files(getRuntimeJar())
+    testImplementation files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
 }
 
 task copyResDirectoryToClasses(type: Copy) {

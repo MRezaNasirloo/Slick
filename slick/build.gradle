@@ -22,33 +22,29 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    api project(':slick-annotations')
+    compileOnly Deps.depSupportAnnotation
+
+    testImplementation project(':slick-compiler')
+    testImplementation Deps.depJavax
+    testImplementation Deps.depTestJunit
+    testImplementation Deps.depTestTruth
+    testImplementation Deps.depTestMokito
+    testImplementation Deps.depSupportAppCompat
+    testImplementation Deps.depSupportAnnotation
+    testImplementation Deps.depTestCompileTesting
+
+    androidTestImplementation Deps.depTestMokito
+    androidTestImplementation Deps.depSupportAppCompat
+    androidTestImplementation Deps.depConstraintLayout
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile project(':slick-annotations')
-    provided 'com.android.support:support-annotations:26.1.0'
 
-    testCompile 'junit:junit:4.12'
-
-    testCompile 'com.google.truth:truth:0.35'
-    testCompile 'com.google.testing.compile:compile-testing:0.10'
-
-    testCompile 'javax.inject:javax.inject:1'
-    testCompile 'com.android.support:support-annotations:26.1.0'
-    testCompile 'com.android.support:appcompat-v7:26.1.0'
-    testCompile project(':slick-compiler')
-
-    androidTestCompile 'com.android.support:appcompat-v7:26.1.0'
-    androidTestCompile 'com.android.support.constraint:constraint-layout:1.0.2'
-
-    testImplementation 'org.mockito:mockito-core:2.7.22'
-    androidTestImplementation 'org.mockito:mockito-android:2.7.22'
-
-    testCompile files(getRuntimeJar())
-    testCompile files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
-//    testCompile files(file("${System.env.ANDROID_HOME}/platforms/android-25/android.jar"))
+    testImplementation files(getRuntimeJar())
+    testImplementation files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
+//    testImplementation files(file("${System.env.ANDROID_HOME}/platforms/android-25/android.jar"))
 }
 
 task copyResDirectoryToClasses(type: Copy) {

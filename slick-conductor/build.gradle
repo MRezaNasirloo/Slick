@@ -1,14 +1,14 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion Versions.vSdkCompile
+    buildToolsVersion Versions.vBuildTool
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion Versions.vSdkMin
+        targetSdkVersion Versions.vSdkTarget
+        versionCode Versions.vVersionCode
+        versionName Versions.vVersionName
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -22,22 +22,17 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    compileOnly project(':slick')
+    compileOnly Deps.depConductor
+    compileOnly Deps.depJavax
 
-    provided project(':slick')
-    provided 'com.bluelinelabs:conductor:2.1.3'
-    provided 'javax.inject:javax.inject:1'
-
-    testCompile project(':slick-compiler')
-    testCompile 'javax.inject:javax.inject:1'
-    testCompile 'com.google.truth:truth:0.35'
-    testCompile 'com.google.testing.compile:compile-testing:0.10'
-    testCompile 'junit:junit:4.12'
-    testCompile files(getRuntimeJar())
-    testCompile files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
+    testImplementation project(':slick-compiler')
+    testImplementation Deps.depJavax
+    testImplementation Deps.depTestTruth
+    testImplementation Deps.depTestJunit
+    testImplementation Deps.depTestCompileTesting
+    testImplementation files(getRuntimeJar())
+    testImplementation files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
 }
 
 task copyResDirectoryToClasses(type: Copy) {
