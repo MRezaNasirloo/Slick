@@ -24,4 +24,5 @@ object Deps {
     val depTestJunit = "junit:junit:4.12"
     val depTestRunner = "com.android.support.test:runner:0.5"
     val depTestEspressoCore = "com.android.support.test.espresso:espresso-core:2.2.2"
+    val depTestMokito = "org.mockito:mockito-core:2.7.22"
 }
