@@ -24,10 +24,19 @@ import io.reactivex.subjects.PublishSubject;
 /**
  * @author : Pedramrn@gmail.com
  *         Created on: 2017-07-22
+ *
+ *         Inspired from Elm archtechture and articles about unidrirectinal data flow around the web.
+ *
+ *         This is an abstract subclass of {@link SlickPresenter} which practice the idea of
+ *         Uni-Directional data flow, It's based on reactive streams and uses RxJava2's streams vastly.
+ *
+ *         How to use: Subclass it and implement the abstact methods, use the {@link SlickPresenterUni#start(Object)}
+ *         to build the data stream object. the View is provided for you, it can be used to create {@link SlickPresenterUni#command(CommandProvider)}
+ *         which reacts to view and sends a new {@link PartialViewState} to the {@link SlickPresenterUni#render(Object, Object)} method.
  */
 
-public abstract class SlickPresenterUniFlow<V, S> extends SlickPresenter<V> implements Observer<S> {
-    private static final String TAG = SlickPresenterUniFlow.class.getSimpleName();
+public abstract class SlickPresenterUni<V, S> extends SlickPresenter<V> implements Observer<S> {
+    private static final String TAG = SlickPresenterUni.class.getSimpleName();
     protected final Scheduler io;
     protected final Scheduler main;
     private final BehaviorSubject<S> state = BehaviorSubject.create();
@@ -36,7 +45,7 @@ public abstract class SlickPresenterUniFlow<V, S> extends SlickPresenter<V> impl
     private final ArrayMap<CommandProvider, PublishSubject> commands = new ArrayMap<>(3);
     private boolean hasSubscribed;
 
-    public SlickPresenterUniFlow(@Named("main") Scheduler main, @Named("io") Scheduler io) {
+    public SlickPresenterUni(@Named("main") Scheduler main, @Named("io") Scheduler io) {
         this.main = main;
         this.io = io;
     }
@@ -129,6 +138,8 @@ public abstract class SlickPresenterUniFlow<V, S> extends SlickPresenter<V> impl
     }
 
     /**
+     * Creates command from view streams
+     *
      * @param cmd command provider from view
      * @param <T> return type of command
      * @return a command to be executed
@@ -187,6 +198,10 @@ public abstract class SlickPresenterUniFlow<V, S> extends SlickPresenter<V> impl
         Observable<T> provide(V view);
     }
 
+    /**
+     * @return Indicates if the presenter has subscribed to data stream, simply if
+     * the {@link SlickPresenterUni#onViewUp(Object)} has ever called.
+     */
     protected boolean hasSubscribed() {
         return hasSubscribed;
     }
