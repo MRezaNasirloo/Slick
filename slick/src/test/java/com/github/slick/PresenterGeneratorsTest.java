@@ -5,9 +5,7 @@ import com.google.testing.compile.JavaSourcesSubjectFactory;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import javax.tools.JavaFileObject;
 
@@ -24,8 +22,8 @@ public class PresenterGeneratorsTest {
     public void activity() {
         JavaFileObject sourceViewInterface = JavaFileObjects.forResource("resources/ExampleView.java");
         JavaFileObject sourcePresenter = JavaFileObjects.forResource("resources/ExamplePresenter.java");
-        JavaFileObject sourceView = JavaFileObjects.forResource("resources/ExampleActivity.java");
-        JavaFileObject genSource = JavaFileObjects.forResource("resources/ExampleActivity_Slick.java");
+        JavaFileObject sourceView = JavaFileObjects.forResource("resources/activity/ExampleActivity.java");
+        JavaFileObject genSource = JavaFileObjects.forResource("resources/activity/ExamplePresenter_Slick.java");
 
         assertAbout(JavaSourcesSubjectFactory.javaSources())
                 .that(Arrays.asList(sourceViewInterface, sourcePresenter, sourceView))
@@ -40,8 +38,8 @@ public class PresenterGeneratorsTest {
 
         JavaFileObject sourceViewInterface = JavaFileObjects.forResource("resources/ExampleView.java");
         JavaFileObject sourcePresenter = JavaFileObjects.forResource("resources/ExamplePresenter.java");
-        JavaFileObject sourceView = JavaFileObjects.forResource("resources/dagger/DaggerActivity.java");
-        JavaFileObject genSource = JavaFileObjects.forResource("resources/dagger/DaggerActivity_Slick.java");
+        JavaFileObject sourceView = JavaFileObjects.forResource("resources/dagger/activity/DaggerActivity.java");
+        JavaFileObject genSource = JavaFileObjects.forResource("resources/dagger/activity/ExamplePresenter_Slick.java");
 
         assertAbout(JavaSourcesSubjectFactory.javaSources())
                 .that(Arrays.asList(sourceViewInterface, sourcePresenter, sourceView))
@@ -56,8 +54,8 @@ public class PresenterGeneratorsTest {
     public void fragment() {
         JavaFileObject sourceViewInterface = JavaFileObjects.forResource("resources/ExampleView.java");
         JavaFileObject sourcePresenter = JavaFileObjects.forResource("resources/ExamplePresenter.java");
-        JavaFileObject sourceView = JavaFileObjects.forResource("resources/ExampleFragment.java");
-        JavaFileObject genSource = JavaFileObjects.forResource("resources/ExampleFragment_Slick.java");
+        JavaFileObject sourceView = JavaFileObjects.forResource("resources/fragment/ExampleFragment.java");
+        JavaFileObject genSource = JavaFileObjects.forResource("resources/fragment/ExamplePresenter_Slick.java");
 
         assertAbout(JavaSourcesSubjectFactory.javaSources())
                 .that(Arrays.asList(sourceViewInterface, sourcePresenter, sourceView))
@@ -71,8 +69,8 @@ public class PresenterGeneratorsTest {
     public void fragmentDagger() {
         JavaFileObject sourceViewInterface = JavaFileObjects.forResource("resources/ExampleView.java");
         JavaFileObject sourcePresenter = JavaFileObjects.forResource("resources/ExamplePresenter.java");
-        JavaFileObject sourceView = JavaFileObjects.forResource("resources/dagger/DaggerFragment.java");
-        JavaFileObject genSource = JavaFileObjects.forResource("resources/dagger/DaggerFragment_Slick.java");
+        JavaFileObject sourceView = JavaFileObjects.forResource("resources/dagger/fragment/DaggerFragment.java");
+        JavaFileObject genSource = JavaFileObjects.forResource("resources/dagger/fragment/ExamplePresenter_Slick.java");
 
         assertAbout(JavaSourcesSubjectFactory.javaSources())
                 .that(Arrays.asList(sourceViewInterface, sourcePresenter, sourceView))
@@ -86,8 +84,8 @@ public class PresenterGeneratorsTest {
     public void customView() {
         JavaFileObject sourceViewInterface = JavaFileObjects.forResource("resources/ExampleView.java");
         JavaFileObject sourcePresenter = JavaFileObjects.forResource("resources/ExamplePresenter.java");
-        JavaFileObject sourceView = JavaFileObjects.forResource("resources/ExampleCustomView.java");
-        JavaFileObject genSource = JavaFileObjects.forResource("resources/ExampleCustomView_Slick.java");
+        JavaFileObject sourceView = JavaFileObjects.forResource("resources/view/ExampleCustomView.java");
+        JavaFileObject genSource = JavaFileObjects.forResource("resources/view/ExamplePresenter_Slick.java");
 
         assertAbout(JavaSourcesSubjectFactory.javaSources())
                 .that(Arrays.asList(sourceViewInterface, sourcePresenter, sourceView))
@@ -101,8 +99,8 @@ public class PresenterGeneratorsTest {
     public void daggerCustomView() {
         JavaFileObject sourceViewInterface = JavaFileObjects.forResource("resources/ExampleView.java");
         JavaFileObject sourcePresenter = JavaFileObjects.forResource("resources/ExamplePresenter.java");
-        JavaFileObject sourceView = JavaFileObjects.forResource("resources/dagger/DaggerCustomView.java");
-        JavaFileObject genSource = JavaFileObjects.forResource("resources/dagger/DaggerCustomView_Slick.java");
+        JavaFileObject sourceView = JavaFileObjects.forResource("resources/dagger/view/DaggerCustomView.java");
+        JavaFileObject genSource = JavaFileObjects.forResource("resources/dagger/view/ExamplePresenter_Slick.java");
 
         assertAbout(JavaSourcesSubjectFactory.javaSources())
                 .that(Arrays.asList(sourceViewInterface, sourcePresenter, sourceView))

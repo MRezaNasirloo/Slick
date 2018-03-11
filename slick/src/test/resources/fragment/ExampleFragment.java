@@ -9,16 +9,14 @@ import com.github.slick.Presenter;
 import javax.inject.Inject;
 import javax.inject.Provider;
 
-public class DaggerFragment extends Fragment implements ExampleView {
+public class ExampleFragment extends Fragment implements ExampleView {
 
-    @Inject
-    Provider<ExamplePresenter> provider;
     @Presenter
     ExamplePresenter presenter;
 
     @Override
     public void onAttach(Context context) {
-        DaggerFragment_Slick.bind(this);
+        ExamplePresenter_Slick.bind(this, 1, 2f);
         super.onAttach(context);
     }
 }

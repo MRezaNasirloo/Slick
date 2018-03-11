@@ -29,18 +29,18 @@ public class ExampleCustomView extends LinearLayout implements ExampleView, OnDe
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        ExampleCustomView_Slick.bind(this, 1, 2f);
-        ExampleCustomView_Slick.onAttach(this);
+        ExamplePresenter_Slick.bind(this, 1, 2f);
+        ExamplePresenter_Slick.onAttach(this);
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        ExampleCustomView_Slick.onDetach(this);
+        ExamplePresenter_Slick.onDetach(this);
     }
 
     @Override
     public void onDestroy() {
-        ExampleCustomView_Slick.onDestroy(this);
+        ExamplePresenter_Slick.onDestroy(this);
     }
 }

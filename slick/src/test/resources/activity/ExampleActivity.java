@@ -12,7 +12,7 @@ public class ExampleActivity extends Activity implements ExampleView {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ExampleActivity_Slick.bind(this, 1, 2.0f);
+        ExamplePresenter_Slick.bind(this, 1, 2.0f);
         super.onCreate(savedInstanceState);
     }
 }

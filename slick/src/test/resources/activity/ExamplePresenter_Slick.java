@@ -8,14 +8,14 @@ import com.github.slick.SlickDelegateActivity;
 
 import java.lang.Override;
 
-public class ExampleActivity_Slick implements InternalOnDestroyListener {
+public class ExamplePresenter_Slick implements InternalOnDestroyListener {
 
-    private static ExampleActivity_Slick hostInstance;
+    private static ExamplePresenter_Slick hostInstance;
     private final SparseArray<SlickDelegateActivity<ExampleView, ExamplePresenter>> delegates = new SparseArray<>();
 
     public static <T extends Activity & ExampleView> void bind(T exampleActivity, @IdRes int i, float f) {
         final int id = SlickDelegateActivity.getId(exampleActivity);
-        if (hostInstance == null) hostInstance = new ExampleActivity_Slick();
+        if (hostInstance == null) hostInstance = new ExamplePresenter_Slick();
         SlickDelegateActivity<ExampleView, ExamplePresenter> delegate = hostInstance.delegates.get(id)
         if (delegate == null) {
             final ExamplePresenter presenter = new ExamplePresenter(i, f);

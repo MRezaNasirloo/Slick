@@ -17,7 +17,7 @@ public class DaggerActivity extends Activity implements ExampleView {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        DaggerActivity_Slick.bind(this);
+        ExamplePresenter_Slick.bind(this);
         super.onCreate(savedInstanceState);
     }
 }

@@ -35,18 +35,18 @@ public class DaggerCustomView extends LinearLayout implements ExampleView, OnDes
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        DaggerCustomView_Slick.bind(this);
-        DaggerCustomView_Slick.onAttach(this);
+        ExamplePresenter_Slick.bind(this);
+        ExamplePresenter_Slick.onAttach(this);
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        DaggerCustomView_Slick.onDetach(this);
+        ExamplePresenter_Slick.onDetach(this);
     }
 
     @Override
     public void onDestroy() {
-        DaggerCustomView_Slick.onDestroy(this);
+        ExamplePresenter_Slick.onDestroy(this);
     }
 }

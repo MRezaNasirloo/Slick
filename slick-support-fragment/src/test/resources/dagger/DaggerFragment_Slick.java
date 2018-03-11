@@ -8,12 +8,12 @@ import java.lang.Override;
 
 public class DaggerFragment_Slick implements InternalOnDestroyListener {
 
-    private static DaggerFragment_Slick hostInstance;
+    private static test.ExamplePresenter_Slick hostInstance;
     private final SparseArray<SlickDelegateFragment<ExampleView, ExamplePresenter>> delegates = new SparseArray<>();
 
     public static <T extends Fragment & ExampleView> void bind(T daggerFragment) {
         final int id = SlickDelegateFragment.getId(daggerFragment);
-        if (hostInstance == null) hostInstance = new DaggerFragment_Slick();
+        if (hostInstance == null) hostInstance = new test.ExamplePresenter_Slick();
         SlickDelegateFragment<ExampleView, ExamplePresenter> delegate = hostInstance.delegates.get(id)
         if (delegate == null) {
             final ExamplePresenter presenter = ((DaggerFragment) daggerFragment).provider.get();

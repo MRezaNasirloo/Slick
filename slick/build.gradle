@@ -52,11 +52,15 @@ dependencies {
 }
 
 task copyResDirectoryToClasses(type: Copy) {
-    //TODO: delete the directory before copying
     from "${projectDir}/src/test/resources"
     into "${buildDir}/intermediates/classes/test/debug/resources"
 }
 
+task deleteResDirectoryFromClasess(type: Delete){
+    delete "${buildDir}/intermediates/classes/test/debug/resources"
+}
+
+copyResDirectoryToClasses.dependsOn(deleteResDirectoryFromClasess)
 preBuild.dependsOn(copyResDirectoryToClasses)
 
 def getRuntimeJar() {
