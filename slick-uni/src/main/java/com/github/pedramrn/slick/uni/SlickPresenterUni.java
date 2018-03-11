@@ -185,8 +185,7 @@ public abstract class SlickPresenterUni<V, S> extends SlickPresenter<V> implemen
      * @param state the new state to be rendered
      * @param view  the which is bounded to this presenter
      */
-    protected void render(@NonNull S state, @NonNull V view) {
-    }
+    protected abstract void render(@NonNull S state, @NonNull V view);
 
     /**
      * Command provider interface
