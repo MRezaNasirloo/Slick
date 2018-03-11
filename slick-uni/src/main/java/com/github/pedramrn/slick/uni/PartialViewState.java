@@ -1,4 +1,4 @@
-package com.github.pedramrn.slick.elm;
+package com.github.pedramrn.slick.uni;
 
 /**
  * @author : Pedramrn@gmail.com

@@ -1,4 +1,4 @@
-package com.github.pedramrn.slick.elm;
+package com.github.pedramrn.slick.uni;
 
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;

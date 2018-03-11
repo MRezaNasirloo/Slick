@@ -11,6 +11,11 @@ android {
 
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -33,6 +38,7 @@ dependencies {
     implementation Deps.depTestJunit
 
     testImplementation Deps.depTestJunit
+    testImplementation Deps.depTestMokito
     androidTestImplementation Deps.depTestRunner
     androidTestImplementation Deps.depTestEspressoCore
 }

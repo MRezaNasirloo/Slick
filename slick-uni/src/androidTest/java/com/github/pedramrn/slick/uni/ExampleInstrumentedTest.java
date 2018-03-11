@@ -1,4 +1,4 @@
-package com.github.pedramrn.slick.elm;
+package com.github.pedramrn.slick.uni;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
