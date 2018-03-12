@@ -1,10 +1,10 @@
 package test;
 
-import com.github.slick.middleware.RequestStack;
-import com.github.slick.middleware.rx2.RequestFlowable;
-import com.github.slick.middleware.rx2.RequestMaybe;
-import com.github.slick.middleware.rx2.RequestObservable;
-import com.github.slick.middleware.rx2.RequestSingle;
+import com.mrezanasirloo.slick.middleware.RequestStack;
+import com.mrezanasirloo.slick.middleware.rx2.RequestFlowable;
+import com.mrezanasirloo.slick.middleware.rx2.RequestMaybe;
+import com.mrezanasirloo.slick.middleware.rx2.RequestObservable;
+import com.mrezanasirloo.slick.middleware.rx2.RequestSingle;
 
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;

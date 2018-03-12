@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bluelinelabs.conductor.Controller;
-import com.github.slick.Presenter;
+import com.mrezanasirloo.slick.Presenter;
 
 import javax.inject.Inject;
 import javax.inject.Provider;

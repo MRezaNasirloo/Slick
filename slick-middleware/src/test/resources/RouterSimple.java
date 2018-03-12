@@ -1,7 +1,7 @@
 package test;
 
-import com.github.slick.Middleware;
-import com.github.slick.middleware.Callback;
+import com.mrezanasirloo.slick.Middleware;
+import com.mrezanasirloo.slick.middleware.Callback;
 
 
 public class RouterSimple {

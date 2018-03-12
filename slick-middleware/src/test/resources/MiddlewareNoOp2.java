@@ -1,8 +1,8 @@
 package test;
 
-import com.github.slick.middleware.Middleware;
-import com.github.slick.middleware.Request;
-import com.github.slick.middleware.BundleSlick;
+import com.mrezanasirloo.slick.middleware.Middleware;
+import com.mrezanasirloo.slick.middleware.Request;
+import com.mrezanasirloo.slick.middleware.BundleSlick;
 
 public class MiddlewareNoOp2 extends Middleware {
 

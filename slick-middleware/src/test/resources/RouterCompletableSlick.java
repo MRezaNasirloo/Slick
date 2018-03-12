@@ -1,7 +1,7 @@
 package test;
 
-import com.github.slick.middleware.RequestStack;
-import com.github.slick.middleware.rx2.RequestCompletable;
+import com.mrezanasirloo.slick.middleware.RequestStack;
+import com.mrezanasirloo.slick.middleware.rx2.RequestCompletable;
 
 import io.reactivex.Completable;
 import io.reactivex.subjects.CompletableSubject;

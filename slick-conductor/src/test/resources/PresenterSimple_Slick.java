@@ -3,8 +3,8 @@ package test;
 import android.support.annotation.IdRes;
 import android.util.SparseArray;
 import com.bluelinelabs.conductor.Controller;
-import com.github.slick.InternalOnDestroyListener;
-import com.github.slick.conductor.SlickDelegateConductor;
+import com.mrezanasirloo.slick.InternalOnDestroyListener;
+import com.mrezanasirloo.slick.conductor.SlickDelegateConductor;
 import java.lang.Override;
 
 public class PresenterSimple_Slick implements InternalOnDestroyListener {

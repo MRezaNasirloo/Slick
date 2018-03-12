@@ -1,13 +1,9 @@
 package test;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.app.Fragment;
 
-import com.github.slick.Presenter;
-
-import javax.inject.Inject;
-import javax.inject.Provider;
+import com.mrezanasirloo.slick.Presenter;
 
 public class ExampleFragment extends Fragment implements ExampleView {
 

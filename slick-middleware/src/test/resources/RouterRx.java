@@ -1,6 +1,6 @@
 package test;
 
-import com.github.slick.Middleware;
+import com.mrezanasirloo.slick.Middleware;
 
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;

@@ -3,7 +3,7 @@ package test;
 import android.os.Bundle;
 import android.app.Activity;
 
-import com.github.slick.Presenter;
+import com.mrezanasirloo.slick.Presenter;
 
 import javax.inject.Inject;
 import javax.inject.Provider;

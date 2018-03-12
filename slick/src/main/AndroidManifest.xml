@@ -1,4 +1,4 @@
-<manifest package="com.github.slick"
+<manifest package="com.mrezanasirloo.slick"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application android:allowBackup="true"

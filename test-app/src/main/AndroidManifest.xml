@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.github.slick.sample"
+<manifest package="com.mrezanasirloo.slick.sample"
     xmlns:android="http://schemas.android.com/apk/res/android"
     >
 
     <application
-        android:name=".App"
+        android:name="com.mrezanasirloo.slick.sample.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         >
-        <activity android:name=".MainActivity">
+        <activity android:name="com.mrezanasirloo.slick.sample.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.ActivitySimple"/>
-        <activity android:name=".activity.dagger.ActivitySimpleDagger"/>
-        <activity android:name=".conductor.ActivityConductorHost"/>
-        <activity android:name=".conductor.dagger.ActivityConductorHostDagger"/>
-        <activity android:name=".fragment.ActivityFragmentHost"/>
-        <activity android:name=".fragmentsupport.SupportFragmentHostActivity"/>
-        <activity android:name=".cutstomview.ActivityCustomView"/>
-        <activity android:name=".cutstomview.dagger.ActivityCustomViewDagger"/>
+        <activity android:name="com.mrezanasirloo.slick.sample.activity.ActivitySimple"/>
+        <activity android:name="com.mrezanasirloo.slick.sample.activity.dagger.ActivitySimpleDagger"/>
+        <activity android:name="com.mrezanasirloo.slick.sample.conductor.ActivityConductorHost"/>
+        <activity android:name="com.mrezanasirloo.slick.sample.conductor.dagger.ActivityConductorHostDagger"/>
+        <activity android:name="com.mrezanasirloo.slick.sample.fragment.ActivityFragmentHost"/>
+        <activity android:name="com.mrezanasirloo.slick.sample.fragmentsupport.SupportFragmentHostActivity"/>
+        <activity android:name="com.mrezanasirloo.slick.sample.cutstomview.ActivityCustomView"/>
+        <activity android:name="com.mrezanasirloo.slick.sample.cutstomview.dagger.ActivityCustomViewDagger"/>
     </application>
 
 </manifest>

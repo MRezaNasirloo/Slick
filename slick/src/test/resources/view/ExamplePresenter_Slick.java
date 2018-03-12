@@ -3,9 +3,9 @@ package test;
 import android.support.annotation.IdRes;
 import android.util.SparseArray;
 import android.view.View;
-import com.github.slick.InternalOnDestroyListener;
-import com.github.slick.OnDestroyListener;
-import com.github.slick.SlickDelegateView;
+import com.mrezanasirloo.slick.InternalOnDestroyListener;
+import com.mrezanasirloo.slick.OnDestroyListener;
+import com.mrezanasirloo.slick.SlickDelegateView;
 import java.lang.Override;
 
 public class ExamplePresenter_Slick implements InternalOnDestroyListener {

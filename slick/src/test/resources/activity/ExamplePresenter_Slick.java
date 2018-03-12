@@ -3,8 +3,8 @@ package test;
 import android.app.Activity;
 import android.support.annotation.IdRes;
 import android.util.SparseArray;
-import com.github.slick.InternalOnDestroyListener;
-import com.github.slick.SlickDelegateActivity;
+import com.mrezanasirloo.slick.InternalOnDestroyListener;
+import com.mrezanasirloo.slick.SlickDelegateActivity;
 
 import java.lang.Override;
 

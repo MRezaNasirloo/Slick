@@ -1,12 +1,9 @@
 package test;
 
-import com.github.slick.Middleware;
+import com.mrezanasirloo.slick.Middleware;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.reactivex.Completable;
-import io.reactivex.Observable;
 
 
 public class RouterGeneric<A, B extends String> {

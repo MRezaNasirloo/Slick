@@ -3,8 +3,8 @@ package test;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.util.SparseArray;
-import com.github.slick.InternalOnDestroyListener;
-import com.github.slick.supportfragment.SlickDelegateFragment;
+import com.mrezanasirloo.slick.InternalOnDestroyListener;
+import com.mrezanasirloo.slick.supportfragment.SlickDelegateFragment;
 import java.lang.Override;
 
 public class ExamplePresenter_Slick implements InternalOnDestroyListener {

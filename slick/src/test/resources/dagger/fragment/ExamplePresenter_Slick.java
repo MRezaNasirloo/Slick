@@ -2,8 +2,8 @@ package test;
 
 import android.app.Fragment;
 import android.util.SparseArray;
-import com.github.slick.InternalOnDestroyListener;
-import com.github.slick.SlickDelegateFragment;
+import com.mrezanasirloo.slick.InternalOnDestroyListener;
+import com.mrezanasirloo.slick.SlickDelegateFragment;
 
 import java.lang.Override;
 

@@ -1,10 +1,9 @@
 package test;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import com.github.slick.Presenter;
+import com.mrezanasirloo.slick.Presenter;
 
 import javax.inject.Inject;
 import javax.inject.Provider;

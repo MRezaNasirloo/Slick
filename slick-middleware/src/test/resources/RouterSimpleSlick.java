@@ -1,8 +1,8 @@
 package test;
 
-import com.github.slick.middleware.Callback;
-import com.github.slick.middleware.RequestSimple;
-import com.github.slick.middleware.RequestStack;
+import com.mrezanasirloo.slick.middleware.Callback;
+import com.mrezanasirloo.slick.middleware.RequestSimple;
+import com.mrezanasirloo.slick.middleware.RequestStack;
 
 import java.lang.Integer;
 import java.lang.Override;

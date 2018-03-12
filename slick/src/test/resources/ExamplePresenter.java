@@ -2,7 +2,7 @@ package test;
 
 import android.support.annotation.IdRes;
 
-import com.github.slick.SlickPresenter;
+import com.mrezanasirloo.slick.SlickPresenter;
 
 public class ExamplePresenter extends SlickPresenter<ExampleView> {
 

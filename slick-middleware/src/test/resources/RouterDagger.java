@@ -1,7 +1,6 @@
 package test;
 
-import com.github.slick.Middleware;
-import com.github.slick.middleware.Callback;
+import com.mrezanasirloo.slick.Middleware;
 
 import javax.inject.Inject;
 

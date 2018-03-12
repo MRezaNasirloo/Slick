@@ -6,10 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bluelinelabs.conductor.Controller;
-import com.github.slick.Presenter;
-
-import javax.inject.Inject;
-import javax.inject.Provider;
+import com.mrezanasirloo.slick.Presenter;
 
 public class ExampleController extends Controller implements ExampleView {
 

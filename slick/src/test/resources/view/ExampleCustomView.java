@@ -4,10 +4,9 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.github.slick.OnDestroyListener;
-import com.github.slick.Presenter;
+import com.mrezanasirloo.slick.OnDestroyListener;
+import com.mrezanasirloo.slick.Presenter;
 
 public class ExampleCustomView extends LinearLayout implements ExampleView, OnDestroyListener {
 

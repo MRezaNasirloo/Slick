@@ -2,8 +2,8 @@ package test;
 
 import android.util.SparseArray;
 import com.bluelinelabs.conductor.Controller;
-import com.github.slick.InternalOnDestroyListener;
-import com.github.slick.conductor.SlickDelegateConductor;
+import com.mrezanasirloo.slick.InternalOnDestroyListener;
+import com.mrezanasirloo.slick.conductor.SlickDelegateConductor;
 import java.lang.Override;
 
 
