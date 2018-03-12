@@ -22,7 +22,7 @@ import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.PublishSubject;
 
 /**
- * @author : Pedramrn@gmail.com
+ * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2017-07-22
  *
  *         Inspired from Elm archtechture and articles about unidrirectinal data flow around the web.

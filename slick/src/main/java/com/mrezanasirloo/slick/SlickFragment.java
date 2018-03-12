@@ -11,7 +11,7 @@ import static com.mrezanasirloo.slick.SlickDelegateActivity.SLICK_UNIQUE_KEY;
 
 
 /**
- * @author : Pedramrn@gmail.com
+ * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2016-11-07
  */
 

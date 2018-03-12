@@ -12,7 +12,7 @@ import com.mrezanasirloo.slick.sample.activity.ViewTestable;
 import com.mrezanasirloo.slick.test.SlickPresenterTestable;
 
 /**
- * @author : Pedramrn@gmail.com
+ * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2017-02-13
  */
 

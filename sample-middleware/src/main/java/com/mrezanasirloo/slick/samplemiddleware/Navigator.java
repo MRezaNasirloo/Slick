@@ -8,7 +8,7 @@ import android.support.annotation.IdRes;
 import java.lang.ref.WeakReference;
 
 /**
- * @author : Pedramrn@gmail.com
+ * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2017-04-05
  */
 

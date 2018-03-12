@@ -23,7 +23,7 @@ import static android.support.test.espresso.Espresso.pressBack;
 import static junit.framework.Assert.assertEquals;
 
 /**
- * @author : Pedramrn@gmail.com
+ * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2018-03-10
  */
 

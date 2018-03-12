@@ -12,7 +12,7 @@ import io.reactivex.schedulers.TestScheduler;
 import io.reactivex.subjects.PublishSubject;
 
 /**
- * @author : Pedramrn@gmail.com
+ * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2018-03-11
  */
 public class SlickPresenterUniTest {

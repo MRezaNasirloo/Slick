@@ -17,7 +17,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
 /**
- * @author : Pedramrn@gmail.com
+ * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2017-04-05
  */
 

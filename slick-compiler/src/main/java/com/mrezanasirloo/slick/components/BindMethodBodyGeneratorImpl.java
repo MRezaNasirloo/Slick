@@ -11,7 +11,7 @@ import static com.mrezanasirloo.slick.AnnotatedPresenter.HOST_INSTANCE_VAR_NAME;
 import static com.mrezanasirloo.slick.AnnotatedPresenter.PRESENTER_VAR_NAME;
 
 /**
- * @author : Pedramrn@gmail.com
+ * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2017-03-06
  */
 

@@ -6,7 +6,7 @@ import com.squareup.javapoet.ParameterSpec;
 import java.util.ArrayList;
 
 /**
- * @author : Pedramrn@gmail.com
+ * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2017-02-24
  */
 public class MethodSignatureGeneratorDaggerImpl extends MethodSignatureGeneratorImpl {

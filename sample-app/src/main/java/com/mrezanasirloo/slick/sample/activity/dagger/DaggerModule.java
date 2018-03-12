@@ -6,7 +6,7 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
- * @author : Pedramrn@gmail.com
+ * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2016-11-02
  */
 @Module

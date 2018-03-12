@@ -3,7 +3,7 @@ package com.mrezanasirloo.slick.uni;
 import io.reactivex.Observable;
 
 /**
- * @author : Pedramrn@gmail.com
+ * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2018-03-11
  */
 

@@ -5,7 +5,7 @@ import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.ParameterizedTypeName;
 
 /**
- * @author : Pedramrn@gmail.com
+ * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2017-04-04
  */
 

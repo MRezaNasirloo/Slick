@@ -11,7 +11,7 @@ import com.mrezanasirloo.slick.Presenter;
 import com.mrezanasirloo.slick.sample.R;
 
 /**
- * @author : Pedramrn@gmail.com
+ * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2017-03-09
  */
 

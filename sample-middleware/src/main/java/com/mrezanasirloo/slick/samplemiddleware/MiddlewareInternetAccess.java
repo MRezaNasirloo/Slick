@@ -8,7 +8,7 @@ import com.mrezanasirloo.slick.middleware.Middleware;
 import com.mrezanasirloo.slick.middleware.Request;
 
 /**
- * @author : Pedramrn@gmail.com
+ * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2017-03-29
  */
 

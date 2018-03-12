@@ -6,7 +6,7 @@ import com.squareup.javapoet.MethodSpec;
 import static com.mrezanasirloo.slick.AnnotatedPresenter.DELEGATE_VAR_NAME;
 
 /**
- * @author : Pedramrn@gmail.com
+ * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2017-03-06
  */
 

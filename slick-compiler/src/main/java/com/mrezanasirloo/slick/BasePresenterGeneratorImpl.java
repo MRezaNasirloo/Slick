@@ -20,7 +20,7 @@ import static com.mrezanasirloo.slick.SlickProcessor.ClASS_NAME_HASH_MAP;
 import static com.mrezanasirloo.slick.SlickProcessor.ClASS_NAME_INTERNAL_ON_DESTROY_LISTENER;
 
 /**
- * @author : Pedramrn@gmail.com
+ * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2017-02-05
  */
 class BasePresenterGeneratorImpl implements PresenterGenerator {

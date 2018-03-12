@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import java.lang.ref.WeakReference;
 
 /**
- * @author : Pedramrn@gmail.com
+ * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2016-10-31
  *
  *         A dead simple Presenter with only 3 lifecycle callbacks

@@ -6,7 +6,7 @@ import com.mrezanasirloo.slick.test.SlickPresenterTestable;
 
 
 /**
- * @author : Pedramrn@gmail.com
+ * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2016-11-03
  */
 public class PresenterConductor extends SlickPresenterTestable<ViewConductor> {

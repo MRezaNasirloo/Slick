@@ -3,7 +3,7 @@ package com.mrezanasirloo.slick;
 import com.squareup.javapoet.TypeSpec;
 
 /**
- * @author : Pedramrn@gmail.com
+ * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2017-02-05
  */
 

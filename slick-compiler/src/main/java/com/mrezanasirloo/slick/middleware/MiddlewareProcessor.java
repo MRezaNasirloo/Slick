@@ -52,7 +52,7 @@ import javax.tools.Diagnostic;
 import static com.squareup.javapoet.ClassName.get;
 
 /**
- * @author : Pedramrn@gmail.com
+ * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2017-03-15
  */
 

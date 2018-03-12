@@ -5,7 +5,7 @@ import android.app.Application;
 import com.mrezanasirloo.slick.middleware.RequestStack;
 
 /**
- * @author : Pedramrn@gmail.com
+ * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2017-04-05
  */
 

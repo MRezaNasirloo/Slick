@@ -3,7 +3,7 @@ package com.mrezanasirloo.slick.samplemiddleware;
 import io.reactivex.Single;
 
 /**
- * @author : Pedramrn@gmail.com
+ * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2017-03-29
  */
 public class RepositoryLike {

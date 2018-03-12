@@ -18,7 +18,7 @@ import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Modifier;
 
 /**
- * @author : Pedramrn@gmail.com
+ * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2017-02-24
  */
 public class MethodSignatureGeneratorImpl implements MethodSignatureGenerator {

@@ -7,7 +7,7 @@ import com.mrezanasirloo.slick.test.SlickPresenterTestable;
 import javax.inject.Inject;
 
 /**
- * @author : Pedramrn@gmail.com
+ * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2017-03-09
  */
 

@@ -23,7 +23,7 @@ import javax.lang.model.element.TypeParameterElement;
 import static com.mrezanasirloo.slick.middleware.MiddlewareProcessor.CLASS_NAME_REQUEST_SIMPLE;
 
 /**
- * @author : Pedramrn@gmail.com
+ * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2017-03-22
  */
 

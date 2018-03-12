@@ -1,7 +1,7 @@
 package com.mrezanasirloo.slick.uni;
 
 /**
- * @author : Pedramrn@gmail.com
+ * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2017-07-14
  *
  *         This Interface is used to create partial data on every update

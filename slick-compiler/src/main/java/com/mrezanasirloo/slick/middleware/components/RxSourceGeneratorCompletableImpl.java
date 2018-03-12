@@ -5,7 +5,7 @@ import com.mrezanasirloo.slick.middleware.MiddlewareProcessor;
 import com.squareup.javapoet.MethodSpec;
 
 /**
- * @author : Pedramrn@gmail.com
+ * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2017-04-04
  */
 
