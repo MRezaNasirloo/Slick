@@ -4,7 +4,7 @@ android {
     compileSdkVersion Versions.vSdkCompile
     buildToolsVersion Versions.vBuildTool
     defaultConfig {
-        applicationId "com.github.slick.test"
+        applicationId "com.mrezanasirloo.slick.test"
         minSdkVersion Versions.vSdkMin
         targetSdkVersion Versions.vSdkTarget
         versionCode Versions.vVersionCode

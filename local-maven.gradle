@@ -1,6 +1,6 @@
 apply plugin: 'com.github.dcendents.android-maven'
 
-group = 'com.github.slick'
+group = 'com.mrezanasirloo.slick'
 version = '0.21'
 
 if (project.getPlugins().hasPlugin('com.android.application') ||
