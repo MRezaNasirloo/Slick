@@ -25,7 +25,6 @@ android {
 dependencies {
     implementation project(':slick-middleware')
     annotationProcessor project(':slick-compiler')
-    implementation Deps.depConstraintLayout
     implementation Deps.depSupportAppCompat
     implementation Deps.depSupportCardView
     implementation Deps.depSupportDesign

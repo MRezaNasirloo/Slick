@@ -7,7 +7,7 @@
     android:layout_margin="8dp"
     >
 
-    <android.support.constraint.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -20,18 +20,15 @@
             android:padding="8dp"
             android:text="“All life is an experiment. The more experiments you make the better.” —Ralph Waldo Emerson"
             android:textSize="20sp"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             />
 
         <com.varunest.sparkbutton.SparkButton
             android:id="@+id/button_like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_quote"
+            android:layout_below="@+id/textView_quote"
+            android:layout_toLeftOf="@+id/button_star"
+            android:layout_toStartOf="@+id/button_star"
             app:sparkbutton_activeImage="@drawable/ic_like_black_24dp"
             app:sparkbutton_iconSize="25dp"
             app:sparkbutton_inActiveImage="@drawable/ic_unlike_black_24dp"
@@ -41,14 +38,14 @@
             android:id="@+id/button_star"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/button_like"
-            app:layout_constraintRight_toLeftOf="@+id/button_like"
-            app:layout_constraintTop_toTopOf="@+id/button_like"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/textView_quote"
             app:sparkbutton_activeImage="@drawable/ic_star_fill_24dp"
-            app:sparkbutton_iconSize="30dp"
+            app:sparkbutton_iconSize="25dp"
             app:sparkbutton_inActiveImage="@drawable/ic_star_empty_24dp"
             />
-    </android.support.constraint.ConstraintLayout>
+    </RelativeLayout>
 
 
 </android.support.v7.widget.CardView>
