@@ -27,15 +27,7 @@ dependencies {
     annotationProcessor Deps.depDaggerCompiler
 
     implementation Deps.depSupportAppCompat
-    implementation Deps.depConstraintLayout
     implementation Deps.depSupportFragment
     implementation Deps.depConductor
     implementation Deps.depDagger
-
-    testImplementation Deps.depTestJunit
-    testImplementation Deps.depTestMokito
-    androidTestImplementation Deps.depTestMokitoAndroid
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
 }
