@@ -36,11 +36,6 @@ dependencies {
 
     androidTestImplementation Deps.depTestMokito
     androidTestImplementation Deps.depSupportAppCompat
-    androidTestImplementation Deps.depConstraintLayout
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-
 
     testImplementation files(getRuntimeJar())
     testImplementation files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
