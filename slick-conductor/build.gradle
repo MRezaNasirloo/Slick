@@ -26,22 +26,31 @@ dependencies {
     compileOnly Deps.depConductor
     compileOnly Deps.depJavax
 
+    testAnnotationProcessor project(':slick-compiler')
     testImplementation project(':slick-compiler')
+    testImplementation project(':slick')
     testImplementation Deps.depJavax
     testImplementation Deps.depTestTruth
     testImplementation Deps.depTestJunit
+    testImplementation Deps.depConductor
+    testImplementation Deps.depSupportAnnotation
     testImplementation Deps.depTestCompileTesting
     testImplementation files(getRuntimeJar())
     testImplementation files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
 }
 
-task copyResDirectoryToClasses(type: Copy) {
-    from "${projectDir}/src/test/resources"
-    into "${buildDir}/intermediates/classes/test/debug/resources"
+task copyResDirectoryToClasses << {
+    ["${buildDir}/intermediates/classes/test/debug/resources", "${buildDir}/intermediates/classes/test/release/resources"].each { dest ->
+        copy {
+            from "${projectDir}/src/test/resources"
+            into dest
+        }
+    }
+
 }
 
-task deleteResDirectoryFromClasess(type: Delete){
-    delete "${buildDir}/intermediates/classes/test/debug/resources"
+task deleteResDirectoryFromClasess(type: Delete) {
+    delete("${buildDir}/intermediates/classes/test/debug/resources", "${buildDir}/intermediates/classes/test/release/resources")
 }
 
 copyResDirectoryToClasses.dependsOn(deleteResDirectoryFromClasess)
