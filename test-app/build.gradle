@@ -27,7 +27,6 @@ dependencies {
     annotationProcessor Deps.depDaggerCompiler
 
     implementation Deps.depSupportAppCompat
-    implementation Deps.depConstraintLayout
     implementation Deps.depSupportFragment
     implementation Deps.depConductor
     implementation Deps.depDagger

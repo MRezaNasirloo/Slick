@@ -5,8 +5,6 @@
     tools:context="com.mrezanasirloo.slick.sample.fragment.FragmentSlickSimple"
     >
 
-    <!-- TODO: Update blank fragment layout -->
-
     <Button
         android:text="Support Fragment Dagger"
         android:layout_width="wrap_content"
