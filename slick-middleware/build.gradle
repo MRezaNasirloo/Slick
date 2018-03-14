@@ -89,3 +89,4 @@ def getRuntimeJar() {
 }
 
 apply from: rootProject.file('local-maven.gradle')
+apply from: rootProject.file('bintray-release.gradle')

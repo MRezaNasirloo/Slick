@@ -19,16 +19,16 @@
  *         Created on: 2018-03-11
  */
 object Versions {
-    val vSdkMin = 16
-    val vSdkTarget = 26
-    val vSdkCompile = 26
-    val vVersionCode = 1
-    val vVersionName = "1.0"
-    val vBuildTool = "26.0.3"
+    const val vSdkMin = 16
+    const val vSdkTarget = 26
+    const val vSdkCompile = 26
+    const val vVersionCode = 1
+    const val vVersionName = "1.0"
+    const val vBuildTool = "26.0.3"
 
-    val vSupportLib = "26.1.0"
-    val vRxjava2 = "2.1.10"
-    val vRxAndroid = "2.0.2"
+    const val vSupportLib = "26.1.0"
+    const val vRxjava2 = "2.1.10"
+    const val vRxAndroid = "2.0.2"
 }
 
 object Deps {

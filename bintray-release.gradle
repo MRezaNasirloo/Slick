@@ -14,22 +14,13 @@
  * limitations under the License.
  */
 
-apply plugin: 'java'
-
-dependencies {
-    implementation project(':slick-annotations')
-    implementation Deps.depJavaPoet
-    compileOnly Deps.depAutoService
-    compileOnly Deps.depAutoCommon
-    compileOnly Deps.depJavax
-    testImplementation Deps.depJavax
-    testImplementation Deps.depTestTruth
-    testImplementation Deps.depTestCompileTesting
-    testImplementation Deps.depTestJunit
+apply plugin: 'com.novoda.bintray-release'
+publish {
+    userOrg = 'mrezanasirloo'
+    groupId = 'com.mrezanasirloo.slick'
+    repoName = 'Slick'
+    artifactId = project.name
+    publishVersion = '1.0.0'
+    desc = 'An Android MVP framework which is Slick to use.'
+    website = 'https://github.com/MRezaNasirloo/Slick'
 }
-
-sourceCompatibility = "1.7"
-targetCompatibility = "1.7"
-
-apply from: rootProject.file('local-maven.gradle')
-apply from: rootProject.file('bintray-release.gradle')
