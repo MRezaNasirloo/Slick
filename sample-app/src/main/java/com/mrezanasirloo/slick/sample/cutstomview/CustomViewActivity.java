@@ -22,7 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.mrezanasirloo.slick.SlickUniqueId;
 import com.mrezanasirloo.slick.sample.R;
 
-public class CustomViewActivity extends AppCompatActivity implements SlickUniqueId {
+public class CustomViewActivity extends AppCompatActivity {
 
     private CustomView customView;
 
@@ -36,12 +36,6 @@ public class CustomViewActivity extends AppCompatActivity implements SlickUnique
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        customView.onDestroy();
-    }
-
-    @Override
-    public String getUniqueId() {
-        // TODO: 2017-09-18 do a multi instance test
-        return null;
+        customView.onDestroy(); //<--- onDestroy notification should be passed to view
     }
 }
