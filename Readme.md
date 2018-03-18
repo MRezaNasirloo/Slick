@@ -8,7 +8,7 @@ No need to extend anything
 ```java
 public class YourActivity extends AppCompatActivity implements ViewActivity {
 
-    @Presenter <-- Just annotate your presenter
+    @Presenter //<-- Just annotate your presenter
     YourPresenter presenter;
 
     @Override
@@ -17,13 +17,18 @@ public class YourActivity extends AppCompatActivity implements ViewActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_your);
     }
+    
+    @Override
+    public showMessage(String message) {
+        
+    }
 }
 ```
 The Presenter:
 ```java
 public class YourPresenter extends SlickPresenter<ActivityView> {
 
-    public ExampleActivityPresenter(@NonNull int code, String s) {
+    public YourPresenter(@NonNull int code, String s) {
     }
 
     @Override
@@ -45,7 +50,7 @@ public class YourPresenter extends SlickPresenter<ActivityView> {
 And a simple View interface, no need to extend anything
 ```java
 public interface ActivityView {
-
+    void showMessage(String message);
 }
 ```
 Other View types have the same logic, for more detailed instruction head to Wiki
@@ -53,14 +58,28 @@ Other View types have the same logic, for more detailed instruction head to Wiki
 ####  Features:
 
 1. Supports Activity, Fragment, CustomView, and Conductor Controller
-2. No Dark magic, just simple debuggable generated code
-3. Do not need to extend any base classes for your views
-4. Retains Presenters in short lived singletons
-5. Supports multiple Presenter for same view
-6. Inspired from MVI and Elm architecture
+2. No dark magic involved, just simple debuggable generated code
+3. Reactive support inspired by MVI and Elm architecture
+4. Do not need to extend any base class for your views
+5. Retains Presenters in short lived singletons
+6. Supports multiple Presenter for one view
 7. Fully Type-safe
 8. Dagger ready!
-8.
+
+Packages are available in `jcenter` and `jitpack`
+
+```
+//base features
+implementation 'com.mrezanasirloo.slick:slick:1.0.0'
+
+// Reactive Unidirectional Data Flow feature
+implementation 'com.mrezanasirloo.slick:slick-uni:1.0.0'
+
+implementation 'com.mrezanasirloo.slick:slick-conductor:1.0.0'
+implementation 'com.mrezanasirloo.slick:slick-support-fragment:1.0.0'
+
+annotationProcessor 'com.mrezanasirloo.slick:slick-compiler:1.0.0'
+``` 
 
 Copyright 2018. M. Reza Nasirloo
 
