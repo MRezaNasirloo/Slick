@@ -17,35 +17,35 @@
 package com.mrezanasirloo.slick.sample.cutstomview;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.mrezanasirloo.slick.OnDestroyListener;
 import com.mrezanasirloo.slick.Presenter;
-import com.mrezanasirloo.slick.sample.R;
+import com.mrezanasirloo.slick.SlickUniqueId;
+
+import java.util.UUID;
+
+import static com.mrezanasirloo.slick.SlickDelegateActivity.SLICK_UNIQUE_KEY;
+import static java.util.Locale.ENGLISH;
 
 /**
  * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2017-03-09
  */
 
-public class CustomView extends LinearLayout implements ExampleView, OnDestroyListener {
+public class CustomView extends AppCompatTextView implements ExampleView, OnDestroyListener, SlickUniqueId {
 
     @Presenter
     ViewPresenter presenter;
 
-    public CustomView(Context context) {
-        super(context);
-    }
+    private String id;
 
-    public CustomView(Context context, @Nullable AttributeSet attrs) {
+    public CustomView(Context context, AttributeSet attrs) {
         super(context, attrs);
-    }
-
-    public CustomView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
     }
 
     @Override
@@ -54,8 +54,13 @@ public class CustomView extends LinearLayout implements ExampleView, OnDestroyLi
         ViewPresenter_Slick.bind(this);
         ViewPresenter_Slick.onAttach(this);
 
-        final TextView textView = (TextView) findViewById(R.id.textView_custom_view);
-        textView.setText(presenter.getData());
+        String text = String.format(
+                ENGLISH,
+                "Presenter's code: %d, View's id: %s",
+                presenter.getCode(),
+                getUniqueId()
+        );
+        setText(text);
     }
 
     @Override
@@ -67,5 +72,29 @@ public class CustomView extends LinearLayout implements ExampleView, OnDestroyLi
     @Override
     public void onDestroy() {
         ViewPresenter_Slick.onDestroy(this);
+    }
+
+    @Nullable
+    @Override
+    public Parcelable onSaveInstanceState() {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("superState", super.onSaveInstanceState());
+        bundle.putString(SLICK_UNIQUE_KEY, this.id);
+        return bundle;
+    }
+
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
+        if (state instanceof Bundle) {
+            Bundle bundle = (Bundle) state;
+            this.id = bundle.getString(SLICK_UNIQUE_KEY);
+            state = bundle.getParcelable("superState");
+        }
+        super.onRestoreInstanceState(state);
+    }
+
+    @Override
+    public String getUniqueId() {
+        return id = (id != null ? id : UUID.randomUUID().toString());
     }
 }

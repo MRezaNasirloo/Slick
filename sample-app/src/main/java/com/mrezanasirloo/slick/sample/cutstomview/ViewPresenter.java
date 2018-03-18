@@ -20,6 +20,8 @@ import android.util.Log;
 
 import com.mrezanasirloo.slick.SlickPresenter;
 
+import java.util.Random;
+
 /**
  * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2017-03-09
@@ -28,9 +30,14 @@ import com.mrezanasirloo.slick.SlickPresenter;
 public class ViewPresenter extends SlickPresenter<ExampleView> {
 
     private static final String TAG = ViewPresenter.class.getSimpleName();
+    private final int randomCode;
 
-    public String getData() {
-        return "Text data has received from presenter";
+    public ViewPresenter() {
+        randomCode = new Random().nextInt(100 - 1) + 1;
+    }
+
+    public int getCode() {
+        return randomCode;
     }
 
     @Override
