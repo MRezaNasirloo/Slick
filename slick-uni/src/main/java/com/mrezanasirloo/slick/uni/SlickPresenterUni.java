@@ -31,7 +31,6 @@ import io.reactivex.Observer;
 import io.reactivex.Scheduler;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.subjects.BehaviorSubject;
@@ -123,7 +122,6 @@ public abstract class SlickPresenterUni<V, S> extends SlickPresenter<V> implemen
     public void onError(Throwable e) {
         //fail early
         System.out.println(TAG + " onError: Called");
-        e.printStackTrace();
         throw new RuntimeException(e);
     }
 
@@ -132,14 +130,14 @@ public abstract class SlickPresenterUni<V, S> extends SlickPresenter<V> implemen
         System.out.println(TAG + " onComplete() called");
     }
 
+    /**
+     * @param initialState the initial state to render to view
+     * @param partialViewState the stream of partial view states
+     * @return A stream of ViewState
+     */
     protected Observable<S> reduce(S initialState, Observable<PartialViewState<S>> partialViewState) {
         return partialViewState.observeOn(main)
-                .scan(initialState, new BiFunction<S, PartialViewState<S>, S>() {
-                    @Override
-                    public S apply(@NonNull S oldState, @NonNull PartialViewState<S> partialViewState1) throws Exception {
-                        return partialViewState1.reduce(oldState);
-                    }
-                });
+                .scan(initialState, (oldState, partialViewState1) -> partialViewState1.reduce(oldState));
     }
 
     /**
