@@ -58,7 +58,7 @@ Other View types have the same logic, for more detailed instruction head to Wiki
 ####  Features:
 
 1. Supports Activity, Fragment, CustomView, and Conductor Controller
-2. No dark magic involved, just simple debuggable generated code
+2. No dark magic involved, Just simple debuggable generated code
 3. Reactive support inspired by MVI and Elm architecture
 4. Do not need to extend any base class for your views
 5. Retains Presenters in short lived singletons
@@ -80,6 +80,8 @@ implementation 'com.mrezanasirloo.slick:slick-support-fragment:1.0.0'
 
 annotationProcessor 'com.mrezanasirloo.slick:slick-compiler:1.0.0'
 ``` 
+
+Don't forget to Star the repo that would support the project more than you think ⭐ == ❤ 
 
 Copyright 2018. M. Reza Nasirloo
 

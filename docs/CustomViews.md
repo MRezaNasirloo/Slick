@@ -32,12 +32,12 @@ public class CustomView extends LinearLayout implements ExampleView, OnDestroyLi
     }
 }
 ```
-As you can see there are 3 delegates methods and an interface that has to be implemented and called at appropriate time,
+As you can see there are three delegates methods and an interface that has to be implemented and called at appropriate time,
 And don't worry about forgetting to implement the interface, The generate class requires you to implement it and if you
-don't the IDE will remind you with red line error.
+don't the IDE will remind you with a red line error.
 
 ### onDestroy method
-It's quite important to call this method from the custom view parent when you remove the view from view hierarchy or
+It's quite important to call this method from the custom view's parent when you remove the view from view hierarchy or
 when the parent view is finished, Mostly just calling its `onDestory` method in the parent view `onDestroy` method is
 enough.
 ```java
