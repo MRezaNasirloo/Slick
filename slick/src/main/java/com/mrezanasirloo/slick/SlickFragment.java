@@ -29,8 +29,11 @@ import static com.mrezanasirloo.slick.SlickDelegateActivity.SLICK_UNIQUE_KEY;
 /**
  * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2016-11-07
+ *
+ *         Since the {@link android.app.Fragment} has been depracated in android P, you need to use the slick-support-fragment package
  */
 
+@Deprecated
 public abstract class SlickFragment<V, P extends SlickPresenter<V>> extends Fragment implements SlickUniqueId {
     private static final String TAG = SlickFragment.class.getSimpleName();
     private SlickDelegateFragment<V, P> delegate;

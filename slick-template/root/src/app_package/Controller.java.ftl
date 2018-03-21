@@ -11,7 +11,7 @@ import com.bluelinelabs.conductor.Controller;
 import ${applicationPackage}.R;
 import ${applicationPackage}.databinding.Controller${className}Binding;
 </#if>
-import com.github.slick.Presenter;
+import com.mrezanasirloo.slick.Presenter;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -30,8 +30,8 @@ public class Controller${className} extends Controller implements View${classNam
     @Override
     protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
         // TODO: 2017-07-22 Inject dependencies 
-        App.componentMain().inject(this);
-        Controller${className}_Slick.bind(this);
+        // App.componentMain().inject(this);
+        Presenter${className}_Slick.bind(this);
 <#if includeLayout>
         Controller${className}Binding binding = Controller${className}Binding.inflate(inflater, container, false);
         return binding.getRoot();

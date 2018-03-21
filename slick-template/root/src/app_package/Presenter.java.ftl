@@ -1,6 +1,6 @@
 package ${packageName};
 
-import com.github.slick.SlickPresenter;
+import com.mrezanasirloo.slick.SlickPresenter;
 
 import javax.inject.Inject;
 
