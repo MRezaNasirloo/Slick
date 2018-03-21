@@ -38,16 +38,15 @@ public class MiddlewareInternetAccess extends Middleware {
     }
 
     @Override
-    public void handle(Request request, BundleSlick date) {
+    public void handle(Request request, BundleSlick data) {
         if (isNetworkAvailable(context)) {
             request.next();// process the next request
         } else {
-            //            request.stopped();// optional, let the callback know about it
             Navigator.go(ActivityError.class);
         }
     }
 
-    public boolean isNetworkAvailable(final Context context) {
+    private boolean isNetworkAvailable(final Context context) {
         final ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
         return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
     }

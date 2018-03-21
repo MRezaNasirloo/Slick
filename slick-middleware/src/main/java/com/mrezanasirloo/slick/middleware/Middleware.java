@@ -23,5 +23,5 @@ package com.mrezanasirloo.slick.middleware;
  */
 
 public abstract class Middleware {
-    abstract public void handle(Request request, BundleSlick bundle);
+    public abstract void handle(Request request, BundleSlick bundle);
 }

@@ -29,7 +29,6 @@ import com.mrezanasirloo.slick.middleware.Request;
 
 public class MiddlewareLogin extends Middleware {
 
-
     private SharedPreferences sp;
 
     public MiddlewareLogin(SharedPreferences sp) {
@@ -37,7 +36,7 @@ public class MiddlewareLogin extends Middleware {
     }
 
     @Override
-    public void handle(Request request, BundleSlick date) {
+    public void handle(Request request, BundleSlick data) {
         if (sp.getBoolean("HAS_LOGGED_IN", false)) {
             request.next();// process the next request
         } else {
