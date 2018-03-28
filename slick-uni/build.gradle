@@ -17,10 +17,10 @@
 apply plugin: 'com.android.library'
 
 android {
+    compileSdkVersion Versions.vSdkCompile
     defaultConfig {
         minSdkVersion Versions.vSdkMin
         targetSdkVersion Versions.vSdkTarget
-        compileSdkVersion Versions.vSdkCompile
         versionCode Versions.vVersionCode
         versionName Versions.vVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -58,6 +58,8 @@ dependencies {
 
     testImplementation Deps.depTestJunit
     testImplementation Deps.depTestMokito
+
+    androidTestImplementation Deps.depRxjava2
 }
 
 apply from: rootProject.file('local-maven.gradle')

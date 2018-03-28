@@ -18,7 +18,6 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion Versions.vSdkCompile
-    buildToolsVersion Versions.vBuildTool
     defaultConfig {
         applicationId "com.mrezanasirloo.slick.test"
         minSdkVersion Versions.vSdkMin
