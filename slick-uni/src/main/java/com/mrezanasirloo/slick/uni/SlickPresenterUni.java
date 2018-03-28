@@ -141,6 +141,19 @@ public abstract class SlickPresenterUni<V, S> extends SlickPresenter<V> implemen
     }
 
     /**
+     * It's a Synonym for calling:
+     * <br>
+     *      <code>reduce(initialState, streams).subscribe(this);</code>
+     *
+     * @param initialState the initial state to render to view
+     * @param partialViewState the stream of partial view states
+     */
+    protected void subscribe(S initialState, Observable<PartialViewState<S>> partialViewState) {
+        reduce(initialState, partialViewState).subscribe(this);
+    }
+
+
+    /**
      * Utility method to merge all command's results to a single stream
      *
      * @param partials command's results

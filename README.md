@@ -15,7 +15,8 @@ public class YourActivity extends AppCompatActivity implements ViewActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        YourPresenter_Slick.bind(this, 123, "foo");//And call bind on the generated class with your presenter args
+        //And call bind on the generated class with your presenter args
+        YourPresenter_Slick.bind(this, 123, "foo");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_your);
     }
@@ -55,7 +56,7 @@ public interface ActivityView {
     void showMessage(String message);
 }
 ```
-Other View types have the same logic, for more detailed instruction head to Wiki
+Other View types have the same logic, for more detailed instruction head to [Wiki](https://github.com/MRezaNasirloo/Slick/wiki)
 
 ###  Features:
 
@@ -68,13 +69,50 @@ Other View types have the same logic, for more detailed instruction head to Wiki
 7. Fully Type-safe
 8. Dagger ready!
 
+### Reactive Feature
+
+1. Unidirectional Data Flow & Immutable ViewState
+2. Automatic subscription and disposing of RxJava2 streams
+3. Easily testable
+
+```java
+public class YourPresenterUni extends SlickPresenterUni<ViewActivity, ViewStateActivity> {
+
+    /** ... **/
+
+    @Override
+    protected void start(ViewActivity view) {
+        Observable<PartialViewState<ViewStateActivity>> like = command(ViewActivity::likeMovie)
+                .flatMap(id -> repositoryMovies.like(id).subscribeOn(io))//call to backend
+                .map(PartialViewStateLiked::new);
+
+        Observable<PartialViewState<ViewStateActivity>> loadComments = command(ViewActivity::loadComments)
+                .flatMap(id -> repositoryComments.load(id).subscribeOn(io))
+                .map(PartialViewStateComments::new);
+
+        subscribe(new ViewStateActivity(Collections.emptyList(), false), merge(like, loadComments));
+    }
+
+    @Override
+    protected void render(@NonNull ViewStateActivity state, @NonNull ViewActivity view) {
+        if (!state.comments().isEmpty()) { view.showComments(state.comments()); }
+        else { view.showNoComments(); }
+        view.setLike(state.isLiked());
+    }
+}
+
+```
+For more detailed guide on Reactive Features read the [Wiki](https://github.com/MRezaNasirloo/Slick/wiki) 
+
+### Downloads
+
 Packages are available in `jcenter` and `jitpack`
 
 ```
 //base features
 implementation 'com.mrezanasirloo.slick:slick:1.0.0'
 
-// Reactive Unidirectional Data Flow feature
+// Reactive features
 implementation 'com.mrezanasirloo.slick:slick-uni:1.0.0'
 
 implementation 'com.mrezanasirloo.slick:slick-conductor:1.0.0'

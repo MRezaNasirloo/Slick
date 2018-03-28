@@ -1,4 +1,4 @@
-###Slick Unidirectional Data Flow and Immutable ViewState (UDAFIV)
+###Slick Unidirectional Data Flow and Immutable ViewState (UDFIVE)
 
 To use this feature you need to pull its package and extend the `SlickPresenterUni<V, S>` :
 ```groovy
@@ -92,6 +92,9 @@ public class YourPresenterUni extends SlickPresenterUni<ViewActivity, ViewStateA
     Observable<PartialViewState<ViewStateActivity>>	viewStateStream = merge(like, loadComments);
     //Key method, This will join each upcoming PartialViewState into a new ViewStateActivity
     reduce(initialState, viewStateStream).subscribe(this);//<--- Don't forget to call subscribe(this) !!!
+    //Or use this version of the method which takes care of this
+    // subscribe(initialState, viewStateStream);
+
 	
     }
 }

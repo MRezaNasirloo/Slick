@@ -1,8 +1,8 @@
-## Slick Middleware
+### Slick Middleware
 
 _**This module is Experimental**_
 
-####What is Slick Middleware?
+#### What is Slick Middleware?
 
 Slick middleware is inspired from the most popular PHP web framework, Laravel's Middleware.
 
@@ -12,7 +12,7 @@ page and after a successful login, Continue the process from there. Your app nee
 Buy an Item, Comment on a photo, Like a photo and etc. So what do you do? Write this clause every time?! With the help
 of Slick Middleware you can just annotate your method and let the Slick write the dumb codes.
 
-####How to use?
+#### How to use?
 
 First of all define your Middleware by extending the abstract Middleware class:
 ```java
@@ -129,9 +129,9 @@ Dagger to inject your class that contains the annotated methods.
 For more info check the classes inside the test folder of this module and the sample-middleware module.
 
 ```groovy
-implementation 'com.mrezanasirloo.slick:slick-middleware:${version}'
+implementation 'com.mrezanasirloo.slick:slick-middleware:x.x.x'
 
-annotationProcessor 'com.mrezanasirloo.slick:slick-compiler:${version}'
+annotationProcessor 'com.mrezanasirloo.slick:slick-compiler:x.x.x'
 
 ```
 
