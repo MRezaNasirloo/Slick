@@ -80,6 +80,6 @@ after_script:
 
 deploy:
   provider: script
-  script: ./gradlew build bintrayUpload -PbintrayUser=$BINTRAY_USERNAME -PbintrayKey=$BINTRAY_KEY -PdryRun=false
+  script: ./gradlew bintrayUpload -PbintrayUser=$BINTRAY_USERNAME -PbintrayKey=$BINTRAY_KEY -PdryRun=false -x lint
   on:
     tags: true

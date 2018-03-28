@@ -1,6 +1,6 @@
 # Slick
 
-[![Build Status](https://travis-ci.org/MRezaNasirloo/Slick.svg?branch=master)](https://travis-ci.org/MRezaNasirloo/Slick)
+[![Build Status](https://travis-ci.org/MRezaNasirloo/Slick.svg?branch=master)](https://travis-ci.org/MRezaNasirloo/Slick)  [ ![Download](https://api.bintray.com/packages/mrezanasirloo/Slick/slick/images/download.svg) ](https://bintray.com/mrezanasirloo/Slick/slick/_latestVersion)
 
 A Reactive Android MVP Framework which is *Slick* to use.
 
@@ -106,19 +106,19 @@ For more detailed guide on Reactive Features read the [Wiki](https://github.com/
 
 ### Downloads
 
-Packages are available in `jcenter` and `jitpack`
+Packages are available in `jcenter`
 
 ```
 //base features
-implementation 'com.mrezanasirloo.slick:slick:1.0.0'
+implementation 'com.mrezanasirloo.slick:slick:1.0.1'
 
 // Reactive features
-implementation 'com.mrezanasirloo.slick:slick-uni:1.0.0'
+implementation 'com.mrezanasirloo.slick:slick-uni:1.0.1'
 
-implementation 'com.mrezanasirloo.slick:slick-conductor:1.0.0'
-implementation 'com.mrezanasirloo.slick:slick-support-fragment:1.0.0'
+implementation 'com.mrezanasirloo.slick:slick-conductor:1.0.1'
+implementation 'com.mrezanasirloo.slick:slick-support-fragment:1.0.1'
 
-annotationProcessor 'com.mrezanasirloo.slick:slick-compiler:1.0.0'
+annotationProcessor 'com.mrezanasirloo.slick:slick-compiler:1.0.1'
 ``` 
 
 
