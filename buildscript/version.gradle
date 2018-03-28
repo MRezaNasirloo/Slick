@@ -1,0 +1,28 @@
+/*
+ * Gets the version name from the latest Git tag
+ */
+ext.gitVersionName = { ->
+    def branchOut = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--abbrev-ref', 'HEAD'
+        standardOutput = branchOut
+    }
+    def branch = branchOut.toString().trim()
+
+    if (branch == "master") {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'describe', '--tags'
+            standardOutput = stdout
+        }
+        if (stdout.toString().trim().isEmpty()) return "Unversioned"
+        return stdout.toString().trim().replace('v', '')
+    } else {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'rev-parse', '--short', 'HEAD'
+            standardOutput = stdout
+        }
+        return "$branch-" + stdout.toString().trim()
+    }
+}

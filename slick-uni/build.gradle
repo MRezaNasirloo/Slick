@@ -62,6 +62,6 @@ dependencies {
     androidTestImplementation Deps.depRxjava2
 }
 
-apply from: rootProject.file('local-maven.gradle')
-apply from: rootProject.file('bintray-release.gradle')
+apply from: rootProject.file('buildscript/local-maven.gradle')
+apply from: rootProject.file('buildscript/bintray-release.gradle')
 

@@ -15,9 +15,10 @@
  */
 
 apply plugin: 'com.github.dcendents.android-maven'
+apply from: rootProject.file('buildscript/version.gradle')
 
 group = 'com.mrezanasirloo.slick'
-version = '1.0.0'
+version = ext.gitVersionName()
 
 if (project.getPlugins().hasPlugin('com.android.application') ||
         project.getPlugins().hasPlugin('com.android.library')) {

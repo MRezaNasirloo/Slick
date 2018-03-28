@@ -15,12 +15,18 @@
  */
 
 apply plugin: 'com.novoda.bintray-release'
+apply from: rootProject.file('buildscript/version.gradle')
+
+println "Module ${project.name} Version : " + ext.gitVersionName()
+
+final String version = ext.gitVersionName()
+
 publish {
     userOrg = 'mrezanasirloo'
     groupId = 'com.mrezanasirloo.slick'
     repoName = 'Slick'
     artifactId = project.name
-    publishVersion = '1.0.0'
+    publishVersion = version
     desc = 'An Android MVP framework which is Slick to use.'
     website = 'https://github.com/MRezaNasirloo/Slick'
 }
