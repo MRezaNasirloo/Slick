@@ -1,6 +1,8 @@
 # Slick
 
-A MVP framework which is *Slick* to use.
+[![Build Status](https://travis-ci.org/MRezaNasirloo/Slick.svg?branch=master)](https://travis-ci.org/MRezaNasirloo/Slick)
+
+A Reactive Android MVP Framework which is *Slick* to use.
 
 Slick how? see it yourself :)
 
@@ -55,7 +57,7 @@ public interface ActivityView {
 ```
 Other View types have the same logic, for more detailed instruction head to Wiki
 
-####  Features:
+###  Features:
 
 1. Supports Activity, Fragment, CustomView, and Conductor Controller
 2. No dark magic involved, Just simple debuggable generated code
@@ -81,8 +83,12 @@ implementation 'com.mrezanasirloo.slick:slick-support-fragment:1.0.0'
 annotationProcessor 'com.mrezanasirloo.slick:slick-compiler:1.0.0'
 ``` 
 
-Don't forget to Star the repo that would support the project more than you think ⭐ == ❤ 
 
+**Staring the repo would support the project more than you think** ⭐ == ❤ 
+
+### Licence
+
+```
 Copyright 2018. M. Reza Nasirloo
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -96,3 +102,4 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+```

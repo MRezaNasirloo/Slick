@@ -1,29 +1,85 @@
 language: android
 jdk: oraclejdk8
+sudo: required # false for Container-Based Infrastructure, required for Sudo-enabled Infrastructure
+
+before_cache:
+  # Do not cache a few Gradle files/directories (see https://docs.travis-ci.com/user/languages/java/#Caching)
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+cache:
+  directories:
+    # Android SDK
+    - $HOME/android-sdk-dl
+    - $HOME/android-sdk
+
+    # Gradle dependencies
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+
+    # Android build cache (see http://tools.android.com/tech-docs/build-cache)
+    - $HOME/.android/build-cache
+
 env:
- global:
-    - ANDROID_API_LEVEL=26
-    - ANDROID_BUILD_TOOLS_VERSION=26.0.3
-android:
- licenses:
-    - 'android-sdk-preview-license-.+'
-    - 'android-sdk-license-.+'
-    - 'google-gdk-license-.+'
- components:
-    - tools
-    - platform-tools
-    - build-tools-$ANDROID_BUILD_TOOLS_VERSION
-    - android-$ANDROID_API_LEVEL
-    # Additional components
-    - extra-google-google_play_services
-    - extra-google-m2repository
-    - extra-android-m2repository
-    - addon-google_apis-google-$ANDROID_API_LEVEL
-    - sys-img-armeabi-v7a-google_apis-$ANDROID_API_LEVEL
+  global:
+    - DIR=slick # Project directory
+    - API=26
+    - TAG=default # google_apis or default
+    - ABI=armeabi-v7a # ARM ABI v7a by default
+    - QEMU_AUDIO_DRV=none # Disable emulator audio to avoid warning
+    - ANDROID_HOME=$HOME/android-sdk
+    - TOOLS=${ANDROID_HOME}/tools # PATH order matters, exists more than one emulator script
+    - PATH=${ANDROID_HOME}:${ANDROID_HOME}/emulator:${TOOLS}:${TOOLS}/bin:${ANDROID_HOME}/platform-tools:${PATH}
+    - ADB_INSTALL_TIMEOUT=20
+
+before_install:
+  # I use android-16 because it's the fastest image to boot on travis ci
+  - export EMULATOR="system-images;android-16;${TAG};${ABI}" # Used to install/create emulator
+  - echo 'count=0' > /home/travis/.android/repositories.cfg # Avoid warning
+
+install:
+  # Download and unzip the Android SDK tools (if not already there thanks to the cache mechanism)
+  # Latest version available here: https://developer.android.com/studio/index.html#downloads
+  - if test ! -e $HOME/android-sdk-dl/sdk-tools.zip ; then curl https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip > $HOME/android-sdk-dl/sdk-tools.zip ; fi
+  - unzip -qq -n $HOME/android-sdk-dl/sdk-tools.zip -d $HOME/android-sdk
+
+  # Install or update Android SDK components (will not do anything if already up to date thanks to the cache mechanism)
+  - echo y | $HOME/android-sdk/tools/bin/sdkmanager "tools" > /dev/null
+  - echo y | $HOME/android-sdk/tools/bin/sdkmanager "platform-tools" > /dev/null
+  - echo y | $HOME/android-sdk/tools/bin/sdkmanager "build-tools;26.0.3" > /dev/null
+  - echo y | $HOME/android-sdk/tools/bin/sdkmanager "platforms;android-${API}" > /dev/null
+  - echo y | $HOME/android-sdk/tools/bin/sdkmanager "$EMULATOR" > /dev/null
+  - echo n | $HOME/android-sdk/tools/bin/avdmanager create avd -n acib -k "$EMULATOR" -f --abi "$ABI" --tag "$TAG" > /dev/null
+
+  # Create and start emulator
+  - echo no | avdmanager create avd -n acib -k "$EMULATOR" -f --abi "$ABI" --tag "$TAG"
+  - emulator -avd acib -engine classic -no-window -camera-back none -camera-front none -verbose -qemu -m 512 &
+  # Start adb, wait for device connected and show android serial
+  - adb wait-for-device get-serialno
+
+  - cd ${TRAVIS_BUILD_DIR} && ./gradlew --version
+
 before_script:
-    - echo no | android create avd --force -n test -t android-$ANDROID_API_LEVEL --abi google_apis/armeabi-v7a
-    - emulator -avd test -no-audio -no-window &
-    - android-wait-for-emulator
-    - adb shell input keyevent 82 &
+  # Wait for emulator fully-booted and disable animations
+#  - android-wait-for-emulator # To speed up build time, we need emulator at the end of build
+  - adb wait-for-device get-serialno
+  - adb shell settings put global window_animation_scale 0 &
+  - adb shell settings put global transition_animation_scale 0 &
+  - adb shell settings put global animator_duration_scale 0 &
+  - sleep 30
+  - adb shell input keyevent 82 &
+
 script:
-    - ./gradlew build check connectedCheck
+  # Run all device checks
+  - cd ${TRAVIS_BUILD_DIR} && ./gradlew --parallel clean build check connectedCheck -x lint
+
+after_script:
+  # Show tests and lint results
+  - cat ${TRAVIS_BUILD_DIR}/*/build/outputs/androidTest-results/connected/*
+#  - cat ${TRAVIS_BUILD_DIR}/*/build/reports/lint-results.xml
+
+deploy:
+  provider: script
+  script: ./gradlew build bintrayUpload -PbintrayUser=$BINTRAY_USERNAME -PbintrayKey=$BINTRAY_KEY -PdryRun=false
+  on:
+    tags: true
