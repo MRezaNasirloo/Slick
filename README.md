@@ -110,15 +110,15 @@ Packages are available in `jcenter`
 
 ```
 //base features
-implementation 'com.mrezanasirloo.slick:slick:1.0.1'
+implementation 'com.mrezanasirloo:slick:1.0.2'
 
 // Reactive features
-implementation 'com.mrezanasirloo.slick:slick-uni:1.0.1'
+implementation 'com.mrezanasirloo:slick-uni:1.0.2'
 
-implementation 'com.mrezanasirloo.slick:slick-conductor:1.0.1'
-implementation 'com.mrezanasirloo.slick:slick-support-fragment:1.0.1'
+implementation 'com.mrezanasirloo:slick-conductor:1.0.2'
+implementation 'com.mrezanasirloo:slick-support-fragment:1.0.2'
 
-annotationProcessor 'com.mrezanasirloo.slick:slick-compiler:1.0.1'
+annotationProcessor 'com.mrezanasirloo:slick-compiler:1.0.2'
 ``` 
 
 

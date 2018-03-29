@@ -19,14 +19,12 @@ apply from: rootProject.file('buildscript/version.gradle')
 
 println "Module ${project.name} Version : " + ext.gitVersionName()
 
-final String version = ext.gitVersionName()
-
 publish {
     userOrg = 'mrezanasirloo'
     groupId = 'com.mrezanasirloo'
     repoName = 'Slick'
     artifactId = project.name
-    publishVersion = version
+    publishVersion = project.ext.gitVersionName()
     desc = 'An Android MVP framework which is Slick to use.'
     website = 'https://github.com/MRezaNasirloo/Slick'
 }
