@@ -195,12 +195,12 @@ public class SlickProcessor extends AbstractProcessor {
             final TypeElement typeElement = (TypeElement) typeUtils.asElement(element.asType());
             final DeclaredType superclass = (DeclaredType) typeElement.getSuperclass();
             if (superclass == null) {
-                error(element, "%s should extends SlickPresenter<SlickView>.", typeElement.getQualifiedName());
+                error(element, "%s should extends SlickPresenter<ViewInterface>.", typeElement.getQualifiedName());
                 continue;
             }
             final List<? extends TypeMirror> typeArguments = superclass.getTypeArguments();
             if (typeArguments == null || typeArguments.size() <= 0) {
-                error(element, "%s should extends SlickPresenter<SlickView>, missing type argument.",
+                error(element, "%s should extends SlickPresenter<ViewInterface>, missing type argument.",
                         typeElement.getQualifiedName());
                 continue;
             }
@@ -369,7 +369,7 @@ public class SlickProcessor extends AbstractProcessor {
     private TypeElement getViewType(TypeElement typeElement, Element viewType) throws IllegalArgumentException {
         TypeElement viewTypeElement = (TypeElement) viewType;
         if (viewType == null) {
-            error(typeElement, "@Presenter doesn't have the view class. @Presenter(YourActivityOrFragment.class)");
+            error(typeElement, "@Presenter doesn't have the view class.");
             throw new IllegalArgumentException("error");
         }
         while (true) {
@@ -382,7 +382,7 @@ public class SlickProcessor extends AbstractProcessor {
             }
             viewTypeElement = (TypeElement) typeUtils.asElement(viewTypeElement.getSuperclass());
             if (viewTypeElement == null) {
-                error(typeElement, "View class should extends Activity, Fragment or View");
+                error(typeElement, "View class should extends Activity, Fragment, View or Conductor Controller");
                 throw new IllegalArgumentException("error");
             }
         }

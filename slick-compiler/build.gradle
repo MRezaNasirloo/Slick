@@ -18,10 +18,10 @@ apply plugin: 'java'
 
 dependencies {
     implementation project(':slick-annotations')
+    implementation Deps.depJavax
     implementation Deps.depJavaPoet
     compileOnly Deps.depAutoService
     compileOnly Deps.depAutoCommon
-    compileOnly Deps.depJavax
     testImplementation Deps.depJavax
     testImplementation Deps.depTestTruth
     testImplementation Deps.depTestCompileTesting
