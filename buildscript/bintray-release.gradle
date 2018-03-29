@@ -22,7 +22,7 @@ println "Module ${project.name} Version : " + ext.gitVersionName()
 publish {
     userOrg = 'mrezanasirloo'
     groupId = 'com.mrezanasirloo'
-    repoName = 'Slick'
+    repoName = 'slick'
     artifactId = project.name
     publishVersion = project.ext.gitVersionName()
     desc = 'An Android MVP framework which is Slick to use.'

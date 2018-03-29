@@ -1,6 +1,6 @@
 # Slick
 
-[![Build Status](https://travis-ci.org/MRezaNasirloo/Slick.svg?branch=master)](https://travis-ci.org/MRezaNasirloo/Slick)  [ ![Download](https://api.bintray.com/packages/mrezanasirloo/Slick/slick/images/download.svg) ](https://bintray.com/mrezanasirloo/Slick/slick/_latestVersion)
+[![Build Status](https://travis-ci.org/MRezaNasirloo/Slick.svg?branch=master)](https://travis-ci.org/MRezaNasirloo/Slick)  [ ![Download](https://api.bintray.com/packages/mrezanasirloo/slick/slick/images/download.svg) ](https://bintray.com/mrezanasirloo/slick/slick/_latestVersion)
 
 A Reactive Android MVP Framework which is *Slick* to use.
 
@@ -113,7 +113,7 @@ Packages are available in `jcenter`
 implementation 'com.mrezanasirloo:slick:1.0.2'
 
 // Reactive features
-implementation 'com.mrezanasirloo:slick-uni:1.0.2'
+implementation 'com.mrezanasirloo:slick-reactive:1.0.2'
 
 implementation 'com.mrezanasirloo:slick-conductor:1.0.2'
 implementation 'com.mrezanasirloo:slick-support-fragment:1.0.2'

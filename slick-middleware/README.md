@@ -129,9 +129,9 @@ Dagger to inject your class that contains the annotated methods.
 For more info check the classes inside the test folder of this module and the sample-middleware module.
 
 ```groovy
-implementation 'com.mrezanasirloo.slick:slick-middleware:x.x.x'
+implementation 'com.mrezanasirloo:slick-middleware:x.x.x'
 
-annotationProcessor 'com.mrezanasirloo.slick:slick-compiler:x.x.x'
+annotationProcessor 'com.mrezanasirloo:slick-compiler:x.x.x'
 
 ```
 

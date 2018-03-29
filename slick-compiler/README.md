@@ -1,5 +1,5 @@
 ### Slick Compiler
 
 ```groovy
-annotationProcessor 'com.mrezanasirloo.slick:slick-compiler:x.x.x'
+annotationProcessor 'com.mrezanasirloo:slick-compiler:x.x.x'
 ```

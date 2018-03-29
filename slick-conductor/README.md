@@ -2,5 +2,5 @@
 
 Adds Conductor Controller support:
 ```groovy
-implementation 'com.mrezanasirloo.slick:slick-conductor:x.x.x'
+implementation 'com.mrezanasirloo:slick-conductor:x.x.x'
 ```

@@ -3,5 +3,5 @@
 Slick main module.
 
 ```groovy
-implementation 'com.mrezanasirloo.slick:slick:x.x.x'
+implementation 'com.mrezanasirloo:slick:x.x.x'
 ```
