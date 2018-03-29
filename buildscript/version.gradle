@@ -4,7 +4,7 @@
 ext.gitVersionName = { ->
     def stdout = new ByteArrayOutputStream()
     exec {
-        commandLine 'git', 'describe', '--tags'
+        commandLine 'git', 'describe', '--tags', '--abbrev=0'
         standardOutput = stdout
     }
     if (stdout.toString().trim().isEmpty()) return "Unversioned"

@@ -23,7 +23,7 @@ final String version = ext.gitVersionName()
 
 publish {
     userOrg = 'mrezanasirloo'
-    groupId = 'com.mrezanasirloo.slick'
+    groupId = 'com.mrezanasirloo'
     repoName = 'Slick'
     artifactId = project.name
     publishVersion = version
