@@ -109,7 +109,7 @@ For more detailed guide on Reactive Features read the [Wiki](https://github.com/
 Packages are available in `jcenter`
 
 ```
-//base features
+// Base features
 implementation 'com.mrezanasirloo:slick:1.0.2'
 
 // Reactive features

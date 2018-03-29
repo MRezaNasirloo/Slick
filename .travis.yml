@@ -81,5 +81,6 @@ after_script:
 deploy:
   provider: script
   script: ./gradlew bintrayUpload -PbintrayUser=$BINTRAY_USERNAME -PbintrayKey=$BINTRAY_KEY -PdryRun=false -x lint
+  skip_cleanup: true
   on:
     tags: true

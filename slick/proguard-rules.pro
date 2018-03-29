@@ -16,6 +16,6 @@
 #   public *;
 #}
 
--keep public class * implements com.github.slick.InternalOnDestroyListener { public <init>(...); }
--keepclasseswithmembernames class * { @com.github.slick.* <fields>; }
+#-keep public class * implements com.github.slick.InternalOnDestroyListener { public <init>(...); }
+#-keepclasseswithmembernames class * { @com.github.slick.* <fields>; }
 
