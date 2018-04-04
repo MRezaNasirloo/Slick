@@ -14,34 +14,33 @@
  * limitations under the License.
  */
 
-package com.mrezanasirloo.slick.sample.cutstomview;
+package com.mrezanasirloo.slick.sample.cutstomview.dagger;
 
 import android.util.Log;
 
 import com.mrezanasirloo.slick.SlickPresenter;
 
-import java.util.Random;
+import javax.inject.Inject;
 
 /**
  * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2017-03-09
  */
 
-public class ViewPresenter extends SlickPresenter<ViewCustomView> {
+public class PresenterCustomViewDagger extends SlickPresenter<ViewCustomViewDagger> {
 
-    private static final String TAG = ViewPresenter.class.getSimpleName();
-    private final int randomCode;
+    private static final String TAG = PresenterCustomViewDagger.class.getSimpleName();
 
-    public ViewPresenter() {
-        randomCode = new Random().nextInt(100 - 1) + 1;
+    @Inject
+    public PresenterCustomViewDagger() {
     }
 
-    public int getCode() {
-        return randomCode;
+    public String getData() {
+        return "Text data has received from presenter";
     }
 
     @Override
-    public void onViewUp(ViewCustomView view) {
+    public void onViewUp(ViewCustomViewDagger view) {
         super.onViewUp(view);
         Log.d(TAG, "onViewUp() called" + toString());
     }

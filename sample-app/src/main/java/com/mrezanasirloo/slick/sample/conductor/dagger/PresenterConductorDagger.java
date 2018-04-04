@@ -14,47 +14,48 @@
  * limitations under the License.
  */
 
-package com.mrezanasirloo.slick.sample.cutstomview;
+package com.mrezanasirloo.slick.sample.conductor.dagger;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.mrezanasirloo.slick.SlickPresenter;
 
-import java.util.Random;
+import javax.inject.Inject;
+
 
 /**
  * @author : M.Reza.Nasirloo@gmail.com
- *         Created on: 2017-03-09
+ *         Created on: 2016-11-03
  */
+public class PresenterConductorDagger extends SlickPresenter<ViewConductorDagger> {
 
-public class ViewPresenter extends SlickPresenter<ViewCustomView> {
+    private static final String TAG = PresenterConductorDagger.class.getSimpleName();
+    @NonNull
+    private final Long lng;
+    private final String s;
 
-    private static final String TAG = ViewPresenter.class.getSimpleName();
-    private final int randomCode;
-
-    public ViewPresenter() {
-        randomCode = new Random().nextInt(100 - 1) + 1;
-    }
-
-    public int getCode() {
-        return randomCode;
+    @Inject
+    public PresenterConductorDagger(@NonNull Long lng, String s) {
+        this.lng = lng;
+        this.s = s;
     }
 
     @Override
-    public void onViewUp(ViewCustomView view) {
+    public void onViewUp(ViewConductorDagger view) {
+        Log.d(TAG, "onViewUp() called hashCode: " + hashCode());
         super.onViewUp(view);
-        Log.d(TAG, "onViewUp() called" + toString());
     }
 
     @Override
     public void onViewDown() {
+        Log.d(TAG, "onViewDown() called hashCode: " + hashCode());
         super.onViewDown();
-        Log.d(TAG, "onViewDown() called" + toString());
     }
 
     @Override
     public void onDestroy() {
+        Log.d(TAG, "onDestroy() called hashCode: " + hashCode());
         super.onDestroy();
-        Log.d(TAG, "onDestroy() called" + toString());
     }
 }

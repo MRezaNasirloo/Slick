@@ -17,13 +17,13 @@
 package com.mrezanasirloo.slick.sample.di;
 
 
+import com.mrezanasirloo.slick.sample.activity.dagger.ActivitySimpleDagger;
 import com.mrezanasirloo.slick.sample.activity.dagger.DaggerModule;
-import com.mrezanasirloo.slick.sample.activity.dagger.ExampleActivity;
-import com.mrezanasirloo.slick.sample.conductor.dagger.ExampleController;
-import com.mrezanasirloo.slick.sample.cutstomview.dagger.DaggerCustomView;
-import com.mrezanasirloo.slick.sample.fragment.dagger.DaggerFragment;
-import com.mrezanasirloo.slick.sample.fragment.dagger.delegate.DelegateDaggerFragment;
-import com.mrezanasirloo.slick.sample.fragmentsupport.dagger.DaggerFragmentSupport;
+import com.mrezanasirloo.slick.sample.conductor.dagger.ControllerDagger;
+import com.mrezanasirloo.slick.sample.cutstomview.dagger.CustomViewDagger;
+import com.mrezanasirloo.slick.sample.fragment.dagger.FragmentDagger;
+import com.mrezanasirloo.slick.sample.fragment.dagger.delegate.FragmentDelegateDagger;
+import com.mrezanasirloo.slick.sample.fragmentsupport.dagger.FragmentSupportDagger;
 
 import javax.inject.Singleton;
 
@@ -42,17 +42,17 @@ public interface AppComponent {
 
     @Subcomponent(modules = DaggerModule.class)
     interface DaggerComponent {
-        void inject(ExampleActivity activity);
+        void inject(ActivitySimpleDagger activity);
 
-        void inject(ExampleController controller);
+        void inject(ControllerDagger controller);
 
-        void inject(DaggerFragment fragment);
+        void inject(FragmentDagger fragment);
 
-        void inject(DelegateDaggerFragment delegateDaggerSlickFragment);
+        void inject(FragmentDelegateDagger delegateDaggerSlickFragment);
 
-        void inject(DaggerFragmentSupport daggerFragment);
+        void inject(FragmentSupportDagger daggerFragment);
 
-        void inject(DaggerCustomView daggerCustomView);
+        void inject(CustomViewDagger daggerCustomView);
     }
 
 }

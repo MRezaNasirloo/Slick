@@ -35,9 +35,11 @@ import static java.util.Locale.ENGLISH;
 /**
  * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2017-03-09
+ *
+ *         A multi instance Custom View
  */
 
-public class CustomView extends AppCompatTextView implements ExampleView, OnDestroyListener, SlickUniqueId {
+public class CustomView extends AppCompatTextView implements ViewCustomView, OnDestroyListener, SlickUniqueId {
 
     @Presenter
     ViewPresenter presenter;

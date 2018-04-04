@@ -110,19 +110,19 @@ Packages are available in `jcenter`
 
 ```
 // Base features
-implementation 'com.mrezanasirloo:slick:1.0.2'
+implementation 'com.mrezanasirloo:slick:1.0.4'
 
 // Reactive features
-implementation 'com.mrezanasirloo:slick-reactive:1.0.2'
+implementation 'com.mrezanasirloo:slick-reactive:1.0.4'
 
-implementation 'com.mrezanasirloo:slick-conductor:1.0.2'
-implementation 'com.mrezanasirloo:slick-support-fragment:1.0.2'
+implementation 'com.mrezanasirloo:slick-conductor:1.0.4'
+implementation 'com.mrezanasirloo:slick-support-fragment:1.0.4'
 
-annotationProcessor 'com.mrezanasirloo:slick-compiler:1.0.2'
+annotationProcessor 'com.mrezanasirloo:slick-compiler:1.0.4'
 ``` 
 
 
-**Staring the repo would support the project more than you think** ⭐ == ❤ 
+**Staring the repo would support the project more than you think** :star: == :heart:
 
 ### Licence
 

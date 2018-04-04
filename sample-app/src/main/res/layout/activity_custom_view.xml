@@ -22,7 +22,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.mrezanasirloo.slick.sample.cutstomview.CustomViewActivity"
+    tools:context="com.mrezanasirloo.slick.sample.cutstomview.ActivityCustomView"
     >
 
     <com.mrezanasirloo.slick.sample.cutstomview.CustomView

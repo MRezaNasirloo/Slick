@@ -14,47 +14,43 @@
  * limitations under the License.
  */
 
-package com.mrezanasirloo.slick.sample.cutstomview;
+package com.mrezanasirloo.slick.sample.fragment.dagger;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.mrezanasirloo.slick.SlickPresenter;
 
-import java.util.Random;
+import javax.inject.Inject;
+
 
 /**
  * @author : M.Reza.Nasirloo@gmail.com
- *         Created on: 2017-03-09
+ *         Created on: 2016-11-03
  */
+public class PresenterFragmentDagger extends SlickPresenter<ViewFragmentDagger> {
 
-public class ViewPresenter extends SlickPresenter<ViewCustomView> {
+    private static final String TAG = PresenterFragmentDagger.class.getSimpleName();
 
-    private static final String TAG = ViewPresenter.class.getSimpleName();
-    private final int randomCode;
-
-    public ViewPresenter() {
-        randomCode = new Random().nextInt(100 - 1) + 1;
-    }
-
-    public int getCode() {
-        return randomCode;
+    @Inject
+    public PresenterFragmentDagger(@NonNull Integer integer, String s) {
     }
 
     @Override
-    public void onViewUp(ViewCustomView view) {
+    public void onViewUp(ViewFragmentDagger view) {
+        Log.d(TAG, "onViewUp() called");
         super.onViewUp(view);
-        Log.d(TAG, "onViewUp() called" + toString());
     }
 
     @Override
     public void onViewDown() {
+        Log.d(TAG, "onViewDown() called");
         super.onViewDown();
-        Log.d(TAG, "onViewDown() called" + toString());
     }
 
     @Override
     public void onDestroy() {
+        Log.d(TAG, "onDestroy() called");
         super.onDestroy();
-        Log.d(TAG, "onDestroy() called" + toString());
     }
 }

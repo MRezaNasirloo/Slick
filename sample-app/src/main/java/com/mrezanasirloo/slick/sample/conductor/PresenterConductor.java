@@ -14,47 +14,37 @@
  * limitations under the License.
  */
 
-package com.mrezanasirloo.slick.sample.cutstomview;
+package com.mrezanasirloo.slick.sample.conductor;
 
 import android.util.Log;
 
 import com.mrezanasirloo.slick.SlickPresenter;
 
-import java.util.Random;
+
 
 /**
  * @author : M.Reza.Nasirloo@gmail.com
- *         Created on: 2017-03-09
+ *         Created on: 2016-11-03
  */
+public class PresenterConductor extends SlickPresenter<ViewConductor> {
 
-public class ViewPresenter extends SlickPresenter<ViewCustomView> {
-
-    private static final String TAG = ViewPresenter.class.getSimpleName();
-    private final int randomCode;
-
-    public ViewPresenter() {
-        randomCode = new Random().nextInt(100 - 1) + 1;
-    }
-
-    public int getCode() {
-        return randomCode;
-    }
+    private static final String TAG = PresenterConductor.class.getSimpleName();
 
     @Override
-    public void onViewUp(ViewCustomView view) {
+    public void onViewUp(ViewConductor view) {
+        Log.d(TAG, "onViewUp() called hashCode: " + hashCode());
         super.onViewUp(view);
-        Log.d(TAG, "onViewUp() called" + toString());
     }
 
     @Override
     public void onViewDown() {
+        Log.d(TAG, "onViewDown() called hashCode: " + hashCode());
         super.onViewDown();
-        Log.d(TAG, "onViewDown() called" + toString());
     }
 
     @Override
     public void onDestroy() {
+        Log.d(TAG, "onDestroy() called hashCode: " + hashCode());
         super.onDestroy();
-        Log.d(TAG, "onDestroy() called" + toString());
     }
 }
