@@ -39,7 +39,7 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public abstract class FragmentSupportBaseTest extends ActivityBaseTest {
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MainActivity activity = testRule.getActivity();
         activity.startActivity(new Intent(activity, ActivityFragmentHost.class));
         ActivityFragmentHost currentActivity = (ActivityFragmentHost) getCurrentActivity();

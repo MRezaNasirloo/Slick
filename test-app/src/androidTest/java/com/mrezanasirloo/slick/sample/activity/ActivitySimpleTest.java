@@ -33,7 +33,7 @@ public class ActivitySimpleTest extends ActivityBaseTest {
 
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MainActivity activity = testRule.getActivity();
         activity.startActivity(new Intent(activity, ActivitySimple.class));
         view = (ViewTestable) getCurrentActivity();

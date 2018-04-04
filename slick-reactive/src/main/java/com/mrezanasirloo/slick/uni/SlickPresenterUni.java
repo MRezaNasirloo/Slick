@@ -75,7 +75,7 @@ public abstract class SlickPresenterUni<V, S> extends SlickPresenter<V> implemen
         subscribeIntents(view);
         disposableCommands.add(updateStream().subscribe(new Consumer<S>() {
             @Override
-            public void accept(S state) throws Exception {
+            public void accept(S state) {
                 if (getView() != null) render(state, getView());
             }
         }));

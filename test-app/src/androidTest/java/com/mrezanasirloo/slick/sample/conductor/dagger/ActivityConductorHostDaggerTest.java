@@ -37,7 +37,7 @@ import org.junit.runner.RunWith;
 public class ActivityConductorHostDaggerTest extends ActivityBaseTest {
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MainActivity activity = testRule.getActivity();
         activity.startActivity(new Intent(activity, ActivityConductorHostDagger.class));
         ActivityConductorHostDagger currentActivity = (ActivityConductorHostDagger) getCurrentActivity();

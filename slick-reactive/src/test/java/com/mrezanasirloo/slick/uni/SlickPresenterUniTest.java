@@ -40,7 +40,7 @@ public class SlickPresenterUniTest {
     private PublishSubject<Integer> loadText;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         likePost = PublishSubject.create();
         loadText = PublishSubject.create();
 
@@ -54,7 +54,7 @@ public class SlickPresenterUniTest {
 
 
     @Test
-    public void testPresenterBehavior() throws Exception {
+    public void testPresenterBehavior() {
         //Views has attached to screen
         presenter.onViewUp(view);
         Assert.assertTrue(presenter.hasSubscribed());

@@ -49,7 +49,6 @@ dependencies {
     testImplementation Deps.depTestJunit
     testImplementation Deps.depTestMokito
     androidTestImplementation Deps.depTestMokitoAndroid
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    androidTestImplementation Deps.depSupportAnnotation
+    androidTestImplementation Deps.depTestEspressoCore
 }

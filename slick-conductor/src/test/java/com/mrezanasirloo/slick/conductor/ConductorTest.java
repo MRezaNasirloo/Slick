@@ -37,7 +37,7 @@ import static com.google.common.truth.Truth.assertAbout;
 
 public class ConductorTest {
     @Test
-    public void controller() throws Exception {
+    public void controller() {
         JavaFileObject sourceViewInterface = JavaFileObjects.forResource("resources/ExampleView.java");
         JavaFileObject sourcePresenter = JavaFileObjects.forResource("resources/PresenterSimple.java");
         JavaFileObject sourceView = JavaFileObjects.forResource("resources/ExampleController.java");

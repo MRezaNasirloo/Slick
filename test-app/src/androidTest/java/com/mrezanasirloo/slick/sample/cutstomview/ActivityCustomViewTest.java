@@ -36,7 +36,7 @@ import org.junit.runner.RunWith;
 public class ActivityCustomViewTest extends ActivityBaseTest {
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MainActivity activity = testRule.getActivity();
         activity.startActivity(new Intent(activity, ActivityCustomView.class));
         ActivityCustomView currentActivity = (ActivityCustomView) getCurrentActivity();

@@ -34,7 +34,7 @@ import static com.google.common.truth.Truth.assertAbout;
  */
 public class MiddlewareTest {
     @Test
-    public void requestGeneric() throws Exception {
+    public void requestGeneric() {
         JavaFileObject routerSource = JavaFileObjects.forResource("resources/RouterGeneric.java");
         JavaFileObject genSource = JavaFileObjects.forResource("resources/RouterGenericSlick.java");
         JavaFileObject middlewareSource = JavaFileObjects.forResource("resources/MiddlewareNoOp.java");
@@ -49,7 +49,7 @@ public class MiddlewareTest {
     }
 
     @Test
-    public void requestSimple() throws Exception {
+    public void requestSimple() {
         JavaFileObject routerSource = JavaFileObjects.forResource("resources/RouterSimple.java");
         JavaFileObject genSource = JavaFileObjects.forResource("resources/RouterSimpleSlick.java");
         JavaFileObject middlewareSource = JavaFileObjects.forResource("resources/MiddlewareNoOp.java");
@@ -64,7 +64,7 @@ public class MiddlewareTest {
     }
 
     @Test
-    public void requestRx() throws Exception {
+    public void requestRx() {
         JavaFileObject routerSource = JavaFileObjects.forResource("resources/RouterRx.java");
         JavaFileObject genSource = JavaFileObjects.forResource("resources/RouterRxSlick.java");
         JavaFileObject middlewareSource = JavaFileObjects.forResource("resources/MiddlewareNoOp.java");
@@ -79,7 +79,7 @@ public class MiddlewareTest {
     }
 
     @Test
-    public void requestCompletable() throws Exception {
+    public void requestCompletable() {
         JavaFileObject routerSource = JavaFileObjects.forResource("resources/RouterCompletable.java");
         JavaFileObject genSource = JavaFileObjects.forResource("resources/RouterCompletableSlick.java");
         JavaFileObject middlewareSource = JavaFileObjects.forResource("resources/MiddlewareNoOp.java");
@@ -94,7 +94,7 @@ public class MiddlewareTest {
     }
 
     @Test
-    public void middlewareDagger() throws Exception {
+    public void middlewareDagger() {
         JavaFileObject routerSource = JavaFileObjects.forResource("resources/RouterDagger.java");
         JavaFileObject genSource = JavaFileObjects.forResource("resources/RouterDaggerSlick.java");
         JavaFileObject middlewareSource = JavaFileObjects.forResource("resources/MiddlewareNoOp.java");

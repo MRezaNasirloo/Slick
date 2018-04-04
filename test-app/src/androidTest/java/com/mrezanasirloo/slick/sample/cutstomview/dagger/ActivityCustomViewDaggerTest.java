@@ -36,7 +36,7 @@ import org.junit.runner.RunWith;
 public class ActivityCustomViewDaggerTest extends ActivityBaseTest {
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MainActivity activity = testRule.getActivity();
         activity.startActivity(new Intent(activity, ActivityCustomViewDagger.class));
         ActivityCustomViewDagger currentActivity = (ActivityCustomViewDagger) getCurrentActivity();

@@ -66,7 +66,7 @@ public class RecyclerViewQuote extends RecyclerView.Adapter<RecyclerViewQuote.Vi
                 if (holder.buttonLike.isChecked()) {
                     routerLike.unlike().subscribe(new Consumer<Boolean>() {
                         @Override
-                        public void accept(@NonNull Boolean aBoolean) throws Exception {
+                        public void accept(@NonNull Boolean aBoolean) {
                             holder.buttonLike.setChecked(false);
                         }
                     });
@@ -105,14 +105,14 @@ public class RecyclerViewQuote extends RecyclerView.Adapter<RecyclerViewQuote.Vi
                 } else {
                     routerStar.star("some_other_id").subscribe(new Consumer<Boolean>() {
                         @Override
-                        public void accept(@NonNull Boolean aBoolean) throws Exception {
+                        public void accept(@NonNull Boolean aBoolean) {
                             holder.buttonStar.playAnimation();
                             holder.buttonStar.setChecked(true);
 
                         }
                     }, new Consumer<Throwable>() {
                         @Override
-                        public void accept(@NonNull Throwable throwable) throws Exception {
+                        public void accept(@NonNull Throwable throwable) {
 
                         }
                     });
