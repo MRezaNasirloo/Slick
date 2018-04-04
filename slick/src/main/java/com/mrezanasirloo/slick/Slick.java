@@ -17,7 +17,9 @@
 package com.mrezanasirloo.slick;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -26,11 +28,17 @@ import java.lang.reflect.Modifier;
 /**
  * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2017-02-25
+ *         <p>
+ *         Utility class for for binding the presenter to view,
+ *         It Uses a bit of reflection to find the presenter class name, no class instansiation just invoking some static method.
+ *         It's recomended to use the generated classes for the bindings,
+ *         You will notice any type mismatach errors whle editing code in the IDE not at runtime.
  */
 
 @SuppressWarnings("TryWithIdenticalCatches")
 public class Slick {
 
+    @Nullable
     public static Object bind(@NonNull Object view, @NonNull Object... args) {
         Object[] presentersArgs = new Object[args.length + 1];
         presentersArgs[0] = view;
@@ -65,9 +73,9 @@ public class Slick {
         invokeMethod(view, "onDetach");
     }
 
-    private static Object invokeMethod(@NonNull Object view, String methodName, Object... args) {
+    private static Object invokeMethod(@NonNull Object view, String methodName, Class<?> presenterCls, Object... args) {
         try {
-            final Class<?> presenter = Class.forName(view.getClass().getCanonicalName() + "_Slick");
+            final Class<?> presenter = Class.forName(presenterCls.getCanonicalName() + "_Slick");
             final Method[] bind = presenter.getDeclaredMethods();
             for (Method method : bind) {
                 if (methodName.equals(method.getName()) && Modifier.isStatic(method.getModifiers())) {
@@ -84,6 +92,15 @@ public class Slick {
             throw new RuntimeException(e);
         } catch (InvocationTargetException e) {
             throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    private static Object invokeMethod(@NonNull Object view, String methodName, Object... args) {
+        for (Field field : view.getClass().getDeclaredFields()) {
+            if (field.getAnnotation(Presenter.class) != null) {
+                return invokeMethod(view, methodName, field.getType(), args);
+            }
         }
         return null;
     }

@@ -30,6 +30,7 @@ public class ExampleActivity extends AppCompatActivity implements ExampleActivit
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Slick.bind(this, R.id.textView3, "foo");
         ExampleActivityPresenter_Slick.bind(this, R.id.textView3, "foo");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_example);

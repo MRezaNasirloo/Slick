@@ -25,7 +25,7 @@ import java.lang.annotation.Target;
  * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2016-11-01
  */
-@Retention(RetentionPolicy.CLASS)
+@Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface Presenter {
 }
