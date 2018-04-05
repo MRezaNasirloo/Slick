@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+android.libraryVariants.all {
+    it.generateBuildConfig.enabled = false
+}
+
 android.libraryVariants.all { variant ->
     String taskNameCopy = "copy${variant.name.capitalize()}ResDirectoryToClasses"
     String taskNameDelete = "delete${variant.name.capitalize()}ResDirectoryFromClasses"
