@@ -3,7 +3,7 @@
 If you have multiple instance of a Fragment or a CustomView at the same time you need to implement `SlickUniqueId`
 interface, Since there is no way to differentiate them from each other out of the box.
 Here is its implementation.
-####Fragment:
+#### Fragment:
 ```java
 public abstract class SlickFragment extends Fragment implements SlickUniqueId {
 
@@ -29,7 +29,7 @@ public abstract class SlickFragment extends Fragment implements SlickUniqueId {
     }
 }
 ```
-####CustomView:
+#### CustomView:
 ```java
 public class CustomView extends AppCompatTextView implements SlickUniqueId {
 
@@ -67,4 +67,4 @@ public class CustomView extends AppCompatTextView implements SlickUniqueId {
 You can just copy & paste them to your base class and you are good to go.
 
 In Slick the Activity and Conductor Controller classes have this feature out of the box, There is no need for any of
-this for them. Because of Android API limitation it wasn't possible to this for Fragment and View classes.
+this for them. Because of Android API limitation it wasn't possible to do this for Fragment and View classes.

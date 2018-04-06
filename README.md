@@ -120,7 +120,8 @@ implementation 'com.mrezanasirloo:slick-support-fragment:1.0.5'
 
 annotationProcessor 'com.mrezanasirloo:slick-compiler:1.0.5'
 ```
-Since Slick packages doesn't tied to a specific dependency you need to provide them.
+
+Since Slick packages are not tied to a specific dependency you need to provide them.
 ```
 //Conductor
 implementation 'com.bluelinelabs:conductor:2.x.y'
