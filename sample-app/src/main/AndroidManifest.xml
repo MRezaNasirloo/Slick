@@ -34,14 +34,15 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.mrezanasirloo.slick.sample.activity.ActivitySimple"/>
-        <activity android:name="com.mrezanasirloo.slick.sample.activity.dagger.ActivitySimpleDagger"/>
-        <activity android:name="com.mrezanasirloo.slick.sample.conductor.ActivityConductorHost"/>
-        <activity android:name="com.mrezanasirloo.slick.sample.conductor.dagger.ActivityConductorHostDagger"/>
-        <activity android:name="com.mrezanasirloo.slick.sample.fragment.ActivityFragmentHost"/>
-        <activity android:name="com.mrezanasirloo.slick.sample.fragmentsupport.SupportFragmentHostActivity"/>
-        <activity android:name="com.mrezanasirloo.slick.sample.cutstomview.ActivityCustomView"/>
-        <activity android:name="com.mrezanasirloo.slick.sample.cutstomview.dagger.ActivityCustomViewDagger"/>
+        <activity android:name=".activity.ActivitySimple"/>
+        <activity android:name=".activity.dagger.ActivitySimpleDagger"/>
+        <activity android:name=".conductor.ActivityConductorHost"/>
+        <activity android:name=".conductor.dagger.ActivityConductorHostDagger"/>
+        <activity android:name=".fragment.ActivityFragmentHost"/>
+        <activity android:name=".fragmentsupport.SupportFragmentHostActivity"/>
+        <activity android:name=".cutstomview.ActivityCustomView"/>
+        <activity android:name=".cutstomview.dagger.ActivityCustomViewDagger"/>
+        <activity android:name=".multi.ActivityMultiPresenter"/>
     </application>
 
 </manifest>
