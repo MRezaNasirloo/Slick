@@ -19,6 +19,7 @@ package com.mrezanasirloo.slick;
 import com.google.testing.compile.JavaFileObjects;
 import com.google.testing.compile.JavaSourcesSubjectFactory;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -126,6 +127,7 @@ public class PresenterGeneratorsTest {
                 .generatesSources(genSource);
     }
 
+    @Ignore
     @Test
     public void multiView() {
         JavaFileObject sourceViewInterface = JavaFileObjects.forResource("resources/ExampleView.java");
