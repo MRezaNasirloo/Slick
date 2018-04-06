@@ -62,9 +62,9 @@ Other View types have the same logic, for more detailed instruction head to [Wik
 
 1. Supports Activity, Fragment, CustomView, and Conductor Controller
 2. No dark magic involved, Just simple debuggable generated code
-3. Reactive support inspired by MVI and Elm architecture
-4. Do not need to extend any base class for your views
-5. Retains Presenters in short lived singletons
+3. Retains Presenters in disposable, lifecycle-aware singletons
+4. Reactive support inspired by MVI and Elm architecture
+5. Do not need to extend any base class for your views
 6. Supports multiple Presenter for one view
 7. Fully Type-safe
 8. Dagger ready!
@@ -95,8 +95,8 @@ public class YourPresenterUni extends SlickPresenterUni<ViewActivity, ViewStateA
 
     @Override
     protected void render(@NonNull ViewStateActivity state, @NonNull ViewActivity view) {
-        if (!state.comments().isEmpty()) { view.showComments(state.comments()); }
-        else { view.showNoComments(); }
+        if (!state.comments().isEmpty()) view.showComments(state.comments());
+        else view.showNoComments();
         view.setLike(state.isLiked());
     }
 }
@@ -110,19 +110,27 @@ Packages are available in `jcenter`
 
 ```
 // Base features
-implementation 'com.mrezanasirloo:slick:1.0.4'
+implementation 'com.mrezanasirloo:slick:1.0.5'
 
 // Reactive features
-implementation 'com.mrezanasirloo:slick-reactive:1.0.4'
+implementation 'com.mrezanasirloo:slick-reactive:1.0.5'
 
-implementation 'com.mrezanasirloo:slick-conductor:1.0.4'
-implementation 'com.mrezanasirloo:slick-support-fragment:1.0.4'
+implementation 'com.mrezanasirloo:slick-conductor:1.0.5'
+implementation 'com.mrezanasirloo:slick-support-fragment:1.0.5'
 
-annotationProcessor 'com.mrezanasirloo:slick-compiler:1.0.4'
-``` 
+annotationProcessor 'com.mrezanasirloo:slick-compiler:1.0.5'
+```
+Since Slick packages doesn't tied to a specific dependency you need to provide them.
+```
+//Conductor
+implementation 'com.bluelinelabs:conductor:2.x.y'
+
+//RxJava for Reactive Features
+implementation 'io.reactivex.rxjava2:rxjava:2.x.y'
+```
 
 
-**Staring the repo would support the project more than you think** :star: == :heart:
+**If you liked the project don't forget to start it** :star: == :heart:
 
 ### Licence
 

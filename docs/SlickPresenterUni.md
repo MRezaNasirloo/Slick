@@ -1,4 +1,4 @@
-###Slick Unidirectional Data Flow and Immutable ViewState (UDFIVE)
+### Slick Unidirectional Data Flow and Immutable ViewState (UDFIVE)
 
 To use this feature you need to pull its package and extend the `SlickPresenterUni<V, S>` :
 ```groovy
@@ -55,9 +55,10 @@ public class ViewStateActivity {
     }
 }
 ```
-Dead simple, Also there are two abstract methods `start()` and `render()`, The `start()` method is called only once when the
-presenter’s `onViewUp()` is called, We use this method to create our ViewState stream.
-
+Dead simple, Also there are two abstract methods `start()` and `render()`,
+the `start()` method is called only once for the entire view lifecycle,
+it is called when the presenter’s `onViewUp()` is called,
+we use this method to create our ViewState stream.
 
 The second one is the `render()` method, This method is called every time there’s a new `ViewState`, Also it gets called on 
 every `onViewUp()` call to deliver the last ViewState, e.g: Screen orientation
@@ -102,7 +103,7 @@ public class YourPresenterUni extends SlickPresenterUni<ViewActivity, ViewStateA
 There are two key methods here the `command()` and `reduce()` methods, I will dedicate another post to explain whats 
 ``going on under the hood, But for now I just explain what they do. 
 
-![Alt Text](https://cdn-images-1.medium.com/max/880/1*D4Zxe8gKFTtoF4LcZ8CoNw.gif, "How Commands and Reduce works")
+![How Commands and Reduce works](https://cdn-images-1.medium.com/max/880/1*D4Zxe8gKFTtoF4LcZ8CoNw.gif)
 
 So what is a command? Commands are given to execute, e.g: A General commands its solders to march or fire or whatever
 that they do 😄
@@ -168,12 +169,16 @@ And finally the last part last part is rendering the ViewStates to View:
 ```
 @Override
 protected void render(@NonNull ViewStateActivity state, @NonNull ViewActivity view) {
-    if (!state.comments().isEmpty()) { view.showComments(state.comments()); }
-    else { view.showNoComments(); }
+    if (!state.comments().isEmpty()) view.showComments(state.comments());
+    else view.showNoComments();
     view.setLike(state.isLiked());
 }
 ```
 
 That's it.
+
+Did you notice we didn’t bother ourselves with any View or Presenter lifecycle spaghetti code!?
+We don’t even need to check for `getView() == null` in our code anymore,
+Bonus tip, that was just the Hollywood Principle: "Don't call us! We call you!"
 
 

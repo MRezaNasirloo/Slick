@@ -1,4 +1,4 @@
-#### Inject Presenter with Dagger
+### Inject Presenter with Dagger
 
 Slick is Dagger ready out of the box, To inject your Presenter with Dagger just inject your Presenter wrapped in
 Dagger's `Provider<T>` interface.

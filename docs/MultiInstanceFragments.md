@@ -1,4 +1,4 @@
-## Multi Instance Custom Views and Fragments
+### Multi Instance Custom Views and Fragments
 
 If you have multiple instance of a Fragment or a CustomView at the same time you need to implement `SlickUniqueId`
 interface, Since there is no way to differentiate them from each other out of the box.

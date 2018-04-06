@@ -1,4 +1,4 @@
-## CustomViews Instruction
+### CustomViews Instruction
 
 Since the View class does not have appropriate lifecycle callbacks,
 Slick provides some delegates which should called manually.
