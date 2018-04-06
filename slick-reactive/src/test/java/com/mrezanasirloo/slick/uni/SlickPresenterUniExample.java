@@ -19,11 +19,13 @@ package com.mrezanasirloo.slick.uni;
 import android.support.annotation.NonNull;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.Scheduler;
+import io.reactivex.functions.Function;
 
 /**
  * @author : M.Reza.Nasirloo@gmail.com
- *         Created on: 2018-03-11
+ * Created on: 2018-03-11
  */
 
 public class SlickPresenterUniExample extends SlickPresenterUni<ViewExample, ViewStateExample> {
@@ -34,13 +36,42 @@ public class SlickPresenterUniExample extends SlickPresenterUni<ViewExample, Vie
 
     @Override
     protected void start(ViewExample view) {
-        Observable<PartialViewState<ViewStateExample>> like = command(ViewExample::likeComment)
-                .flatMap(aBoolean -> Observable.just(aBoolean).subscribeOn(io))//call to backend
-                .map(PartialViewStateLiked::new);
+        Observable<PartialViewState<ViewStateExample>> like = command(new CommandProvider<Boolean, ViewExample>() {
+            @Override
+            public Observable<Boolean> provide(ViewExample viewExample) {
+                return viewExample.likeComment();
+            }
+        }).flatMap(new Function<Boolean, ObservableSource<Boolean>>() {
+            @Override
+            public ObservableSource<Boolean> apply(Boolean aBoolean) {
+                return Observable.just(aBoolean).subscribeOn(io);//call to backend
+            }
+        })
+                .map(new Function<Boolean, PartialViewState<ViewStateExample>>() {
+                    @Override
+                    public PartialViewState<ViewStateExample> apply(Boolean isLiked) {
+                        return new PartialViewStateLiked(isLiked);
+                    }
+                });
 
-        Observable<PartialViewState<ViewStateExample>> loadText = command(ViewExample::loadText)
-                .flatMap(aBoolean -> Observable.just("Foo Bar").subscribeOn(io))//call to backend
-                .map(PartialViewStateText::new);
+        Observable<PartialViewState<ViewStateExample>> loadText = command(new CommandProvider<Integer, ViewExample>() {
+            @Override
+            public Observable<Integer> provide(ViewExample viewExample) {
+                return viewExample.loadText();
+            }
+        })
+                .flatMap(new Function<Integer, ObservableSource<String>>() {
+                    @Override
+                    public ObservableSource<String> apply(Integer aBoolean) {
+                        return Observable.just("Foo Bar").subscribeOn(io);//call to backend
+                    }
+                })
+                .map(new Function<String, PartialViewState<ViewStateExample>>() {
+                    @Override
+                    public PartialViewState<ViewStateExample> apply(String text) {
+                        return new PartialViewStateText(text);
+                    }
+                });
 
         reduce(new ViewStateExample(null, false), merge(like, loadText)).subscribe(this);
 

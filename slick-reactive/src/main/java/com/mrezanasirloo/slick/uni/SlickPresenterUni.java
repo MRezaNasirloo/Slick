@@ -31,6 +31,7 @@ import io.reactivex.Observer;
 import io.reactivex.Scheduler;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.subjects.BehaviorSubject;
@@ -137,7 +138,12 @@ public abstract class SlickPresenterUni<V, S> extends SlickPresenter<V> implemen
      */
     protected Observable<S> reduce(S initialState, Observable<PartialViewState<S>> partialViewState) {
         return partialViewState.observeOn(main)
-                .scan(initialState, (oldState, partialViewState1) -> partialViewState1.reduce(oldState));
+                .scan(initialState, new BiFunction<S, PartialViewState<S>, S>() {
+                    @Override
+                    public S apply(S oldState, PartialViewState<S> partialViewState1) throws Exception {
+                        return partialViewState1.reduce(oldState);
+                    }
+                });
     }
 
     /**

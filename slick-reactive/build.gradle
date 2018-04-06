@@ -27,11 +27,6 @@ android {
 
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -47,13 +42,11 @@ dependencies {
     compileOnly Deps.depSupportAppCompat
     compileOnly Deps.depSupportAnnotation
     compileOnly Deps.depRxjava2
-    compileOnly Deps.depRxAndroid
     compileOnly Deps.depJavax
 
     testImplementation Deps.depSupportAppCompat
     testImplementation Deps.depSupportAnnotation
     testImplementation Deps.depRxjava2
-    testImplementation Deps.depRxAndroid
     testImplementation Deps.depJavax
 
     testImplementation Deps.depTestJunit
