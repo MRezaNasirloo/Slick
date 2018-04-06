@@ -47,7 +47,7 @@ public class MethodSignatureGeneratorImpl implements MethodSignatureGenerator {
             bounds.add(SlickProcessor.ClASS_NAME_ON_DESTROY_LISTENER);
         }
         final TypeVariableName typeVariableName = TypeVariableName.get("T",
-                ap.getViewType().className()).withBounds(bounds);
+                "bind".equals(name) ? ap.getView() : ap.getViewType().className()).withBounds(bounds);
         return MethodSpec.methodBuilder(name)
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .addTypeVariable(typeVariableName)

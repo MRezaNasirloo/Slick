@@ -1,7 +1,6 @@
 package test;
 
 import android.util.SparseArray;
-import com.bluelinelabs.conductor.Controller;
 import com.mrezanasirloo.slick.InternalOnDestroyListener;
 import com.mrezanasirloo.slick.conductor.SlickDelegateConductor;
 import java.lang.Override;
@@ -11,7 +10,7 @@ public class PresenterDagger_Slick implements InternalOnDestroyListener {
     private static PresenterDagger_Slick hostInstance;
     private final SparseArray<SlickDelegateConductor<ExampleView, PresenterDagger>> delegates = new SparseArray<>();
 
-    public static <T extends Controller & ExampleView> void bind(T daggerController) {
+    public static <T extends DaggerController & ExampleView> void bind(T daggerController) {
         final int id = daggerController.getInstanceId().hashCode();
         if (hostInstance == null) hostInstance = new PresenterDagger_Slick();
         SlickDelegateConductor<ExampleView, PresenterDagger> delegate = hostInstance.delegates.get(id);

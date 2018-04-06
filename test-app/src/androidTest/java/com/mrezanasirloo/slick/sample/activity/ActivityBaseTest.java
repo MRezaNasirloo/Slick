@@ -63,6 +63,17 @@ public class ActivityBaseTest {
     }
 
     /**
+     * Test Presenter lifecycle
+     */
+    protected void testPresenter(ViewTestable view) {
+        //NOTE: These method should be called in order there are
+        getInstrumentation().waitForIdleSync();
+        testStart(view.presenter());
+        testPreservePresenterOnRotate(view, view.presenter());
+        testOnDestroy(view.presenter());
+    }
+
+    /**
      * Ensures the {@link SlickPresenter#onViewUp(Object)} called only once during activity start up.
      *
      * @param presenter in question presenter

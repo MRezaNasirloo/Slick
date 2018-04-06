@@ -60,7 +60,7 @@ class BasePresenterGeneratorImpl implements PresenterGenerator {
     }
 
     @Override
-    public TypeSpec generate(AnnotatedPresenter ap) {
+    public TypeSpec generate(AnnotatedPresenter ap, boolean multi) {
         final FieldSpec hostInstance = FieldSpec.builder(ap.getPresenterHost(), HOST_INSTANCE_VAR_NAME)
                 .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
                 .build();
@@ -70,15 +70,18 @@ class BasePresenterGeneratorImpl implements PresenterGenerator {
 
         final MethodSpec.Builder methodBuilder = methodBodyGenerator.generate(bindMethodSignature, ap);
 
-        return TypeSpec.classBuilder(ap.getPresenterHost())
+        TypeSpec.Builder builder = TypeSpec.classBuilder(ap.getPresenterHost())
                 .addModifiers(Modifier.PUBLIC)
                 .addSuperinterface(ClASS_NAME_INTERNAL_ON_DESTROY_LISTENER)
                 .addField(getDelegateField(ap))
                 .addField(hostInstance)
-                .addMethod(methodBuilder.build())
-                .addMethods(addMethods(ap))
-                .addMethod(onDestroyMethod(ap))
-                .build();
+                .addMethod(methodBuilder.build());
+
+        // Don't add the onDestroy method, it's already there.
+        if (!multi)
+            builder.addMethods(addMethods(ap))
+                    .addMethod(onDestroyMethod(ap));
+        return builder.build();
     }
 
     /**

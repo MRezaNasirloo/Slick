@@ -13,7 +13,7 @@ public class ExamplePresenter_Slick implements InternalOnDestroyListener {
 
     private final SparseArray<SlickDelegateView<ExampleView, ExamplePresenter>> delegates = new SparseArray<>();
 
-    public static <T extends View & ExampleView & OnDestroyListener> void bind(T exampleCustomView, @IdRes int i, float f) {
+    public static <T extends ExampleCustomView & ExampleView & OnDestroyListener> void bind(T exampleCustomView, @IdRes int i, float f) {
         final int id = SlickDelegateView.getId(exampleCustomView);
         if (hostInstance == null) hostInstance = new ExamplePresenter_Slick();
         SlickDelegateView<ExampleView, ExamplePresenter> delegate = hostInstance.delegates.get(id);

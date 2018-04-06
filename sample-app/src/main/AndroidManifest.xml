@@ -42,7 +42,7 @@
         <activity android:name=".fragmentsupport.SupportFragmentHostActivity"/>
         <activity android:name=".cutstomview.ActivityCustomView"/>
         <activity android:name=".cutstomview.dagger.ActivityCustomViewDagger"/>
-        <activity android:name=".multi.ActivityMultiPresenter"/>
+        <activity android:name=".multipresenter.ActivityMultiPresenter"/>
     </application>
 
 </manifest>

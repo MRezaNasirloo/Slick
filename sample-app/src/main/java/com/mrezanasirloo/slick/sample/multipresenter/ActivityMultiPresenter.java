@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mrezanasirloo.slick.sample.multi;
+package com.mrezanasirloo.slick.sample.multipresenter;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

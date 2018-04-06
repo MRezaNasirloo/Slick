@@ -29,6 +29,7 @@ import com.mrezanasirloo.slick.sample.cutstomview.ActivityCustomView;
 import com.mrezanasirloo.slick.sample.cutstomview.dagger.ActivityCustomViewDagger;
 import com.mrezanasirloo.slick.sample.fragment.ActivityFragmentHost;
 import com.mrezanasirloo.slick.sample.fragmentsupport.SupportFragmentHostActivity;
+import com.mrezanasirloo.slick.sample.multiview.ActivityMultiView;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -89,5 +90,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, ActivityCustomViewDagger.class));
             }
         });
+
+        findViewById(R.id.button_multi_view).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ActivityMultiView.class));
+            }
+        });
+
     }
 }

@@ -29,7 +29,7 @@ import com.mrezanasirloo.slick.sample.cutstomview.ActivityCustomView;
 import com.mrezanasirloo.slick.sample.cutstomview.dagger.ActivityCustomViewDagger;
 import com.mrezanasirloo.slick.sample.fragment.ActivityFragmentHost;
 import com.mrezanasirloo.slick.sample.fragmentsupport.SupportFragmentHostActivity;
-import com.mrezanasirloo.slick.sample.multi.ActivityMultiPresenter;
+import com.mrezanasirloo.slick.sample.multipresenter.ActivityMultiPresenter;
 
 
 public class MainActivity extends AppCompatActivity {

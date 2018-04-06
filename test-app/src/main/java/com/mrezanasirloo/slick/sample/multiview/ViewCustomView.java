@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package com.mrezanasirloo.slick.sample.multi;
+package com.mrezanasirloo.slick.sample.multiview;
 
+import com.mrezanasirloo.slick.sample.activity.ViewTestable;
 
 /**
  * @author : M.Reza.Nasirloo@gmail.com
- *         Created on: 2018-03-11
+ * Created on: 2017-03-09
  */
-public interface View2 {
-    void setText2(String text);
+
+public interface ViewCustomView extends ViewTestable {
 }

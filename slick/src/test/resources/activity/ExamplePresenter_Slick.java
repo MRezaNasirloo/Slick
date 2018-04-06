@@ -1,11 +1,9 @@
 package test;
 
-import android.app.Activity;
 import android.support.annotation.IdRes;
 import android.util.SparseArray;
 import com.mrezanasirloo.slick.InternalOnDestroyListener;
 import com.mrezanasirloo.slick.SlickDelegateActivity;
-
 import java.lang.Override;
 
 public class ExamplePresenter_Slick implements InternalOnDestroyListener {
@@ -13,7 +11,7 @@ public class ExamplePresenter_Slick implements InternalOnDestroyListener {
     private static ExamplePresenter_Slick hostInstance;
     private final SparseArray<SlickDelegateActivity<ExampleView, ExamplePresenter>> delegates = new SparseArray<>();
 
-    public static <T extends Activity & ExampleView> void bind(T exampleActivity, @IdRes int i, float f) {
+    public static <T extends ExampleActivity & ExampleView> void bind(T exampleActivity, @IdRes int i, float f) {
         final int id = SlickDelegateActivity.getId(exampleActivity);
         if (hostInstance == null) hostInstance = new ExamplePresenter_Slick();
         SlickDelegateActivity<ExampleView, ExamplePresenter> delegate = hostInstance.delegates.get(id)

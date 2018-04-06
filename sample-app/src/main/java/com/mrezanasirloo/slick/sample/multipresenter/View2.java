@@ -14,20 +14,13 @@
  * limitations under the License.
  */
 
-package com.mrezanasirloo.slick;
+package com.mrezanasirloo.slick.sample.multipresenter;
 
-import com.squareup.javapoet.TypeSpec;
 
 /**
  * @author : M.Reza.Nasirloo@gmail.com
- *         Created on: 2017-02-05
+ *         Created on: 2018-03-11
  */
-
-interface PresenterGenerator {
-    /**
-     * @param ap annotated presenter object
-     * @param multi if this presenter is used by multiple views
-     * @return typeSpec object
-     */
-    TypeSpec generate(AnnotatedPresenter ap, boolean multi);
+public interface View2 {
+    void setText2(String text);
 }

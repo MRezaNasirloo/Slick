@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.util.SparseArray;
 import com.mrezanasirloo.slick.InternalOnDestroyListener;
 import com.mrezanasirloo.slick.SlickDelegateFragment;
-
 import java.lang.Override;
 
 public class ExamplePresenter_Slick implements InternalOnDestroyListener {
@@ -12,7 +11,7 @@ public class ExamplePresenter_Slick implements InternalOnDestroyListener {
     private static ExamplePresenter_Slick hostInstance;
     private final SparseArray<SlickDelegateFragment<ExampleView, ExamplePresenter>> delegates = new SparseArray<>();
 
-    public static <T extends Fragment & ExampleView> SlickDelegateFragment<ExampleView, ExamplePresenter> bind(T daggerFragment) {
+    public static <T extends DaggerFragment & ExampleView> SlickDelegateFragment<ExampleView, ExamplePresenter> bind(T daggerFragment) {
         final int id = SlickDelegateFragment.getId(daggerFragment);
         if (hostInstance == null) hostInstance = new ExamplePresenter_Slick();
         SlickDelegateFragment<ExampleView, ExamplePresenter> delegate = hostInstance.delegates.get(id)
