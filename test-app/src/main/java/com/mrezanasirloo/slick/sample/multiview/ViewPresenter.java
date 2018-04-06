@@ -14,50 +14,48 @@
  * limitations under the License.
  */
 
-package com.mrezanasirloo.slick.sample.multi;
+package com.mrezanasirloo.slick.sample.multiview;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.mrezanasirloo.slick.SlickPresenter;
+import com.mrezanasirloo.slick.sample.cutstomview.ViewCustomView;
+import com.mrezanasirloo.slick.test.SlickPresenterTestable;
 
-import java.util.Locale;
-
+import java.util.Random;
 
 /**
  * @author : M.Reza.Nasirloo@gmail.com
- *         Created on: 2016-11-03
+ * Created on: 2017-03-09
  */
-public class Presenter2 extends SlickPresenter<View2> {
 
-    private static final String TAG = Presenter2.class.getSimpleName();
-    private final String s;
+public class ViewPresenter extends SlickPresenterTestable<ViewCustomView> {
 
-    public Presenter2(String s) {
-        this.s = s;
+    private static final String TAG = ViewPresenter.class.getSimpleName();
+    private final int randomCode;
+
+    public ViewPresenter() {
+        randomCode = new Random().nextInt(100 - 1) + 1;
     }
 
-    @NonNull
-    public String getData() {
-        return String.format(Locale.ENGLISH, "Presenter2 text: %s", s);
+    public int getCode() {
+        return randomCode;
     }
 
     @Override
-    public void onViewUp(View2 view) {
-        Log.d(TAG, "onViewUp() called");
+    public void onViewUp(ViewCustomView view) {
         super.onViewUp(view);
-        view.setText2(getData());
+        Log.d(TAG, "onViewUp() called" + toString());
     }
 
     @Override
     public void onViewDown() {
-        Log.d(TAG, "onViewDown() called");
         super.onViewDown();
+        Log.d(TAG, "onViewDown() called" + toString());
     }
 
     @Override
     public void onDestroy() {
-        Log.d(TAG, "onDestroy() called");
         super.onDestroy();
+        Log.d(TAG, "onDestroy() called" + toString());
     }
 }

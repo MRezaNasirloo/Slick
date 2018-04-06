@@ -47,8 +47,10 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -190,7 +192,7 @@ public class SlickProcessor extends AbstractProcessor {
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         final Set<? extends Element> elementsAnnotatedWith = roundEnv.getElementsAnnotatedWith(Presenter.class);
         // TODO: 2017-02-23 extract this to a validator
-        List<AnnotatedPresenter> annotatedPresenters = new ArrayList<>(elementsAnnotatedWith.size());
+        Map<ClassName, List<AnnotatedPresenter>> annotatedPresenters = new HashMap<>(elementsAnnotatedWith.size());
         for (Element element : elementsAnnotatedWith) {
             final TypeElement typeElement = (TypeElement) typeUtils.asElement(element.asType());
             final DeclaredType superclass = (DeclaredType) typeElement.getSuperclass();
@@ -206,20 +208,24 @@ public class SlickProcessor extends AbstractProcessor {
             }
 
             try {
-                annotatedPresenters.add(scanPresenter(element, typeElement, typeArguments));
+                AnnotatedPresenter annotatedPresenter = scanPresenter(element, typeElement, typeArguments);
+                List<AnnotatedPresenter> list = annotatedPresenters.get(annotatedPresenter.getPresenter());
+                if (list == null) list = new ArrayList<>();
+                list.add(annotatedPresenter);
+                annotatedPresenters.put(annotatedPresenter.getPresenter(), list);
             } catch (Exception e) {
                 logParsingError(element, Presenter.class, e);
             }
         }
-        for (AnnotatedPresenter annotatedPresenter : annotatedPresenters) {
-            final TypeSpec cls = generatePresenterHost(annotatedPresenter);
-            brewJava(annotatedPresenter.getPresenter().packageName(), cls);
+        for (List<AnnotatedPresenter> annotatedPresenterList : annotatedPresenters.values()) {
+            AnnotatedPresenter annotatedPresenter = annotatedPresenterList.remove(0);
+            final TypeSpec.Builder builder = generatePresenterHost(annotatedPresenter, false).toBuilder();
+            for (AnnotatedPresenter ap : annotatedPresenterList) {
+                final TypeSpec cls = generatePresenterHost(ap, true);
+                builder.addMethods(cls.methodSpecs);
+            }
+            brewJava(annotatedPresenter.getPresenter().packageName(), builder.build());
         }
-
-        /*final TypeSpec cls = generateSlickClass(annotatedPresenters);
-        brewJava(pkgName, cls);*/
-
-
         return true;
     }
 
@@ -237,30 +243,31 @@ public class SlickProcessor extends AbstractProcessor {
      * Generates the Presenter Host class from provided information
      *
      * @param ap
+     * @param isMulti if this presenter is used by multiple views
      * @return TypeSpec
      */
-    private TypeSpec generatePresenterHost(AnnotatedPresenter ap) {
+    private TypeSpec generatePresenterHost(AnnotatedPresenter ap, boolean isMulti) {
         switch (ap.getViewType()) {
             case ACTIVITY:
-                return generatorActivity.generate(ap);
+                return generatorActivity.generate(ap, isMulti);
             case FRAGMENT:
-                return generatorFragment.generate(ap);
+                return generatorFragment.generate(ap, isMulti);
             case FRAGMENT_SUPPORT:
-                return generatorFragmentSupport.generate(ap);
+                return generatorFragmentSupport.generate(ap, isMulti);
             case CONDUCTOR:
-                return generatorConductor.generate(ap);
+                return generatorConductor.generate(ap, isMulti);
             case VIEW:
-                return generatorView.generate(ap);
+                return generatorView.generate(ap, isMulti);
             case DAGGER_ACTIVITY:
-                return generatorDaggerActivity.generate(ap);
+                return generatorDaggerActivity.generate(ap, isMulti);
             case DAGGER_FRAGMENT:
-                return generatorDaggerFragment.generate(ap);
+                return generatorDaggerFragment.generate(ap, isMulti);
             case DAGGER_FRAGMENT_SUPPORT:
-                return generatorDaggerFragmentSupport.generate(ap);
+                return generatorDaggerFragmentSupport.generate(ap, isMulti);
             case DAGGER_CONDUCTOR:
-                return generatorDaggerConductor.generate(ap);
+                return generatorDaggerConductor.generate(ap, isMulti);
             case DAGGER_VIEW:
-                return generatorDaggerView.generate(ap);
+                return generatorDaggerView.generate(ap, isMulti);
             default:
                 throw new UnsupportedOperationException(ap.getViewType() + " Type");
         }

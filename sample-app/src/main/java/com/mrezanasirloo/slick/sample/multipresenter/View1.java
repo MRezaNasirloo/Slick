@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mrezanasirloo.slick.sample.multi;
+package com.mrezanasirloo.slick.sample.multipresenter;
 
 
 /**

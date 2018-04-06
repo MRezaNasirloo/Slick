@@ -15,28 +15,33 @@
   ~ limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:padding="32dp"
-              android:gravity="center"
-              tools:context="com.mrezanasirloo.slick.sample.multipresenter.ActivityMultiPresenter"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.mrezanasirloo.slick.sample.cutstomview.ActivityCustomView"
     >
 
-    <TextView
-        android:id="@+id/textView_multi_1"
+    <com.mrezanasirloo.slick.sample.multiview.CustomView1
+        android:id="@+id/custom_view_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:textSize="18sp"
         />
 
-    <TextView
-        android:id="@+id/textView_multi_2"
+    <com.mrezanasirloo.slick.sample.multiview.CustomView1
+        android:id="@+id/custom_view_1_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
         />
+
+    <com.mrezanasirloo.slick.sample.multiview.CustomView2
+        android:id="@+id/custom_view_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+
 </LinearLayout>

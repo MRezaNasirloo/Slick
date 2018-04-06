@@ -125,4 +125,20 @@ public class PresenterGeneratorsTest {
                 .and()
                 .generatesSources(genSource);
     }
+
+    @Test
+    public void multiView() {
+        JavaFileObject sourceViewInterface = JavaFileObjects.forResource("resources/ExampleView.java");
+        JavaFileObject sourcePresenter = JavaFileObjects.forResource("resources/ExamplePresenter.java");
+        JavaFileObject sourceView1 = JavaFileObjects.forResource("resources/multiView/MultiView1.java");
+        JavaFileObject sourceView2 = JavaFileObjects.forResource("resources/multiView/MultiView2.java");
+        JavaFileObject genSource = JavaFileObjects.forResource("resources/multiView/ExamplePresenter_Slick.java");
+
+        assertAbout(JavaSourcesSubjectFactory.javaSources())
+                .that(Arrays.asList(sourceViewInterface, sourcePresenter, sourceView1, sourceView2))
+                .processedWith(new SlickProcessor())
+                .compilesWithoutError()
+                .and()
+                .generatesSources(genSource);
+    }
 }

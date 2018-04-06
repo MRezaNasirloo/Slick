@@ -1,6 +1,5 @@
 package test;
 
-import android.app.Activity;
 import android.util.SparseArray;
 import com.mrezanasirloo.slick.InternalOnDestroyListener;
 import com.mrezanasirloo.slick.SlickDelegateActivity;
@@ -11,7 +10,7 @@ public class ExamplePresenter_Slick implements InternalOnDestroyListener {
     private static ExamplePresenter_Slick hostInstance;
     private final SparseArray<SlickDelegateActivity<ExampleView, ExamplePresenter>> delegates = new SparseArray<>();
 
-    public static <T extends Activity & ExampleView> void bind(T daggerActivity) {
+    public static <T extends DaggerActivity & ExampleView> void bind(T daggerActivity) {
         final int id = SlickDelegateActivity.getId(daggerActivity);
         if (hostInstance == null) hostInstance = new ExamplePresenter_Slick();
         SlickDelegateActivity<ExampleView, ExamplePresenter> delegate = hostInstance.delegates.get(id)

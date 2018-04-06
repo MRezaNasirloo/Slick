@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package com.mrezanasirloo.slick.sample.multi;
+package com.mrezanasirloo.slick.sample.multipresenter;
 
-import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -29,27 +28,25 @@ import java.util.Locale;
  * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2016-11-03
  */
-public class Presenter1 extends SlickPresenter<View1> {
+public class Presenter2 extends SlickPresenter<View2> {
 
-    private static final String TAG = Presenter1.class.getSimpleName();
-    @NonNull private final Integer integer;
+    private static final String TAG = Presenter2.class.getSimpleName();
     private final String s;
 
-    public Presenter1(@IdRes @NonNull Integer integer, String s) {
-        this.integer = integer;
+    public Presenter2(String s) {
         this.s = s;
     }
 
     @NonNull
     public String getData() {
-        return String.format(Locale.ENGLISH, "Presenter1 Random num: %d, text: %s", integer, s);
+        return String.format(Locale.ENGLISH, "Presenter2 text: %s", s);
     }
 
     @Override
-    public void onViewUp(View1 view) {
+    public void onViewUp(View2 view) {
         Log.d(TAG, "onViewUp() called");
         super.onViewUp(view);
-        view.setText1(getData());
+        view.setText2(getData());
     }
 
     @Override
