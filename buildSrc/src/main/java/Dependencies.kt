@@ -26,7 +26,7 @@ object Versions {
     const val vVersionName = "1.0"
     const val vBuildTool = "27.0.3"
 
-    const val vSupportLib = "27.1.0"
+    const val vSupportLib = "27.1.1"
     const val vRxjava2 = "2.1.10"
     const val vRxAndroid = "2.0.2"
 }

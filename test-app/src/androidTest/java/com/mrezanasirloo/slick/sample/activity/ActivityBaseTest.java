@@ -36,7 +36,7 @@ import org.junit.Rule;
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static android.support.test.espresso.Espresso.pressBack;
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author : M.Reza.Nasirloo@gmail.com

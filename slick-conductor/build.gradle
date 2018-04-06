@@ -52,7 +52,7 @@ dependencies {
     testImplementation Deps.depTestCompileTesting
     testImplementation files(project.ext.getRuntimeJar())
     testImplementation files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
-    testImplementation files(file("${System.env.ANDROID_HOME}/platforms/android-${Versions.vSdkCompile}/android.jar"))
+//    testImplementation files(file("${System.env.ANDROID_HOME}/platforms/android-${Versions.vSdkCompile}/android.jar"))
 }
 
 apply from: rootProject.file('buildscript/local-maven.gradle')
