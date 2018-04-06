@@ -17,6 +17,8 @@
 package com.mrezanasirloo.slick;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.view.View;
 
 
@@ -84,7 +86,7 @@ public class SlickDelegateView<V, P extends SlickPresenter<V>> {
     }
 
     private void destroy(V view) {
-        final Activity activity = (Activity) ((View) view).getContext();
+        final Activity activity = getActivity((View) view);
         if (!activity.isChangingConfigurations()) {
             if (!hasOnViewDownCalled) onDetach(view);
             presenter.onDestroy();
@@ -112,6 +114,17 @@ public class SlickDelegateView<V, P extends SlickPresenter<V>> {
     private boolean isSameInstance(Object view) {
         final int id = getId(view);
         return id != -1 && id == this.id;
+    }
+
+    public Activity getActivity(View view) {
+        Context context = view.getContext();
+        while (context instanceof ContextWrapper) {
+            if (context instanceof Activity) {
+                return (Activity) context;
+            }
+            context = ((ContextWrapper) context).getBaseContext();
+        }
+        return null;
     }
 
 }
