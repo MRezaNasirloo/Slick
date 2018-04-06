@@ -21,9 +21,22 @@ cache:
     - $HOME/.android/build-cache
 
 env:
+  matrix:
+    - API=16 EMU_API=16 ABI=armeabi-v7a
+    - API=17 EMU_API=17 ABI=armeabi-v7a
+    - API=18 EMU_API=18 ABI=armeabi-v7a
+    - API=19 EMU_API=19 ABI=armeabi-v7a
+    - API=21 EMU_API=21 ABI=armeabi-v7a
+    - API=22 EMU_API=22 ABI=armeabi-v7a
+    - API=23 EMU_API=23 ABI=armeabi-v7a
+    - API=24 EMU_API=24 ABI=armeabi-v7a
+    - API=24 EMU_API=24 ABI=arm64-v8a
+    - API=25 EMU_API=25 ABI=armeabi-v7a
+    - API=25 EMU_API=25 ABI=arm64-v8a
+    - API=26 EMU_API=16 ABI=armeabi-v7a
+    - API=27 EMU_API=16 ABI=armeabi-v7a
   global:
     - DIR=slick # Project directory
-    - API=27
     - TAG=default # google_apis or default
     - ABI=armeabi-v7a # ARM ABI v7a by default
     - QEMU_AUDIO_DRV=none # Disable emulator audio to avoid warning
@@ -34,7 +47,7 @@ env:
 
 before_install:
   # I use android-16 because it's the fastest image to boot on travis ci
-  - export EMULATOR="system-images;android-16;${TAG};${ABI}" # Used to install/create emulator
+  - export EMULATOR="system-images;android-${EMU_API};${TAG};${ABI}" # Used to install/create emulator
   - echo 'count=0' > /home/travis/.android/repositories.cfg # Avoid warning
 
 install:
