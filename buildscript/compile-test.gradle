@@ -18,6 +18,13 @@ android.libraryVariants.all {
     it.generateBuildConfig.enabled = false
 }
 
+tasks.withType(Test) {
+    testLogging {
+        events "started", "skipped", "passed", "failed", "standardOut", "standardError"
+        exceptionFormat "full"
+        showStandardStreams true
+    }
+}
 android.libraryVariants.all { variant ->
     String taskNameCopy = "copy${variant.name.capitalize()}ResDirectoryToClasses"
     String taskNameDelete = "delete${variant.name.capitalize()}ResDirectoryFromClasses"
