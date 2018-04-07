@@ -22,22 +22,19 @@ cache:
 
 env:
   matrix:
-    - API=16 EMU_API=16 ABI=armeabi-v7a
-    - API=17 EMU_API=17 ABI=armeabi-v7a
-    - API=18 EMU_API=18 ABI=armeabi-v7a
-    - API=19 EMU_API=19 ABI=armeabi-v7a
-    - API=21 EMU_API=21 ABI=armeabi-v7a
-    - API=22 EMU_API=22 ABI=armeabi-v7a
-    - API=23 EMU_API=23 ABI=armeabi-v7a
-    - API=24 EMU_API=24 ABI=armeabi-v7a
-    - API=24 EMU_API=24 ABI=arm64-v8a
-    - API=25 EMU_API=25 ABI=armeabi-v7a
-    - API=25 EMU_API=25 ABI=arm64-v8a
-    - API=26 EMU_API=16 ABI=armeabi-v7a
-    - API=27 EMU_API=16 ABI=armeabi-v7a
+    - API=16 EMU_API=16 ABI=armeabi-v7a TAG=default
+    - API=17 EMU_API=17 ABI=armeabi-v7a TAG=default
+    - API=18 EMU_API=18 ABI=armeabi-v7a TAG=default
+    - API=19 EMU_API=19 ABI=armeabi-v7a TAG=default
+    - API=21 EMU_API=21 ABI=armeabi-v7a TAG=default
+    - API=22 EMU_API=22 ABI=armeabi-v7a TAG=default
+    - API=23 EMU_API=23 ABI=armeabi-v7a TAG=google_apis
+    - API=24 EMU_API=24 ABI=armeabi-v7a TAG=google_apis
+    - API=25 EMU_API=25 ABI=armeabi-v7a TAG=google_apis
+    - API=26 EMU_API=16 ABI=armeabi-v7a TAG=default
+    - API=27 EMU_API=16 ABI=armeabi-v7a TAG=default
   global:
     - DIR=slick # Project directory
-    - TAG=default # google_apis or default
     - ABI=armeabi-v7a # ARM ABI v7a by default
     - QEMU_AUDIO_DRV=none # Disable emulator audio to avoid warning
     - ANDROID_HOME=$HOME/android-sdk
@@ -74,7 +71,9 @@ install:
 
 before_script:
   # Wait for emulator fully-booted and disable animations
-#  - android-wait-for-emulator # To speed up build time, we need emulator at the end of build
+  # To speed up build time, comment the line below if the emulator is fast enough, it would catch the build,
+  # because we need the emulator at end of the build
+#  - android-wait-for-emulator
   - adb wait-for-device get-serialno
   - adb shell settings put global window_animation_scale 0 &
   - adb shell settings put global transition_animation_scale 0 &
