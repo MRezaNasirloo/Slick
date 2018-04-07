@@ -73,7 +73,7 @@ before_script:
   # Wait for emulator fully-booted and disable animations
   # To speed up build time, comment the line below if the emulator is fast enough, it would catch the build,
   # because we need the emulator at end of the build
-#  - android-wait-for-emulator
+  - android-wait-for-emulator
   - adb wait-for-device get-serialno
   - adb shell settings put global window_animation_scale 0 &
   - adb shell settings put global transition_animation_scale 0 &
