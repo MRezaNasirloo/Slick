@@ -1,11 +1,13 @@
 package test;
 
+import android.app.Activity;
 import android.util.SparseArray;
 import android.view.View;
 import com.mrezanasirloo.slick.InternalOnDestroyListener;
 import com.mrezanasirloo.slick.OnDestroyListener;
 import com.mrezanasirloo.slick.SlickDelegateView;
 import java.lang.Override;
+import java.lang.String;
 
 public class ExamplePresenter_Slick implements InternalOnDestroyListener {
     private static ExamplePresenter_Slick hostInstance;
@@ -36,7 +38,19 @@ public class ExamplePresenter_Slick implements InternalOnDestroyListener {
     }
 
     public static <T extends View & ExampleView & OnDestroyListener> void onDestroy(T daggerCustomView) {
+        if(hostInstance == null || hostInstance.delegates.get(SlickDelegateView.getId(daggerCustomView)) == null) return;
+        // Already has called by its delegate.
         hostInstance.delegates.get(SlickDelegateView.getId(daggerCustomView)).onDestroy(daggerCustomView);
+    }
+
+    public static void onDestroy(String uniqueId, Activity activity) {
+        if (hostInstance == null || hostInstance.delegates.get(uniqueId.hashCode()) == null) return;
+        // Either has not bound or already has destroyed.
+        hostInstance.delegates.get(uniqueId.hashCode()).onDestroy(activity);
+    }
+
+    public static void onDestroy(String uniqueId, View view) {
+        onDestroy(uniqueId, SlickDelegateView.getActivity(view));
     }
 
     @Override
