@@ -27,6 +27,7 @@ import com.mrezanasirloo.slick.sample.conductor.ActivityConductorHost;
 import com.mrezanasirloo.slick.sample.conductor.dagger.ActivityConductorHostDagger;
 import com.mrezanasirloo.slick.sample.cutstomview.ActivityCustomView;
 import com.mrezanasirloo.slick.sample.cutstomview.dagger.ActivityCustomViewDagger;
+import com.mrezanasirloo.slick.sample.cutstomview.infinate.ActivityFragmentContainer;
 import com.mrezanasirloo.slick.sample.fragment.ActivityFragmentHost;
 import com.mrezanasirloo.slick.sample.fragmentsupport.SupportFragmentHostActivity;
 import com.mrezanasirloo.slick.sample.multipresenter.ActivityMultiPresenter;
@@ -97,5 +98,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, ActivityMultiPresenter.class));
             }
         });
+
+        findViewById(R.id.button_custom_view_fragment).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ActivityFragmentContainer.class));
+            }
+        });
+
     }
 }
