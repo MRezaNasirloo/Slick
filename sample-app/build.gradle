@@ -15,6 +15,9 @@
  */
 
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion Versions.vSdkCompile
@@ -41,11 +44,15 @@ dependencies {
     implementation project(':slick')
     implementation project(':slick-conductor')
     implementation project(':slick-support-fragment')
-    annotationProcessor project(':slick-compiler')
-    annotationProcessor Deps.depDaggerCompiler
+    kapt project(':slick-compiler')
+    kapt Deps.depDaggerCompiler
 
     implementation Deps.depSupportAppCompat
     implementation Deps.depSupportFragment
     implementation Deps.depConductor
     implementation Deps.depDagger
+    implementation Deps.depKotlin
+}
+repositories {
+    mavenCentral()
 }
