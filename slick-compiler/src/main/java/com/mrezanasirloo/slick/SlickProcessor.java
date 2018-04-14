@@ -111,7 +111,7 @@ public class SlickProcessor extends AbstractProcessor {
     }
 
     private static final String pkgName = "com.mrezanasirloo.slick";
-    public static final ClassName ClASS_NAME_ON_DESTROY_LISTENER = get(pkgName, "OnDestroyListener");
+    public static final ClassName ClASS_NAME_ON_DESTROY_LISTENER = get(pkgName, "SlickLifecycleListener");
     public static final ClassName ClASS_NAME_ACTIVITY = get("android.app", "Activity");
     public static final ClassName ClASS_NAME_VIEW = get("android.view", "View");
     static final ClassName ClASS_NAME_FRAGMENT = get("android.app", "Fragment");

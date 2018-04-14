@@ -16,10 +16,13 @@
 
 package com.mrezanasirloo.slick;
 
+import android.support.annotation.NonNull;
+
 /**
  * @author : M.Reza.Nasirloo@gmail.com
- *         Created on: 2017-02-19
+ * Created on: 2017-02-19
  */
 public interface SlickUniqueId {
+    @NonNull
     String getUniqueId();
 }

@@ -5,8 +5,9 @@ import android.support.annotation.IdRes;
 import android.util.SparseArray;
 import android.view.View;
 import com.mrezanasirloo.slick.InternalOnDestroyListener;
-import com.mrezanasirloo.slick.OnDestroyListener;
 import com.mrezanasirloo.slick.SlickDelegateView;
+import com.mrezanasirloo.slick.SlickLifecycleListener;
+
 import java.lang.Override;
 import java.lang.String;
 
@@ -15,7 +16,7 @@ public class ExamplePresenter_Slick implements InternalOnDestroyListener {
 
     private final SparseArray<SlickDelegateView<ExampleView, ExamplePresenter>> delegates = new SparseArray<>();
 
-    public static <T extends ExampleCustomView & ExampleView & OnDestroyListener> void bind(T exampleCustomView, @IdRes int i, float f) {
+    public static <T extends ExampleCustomView & ExampleView & SlickLifecycleListener> void bind(T exampleCustomView, @IdRes int i, float f) {
         final int id = SlickDelegateView.getId(exampleCustomView);
         if (hostInstance == null) hostInstance = new ExamplePresenter_Slick();
         SlickDelegateView<ExampleView, ExamplePresenter> delegate = hostInstance.delegates.get(id);
@@ -28,17 +29,17 @@ public class ExamplePresenter_Slick implements InternalOnDestroyListener {
         ((ExampleCustomView) exampleCustomView).presenter = delegate.getPresenter();
     }
 
-    public static <T extends View & ExampleView & OnDestroyListener> void onAttach(T exampleCustomView) {
+    public static <T extends View & ExampleView & SlickLifecycleListener> void onAttach(T exampleCustomView) {
         hostInstance.delegates.get(SlickDelegateView.getId(exampleCustomView)).onAttach(exampleCustomView);
     }
 
-    public static <T extends View & ExampleView & OnDestroyListener> void onDetach(T exampleCustomView) {
+    public static <T extends View & ExampleView & SlickLifecycleListener> void onDetach(T exampleCustomView) {
         if(hostInstance == null || hostInstance.delegates.get(SlickDelegateView.getId(exampleCustomView)) == null) return;
         // Already has called by its delegate.
         hostInstance.delegates.get(SlickDelegateView.getId(exampleCustomView)).onDetach(exampleCustomView);
     }
 
-    public static <T extends View & ExampleView & OnDestroyListener> void onDestroy(T exampleCustomView) {
+    public static <T extends View & ExampleView & SlickLifecycleListener> void onDestroy(T exampleCustomView) {
         if(hostInstance == null || hostInstance.delegates.get(SlickDelegateView.getId(exampleCustomView)) == null) return;
         // Already has called by its delegate.
         hostInstance.delegates.get(SlickDelegateView.getId(exampleCustomView)).onDestroy(exampleCustomView);

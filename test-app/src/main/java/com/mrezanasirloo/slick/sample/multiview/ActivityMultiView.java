@@ -34,13 +34,16 @@ public class ActivityMultiView extends AppCompatActivity {
         customView1 = findViewById(R.id.custom_view_1);
         customView1_2 = findViewById(R.id.custom_view_1_2);
         customView2 = findViewById(R.id.custom_view_2);
+        customView1.onBind(customView1.getUniqueId());
+        customView1_2.onBind(customView1_2.getUniqueId());
+        customView2.onBind(customView1_2.getUniqueId());
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        customView1.onDestroy(); //<--- onDestroy notification should be passed to view
-        customView1_2.onDestroy();
-        customView2.onDestroy();
+        ViewPresenter_Slick.onDestroy(customView1);
+        ViewPresenter_Slick.onDestroy(customView1_2);
+        ViewPresenter_Slick.onDestroy(customView2);
     }
 }

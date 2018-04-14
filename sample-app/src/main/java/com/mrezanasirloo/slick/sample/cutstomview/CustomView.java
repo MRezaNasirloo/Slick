@@ -19,12 +19,13 @@ package com.mrezanasirloo.slick.sample.cutstomview;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
-import com.mrezanasirloo.slick.OnDestroyListener;
 import com.mrezanasirloo.slick.Presenter;
+import com.mrezanasirloo.slick.SlickLifecycleListener;
 import com.mrezanasirloo.slick.SlickUniqueId;
 
 import java.util.UUID;
@@ -39,7 +40,7 @@ import static java.util.Locale.ENGLISH;
  *         A multi instance Custom View
  */
 
-public class CustomView extends AppCompatTextView implements ViewCustomView, OnDestroyListener, SlickUniqueId {
+public class CustomView extends AppCompatTextView implements ViewCustomView, SlickLifecycleListener, SlickUniqueId {
 
     @Presenter
     ViewPresenter presenter;
@@ -72,7 +73,7 @@ public class CustomView extends AppCompatTextView implements ViewCustomView, OnD
     }
 
     @Override
-    public void onDestroy() {
+    public void onBind(@NonNull String instanceId) {
         ViewPresenter_Slick.onDestroy(this);
     }
 
@@ -95,6 +96,7 @@ public class CustomView extends AppCompatTextView implements ViewCustomView, OnD
         super.onRestoreInstanceState(state);
     }
 
+    @NonNull
     @Override
     public String getUniqueId() {
         return id = (id != null ? id : UUID.randomUUID().toString());

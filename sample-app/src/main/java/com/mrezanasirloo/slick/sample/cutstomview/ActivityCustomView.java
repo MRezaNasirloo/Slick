@@ -39,7 +39,7 @@ public class ActivityCustomView extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        customView1.onDestroy(); //<--- onDestroy notification should be passed to view
+        customView1.onBind(customView2.getUniqueId()); //<--- onDestroy notification should be passed to view
         ViewPresenter_Slick.onDestroy(view2UniqueId, this);
         // If you don't have access to the view anymore, i.e View's hosted in a fragment
         // Retain its uniqueId and send the onDestroy callbacks yourself

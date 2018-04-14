@@ -17,6 +17,7 @@
 package com.mrezanasirloo.slick.supportfragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
@@ -50,6 +51,7 @@ public abstract class SlickFragment extends Fragment implements SlickUniqueId {
         outState.putString(SLICK_UNIQUE_KEY, id);
     }
 
+    @NonNull
     @Override
     public String getUniqueId() {
         return id = id != null ? id : UUID.randomUUID().toString();

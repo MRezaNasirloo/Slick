@@ -17,13 +17,14 @@
 package com.mrezanasirloo.slick.sample.cutstomview.dagger;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.mrezanasirloo.slick.OnDestroyListener;
 import com.mrezanasirloo.slick.Presenter;
+import com.mrezanasirloo.slick.SlickLifecycleListener;
 import com.mrezanasirloo.slick.sample.App;
 import com.mrezanasirloo.slick.sample.R;
 
@@ -35,7 +36,7 @@ import javax.inject.Provider;
  *         Created on: 2017-03-09
  */
 
-public class CustomViewDagger extends LinearLayout implements ViewCustomViewDagger, OnDestroyListener {
+public class CustomViewDagger extends LinearLayout implements ViewCustomViewDagger, SlickLifecycleListener {
 
     @Inject
     Provider<PresenterCustomViewDagger> provider;
@@ -74,7 +75,7 @@ public class CustomViewDagger extends LinearLayout implements ViewCustomViewDagg
     }
 
     @Override
-    public void onDestroy() {
+    public void onBind(@NonNull String instanceId) {
         System.out.println("DaggerCustomView.onDestroy");
         PresenterCustomViewDagger_Slick.onDestroy(this);
     }

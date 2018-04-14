@@ -35,6 +35,6 @@ public class ActivityCustomViewDagger extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        customView.onDestroy();
+        customView.onBind("some_string_as_id");
     }
 }
