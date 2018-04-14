@@ -17,13 +17,14 @@
 package com.mrezanasirloo.slick.sample.cutstomview;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.mrezanasirloo.slick.OnDestroyListener;
 import com.mrezanasirloo.slick.Presenter;
+import com.mrezanasirloo.slick.SlickLifecycleListener;
 import com.mrezanasirloo.slick.sample.R;
 import com.mrezanasirloo.slick.sample.activity.ViewTestable;
 import com.mrezanasirloo.slick.test.SlickPresenterTestable;
@@ -33,7 +34,7 @@ import com.mrezanasirloo.slick.test.SlickPresenterTestable;
  *         Created on: 2017-03-09
  */
 
-public class CustomView extends LinearLayout implements ViewCustomView, OnDestroyListener {
+public class CustomView extends LinearLayout implements ViewCustomView, SlickLifecycleListener {
 
     @Presenter
     PresenterCustomView presenter;
@@ -53,10 +54,8 @@ public class CustomView extends LinearLayout implements ViewCustomView, OnDestro
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        PresenterCustomView_Slick.bind(this);
         PresenterCustomView_Slick.onAttach(this);
-
-        final TextView textView = (TextView) findViewById(R.id.textView_custom_view);
+        final TextView textView = findViewById(R.id.textView_custom_view);
         textView.setText(presenter.getData());
     }
 
@@ -67,8 +66,8 @@ public class CustomView extends LinearLayout implements ViewCustomView, OnDestro
     }
 
     @Override
-    public void onDestroy() {
-        PresenterCustomView_Slick.onDestroy(this);
+    public void onBind(@NonNull String instanceId) {
+        PresenterCustomView_Slick.bind(this);
     }
 
     @Override

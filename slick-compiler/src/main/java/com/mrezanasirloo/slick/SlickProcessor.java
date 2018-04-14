@@ -19,6 +19,7 @@ package com.mrezanasirloo.slick;
 import com.google.auto.service.AutoService;
 import com.mrezanasirloo.slick.components.AddMethodGenerator;
 import com.mrezanasirloo.slick.components.AddMethodGeneratorCallbackImpl;
+import com.mrezanasirloo.slick.components.AddMethodGeneratorViewImpl;
 import com.mrezanasirloo.slick.components.BindMethodBodyGenerator;
 import com.mrezanasirloo.slick.components.BindMethodBodyGeneratorFragmentImpl;
 import com.mrezanasirloo.slick.components.BindMethodBodyGeneratorImpl;
@@ -110,21 +111,20 @@ public class SlickProcessor extends AbstractProcessor {
     }
 
     private static final String pkgName = "com.mrezanasirloo.slick";
-    static final ClassName ClASS_NAME_ACTIVITY = get("android.app", "Activity");
+    public static final ClassName ClASS_NAME_ON_DESTROY_LISTENER = get(pkgName, "SlickLifecycleListener");
+    public static final ClassName ClASS_NAME_ACTIVITY = get("android.app", "Activity");
+    public static final ClassName ClASS_NAME_VIEW = get("android.view", "View");
     static final ClassName ClASS_NAME_FRAGMENT = get("android.app", "Fragment");
     static final ClassName ClASS_NAME_FRAGMENT_SUPPORT = get("android.support.v4.app", "Fragment");
-    static final ClassName ClASS_NAME_VIEW = get("android.view", "View");
     static final ClassName CLASS_NAME_CONTROLLER = get("com.bluelinelabs.conductor", "Controller");
     static final ClassName ClASS_NAME_HASH_MAP = get("android.util", "SparseArray");
     static final ClassName ClASS_NAME_STRING = get("java.lang", "String");
     static final ClassName CLASS_NAME_SLICK_DELEGATE_ACTIVITY = get(pkgName, "SlickDelegateActivity");
     static final ClassName CLASS_NAME_SLICK_DELEGATE_FRAGMENT = get(pkgName, "SlickDelegateFragment");
     static final ClassName CLASS_NAME_SLICK_DELEGATE_VIEW = get(pkgName, "SlickDelegateView");
-    private static final String packageName = "com.mrezanasirloo.slick";
-    static final ClassName CLASS_NAME_SLICK_DELEGATE_FRAGMENT_SUPPORT = get(packageName + ".supportfragment", "SlickDelegateFragment");
-    static final ClassName CLASS_NAME_SLICK_DELEGATE_CONDUCTOR = get(packageName + ".conductor", "SlickDelegateConductor");
+    static final ClassName CLASS_NAME_SLICK_DELEGATE_FRAGMENT_SUPPORT = get(pkgName + ".supportfragment", "SlickDelegateFragment");
+    static final ClassName CLASS_NAME_SLICK_DELEGATE_CONDUCTOR = get(pkgName + ".conductor", "SlickDelegateConductor");
     static final ClassName ClASS_NAME_INTERNAL_ON_DESTROY_LISTENER = get(pkgName, "InternalOnDestroyListener");
-    public static final ClassName ClASS_NAME_ON_DESTROY_LISTENER = get(pkgName, "OnDestroyListener");
 
     private Filer filer;
     private Messager messager;
@@ -151,12 +151,13 @@ public class SlickProcessor extends AbstractProcessor {
     private BindMethodBodyGenerator bmbgViewDagger = new BindMethodBodyGeneratorImpl(gvig, pigDagger, vcgNoOp);
     private AddMethodGenerator amgFragment = new AddMethodGeneratorCallbackImpl("onStart", "onStop", "onDestroy");
     private AddMethodGenerator amgView = new AddMethodGeneratorCallbackImpl("onAttach", "onDetach", "onDestroy");
+    private AddMethodGenerator amgView2 = new AddMethodGeneratorViewImpl();
     private PresenterGenerator generatorActivity = new BasePresenterGeneratorImpl(msg, bmbgActivity);
     private PresenterGenerator generatorFragment = new BasePresenterGeneratorImpl(msg, bmbgFragment, amgFragment);
     private PresenterGenerator generatorFragmentSupport = new BasePresenterGeneratorImpl(msg, bmbgFragmentSupport);
     private PresenterGenerator generatorConductor = new BasePresenterGeneratorImpl(msg, bmbgConductor);
-    private PresenterGenerator generatorView = new BasePresenterGeneratorImpl(msg, bmbgView, amgView);
-    private PresenterGenerator generatorDaggerView = new BasePresenterGeneratorImpl(msgDagger, bmbgViewDagger, amgView);
+    private PresenterGenerator generatorView = new BasePresenterGeneratorImpl(msg, bmbgView, amgView, amgView2);
+    private PresenterGenerator generatorDaggerView = new BasePresenterGeneratorImpl(msgDagger, bmbgViewDagger, amgView, amgView2);
     private PresenterGenerator generatorDaggerActivity = new BasePresenterGeneratorImpl(msgDagger, bmbgActivityDagger);
     private PresenterGenerator generatorDaggerFragment = new BasePresenterGeneratorImpl(msgDagger, bmbgFragmentDagger, amgFragment);
     private PresenterGenerator generatorDaggerFragmentSupport = new BasePresenterGeneratorImpl(msgDagger, bmbgFragmentSupportDagger);

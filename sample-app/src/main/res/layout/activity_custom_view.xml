@@ -21,6 +21,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical"
     tools:context="com.mrezanasirloo.slick.sample.cutstomview.ActivityCustomView"
     >
@@ -29,12 +30,20 @@
         android:id="@+id/custom_view_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="8dp"
+        android:textAlignment="center"
+        android:textSize="24sp"
         />
 
     <com.mrezanasirloo.slick.sample.cutstomview.CustomView
         android:id="@+id/custom_view_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="8dp"
+        android:textAlignment="center"
+        android:textSize="24sp"
         />
 
 

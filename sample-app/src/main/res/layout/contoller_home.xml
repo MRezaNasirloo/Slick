@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright 2018. M. Reza Nasirloo
   ~
@@ -21,24 +22,15 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context="com.mrezanasirloo.slick.sample.fragment.ActivityFragmentHost"
     >
 
-    <Button
-        android:id="@+id/button_fragment_support_dagger"
+    <TextView
+        android:id="@+id/text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="Support Fragment Dagger"
-        tools:ignore="HardcodedText"
-        />
-
-    <Button
-        android:id="@+id/button_fragment_support"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="Support Fragment"
+        android:gravity="center"
+        android:text="Hello from Conductor"
+        android:textSize="30sp"
         tools:ignore="HardcodedText"
         />
 

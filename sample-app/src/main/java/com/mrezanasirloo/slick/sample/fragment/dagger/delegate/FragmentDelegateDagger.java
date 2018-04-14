@@ -17,6 +17,7 @@
 package com.mrezanasirloo.slick.sample.fragment.dagger.delegate;
 
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -51,11 +52,12 @@ public class FragmentDelegateDagger extends Fragment implements ViewFragmentDele
         return new FragmentDelegateDagger();
     }
 
+    @SuppressLint("SetTextI18n")
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_example, container, false);
-        ((TextView) view.findViewById(R.id.text_view_fragment)).setText("Delegate Dagger Fragment.");
+        ((TextView) view.findViewById(R.id.text_view_fragment)).setText("This Fragment uses delegation to send callbacks to Presenter");
         return view;
     }
 

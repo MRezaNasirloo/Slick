@@ -53,7 +53,7 @@ public class FragmentSupport extends Fragment implements ViewFragmentSupport {
                              @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_example, container, false);
         ((TextView) view.findViewById(R.id.text_view_fragment))
-                .setText("Delegate Fragment without base class");
+                .setText("Support Fragment");
         return view;
     }
 

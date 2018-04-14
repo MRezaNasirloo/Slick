@@ -19,6 +19,7 @@ package com.mrezanasirloo.slick;
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.support.annotation.NonNull;
 import android.view.View;
 
 
@@ -33,62 +34,43 @@ public class SlickDelegateView<V, P extends SlickPresenter<V>> {
     private InternalOnDestroyListener listener;
 
     private P presenter;
-    private Class cls;
-    private boolean multiInstance = false;
     /**
      * to ensure not to call onViewDown after onDestroy
      */
     private boolean hasOnViewDownCalled = false;
 
-    public SlickDelegateView(P presenter, Class cls, int id) {
+    public SlickDelegateView(@NonNull P presenter, Class ignored, int id) {
+        //noinspection ConstantConditions
         if (presenter == null) {
             throw new IllegalStateException("Presenter cannot be null.");
         }
         this.presenter = presenter;
-        this.cls = cls;
         this.id = id;
-        if (id != -1) multiInstance = true;
     }
 
-    public void onAttach(V view) {
-        if (multiInstance) {
-            if (isSameInstance(view)) {
-                presenter.onViewUp(view);
-                hasOnViewDownCalled = false;
-            }
+    private static final String TAG = SlickDelegateView.class.getSimpleName();
 
-        } else if (cls.isInstance(view)) {
-            presenter.onViewUp(view);
-            hasOnViewDownCalled = false;
-        }
+    public void onAttach(@NonNull V view) {
+        presenter.onViewUp(view);
+        hasOnViewDownCalled = false;
     }
 
-    public void onDetach(V view) {
-        if (multiInstance) {
-            if (isSameInstance(view)) {
-                presenter.onViewDown();
-                hasOnViewDownCalled = true;
-            }
-        } else if (cls.isInstance(view)) {
-            presenter.onViewDown();
-            hasOnViewDownCalled = true;
-        }
+    public void onDetach(Object ignored) {
+        presenter.onViewDown();
+        hasOnViewDownCalled = true;
     }
 
-    public void onDestroy(V view) {
-        if (multiInstance) {
-            if (isSameInstance(view)) {
-                destroy(view);
-            }
-        } else if (cls.isInstance(view)) {
-            destroy(view);
-        }
+    public void onDestroy(@NonNull V view) {
+        destroy(getActivity((View) view));
     }
 
-    private void destroy(V view) {
-        final Activity activity = getActivity((View) view);
+    public void onDestroy(@NonNull Activity activity) {
+        destroy(activity);
+    }
+
+    private void destroy(@NonNull Activity activity) {
         if (!activity.isChangingConfigurations()) {
-            if (!hasOnViewDownCalled) onDetach(view);
+            if (!hasOnViewDownCalled) onDetach(null);
             presenter.onDestroy();
             if (listener != null) {
                 listener.onDestroy(id);
@@ -101,22 +83,18 @@ public class SlickDelegateView<V, P extends SlickPresenter<V>> {
         return presenter;
     }
 
-    public void setListener(InternalOnDestroyListener listener) {
+    public void setListener(@NonNull InternalOnDestroyListener listener) {
         this.listener = listener;
     }
 
 
-    public static int getId(Object view) {
+    public static int getId(@NonNull Object view) {
         if (view instanceof SlickUniqueId) return ((SlickUniqueId) view).getUniqueId().hashCode();
         return -1;
     }
 
-    private boolean isSameInstance(Object view) {
-        final int id = getId(view);
-        return id != -1 && id == this.id;
-    }
-
-    public Activity getActivity(View view) {
+    @NonNull
+    public static Activity getActivity(@NonNull View view) {
         Context context = view.getContext();
         while (context instanceof ContextWrapper) {
             if (context instanceof Activity) {
@@ -124,7 +102,7 @@ public class SlickDelegateView<V, P extends SlickPresenter<V>> {
             }
             context = ((ContextWrapper) context).getBaseContext();
         }
-        return null;
+        throw new IllegalStateException("Cannot find the activity, Are you sure the supplied view was attached?");
     }
 
 }

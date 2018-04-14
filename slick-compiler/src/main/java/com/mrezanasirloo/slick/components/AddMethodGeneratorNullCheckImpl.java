@@ -19,13 +19,16 @@ package com.mrezanasirloo.slick.components;
 import com.mrezanasirloo.slick.AnnotatedPresenter;
 import com.squareup.javapoet.MethodSpec;
 
-import java.util.List;
-
 /**
- * @author : M.Reza.Nasirloo@gmail.com
- *         Created on: 2017-02-24
+ * @author : Pedramrn@gmail.com
+ * Created on: 2018-04-13
  */
+class AddMethodGeneratorNullCheckImpl implements AddMethodGeneratorNullCheck {
 
-public interface AddMethodGenerator {
-    List<MethodSpec> generate(AnnotatedPresenter ap);
+    @Override
+    public void generate(AnnotatedPresenter ap, MethodSpec.Builder builder) {
+        builder.addStatement("if($L == null || $L.$L.get($T.getId($L)) == null) return", "hostInstance", "hostInstance",
+                "delegates", ap.getDelegateType(), ap.getViewVarName())
+                .addComment("Already has called by its delegate.");
+    }
 }

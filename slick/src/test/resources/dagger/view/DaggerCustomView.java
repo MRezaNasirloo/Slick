@@ -1,17 +1,18 @@
 package test;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
-import com.mrezanasirloo.slick.OnDestroyListener;
+import com.mrezanasirloo.slick.SlickLifecycleListener;
 import com.mrezanasirloo.slick.Presenter;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
 
-public class DaggerCustomView extends LinearLayout implements ExampleView, OnDestroyListener {
+public class DaggerCustomView extends LinearLayout implements ExampleView, SlickLifecycleListener {
 
     @Inject
     Provider<ExamplePresenter> provider;
@@ -34,7 +35,6 @@ public class DaggerCustomView extends LinearLayout implements ExampleView, OnDes
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        ExamplePresenter_Slick.bind(this);
         ExamplePresenter_Slick.onAttach(this);
     }
 
@@ -45,7 +45,7 @@ public class DaggerCustomView extends LinearLayout implements ExampleView, OnDes
     }
 
     @Override
-    public void onDestroy() {
-        ExamplePresenter_Slick.onDestroy(this);
+    public void onBind(@NonNull String instanceId) {
+        ExamplePresenter_Slick.bind(this);
     }
 }

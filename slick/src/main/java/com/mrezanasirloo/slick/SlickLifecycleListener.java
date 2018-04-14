@@ -16,10 +16,12 @@
 
 package com.mrezanasirloo.slick;
 
+import android.support.annotation.NonNull;
+
 /**
  * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2017-09-18
  */
-public interface OnDestroyListener {
-    void onDestroy();
+public interface SlickLifecycleListener {
+    void onBind(@NonNull String instanceId);
 }

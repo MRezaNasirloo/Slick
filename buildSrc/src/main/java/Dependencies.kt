@@ -25,6 +25,7 @@ object Versions {
     const val vVersionCode = 1
     const val vVersionName = "1.0"
     const val vBuildTool = "27.0.3"
+    const val vKotlin = "1.2.31"
 
     const val vSupportLib = "27.1.1"
     const val vRxjava2 = "2.1.10"
@@ -38,6 +39,8 @@ object Deps {
     val depSupportDesign = "com.android.support:design:${Versions.vSupportLib}"
     val depSupportCardView = "com.android.support:cardview-v7:${Versions.vSupportLib}"
     val depConstraintLayout = "com.android.support.constraint:constraint-layout:1.0.2"
+
+    val depKotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.vKotlin}"
 
     val depConductor = "com.bluelinelabs:conductor:2.1.4"
     val depSparkButton = "com.github.varunest:sparkbutton:1.0.5"

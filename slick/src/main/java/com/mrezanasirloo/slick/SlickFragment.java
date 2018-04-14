@@ -18,6 +18,7 @@ package com.mrezanasirloo.slick;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -88,6 +89,7 @@ public abstract class SlickFragment<V, P extends SlickPresenter<V>> extends Frag
         super.onDestroy();
     }
 
+    @NonNull
     @Override
     public String getUniqueId() {
         return id = id != null ? id : UUID.randomUUID().toString();

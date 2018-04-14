@@ -1,14 +1,15 @@
 package test;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
-import com.mrezanasirloo.slick.OnDestroyListener;
+import com.mrezanasirloo.slick.SlickLifecycleListener;
 import com.mrezanasirloo.slick.Presenter;
 
-public class ExampleCustomView extends LinearLayout implements ExampleView, OnDestroyListener {
+public class ExampleCustomView extends LinearLayout implements ExampleView, SlickLifecycleListener {
 
     @Presenter
     ExamplePresenter presenter;
@@ -39,7 +40,7 @@ public class ExampleCustomView extends LinearLayout implements ExampleView, OnDe
     }
 
     @Override
-    public void onDestroy() {
+    public void onBind(@NonNull String instanceId) {
         ExamplePresenter_Slick.onDestroy(this);
     }
 }

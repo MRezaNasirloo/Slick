@@ -27,6 +27,7 @@ import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.lang.model.element.Modifier;
 
@@ -43,7 +44,7 @@ class BasePresenterGeneratorImpl implements PresenterGenerator {
 
     private final MethodSignatureGenerator methodSignatureGenerator;
     private final BindMethodBodyGenerator methodBodyGenerator;
-    private AddMethodGenerator addMethodGenerator;
+    private AddMethodGenerator[] addMethodGenerator;
 
     public BasePresenterGeneratorImpl(MethodSignatureGenerator methodSignatureGenerator,
                                       BindMethodBodyGenerator methodBodyGenerator) {
@@ -53,7 +54,7 @@ class BasePresenterGeneratorImpl implements PresenterGenerator {
 
     public BasePresenterGeneratorImpl(MethodSignatureGenerator methodSignatureGenerator,
                                       BindMethodBodyGenerator methodBodyGenerator,
-                                      AddMethodGenerator addMethodGenerator) {
+                                      AddMethodGenerator... addMethodGenerator) {
         this.methodSignatureGenerator = methodSignatureGenerator;
         this.methodBodyGenerator = methodBodyGenerator;
         this.addMethodGenerator = addMethodGenerator;
@@ -122,7 +123,11 @@ class BasePresenterGeneratorImpl implements PresenterGenerator {
      */
     private Iterable<MethodSpec> addMethods(AnnotatedPresenter ap) {
         if (addMethodGenerator != null) {
-            return addMethodGenerator.generate(ap);
+            List<MethodSpec> list = new ArrayList<>();
+            for (AddMethodGenerator methodGenerator : addMethodGenerator) {
+                list.addAll(methodGenerator.generate(ap));
+            }
+            return list;
         }
         return new ArrayList<>(0);
     }

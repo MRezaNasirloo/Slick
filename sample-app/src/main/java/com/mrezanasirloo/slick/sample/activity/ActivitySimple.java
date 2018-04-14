@@ -30,7 +30,7 @@ public class ActivitySimple extends AppCompatActivity implements ViewSimple {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        PresenterSimple_Slick.bind(this, R.id.textView3, "foo");
+        PresenterSimple_Slick.bind(this, R.id.textView_simple, "foo");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_example);
     }

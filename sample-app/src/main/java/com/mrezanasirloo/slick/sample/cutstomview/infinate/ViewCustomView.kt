@@ -14,15 +14,11 @@
  * limitations under the License.
  */
 
-package com.mrezanasirloo.slick;
-
-import android.support.annotation.NonNull;
+package com.mrezanasirloo.slick.sample.cutstomview.infinate
 
 /**
  * @author : M.Reza.Nasirloo@gmail.com
- * Created on: 2017-02-19
+ * Created on: 2017-03-09
  */
-public interface SlickUniqueId {
-    @NonNull
-    String getUniqueId();
-}
+
+interface ViewCustomView

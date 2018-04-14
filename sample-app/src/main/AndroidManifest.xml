@@ -41,6 +41,7 @@
         <activity android:name=".fragment.ActivityFragmentHost"/>
         <activity android:name=".fragmentsupport.SupportFragmentHostActivity"/>
         <activity android:name=".cutstomview.ActivityCustomView"/>
+        <activity android:name=".cutstomview.infinate.ActivityFragmentContainer"/>
         <activity android:name=".cutstomview.dagger.ActivityCustomViewDagger"/>
         <activity android:name=".multipresenter.ActivityMultiPresenter"/>
     </application>

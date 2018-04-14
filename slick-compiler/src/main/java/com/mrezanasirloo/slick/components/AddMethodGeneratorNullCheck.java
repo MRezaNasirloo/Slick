@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.mrezanasirloo.slick;
+package com.mrezanasirloo.slick.components;
 
-import android.support.annotation.NonNull;
+import com.mrezanasirloo.slick.AnnotatedPresenter;
+import com.squareup.javapoet.MethodSpec;
 
 /**
- * @author : M.Reza.Nasirloo@gmail.com
- * Created on: 2017-02-19
+ * @author : Pedramrn@gmail.com
+ * Created on: 2018-04-13
  */
-public interface SlickUniqueId {
-    @NonNull
-    String getUniqueId();
+interface AddMethodGeneratorNullCheck {
+    void generate(AnnotatedPresenter ap, MethodSpec.Builder builder);
 }

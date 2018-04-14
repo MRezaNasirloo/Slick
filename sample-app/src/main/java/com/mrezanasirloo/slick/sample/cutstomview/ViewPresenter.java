@@ -43,18 +43,18 @@ public class ViewPresenter extends SlickPresenter<ViewCustomView> {
     @Override
     public void onViewUp(ViewCustomView view) {
         super.onViewUp(view);
-        Log.d(TAG, "onViewUp() called" + toString());
+        Log.d(TAG, "onViewUp() called: " + getCode());
     }
 
     @Override
     public void onViewDown() {
         super.onViewDown();
-        Log.d(TAG, "onViewDown() called" + toString());
+        Log.d(TAG, "onViewDown() called: " + getCode());
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "onDestroy() called" + toString());
+        Log.d(TAG, "onDestroy() called: " + getCode());
     }
 }

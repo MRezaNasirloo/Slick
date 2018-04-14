@@ -15,14 +15,15 @@
   ~ limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:padding="32dp"
-              android:gravity="center"
-              tools:context="com.mrezanasirloo.slick.sample.multipresenter.ActivityMultiPresenter"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="32dp"
+    tools:context="com.mrezanasirloo.slick.sample.multipresenter.ActivityMultiPresenter"
     >
 
     <TextView
@@ -30,13 +31,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:textSize="18sp"
+        android:gravity="center"
+        android:text="Some Text Goes Here"
+        android:textSize="24sp"
+        tools:ignore="HardcodedText"
         />
 
     <TextView
         android:id="@+id/textView_multi_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:gravity="center"
+        android:text="Some Text Goes Here"
+        android:textSize="24sp"
+        tools:ignore="HardcodedText"
         />
 </LinearLayout>
