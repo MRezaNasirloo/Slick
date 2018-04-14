@@ -20,12 +20,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 
 
 /**
  * @author : M.Reza.Nasirloo@gmail.com
- *         Created on: 2016-11-03
+ * Created on: 2016-11-03
  */
 
 public class SlickDelegateView<V, P extends SlickPresenter<V>> {
@@ -39,7 +40,7 @@ public class SlickDelegateView<V, P extends SlickPresenter<V>> {
      */
     private boolean hasOnViewDownCalled = false;
 
-    public SlickDelegateView(@NonNull P presenter, Class ignored, int id) {
+    public SlickDelegateView(@NonNull P presenter, @Nullable Class ignored, int id) {
         //noinspection ConstantConditions
         if (presenter == null) {
             throw new IllegalStateException("Presenter cannot be null.");
@@ -55,21 +56,21 @@ public class SlickDelegateView<V, P extends SlickPresenter<V>> {
         hasOnViewDownCalled = false;
     }
 
-    public void onDetach(Object ignored) {
+    public void onDetach(@Nullable Object ignored) {
         presenter.onViewDown();
         hasOnViewDownCalled = true;
     }
 
-    public void onDestroy(@NonNull V view) {
+    public void onDestroy(@Nullable V view) {
         destroy(getActivity((View) view));
     }
 
-    public void onDestroy(@NonNull Activity activity) {
+    public void onDestroy(@Nullable Activity activity) {
         destroy(activity);
     }
 
-    private void destroy(@NonNull Activity activity) {
-        if (!activity.isChangingConfigurations()) {
+    private void destroy(@Nullable Activity activity) {
+        if (activity == null || !activity.isChangingConfigurations()) {
             if (!hasOnViewDownCalled) onDetach(null);
             presenter.onDestroy();
             if (listener != null) {
@@ -93,8 +94,9 @@ public class SlickDelegateView<V, P extends SlickPresenter<V>> {
         return -1;
     }
 
-    @NonNull
-    public static Activity getActivity(@NonNull View view) {
+    @Nullable
+    public static Activity getActivity(@Nullable View view) {
+        if (view == null) return null;
         Context context = view.getContext();
         while (context instanceof ContextWrapper) {
             if (context instanceof Activity) {
