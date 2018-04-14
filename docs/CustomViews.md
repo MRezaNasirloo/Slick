@@ -1,10 +1,10 @@
 ### CustomViews Instruction
 
 Since the View class does not have appropriate lifecycle callbacks,
-Slick provides some delegates which should called manually.
+Slick provides some delegates which should be called manually.
 
 ```java
-public class CustomView extends LinearLayout implements ExampleView, OnDestroyListener {
+public class CustomView extends LinearLayout implements ExampleView, SlickLifecycleListener {
 
     @Presenter
     ViewPresenter presenter;
@@ -16,7 +16,6 @@ public class CustomView extends LinearLayout implements ExampleView, OnDestroyLi
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        ViewPresenter_Slick.bind(this);
         ViewPresenter_Slick.onAttach(this);
     }
 
@@ -27,8 +26,8 @@ public class CustomView extends LinearLayout implements ExampleView, OnDestroyLi
     }
 
     @Override
-    public void onDestroy() {
-        ViewPresenter_Slick.onDestroy(this);
+    public void onBind() {
+        ViewPresenter_Slick.bind(this);
     }
 }
 ```
@@ -50,15 +49,20 @@ public class CustomViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_view);
         customView = (CustomView) findViewById(R.id.custom_view);
+        customView.onBind("some_random_id");// <--- Sending a unique id insures you don't lose your presenter if you have mutiple instance of your view
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        customView.onDestroy(); //<--- onDestroy notification should be passed to view
+        ViewPresenter_Slick.onDestroy(customView); //<--- onDestroy notification should be passed to the generated class
+        // It's possible to send the `onDestory` callbacks with the view's id if you don't have access to its instance anymore. (View hosted in Fragment)
+        // ViewPresenter_Slick.onDestroy("some_random_id", this);
     }
 }
 ```
 However you may manually remove a view from its parent too, if you don't want to leak its presenter you should call its
 `onDestroy` method.
+
+For more samples take a look at the `sample-app` module
 

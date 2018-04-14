@@ -55,8 +55,7 @@ public class CustomView extends LinearLayout implements ViewCustomView, SlickLif
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         PresenterCustomView_Slick.onAttach(this);
-
-        final TextView textView = (TextView) findViewById(R.id.textView_custom_view);
+        final TextView textView = findViewById(R.id.textView_custom_view);
         textView.setText(presenter.getData());
     }
 

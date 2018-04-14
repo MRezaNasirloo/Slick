@@ -17,10 +17,7 @@
 package com.mrezanasirloo.slick.sample.multiview;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
@@ -31,9 +28,6 @@ import com.mrezanasirloo.slick.sample.activity.ViewTestable;
 import com.mrezanasirloo.slick.sample.cutstomview.ViewCustomView;
 import com.mrezanasirloo.slick.test.SlickPresenterTestable;
 
-import java.util.UUID;
-
-import static com.mrezanasirloo.slick.SlickDelegateActivity.SLICK_UNIQUE_KEY;
 import static java.util.Locale.ENGLISH;
 
 /**
@@ -57,7 +51,6 @@ public class CustomView1 extends AppCompatTextView implements ViewCustomView, Sl
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        ViewPresenter_Slick.bind(this);
         ViewPresenter_Slick.onAttach(this);
 
         String text = String.format(
@@ -77,32 +70,14 @@ public class CustomView1 extends AppCompatTextView implements ViewCustomView, Sl
 
     @Override
     public void onBind(@NonNull String instanceId) {
-        ViewPresenter_Slick.onDestroy(this);
-    }
-
-    @Nullable
-    @Override
-    public Parcelable onSaveInstanceState() {
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("superState", super.onSaveInstanceState());
-        bundle.putString(SLICK_UNIQUE_KEY, this.id);
-        return bundle;
-    }
-
-    @Override
-    public void onRestoreInstanceState(Parcelable state) {
-        if (state instanceof Bundle) {
-            Bundle bundle = (Bundle) state;
-            this.id = bundle.getString(SLICK_UNIQUE_KEY);
-            state = bundle.getParcelable("superState");
-        }
-        super.onRestoreInstanceState(state);
+        this.id = instanceId;
+        ViewPresenter_Slick.bind(this);
     }
 
     @NonNull
     @Override
     public String getUniqueId() {
-        return id = (id != null ? id : UUID.randomUUID().toString());
+        return id;
     }
 
     @Override

@@ -46,7 +46,7 @@ public abstract class SlickFragment extends Fragment implements SlickUniqueId {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(SLICK_UNIQUE_KEY, id);
     }
