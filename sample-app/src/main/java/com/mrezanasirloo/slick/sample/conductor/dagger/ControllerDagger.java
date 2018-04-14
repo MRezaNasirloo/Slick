@@ -46,7 +46,7 @@ public class ControllerDagger extends Controller implements ViewConductorDagger 
     protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
         App.getDaggerComponent(getApplicationContext()).inject(this);
         PresenterConductorDagger_Slick.bind(this);
-        return inflater.inflate(R.layout.home_layout, container, false);
+        return inflater.inflate(R.layout.contoller_home, container, false);
     }
 
     @Override

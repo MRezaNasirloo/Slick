@@ -30,6 +30,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:gravity="center"
+        android:textSize="24sp"
+        tools:text="Some Text goes here"
         />
 
     <Button
@@ -41,11 +43,24 @@
         />
 
     <TextView
+        android:id="@+id/text_view_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Fragment's Details:"
+        android:textSize="20sp"
+        tools:ignore="HardcodedText"
+        android:gravity="center"
+        />
+
+    <TextView
         android:id="@+id/text_view_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:gravity="center"
         android:textSize="20sp"
-        tools:text="code Here"
+        tools:text="Some Code Here"
         />
 
 </LinearLayout>

@@ -18,6 +18,7 @@ package com.mrezanasirloo.slick.sample.fragmentsupport;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -40,7 +41,7 @@ public class HostFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_support_simple, container, false);
 
         view.findViewById(R.id.button_fragment_support).setOnClickListener(new View.OnClickListener() {

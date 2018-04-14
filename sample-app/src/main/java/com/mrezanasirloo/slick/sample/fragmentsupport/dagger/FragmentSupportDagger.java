@@ -17,6 +17,7 @@
 package com.mrezanasirloo.slick.sample.fragmentsupport.dagger;
 
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -50,11 +51,12 @@ public class FragmentSupportDagger extends Fragment implements ViewFragmentSuppo
         return new FragmentSupportDagger();
     }
 
+    @SuppressLint("SetTextI18n")
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_example, container, false);
-        ((TextView) view.findViewById(R.id.text_view_fragment)).setText("Dagger Fragment.");
+        ((TextView) view.findViewById(R.id.text_view_fragment)).setText("Support Fragment's Presenter has injected via Dagger");
         return view;
     }
 

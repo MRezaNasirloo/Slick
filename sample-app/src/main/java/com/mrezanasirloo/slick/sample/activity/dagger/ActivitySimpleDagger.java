@@ -16,9 +16,11 @@
 
 package com.mrezanasirloo.slick.sample.activity.dagger;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.mrezanasirloo.slick.Presenter;
 import com.mrezanasirloo.slick.sample.App;
@@ -36,13 +38,17 @@ public class ActivitySimpleDagger extends AppCompatActivity implements ViewSimpl
 
     private static final String TAG = ActivitySimpleDagger.class.getSimpleName();
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         App.getDaggerComponent(this).inject(this);
         PresenterSimpleDagger_Slick.bind(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_example);
+        TextView textView = findViewById(R.id.textView_simple);
+        textView.setText("Activity's Presenter has injected with Dagger");
     }
+
 
     @Override
     protected void onDestroy() {

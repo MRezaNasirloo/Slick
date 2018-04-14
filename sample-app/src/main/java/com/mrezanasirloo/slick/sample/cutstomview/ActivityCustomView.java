@@ -33,15 +33,19 @@ public class ActivityCustomView extends AppCompatActivity {
         setContentView(R.layout.activity_custom_view);
         customView1 = findViewById(R.id.custom_view_1);
         customView2 = findViewById(R.id.custom_view_2);
+        customView1.onBind("some_unique_id_1");
+        customView2.onBind("some_unique_id_2");
         view2UniqueId = customView2.getUniqueId();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        customView1.onBind(customView2.getUniqueId()); //<--- onDestroy notification should be passed to view
-        ViewPresenter_Slick.onDestroy(view2UniqueId, this);
-        // If you don't have access to the view anymore, i.e View's hosted in a fragment
+        // onDestroy callbacks should be passed to the generated class
+        ViewPresenter_Slick.onDestroy(customView1);
+        ViewPresenter_Slick.onDestroy(customView2);
+        // If you don't have access to the view anymore, i.e View's hosted in a fragment and the onDestroyView of the fragment has called
         // Retain its uniqueId and send the onDestroy callbacks yourself
+        // ViewPresenter_Slick.onDestroy(view2UniqueId, this);
     }
 }

@@ -36,14 +36,14 @@ class CustomView(context: Context, attrs: AttributeSet) : AppCompatTextView(cont
     @Presenter
     lateinit var presenter: PresenterCustomView
 
-    private lateinit var idStr: String
+    private lateinit var instanceId: String
 
     @SuppressLint("SetTextI18n")
     override fun onBind(instanceId: String) {
-        idStr = instanceId
+        this.instanceId = instanceId
         PresenterCustomView_Slick.bind(this)
         PresenterCustomView_Slick.onAttach(this)
-        text = "Presenter's code: ${presenter.code}, View's idStr: $uniqueId"
+        text = "CustomTextView's Presenter code: ${presenter.code}, View's id: $uniqueId"
     }
 
     override fun onDetachedFromWindow() {
@@ -52,6 +52,6 @@ class CustomView(context: Context, attrs: AttributeSet) : AppCompatTextView(cont
     }
 
     override fun getUniqueId(): String {
-        return idStr
+        return instanceId
     }
 }

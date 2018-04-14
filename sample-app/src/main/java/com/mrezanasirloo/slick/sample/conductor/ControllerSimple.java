@@ -40,7 +40,7 @@ public class ControllerSimple extends Controller implements ViewConductor {
     @Override
     protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
         PresenterConductor_Slick.bind(this);
-        return inflater.inflate(R.layout.home_layout, container, false);
+        return inflater.inflate(R.layout.contoller_home, container, false);
     }
 
 

@@ -29,12 +29,13 @@ public class ActivityCustomViewDagger extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_view_dagger);
-        customView = (CustomViewDagger) findViewById(R.id.custom_view_dagger);
+        customView = findViewById(R.id.custom_view_dagger);
+        customView.onBind("some_string_as_id");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        customView.onBind("some_string_as_id");
+        PresenterCustomViewDagger_Slick.onDestroy(customView);
     }
 }

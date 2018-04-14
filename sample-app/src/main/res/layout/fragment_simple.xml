@@ -14,46 +14,50 @@
   ~ limitations under the License.
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mrezanasirloo.slick.sample.fragment.SimpleSlickFragment"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context="com.mrezanasirloo.slick.sample.fragment.ActivityFragmentHost"
     >
 
-    <Button
-        android:text="Delegate Android Fragment"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="55dp"
-        android:layout_marginStart="55dp"
-        android:layout_marginTop="84dp"
+        android:gravity="center"
+        android:text="Note: android.app.Fragment is deprecated in Android P, use support package."
+        android:textSize="24sp"
+        tools:ignore="HardcodedText"
+        />
+
+    <Button
         android:id="@+id/button_delegate_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Delegate Android Fragment"
+        tools:ignore="HardcodedText"
         />
 
     <Button
-        android:text="Dagger Fragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/button_delegate_fragment"
-        android:layout_alignLeft="@+id/button_delegate_fragment"
-        android:layout_alignStart="@+id/button_delegate_fragment"
-        android:layout_marginTop="26dp"
         android:id="@+id/button_dagger_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Dagger Fragment"
+        tools:ignore="HardcodedText"
         />
 
     <Button
-        android:text="Delegate Dagger Android Fragment"
+        android:id="@+id/button_delegate_dagger_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/button_dagger_fragment"
-        android:layout_alignLeft="@+id/button_dagger_fragment"
-        android:layout_alignStart="@+id/button_dagger_fragment"
-        android:layout_marginTop="36dp"
-        android:id="@+id/button_delegate_dagger_fragment"
+        android:layout_margin="16dp"
+        android:text="Delegate Dagger Android Fragment"
+        tools:ignore="HardcodedText"
         />
 
-</RelativeLayout>
+</LinearLayout>

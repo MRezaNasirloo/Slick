@@ -57,7 +57,7 @@ public class FragmentDagger extends SlickFragment<ViewFragmentDagger, PresenterF
     @SuppressLint("SetTextI18n")
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_example, container, false);
-        ((TextView) view.findViewById(R.id.text_view_fragment)).setText("Dagger Fragment.");
+        ((TextView) view.findViewById(R.id.text_view_fragment)).setText("Fragment's Presenter has Injected via Dagger");
         return view;
     }
 

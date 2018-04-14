@@ -14,18 +14,22 @@
   ~ limitations under the License.
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mrezanasirloo.slick.sample.fragment.SimpleSlickFragment"
+    android:gravity="center"
+    tools:context="com.mrezanasirloo.slick.sample.fragment.ActivityFragmentHost"
     >
 
     <TextView
         android:id="@+id/text_view_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"
+        android:gravity="center"
+        android:textSize="30sp"
+        tools:text="Some text goes here"
         />
 
-</RelativeLayout>
+</LinearLayout>

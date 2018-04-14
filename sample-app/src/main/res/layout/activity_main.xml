@@ -36,6 +36,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:text="Activity"
+        tools:ignore="HardcodedText"
         />
 
     <Button
@@ -46,6 +47,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/activity"
         android:text="Conductor"
+        tools:ignore="HardcodedText"
         />
 
     <Button
@@ -56,6 +58,7 @@
         android:layout_toEndOf="@+id/activity"
         android:layout_toRightOf="@+id/activity"
         android:text="activity with dagger"
+        tools:ignore="HardcodedText"
         />
 
     <Button
@@ -67,6 +70,7 @@
         android:layout_toEndOf="@+id/conductor"
         android:layout_toRightOf="@+id/conductor"
         android:text="Conductor with dagger"
+        tools:ignore="HardcodedText"
         />
 
     <Button
@@ -77,6 +81,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/conductor"
         android:text="Fragment"
+        tools:ignore="HardcodedText"
         />
 
     <Button
@@ -87,6 +92,7 @@
         android:layout_toEndOf="@+id/fragment_delegate"
         android:layout_toRightOf="@+id/fragment_delegate"
         android:text="Support Fragment"
+        tools:ignore="HardcodedText"
         />
 
     <Button
@@ -97,6 +103,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/fragment_delegate"
         android:text="Custom View"
+        tools:ignore="HardcodedText"
         />
 
     <Button
@@ -107,6 +114,7 @@
         android:layout_toEndOf="@+id/button_custom_view"
         android:layout_toRightOf="@+id/button_custom_view"
         android:text="Dagger Custom View"
+        tools:ignore="HardcodedText"
         />
 
     <Button
@@ -117,6 +125,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/button_custom_view"
         android:text="Multiple Presenters"
+        tools:ignore="HardcodedText"
         />
 
     <Button
@@ -125,7 +134,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/activity"
         android:layout_below="@+id/button_multi_presenters"
-        android:text="CustomView in Fragment"
+        android:text="Infinite Navigation with CustomView in Fragment"
         tools:ignore="HardcodedText,RtlHardcoded"
         />
 </RelativeLayout>
