@@ -1,7 +1,7 @@
 ### Multi Instance Custom Views and Fragments
 
-If you have multiple instance of a Fragment or a CustomView at the same time you need to implement `SlickUniqueId`
-interface, Since there is no way to differentiate them from each other out of the box.
+If you have multiple instance of a Fragment or a CustomView at the same time, you need to implement `SlickUniqueId`
+interface, since there is no way to differentiate them from each other out of the box.
 Here is its implementation.
 
 #### Fragment:
@@ -34,7 +34,7 @@ You can just copy & paste the above code to your base class and you are good to 
 
 #### CustomView:
 
-Since the View's lifecylce is not rich enough, its parent should provide a unique id for it when it calls its `onBind(String)` method.
+Since the View's lifecylces are not rich enough, its parent should provide a unique id for it when it calls its `onBind(String)` method.
 ```java
 public class CustomView extends AppCompatTextView implements SlickLifecycleListener, SlickUniqueId {
 

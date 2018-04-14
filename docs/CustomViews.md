@@ -37,7 +37,7 @@ don't the IDE will remind you with a red line error.
 
 ### onDestroy method
 It's quite important to call this method from the custom view's parent when you remove the view from view hierarchy or
-when the parent view is finished, Mostly just calling its `onDestory` method in the parent view `onDestroy` method is
+when the parent view is finished. Just calling its `onDestory` method in the parent view `onDestroy` method is
 enough.
 ```java
 public class CustomViewActivity extends AppCompatActivity {
@@ -49,14 +49,16 @@ public class CustomViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_view);
         customView = (CustomView) findViewById(R.id.custom_view);
-        customView.onBind("some_random_id");// <--- Sending a unique id insures you don't lose your presenter if you have mutiple instance of your view
+        customView.onBind("some_random_id");// <--- Sending a unique id insures you won't lose
+        // your presenter if you have mutiple instance of your view
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         ViewPresenter_Slick.onDestroy(customView); //<--- onDestroy notification should be passed to the generated class
-        // It's possible to send the `onDestory` callbacks with the view's id if you don't have access to its instance anymore. (View hosted in Fragment)
+        // It's possible to send the `onDestory` callbacks with the view's id,
+        // if you don't have access to its instance anymore. (View hosted in Fragment)
         // ViewPresenter_Slick.onDestroy("some_random_id", this);
     }
 }

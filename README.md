@@ -65,9 +65,8 @@ Other View types have the same logic, for more detailed instruction head to [Wik
 3. Retains Presenters in disposable, lifecycle-aware singletons
 4. Reactive support inspired by MVI and Elm architecture
 5. Do not need to extend any base class for your views
-6. Supports multiple Presenter for one view
-7. Fully Type-safe
-8. Dagger ready!
+6. Fully Type-safe
+7. Dagger ready!
 
 ### Reactive Feature
 
@@ -110,15 +109,15 @@ Packages are available in `jcenter`
 
 ```
 // Base features
-implementation 'com.mrezanasirloo:slick:1.1.0'
+implementation 'com.mrezanasirloo:slick:1.1.1'
 
 // Reactive features
-implementation 'com.mrezanasirloo:slick-reactive:1.1.0'
+implementation 'com.mrezanasirloo:slick-reactive:1.1.1'
 
-implementation 'com.mrezanasirloo:slick-conductor:1.1.0'
-implementation 'com.mrezanasirloo:slick-support-fragment:1.1.0'
+implementation 'com.mrezanasirloo:slick-conductor:1.1.1'
+implementation 'com.mrezanasirloo:slick-support-fragment:1.1.1'
 
-annotationProcessor 'com.mrezanasirloo:slick-compiler:1.1.0'
+annotationProcessor 'com.mrezanasirloo:slick-compiler:1.1.1'
 ```
 
 Since Slick packages are not tied to a specific dependency you need to provide them.

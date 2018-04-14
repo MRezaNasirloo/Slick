@@ -157,7 +157,7 @@ The first two are command stream methods that we saw earlier.
 
 Here is a simple implementation of `likeMovie()` :
 
-```
+```java
 @Overide
 public Observable<Boolean> likeMovie(){
     return RxCompoundButton.checkedChanges(likeView).throttleLast(1, TimeUnit.SECONDS);
@@ -166,7 +166,7 @@ public Observable<Boolean> likeMovie(){
 
 And finally the last part last part is rendering the ViewStates to View:
 
-```
+```java
 @Override
 protected void render(@NonNull ViewStateActivity state, @NonNull ViewActivity view) {
     if (!state.comments().isEmpty()) view.showComments(state.comments());
