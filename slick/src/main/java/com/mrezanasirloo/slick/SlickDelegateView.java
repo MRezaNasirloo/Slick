@@ -23,6 +23,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import java.util.Locale;
+
 
 /**
  * @author : M.Reza.Nasirloo@gmail.com
@@ -89,8 +91,17 @@ public class SlickDelegateView<V, P extends SlickPresenter<V>> {
     }
 
 
+    @SuppressWarnings("ConstantConditions")
     public static int getId(@NonNull Object view) {
-        if (view instanceof SlickUniqueId) return ((SlickUniqueId) view).getUniqueId().hashCode();
+        if (view == null) throw new NullPointerException("Cannot get an Id from a null view." +
+                " Are you sure you call the delegate methods at the right place?");
+        if (view instanceof SlickUniqueId) {
+            String uniqueId = ((SlickUniqueId) view).getUniqueId();
+            if (uniqueId == null) throw new IllegalStateException(String.format(Locale.ENGLISH,
+                    "Your View: %s has implemented SlickUniqueId but instead of returning an Id it returned null", view.getClass().toString()));
+
+            return uniqueId.hashCode();
+        }
         return -1;
     }
 

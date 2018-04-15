@@ -18,6 +18,9 @@ package com.mrezanasirloo.slick;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.support.annotation.NonNull;
+
+import java.util.Locale;
 
 
 /**
@@ -109,8 +112,16 @@ public class SlickDelegateFragment<V, P extends SlickPresenter<V>> {
     }
 
 
-    public static int getId(Object view) {
-        if (view instanceof SlickUniqueId) return ((SlickUniqueId) view).getUniqueId().hashCode();
+    @SuppressWarnings("ConstantConditions")
+    public static int getId(@NonNull Object view) {
+        if (view == null) throw new NullPointerException("Cannot get an Id from a null view." +
+                " Are you sure you call the delegate methods at the right place?");
+        if (view instanceof SlickUniqueId) {
+            String uniqueId = ((SlickUniqueId) view).getUniqueId();
+            if (uniqueId == null) throw new IllegalStateException(String.format(Locale.ENGLISH,
+                    "Your View: %s has implemented SlickUniqueId but instead of returning an Id it returned null", view.getClass().toString()));
+            return uniqueId.hashCode();
+        }
         return -1;
     }
 
