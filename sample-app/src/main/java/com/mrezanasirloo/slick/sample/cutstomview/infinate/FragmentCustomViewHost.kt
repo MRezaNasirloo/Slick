@@ -73,7 +73,7 @@ class FragmentCustomViewHost : Fragment(), SlickUniqueId, ViewFragment {
 
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // Here I used the id of this fragment, I you have multiple instance of your custom view within the same parent
+        // Here I used the id of this fragment, If you have multiple instance of your custom view within the same parent
         // you should use different id for each of them.
         custom_view_in_fragment.onBind(uniqueId)
 //        custom_view_in_fragment2.onBind(uniqueId + 2)
