@@ -20,6 +20,8 @@ import android.app.Activity;
 import android.app.Application.ActivityLifecycleCallbacks;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.UUID;
 
@@ -34,13 +36,14 @@ public class SlickDelegateActivity<V, P extends SlickPresenter<V>> implements Ac
     private int id;
     private InternalOnDestroyListener listener;
 
+    @Nullable
     private P presenter;
     private Class<? extends Activity> cls;
     private boolean multiInstance = false;
 
     public static String SLICK_UNIQUE_KEY = "SLICK_UNIQUE_KEY";
 
-    public SlickDelegateActivity(P presenter, Class<? extends Activity> cls, int id) {
+    public SlickDelegateActivity(@Nullable P presenter, Class<? extends Activity> cls, int id) {
         if (presenter == null) {
             throw new IllegalStateException("Presenter cannot be null.");
         }
@@ -60,6 +63,7 @@ public class SlickDelegateActivity<V, P extends SlickPresenter<V>> implements Ac
         }
         if (!activity.isChangingConfigurations()) {
             activity.getApplication().unregisterActivityLifecycleCallbacks(this);
+            //noinspection ConstantConditions
             presenter.onDestroy();
             if (listener != null) {
                 listener.onDestroy(id);
@@ -74,7 +78,7 @@ public class SlickDelegateActivity<V, P extends SlickPresenter<V>> implements Ac
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "ConstantConditions"})
     public void onActivityStarted(Activity activity) {
         if (multiInstance) {
             if (isSameInstance(activity)) {
@@ -97,7 +101,7 @@ public class SlickDelegateActivity<V, P extends SlickPresenter<V>> implements Ac
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "ConstantConditions"})
     public void onActivityStopped(Activity activity) {
         if (multiInstance) {
             if (isSameInstance(activity)) {
@@ -129,11 +133,12 @@ public class SlickDelegateActivity<V, P extends SlickPresenter<V>> implements Ac
         this.listener = listener;
     }
 
+    @Nullable
     public P getPresenter() {
         return presenter;
     }
 
-    public static int getId(Activity activity) {
+    public static int getId(@NonNull Activity activity) {
         final Intent intent = activity.getIntent();
         if (intent.hasExtra(SLICK_UNIQUE_KEY)) {
             return intent.getIntExtra(SLICK_UNIQUE_KEY , -1);
@@ -145,7 +150,7 @@ public class SlickDelegateActivity<V, P extends SlickPresenter<V>> implements Ac
         }
     }
 
-    private boolean isSameInstance(Activity activity) {
+    private boolean isSameInstance(@NonNull Activity activity) {
         final int id = activity.getIntent().getIntExtra(SLICK_UNIQUE_KEY, -1);
         return id != -1 && id == this.id;
     }

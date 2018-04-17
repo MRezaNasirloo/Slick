@@ -35,7 +35,7 @@ public class PresenterSimple extends SlickPresenterTestable<ViewSimple> {
     }
 
     @Override
-    public void onViewUp(ViewSimple view) {
+    public void onViewUp(@NonNull ViewSimple view) {
         Log.d(TAG, "onViewUp() called");
         super.onViewUp(view);
     }

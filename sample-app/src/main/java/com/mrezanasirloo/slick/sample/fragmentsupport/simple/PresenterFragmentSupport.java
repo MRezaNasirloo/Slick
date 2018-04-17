@@ -35,7 +35,7 @@ public class PresenterFragmentSupport extends SlickPresenter<ViewFragmentSupport
     }
 
     @Override
-    public void onViewUp(ViewFragmentSupport view) {
+    public void onViewUp(@NonNull ViewFragmentSupport view) {
         Log.d(TAG, "onViewUp() called");
         super.onViewUp(view);
     }

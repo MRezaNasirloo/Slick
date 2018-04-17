@@ -19,6 +19,7 @@ package com.mrezanasirloo.slick;
 import android.app.Activity;
 import android.app.Fragment;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.Locale;
 
@@ -33,11 +34,12 @@ public class SlickDelegateFragment<V, P extends SlickPresenter<V>> {
     private int id;
     private InternalOnDestroyListener listener;
 
+    @Nullable
     private P presenter;
     private Class cls;
     private boolean multiInstance = false;
 
-    public SlickDelegateFragment(P presenter, Class cls, int id) {
+    public SlickDelegateFragment(@Nullable P presenter, Class cls, int id) {
         if (presenter == null) {
             throw new IllegalStateException("Presenter cannot be null.");
         }
@@ -47,7 +49,7 @@ public class SlickDelegateFragment<V, P extends SlickPresenter<V>> {
         if (id != -1) multiInstance = true;
     }
 
-    public SlickDelegateFragment(P presenter, Class cls) {
+    public SlickDelegateFragment(@Nullable P presenter, Class cls) {
         if (presenter == null) {
             throw new IllegalStateException("Presenter cannot be null.");
         }
@@ -55,7 +57,8 @@ public class SlickDelegateFragment<V, P extends SlickPresenter<V>> {
         this.cls = cls;
     }
 
-    public void onStart(V view) {
+    @SuppressWarnings("ConstantConditions")
+    public void onStart(@NonNull V view) {
         if (multiInstance) {
             if (isSameInstance(view)) {
                 presenter.onViewUp(view);
@@ -66,7 +69,8 @@ public class SlickDelegateFragment<V, P extends SlickPresenter<V>> {
         }
     }
 
-    public void onStop(V view) {
+    @SuppressWarnings("ConstantConditions")
+    public void onStop(@NonNull V view) {
         if (multiInstance) {
             if (isSameInstance(view)) {
                 presenter.onViewDown();
@@ -76,7 +80,7 @@ public class SlickDelegateFragment<V, P extends SlickPresenter<V>> {
         }
     }
 
-    public void onDestroy(V view) {
+    public void onDestroy(@NonNull V view) {
         if (multiInstance) {
             if (isSameInstance(view)) {
                 destroy(view);
@@ -86,7 +90,7 @@ public class SlickDelegateFragment<V, P extends SlickPresenter<V>> {
         }
     }
 
-    private void destroy(V view) {
+    private void destroy(@NonNull V view) {
         Activity activity;
         if (view instanceof Fragment) {
             activity = ((Fragment) view).getActivity();
@@ -95,6 +99,7 @@ public class SlickDelegateFragment<V, P extends SlickPresenter<V>> {
                     "View should be either a subclass of support Fragment or android.app.Fragment");
         }
         if (!activity.isChangingConfigurations()) {
+            //noinspection ConstantConditions
             presenter.onDestroy();
             if (listener != null) {
                 listener.onDestroy(id);
@@ -103,6 +108,7 @@ public class SlickDelegateFragment<V, P extends SlickPresenter<V>> {
         }
     }
 
+    @Nullable
     public P getPresenter() {
         return presenter;
     }
@@ -125,7 +131,7 @@ public class SlickDelegateFragment<V, P extends SlickPresenter<V>> {
         return -1;
     }
 
-    private boolean isSameInstance(Object view) {
+    private boolean isSameInstance(@NonNull Object view) {
         final int id = getId(view);
         return id != -1 && id == this.id;
     }

@@ -42,7 +42,7 @@ public class PresenterSimpleDagger extends SlickPresenter<ViewSimpleDagger> {
     }
 
     @Override
-    public void onViewUp(ViewSimpleDagger view) {
+    public void onViewUp(@NonNull ViewSimpleDagger view) {
         Log.d(TAG, "onViewUp() called");
         super.onViewUp(view);
     }

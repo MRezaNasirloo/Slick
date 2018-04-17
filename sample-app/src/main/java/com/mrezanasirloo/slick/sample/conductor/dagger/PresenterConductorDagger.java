@@ -42,7 +42,7 @@ public class PresenterConductorDagger extends SlickPresenter<ViewConductorDagger
     }
 
     @Override
-    public void onViewUp(ViewConductorDagger view) {
+    public void onViewUp(@NonNull ViewConductorDagger view) {
         Log.d(TAG, "onViewUp() called hashCode: " + hashCode());
         super.onViewUp(view);
     }

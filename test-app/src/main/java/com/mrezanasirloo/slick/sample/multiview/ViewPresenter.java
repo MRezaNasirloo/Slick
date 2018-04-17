@@ -16,6 +16,7 @@
 
 package com.mrezanasirloo.slick.sample.multiview;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.mrezanasirloo.slick.sample.cutstomview.ViewCustomView;
@@ -42,7 +43,7 @@ public class ViewPresenter extends SlickPresenterTestable<ViewCustomView> {
     }
 
     @Override
-    public void onViewUp(ViewCustomView view) {
+    public void onViewUp(@NonNull ViewCustomView view) {
         super.onViewUp(view);
         Log.d(TAG, "onViewUp() called" + toString());
     }

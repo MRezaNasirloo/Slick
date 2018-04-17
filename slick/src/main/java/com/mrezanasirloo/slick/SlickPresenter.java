@@ -16,6 +16,7 @@
 
 package com.mrezanasirloo.slick;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.lang.ref.WeakReference;
@@ -28,6 +29,7 @@ import java.lang.ref.WeakReference;
  */
 public class SlickPresenter<V> {
 
+    @Nullable
     private WeakReference<V> view;
 
     /**
@@ -37,7 +39,7 @@ public class SlickPresenter<V> {
      *
      * @param view the view which has bound to this presenter
      */
-    public void onViewUp(V view) {
+    public void onViewUp(@NonNull V view) {
         this.view = new WeakReference<>(view);
     }
 

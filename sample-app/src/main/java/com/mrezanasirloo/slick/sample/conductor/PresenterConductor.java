@@ -16,6 +16,7 @@
 
 package com.mrezanasirloo.slick.sample.conductor;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.mrezanasirloo.slick.SlickPresenter;
@@ -31,7 +32,7 @@ public class PresenterConductor extends SlickPresenter<ViewConductor> {
     private static final String TAG = PresenterConductor.class.getSimpleName();
 
     @Override
-    public void onViewUp(ViewConductor view) {
+    public void onViewUp(@NonNull ViewConductor view) {
         Log.d(TAG, "onViewUp() called hashCode: " + hashCode());
         super.onViewUp(view);
     }

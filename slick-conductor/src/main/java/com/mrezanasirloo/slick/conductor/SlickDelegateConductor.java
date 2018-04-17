@@ -17,6 +17,7 @@
 package com.mrezanasirloo.slick.conductor;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.bluelinelabs.conductor.Controller;
@@ -36,11 +37,12 @@ public class SlickDelegateConductor<V, P extends SlickPresenter<V>>
     private int id;
     private InternalOnDestroyListener listener;
 
+    @Nullable
     private P presenter;
     private Class<? extends Controller> cls;
     private boolean multiInstance = false;
 
-    public SlickDelegateConductor(P presenter, Class<? extends Controller> cls, int id) {
+    public SlickDelegateConductor(@Nullable P presenter, Class<? extends Controller> cls, int id) {
         if (presenter == null) {
             throw new IllegalStateException("Presenter cannot be null.");
         }
@@ -50,8 +52,9 @@ public class SlickDelegateConductor<V, P extends SlickPresenter<V>>
         if (id != -1) multiInstance = true;
     }
 
-    public void onDestroy(Controller controller) {
+    public void onDestroy(@NonNull Controller controller) {
         controller.removeLifecycleListener(this);
+        //noinspection ConstantConditions
         presenter.onDestroy();
         if (listener != null) {
             listener.onDestroy(id);
@@ -60,7 +63,7 @@ public class SlickDelegateConductor<V, P extends SlickPresenter<V>>
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "ConstantConditions"})
     public void postAttach(@NonNull Controller controller, @NonNull View view) {
         if (multiInstance) {
             if (isSameInstance(controller)) {
@@ -71,6 +74,7 @@ public class SlickDelegateConductor<V, P extends SlickPresenter<V>>
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void postDetach(@NonNull Controller controller, @NonNull View view) {
         if (multiInstance) {
@@ -97,11 +101,12 @@ public class SlickDelegateConductor<V, P extends SlickPresenter<V>>
         this.listener = listener;
     }
 
+    @Nullable
     public P getPresenter() {
         return presenter;
     }
 
-    private boolean isSameInstance(Controller controller) {
+    private boolean isSameInstance(@NonNull Controller controller) {
         return controller.getInstanceId().hashCode() == this.id;
     }
 

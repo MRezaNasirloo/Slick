@@ -35,10 +35,11 @@ public class SlickPresenterUniExample extends SlickPresenterUni<ViewExample, Vie
     }
 
     @Override
-    protected void start(ViewExample view) {
+    protected void start(@NonNull ViewExample view) {
         Observable<PartialViewState<ViewStateExample>> like = command(new CommandProvider<Boolean, ViewExample>() {
+            @NonNull
             @Override
-            public Observable<Boolean> provide(ViewExample viewExample) {
+            public Observable<Boolean> provide(@NonNull ViewExample viewExample) {
                 return viewExample.likeComment();
             }
         }).flatMap(new Function<Boolean, ObservableSource<Boolean>>() {
@@ -54,14 +55,17 @@ public class SlickPresenterUniExample extends SlickPresenterUni<ViewExample, Vie
                     }
                 });
 
+
         Observable<PartialViewState<ViewStateExample>> loadText = command(new CommandProvider<Integer, ViewExample>() {
+            @NonNull
             @Override
-            public Observable<Integer> provide(ViewExample viewExample) {
+            public Observable<Integer> provide(@NonNull ViewExample viewExample) {
                 return viewExample.loadText();
             }
         })
                 .flatMap(new Function<Integer, ObservableSource<String>>() {
                     @Override
+
                     public ObservableSource<String> apply(Integer aBoolean) {
                         return Observable.just("Foo Bar").subscribeOn(io);//call to backend
                     }

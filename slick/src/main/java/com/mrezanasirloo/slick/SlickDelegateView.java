@@ -36,14 +36,14 @@ public class SlickDelegateView<V, P extends SlickPresenter<V>> {
     private int id;
     private InternalOnDestroyListener listener;
 
+    @Nullable
     private P presenter;
     /**
      * to ensure not to call onViewDown after onDestroy
      */
     private boolean hasOnViewDownCalled = false;
 
-    public SlickDelegateView(@NonNull P presenter, @Nullable Class ignored, int id) {
-        //noinspection ConstantConditions
+    public SlickDelegateView(@Nullable P presenter, @Nullable Class ignored, int id) {
         if (presenter == null) {
             throw new IllegalStateException("Presenter cannot be null.");
         }
@@ -53,11 +53,13 @@ public class SlickDelegateView<V, P extends SlickPresenter<V>> {
 
     private static final String TAG = SlickDelegateView.class.getSimpleName();
 
+    @SuppressWarnings("ConstantConditions")
     public void onAttach(@NonNull V view) {
         presenter.onViewUp(view);
         hasOnViewDownCalled = false;
     }
 
+    @SuppressWarnings("ConstantConditions")
     public void onDetach(@Nullable Object ignored) {
         presenter.onViewDown();
         hasOnViewDownCalled = true;
@@ -74,6 +76,7 @@ public class SlickDelegateView<V, P extends SlickPresenter<V>> {
     private void destroy(@Nullable Activity activity) {
         if (activity == null || !activity.isChangingConfigurations()) {
             if (!hasOnViewDownCalled) onDetach(null);
+            //noinspection ConstantConditions
             presenter.onDestroy();
             if (listener != null) {
                 listener.onDestroy(id);
@@ -82,6 +85,7 @@ public class SlickDelegateView<V, P extends SlickPresenter<V>> {
         }
     }
 
+    @Nullable
     public P getPresenter() {
         return presenter;
     }

@@ -16,6 +16,7 @@
 
 package com.mrezanasirloo.slick.sample.cutstomview.dagger;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.mrezanasirloo.slick.SlickPresenter;
@@ -40,7 +41,7 @@ public class PresenterCustomViewDagger extends SlickPresenter<ViewCustomViewDagg
     }
 
     @Override
-    public void onViewUp(ViewCustomViewDagger view) {
+    public void onViewUp(@NonNull ViewCustomViewDagger view) {
         super.onViewUp(view);
         Log.d(TAG, "onViewUp() called" + toString());
     }

@@ -37,7 +37,7 @@ public class PresenterFragmentSupportDagger extends SlickPresenterTestable<ViewF
     }
 
     @Override
-    public void onViewUp(ViewFragmentSupportDagger view) {
+    public void onViewUp(@NonNull ViewFragmentSupportDagger view) {
         Log.d(TAG, "onViewUp() called");
         super.onViewUp(view);
     }

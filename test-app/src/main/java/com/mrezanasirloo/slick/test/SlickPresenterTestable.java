@@ -16,6 +16,8 @@
 
 package com.mrezanasirloo.slick.test;
 
+import android.support.annotation.NonNull;
+
 import com.mrezanasirloo.slick.SlickPresenter;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -32,7 +34,7 @@ public class SlickPresenterTestable<V> extends SlickPresenter<V> {
     private AtomicInteger onDestroyCount = new AtomicInteger();
 
     @Override
-    public void onViewUp(V view) {
+    public void onViewUp(@NonNull V view) {
         super.onViewUp(view);
         onViewUpCount.getAndIncrement();
     }

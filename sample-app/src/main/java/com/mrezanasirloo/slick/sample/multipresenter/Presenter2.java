@@ -43,7 +43,7 @@ public class Presenter2 extends SlickPresenter<View2> {
     }
 
     @Override
-    public void onViewUp(View2 view) {
+    public void onViewUp(@NonNull View2 view) {
         Log.d(TAG, "onViewUp() called");
         super.onViewUp(view);
         view.setText2(getData());

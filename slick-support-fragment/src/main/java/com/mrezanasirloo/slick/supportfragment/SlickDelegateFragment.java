@@ -18,6 +18,7 @@ package com.mrezanasirloo.slick.supportfragment;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentManager.FragmentLifecycleCallbacks;
 
@@ -87,9 +88,13 @@ public class SlickDelegateFragment<V, P extends SlickPresenter<V>> extends Fragm
         }
     }
 
-    private void destroy(Fragment fragment) {
-        if (!fragment.getActivity().isChangingConfigurations()) {
-            fragment.getFragmentManager().unregisterFragmentLifecycleCallbacks(this);
+    private void destroy(@NonNull Fragment fragment) {
+        FragmentActivity activity = fragment.getActivity();
+        if (activity == null || !activity.isChangingConfigurations()) {
+            FragmentManager fragmentManager = fragment.getFragmentManager();
+            if (fragmentManager != null) {
+                fragmentManager.unregisterFragmentLifecycleCallbacks(this);
+            }
             presenter.onDestroy();
             if (listener != null) {
                 listener.onDestroy(id);
@@ -121,7 +126,7 @@ public class SlickDelegateFragment<V, P extends SlickPresenter<V>> extends Fragm
         return -1;
     }
 
-    private boolean isSameInstance(Object view) {
+    private boolean isSameInstance(@NonNull Object view) {
         final int id = getId(view);
         return id != -1 && id == this.id;
     }

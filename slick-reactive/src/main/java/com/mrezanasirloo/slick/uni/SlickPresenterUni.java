@@ -18,6 +18,7 @@ package com.mrezanasirloo.slick.uni;
 
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
 
 import com.mrezanasirloo.slick.SlickPresenter;
@@ -55,9 +56,12 @@ public abstract class SlickPresenterUni<V, S> extends SlickPresenter<V> implemen
     private static final String TAG = SlickPresenterUni.class.getSimpleName();
     protected final Scheduler io;
     protected final Scheduler main;
+    @NonNull
     private final BehaviorSubject<S> state = BehaviorSubject.create();
+    @NonNull
     private final CompositeDisposable disposable = new CompositeDisposable();
     private CompositeDisposable disposableCommands;
+    @NonNull
     private final ArrayMap<CommandProvider, PublishSubject> commands = new ArrayMap<>(3);
     private boolean hasSubscribed;
 
@@ -68,7 +72,7 @@ public abstract class SlickPresenterUni<V, S> extends SlickPresenter<V> implemen
 
     @CallSuper
     @Override
-    public void onViewUp(V view) {
+    public void onViewUp(@NonNull V view) {
         super.onViewUp(view);
         if (!hasSubscribed()) {
             start(view);
@@ -76,7 +80,7 @@ public abstract class SlickPresenterUni<V, S> extends SlickPresenter<V> implemen
         subscribeIntents(view);
         disposableCommands.add(updateStream().subscribe(new Consumer<S>() {
             @Override
-            public void accept(S state) {
+            public void accept(@NonNull S state) {
                 if (getView() != null) render(state, getView());
             }
         }));
@@ -102,25 +106,26 @@ public abstract class SlickPresenterUni<V, S> extends SlickPresenter<V> implemen
      *
      * @param view the view which is bounded to this presenter
      */
-    protected abstract void start(V view);
+    protected abstract void start(@NonNull V view);
 
+    @NonNull
     public Observable<S> updateStream() {
         return state;
     }
 
     @Override
-    public void onSubscribe(Disposable d) {
+    public void onSubscribe(@NonNull Disposable d) {
         hasSubscribed = true;
         disposable.add(d);
     }
 
     @Override
-    public void onNext(S newState) {
+    public void onNext(@NonNull S newState) {
         state.onNext(newState);
     }
 
     @Override
-    public void onError(Throwable e) {
+    public void onError(@NonNull Throwable e) {
         //fail early
         System.out.println(TAG + " onError: Called");
         throw new RuntimeException(e);
@@ -136,11 +141,12 @@ public abstract class SlickPresenterUni<V, S> extends SlickPresenter<V> implemen
      * @param partialViewState the stream of partial view states
      * @return A stream of ViewState
      */
-    protected Observable<S> reduce(S initialState, Observable<PartialViewState<S>> partialViewState) {
+    @NonNull
+    protected Observable<S> reduce(@NonNull S initialState, @NonNull Observable<PartialViewState<S>> partialViewState) {
         return partialViewState.observeOn(main)
                 .scan(initialState, new BiFunction<S, PartialViewState<S>, S>() {
                     @Override
-                    public S apply(S oldState, PartialViewState<S> partialViewState1) throws Exception {
+                    public S apply(S oldState, @NonNull PartialViewState<S> partialViewState1) throws Exception {
                         return partialViewState1.reduce(oldState);
                     }
                 });
@@ -154,7 +160,7 @@ public abstract class SlickPresenterUni<V, S> extends SlickPresenter<V> implemen
      * @param initialState the initial state to render to view
      * @param partialViewState the stream of partial view states
      */
-    protected void subscribe(S initialState, Observable<PartialViewState<S>> partialViewState) {
+    protected void subscribe(@NonNull S initialState, @NonNull Observable<PartialViewState<S>> partialViewState) {
         reduce(initialState, partialViewState).subscribe(this);
     }
 
@@ -165,8 +171,9 @@ public abstract class SlickPresenterUni<V, S> extends SlickPresenter<V> implemen
      * @param partials command's results
      * @return stream of partials
      */
+    @NonNull
     @SafeVarargs
-    protected final Observable<PartialViewState<S>> merge(Observable<PartialViewState<S>>... partials) {
+    protected final Observable<PartialViewState<S>> merge(@NonNull Observable<PartialViewState<S>>... partials) {
         return Observable.merge(Arrays.asList(partials));
     }
 
@@ -177,14 +184,15 @@ public abstract class SlickPresenterUni<V, S> extends SlickPresenter<V> implemen
      * @param <T> return type of command
      * @return a command to be executed
      */
-    protected <T> Observable<T> command(CommandProvider<T, V> cmd) {
+    @NonNull
+    protected <T> Observable<T> command(@NonNull CommandProvider<T, V> cmd) {
         PublishSubject<T> publishSubject = PublishSubject.create();
         commands.put(cmd, publishSubject);
         return publishSubject;
     }
 
     @SuppressWarnings("unchecked")
-    private void subscribeIntents(V view) {
+    private void subscribeIntents(@NonNull V view) {
         if (disposableCommands == null || disposableCommands.isDisposed()) {
             disposableCommands = new CompositeDisposable();
         }
@@ -193,12 +201,12 @@ public abstract class SlickPresenterUni<V, S> extends SlickPresenter<V> implemen
             final PublishSubject<Object> subject = commands.get(commandProvider);
             disposableCommands.add(observable.subscribeWith(new DisposableObserver() {
                 @Override
-                public void onNext(Object o) {
+                public void onNext(@NonNull Object o) {
                     subject.onNext(o);
                 }
 
                 @Override
-                public void onError(Throwable e) {
+                public void onError(@NonNull Throwable e) {
                     e.printStackTrace();
                     //no-op
                 }
@@ -227,7 +235,8 @@ public abstract class SlickPresenterUni<V, S> extends SlickPresenter<V> implemen
      * @param <V> view type
      */
     protected interface CommandProvider<T, V> {
-        Observable<T> provide(V view);
+        @NonNull
+        Observable<T> provide(@NonNull V view);
     }
 
     /**
@@ -239,7 +248,7 @@ public abstract class SlickPresenterUni<V, S> extends SlickPresenter<V> implemen
     }
 
 
-    protected void dispose(Disposable disposable) {
+    protected void dispose(@Nullable Disposable disposable) {
         if (disposable != null && !disposable.isDisposed()) {
             disposable.dispose();
         }

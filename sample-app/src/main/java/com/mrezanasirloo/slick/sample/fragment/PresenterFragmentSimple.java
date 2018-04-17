@@ -16,6 +16,7 @@
 
 package com.mrezanasirloo.slick.sample.fragment;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.mrezanasirloo.slick.SlickPresenter;
@@ -34,7 +35,7 @@ public class PresenterFragmentSimple extends SlickPresenter<ViewFragmentSimple> 
     }
 
     @Override
-    public void onViewUp(ViewFragmentSimple view) {
+    public void onViewUp(@NonNull ViewFragmentSimple view) {
         Log.d(TAG, "onViewUp() called");
         super.onViewUp(view);
     }

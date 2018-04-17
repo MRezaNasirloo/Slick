@@ -34,7 +34,7 @@ public class PresenterFragmentDelegate extends SlickPresenterTestable<ViewFragme
     }
 
     @Override
-    public void onViewUp(ViewFragmentDelegate view) {
+    public void onViewUp(@NonNull ViewFragmentDelegate view) {
         Log.d(TAG, "onViewUp() called");
         super.onViewUp(view);
     }
