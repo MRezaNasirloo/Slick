@@ -35,7 +35,7 @@ public class YourPresenter extends SlickPresenter<ActivityView> {
     }
 
     @Override
-    public void onViewUp(ActivityView view) {
+    public void onViewUp(@NonNull ActivityView view) {
         //view onStart
     }
 
@@ -46,7 +46,7 @@ public class YourPresenter extends SlickPresenter<ActivityView> {
 
     @Override
     public void onDestroy() {
-        //only is called when view is finishing
+        //only is called once when view is finishing
     }
 }
 ```
@@ -80,7 +80,7 @@ public class YourPresenterUni extends SlickPresenterUni<ViewActivity, ViewStateA
     /** ... **/
 
     @Override
-    protected void start(ViewActivity view) {
+    protected void start(@NonNull ViewActivity view) {
         Observable<PartialViewState<ViewStateActivity>> like = command(ViewActivity::likeMovie)
                 .flatMap(id -> repositoryMovies.like(id).subscribeOn(io))//call to backend
                 .map(PartialViewStateLiked::new);
