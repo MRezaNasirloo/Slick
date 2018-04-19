@@ -107,7 +107,7 @@ For more detailed guide on Reactive Features read the [Wiki](https://github.com/
 
 Packages are available in `jcenter`
 
-```
+``` groovy
 // Base features
 implementation 'com.mrezanasirloo:slick:1.1.2'
 
@@ -121,11 +121,11 @@ annotationProcessor 'com.mrezanasirloo:slick-compiler:1.1.2'
 ```
 
 Since Slick packages are not tied to a specific dependency you need to provide them.
-```
-//Conductor
+``` groovy
+// Conductor
 implementation 'com.bluelinelabs:conductor:2.x.y'
 
-//RxJava for Reactive Features
+// RxJava for Reactive Features
 implementation 'io.reactivex.rxjava2:rxjava:2.x.y'
 ```
 
