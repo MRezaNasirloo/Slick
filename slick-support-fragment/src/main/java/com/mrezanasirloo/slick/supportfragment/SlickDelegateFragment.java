@@ -18,7 +18,6 @@ package com.mrezanasirloo.slick.supportfragment;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentManager.FragmentLifecycleCallbacks;
 
@@ -41,7 +40,9 @@ public class SlickDelegateFragment<V, P extends SlickPresenter<V>> extends Fragm
 
     private P presenter;
     private Class cls;
-    private boolean multiInstance = false;
+    private boolean onViewUpCalled;
+    private boolean onViewDownCalled;
+    private boolean onDestroyCalled;
 
     public SlickDelegateFragment(P presenter, Class cls, int id) {
         if (presenter == null) {
@@ -50,56 +51,46 @@ public class SlickDelegateFragment<V, P extends SlickPresenter<V>> extends Fragm
         this.presenter = presenter;
         this.cls = cls;
         this.id = id;
-        if (id != -1) multiInstance = true;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public void onFragmentStarted(FragmentManager fm, Fragment fragment) {
-        if (multiInstance) {
-            if (isSameInstance(fragment)) {
-                presenter.onViewUp((V) fragment);
-            }
-
-        } else if (cls.isInstance(fragment)) {
+        if (onViewUpCalled) return;
+        if (cls.isInstance(fragment) && isSameInstance(fragment)) {
             presenter.onViewUp((V) fragment);
+            onViewDownCalled = false;
+            onViewUpCalled = true;
         }
     }
 
     @Override
     public void onFragmentStopped(FragmentManager fm, Fragment fragment) {
-        if (multiInstance) {
-            if (isSameInstance(fragment)) {
-                presenter.onViewDown();
-            }
-        } else if (cls.isInstance(fragment)) {
+        if (onViewDownCalled) return;
+        if (cls.isInstance(fragment) && isSameInstance(fragment)) {
             presenter.onViewDown();
+            onViewDownCalled = true;
+            onViewUpCalled = false;
         }
     }
 
     @Override
     public void onFragmentDestroyed(FragmentManager fm, Fragment fragment) {
-        if (multiInstance) {
-            if (isSameInstance(fragment)) {
-                destroy(fragment);
-            }
-        } else if (cls.isInstance(fragment)) {
+        if (onDestroyCalled) return;
+        if (cls.isInstance(fragment) && isSameInstance(fragment)) {
             destroy(fragment);
         }
     }
 
-    private void destroy(@NonNull Fragment fragment) {
-        FragmentActivity activity = fragment.getActivity();
-        if (activity == null || !activity.isChangingConfigurations()) {
-            FragmentManager fragmentManager = fragment.getFragmentManager();
-            if (fragmentManager != null) {
-                fragmentManager.unregisterFragmentLifecycleCallbacks(this);
-            }
+    private void destroy(Fragment fragment) {
+        if (!fragment.getActivity().isChangingConfigurations()) {
+            fragment.getFragmentManager().unregisterFragmentLifecycleCallbacks(this);
             presenter.onDestroy();
             if (listener != null) {
                 listener.onDestroy(id);
             }
             presenter = null;
+            onDestroyCalled = true;
         }
     }
 
@@ -126,8 +117,8 @@ public class SlickDelegateFragment<V, P extends SlickPresenter<V>> extends Fragm
         return -1;
     }
 
-    private boolean isSameInstance(@NonNull Object view) {
+    private boolean isSameInstance(Object view) {
         final int id = getId(view);
-        return id != -1 && id == this.id;
+        return id == this.id;
     }
 }
