@@ -25,7 +25,7 @@ object Versions {
     const val vVersionCode = 1
     const val vVersionName = "1.0"
     const val vBuildTool = "27.0.3"
-    const val vKotlin = "1.2.31"
+    const val vKotlin = "1.2.50"
 
     const val vSupportLib = "27.1.1"
     const val vRxjava2 = "2.1.10"

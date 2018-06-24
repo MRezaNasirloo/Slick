@@ -77,7 +77,7 @@ public class SlickPresenterUniExample extends SlickPresenterUni<ViewExample, Vie
                     }
                 });
 
-        reduce(new ViewStateExample(null, false), merge(like, loadText)).subscribe(this);
+        scan(new ViewStateExample(null, false), merge(like, loadText)).subscribe(this);
 
     }
 

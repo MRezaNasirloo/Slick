@@ -40,21 +40,25 @@ import io.reactivex.subjects.PublishSubject;
 
 /**
  * @author : M.Reza.Nasirloo@gmail.com
- *         Created on: 2017-07-22
- *
- *         Inspired from Elm archtechture and articles about unidrirectinal data flow around the web.
- *
- *         This is an abstract subclass of {@link SlickPresenter} which practice the idea of
- *         Uni-Directional data flow, It's based on reactive streams and uses RxJava2's streams vastly.
- *
- *         How to use: Subclass it and implement the abstact methods, use the {@link SlickPresenterUni#start(Object)}
- *         to build the data stream object. the View is provided for you, it can be used to create {@link SlickPresenterUni#command(CommandProvider)}
- *         which reacts to view and sends a new {@link PartialViewState} to the {@link SlickPresenterUni#render(Object, Object)} method.
+ * Created on: 2017-07-22
+ * <p>
+ * Inspired from Elm archtechture and articles about unidrirectinal data flow around the web.
+ * <p>
+ * This is an abstract subclass of {@link SlickPresenter} which practice the idea of
+ * Uni-Directional data flow, It's based on reactive streams and uses RxJava2's streams vastly.
+ * <p>
+ * How to use: Subclass it and implement the abstact methods, use the {@link SlickPresenterUni#start(Object)}
+ * to build the data stream object. the View is provided for you, it can be used to create {@link SlickPresenterUni#command(CommandProvider)}
+ * which reacts to view and sends a new {@link PartialViewState} to the {@link SlickPresenterUni#render(Object, Object)} method.
  */
 
 public abstract class SlickPresenterUni<V, S> extends SlickPresenter<V> implements Observer<S> {
     private static final String TAG = SlickPresenterUni.class.getSimpleName();
+    @NonNull
+    @SuppressWarnings("WeakerAccess")
     protected final Scheduler io;
+    @SuppressWarnings("WeakerAccess")
+    @NonNull
     protected final Scheduler main;
     @NonNull
     private final BehaviorSubject<S> state = BehaviorSubject.create();
@@ -65,7 +69,7 @@ public abstract class SlickPresenterUni<V, S> extends SlickPresenter<V> implemen
     private final ArrayMap<CommandProvider, PublishSubject> commands = new ArrayMap<>(3);
     private boolean hasSubscribed;
 
-    public SlickPresenterUni(@Named("main") Scheduler main, @Named("io") Scheduler io) {
+    public SlickPresenterUni(@NonNull @Named("main") Scheduler main, @NonNull @Named("io") Scheduler io) {
         this.main = main;
         this.io = io;
     }
@@ -137,12 +141,35 @@ public abstract class SlickPresenterUni<V, S> extends SlickPresenter<V> implemen
     }
 
     /**
-     * @param initialState the initial state to render to view
+     *
+     * Deprecated Use {@link #scan(Object, Observable)}
+     * since there is a reduce method in RxJava, this naming was misleading
+     *
+     * @param initialState     the initial state to render to view
      * @param partialViewState the stream of partial view states
      * @return A stream of ViewState
      */
     @NonNull
+    @SuppressWarnings("WeakerAccess")
+    @Deprecated
     protected Observable<S> reduce(@NonNull S initialState, @NonNull Observable<PartialViewState<S>> partialViewState) {
+        return partialViewState.observeOn(main)
+                .scan(initialState, new BiFunction<S, PartialViewState<S>, S>() {
+                    @Override
+                    public S apply(S oldState, @NonNull PartialViewState<S> partialViewState1) throws Exception {
+                        return partialViewState1.reduce(oldState);
+                    }
+                });
+    }
+
+    /**
+     * @param initialState     the initial state to render to view
+     * @param partialViewState the stream of partial view states
+     * @return A stream of ViewState
+     */
+    @NonNull
+    @SuppressWarnings("WeakerAccess")
+    protected Observable<S> scan(@NonNull S initialState, @NonNull Observable<PartialViewState<S>> partialViewState) {
         return partialViewState.observeOn(main)
                 .scan(initialState, new BiFunction<S, PartialViewState<S>, S>() {
                     @Override
@@ -155,13 +182,13 @@ public abstract class SlickPresenterUni<V, S> extends SlickPresenter<V> implemen
     /**
      * It's a Synonym for calling:
      * <br>
-     *      <code>reduce(initialState, streams).subscribe(this);</code>
+     * <code>scan(initialState, streams).subscribe(this);</code>
      *
-     * @param initialState the initial state to render to view
+     * @param initialState     the initial state to render to view
      * @param partialViewState the stream of partial view states
      */
     protected void subscribe(@NonNull S initialState, @NonNull Observable<PartialViewState<S>> partialViewState) {
-        reduce(initialState, partialViewState).subscribe(this);
+        scan(initialState, partialViewState).subscribe(this);
     }
 
 
@@ -173,6 +200,7 @@ public abstract class SlickPresenterUni<V, S> extends SlickPresenter<V> implemen
      */
     @NonNull
     @SafeVarargs
+    @SuppressWarnings("WeakerAccess")
     protected final Observable<PartialViewState<S>> merge(@NonNull Observable<PartialViewState<S>>... partials) {
         return Observable.merge(Arrays.asList(partials));
     }
@@ -185,6 +213,7 @@ public abstract class SlickPresenterUni<V, S> extends SlickPresenter<V> implemen
      * @return a command to be executed
      */
     @NonNull
+    @SuppressWarnings("WeakerAccess")
     protected <T> Observable<T> command(@NonNull CommandProvider<T, V> cmd) {
         PublishSubject<T> publishSubject = PublishSubject.create();
         commands.put(cmd, publishSubject);
