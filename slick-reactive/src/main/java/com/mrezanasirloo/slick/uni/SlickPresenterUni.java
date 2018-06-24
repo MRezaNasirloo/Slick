@@ -141,12 +141,35 @@ public abstract class SlickPresenterUni<V, S> extends SlickPresenter<V> implemen
     }
 
     /**
+     *
+     * Deprecated Use {@link #scan(Object, Observable)}
+     * since there is a reduce method in RxJava, this naming was misleading
+     *
      * @param initialState     the initial state to render to view
      * @param partialViewState the stream of partial view states
      * @return A stream of ViewState
      */
     @NonNull
+    @SuppressWarnings("WeakerAccess")
+    @Deprecated
     protected Observable<S> reduce(@NonNull S initialState, @NonNull Observable<PartialViewState<S>> partialViewState) {
+        return partialViewState.observeOn(main)
+                .scan(initialState, new BiFunction<S, PartialViewState<S>, S>() {
+                    @Override
+                    public S apply(S oldState, @NonNull PartialViewState<S> partialViewState1) throws Exception {
+                        return partialViewState1.reduce(oldState);
+                    }
+                });
+    }
+
+    /**
+     * @param initialState     the initial state to render to view
+     * @param partialViewState the stream of partial view states
+     * @return A stream of ViewState
+     */
+    @NonNull
+    @SuppressWarnings("WeakerAccess")
+    protected Observable<S> scan(@NonNull S initialState, @NonNull Observable<PartialViewState<S>> partialViewState) {
         return partialViewState.observeOn(main)
                 .scan(initialState, new BiFunction<S, PartialViewState<S>, S>() {
                     @Override
@@ -159,13 +182,13 @@ public abstract class SlickPresenterUni<V, S> extends SlickPresenter<V> implemen
     /**
      * It's a Synonym for calling:
      * <br>
-     * <code>reduce(initialState, streams).subscribe(this);</code>
+     * <code>scan(initialState, streams).subscribe(this);</code>
      *
      * @param initialState     the initial state to render to view
      * @param partialViewState the stream of partial view states
      */
     protected void subscribe(@NonNull S initialState, @NonNull Observable<PartialViewState<S>> partialViewState) {
-        reduce(initialState, partialViewState).subscribe(this);
+        scan(initialState, partialViewState).subscribe(this);
     }
 
 
@@ -177,6 +200,7 @@ public abstract class SlickPresenterUni<V, S> extends SlickPresenter<V> implemen
      */
     @NonNull
     @SafeVarargs
+    @SuppressWarnings("WeakerAccess")
     protected final Observable<PartialViewState<S>> merge(@NonNull Observable<PartialViewState<S>>... partials) {
         return Observable.merge(Arrays.asList(partials));
     }
@@ -189,6 +213,7 @@ public abstract class SlickPresenterUni<V, S> extends SlickPresenter<V> implemen
      * @return a command to be executed
      */
     @NonNull
+    @SuppressWarnings("WeakerAccess")
     protected <T> Observable<T> command(@NonNull CommandProvider<T, V> cmd) {
         PublishSubject<T> publishSubject = PublishSubject.create();
         commands.put(cmd, publishSubject);
