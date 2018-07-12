@@ -16,12 +16,19 @@
 
 package com.mrezanasirloo.slick.uni;
 
+import android.support.annotation.NonNull;
+
 /**
  * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2017-07-14
  *
- *         This Interface is used to create partial data on every update
+ *         This Interface is used to create partial data update
  */
 public interface PartialViewState<T> {
-    T reduce(T state);
+    /**
+     * @param state the old state
+     * @return the new state that should be rendered to view
+     */
+    @NonNull
+    T reduce(@NonNull T state);
 }
