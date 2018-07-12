@@ -16,6 +16,8 @@
 
 package com.mrezanasirloo.slick.uni;
 
+import android.support.annotation.NonNull;
+
 /**
  * @author : M.Reza.Nasirloo@gmail.com
  *         Created on: 2018-03-11
@@ -29,8 +31,9 @@ public class PartialViewStateText implements PartialViewState<ViewStateExample> 
         this.text = text;
     }
 
+    @NonNull
     @Override
-    public ViewStateExample reduce(ViewStateExample state) {
+    public ViewStateExample reduce(@NonNull ViewStateExample state) {
         return new ViewStateExample(text, state.isLiked());
     }
 }

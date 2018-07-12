@@ -111,15 +111,15 @@ Packages are available in `jcenter`
 
 ``` groovy
 // Base features
-implementation 'com.mrezanasirloo:slick:1.1.4'
+implementation 'com.mrezanasirloo:slick:1.1.5'
 
 // Reactive features
-implementation 'com.mrezanasirloo:slick-reactive:1.1.4'
+implementation 'com.mrezanasirloo:slick-reactive:1.1.5'
 
-implementation 'com.mrezanasirloo:slick-conductor:1.1.4'
-implementation 'com.mrezanasirloo:slick-support-fragment:1.1.4'
+implementation 'com.mrezanasirloo:slick-conductor:1.1.5'
+implementation 'com.mrezanasirloo:slick-support-fragment:1.1.5'
 
-annotationProcessor 'com.mrezanasirloo:slick-compiler:1.1.4'
+annotationProcessor 'com.mrezanasirloo:slick-compiler:1.1.5'
 ```
 
 Since Slick packages are not tied to a specific dependency you need to provide them.
