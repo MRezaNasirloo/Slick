@@ -17,8 +17,6 @@
 package com.mrezanasirloo.slick.sample.multiview;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
 import com.mrezanasirloo.slick.Presenter;
@@ -27,6 +25,9 @@ import com.mrezanasirloo.slick.SlickUniqueId;
 import com.mrezanasirloo.slick.sample.activity.ViewTestable;
 import com.mrezanasirloo.slick.sample.cutstomview.ViewCustomView;
 import com.mrezanasirloo.slick.test.SlickPresenterTestable;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatTextView;
 
 import static java.util.Locale.ENGLISH;
 

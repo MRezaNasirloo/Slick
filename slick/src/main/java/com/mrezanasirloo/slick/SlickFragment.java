@@ -18,11 +18,12 @@ package com.mrezanasirloo.slick;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.util.UUID;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import static com.mrezanasirloo.slick.SlickDelegateActivity.SLICK_UNIQUE_KEY;
 

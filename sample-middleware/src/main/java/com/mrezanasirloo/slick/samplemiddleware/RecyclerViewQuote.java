@@ -16,7 +16,6 @@
 
 package com.mrezanasirloo.slick.samplemiddleware;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +26,7 @@ import com.varunest.sparkbutton.SparkButton;
 
 import java.util.List;
 
+import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.CompletableObserver;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
@@ -134,9 +134,9 @@ public class RecyclerViewQuote extends RecyclerView.Adapter<RecyclerViewQuote.Vi
 
         public ViewHolder(View itemView) {
             super(itemView);
-            textView = ((TextView) itemView.findViewById(R.id.textView_quote));
-            buttonLike = ((SparkButton) itemView.findViewById(R.id.button_like));
-            buttonStar = ((SparkButton) itemView.findViewById(R.id.button_star));
+            textView = itemView.findViewById(R.id.textView_quote);
+            buttonLike = itemView.findViewById(R.id.button_like);
+            buttonStar = itemView.findViewById(R.id.button_star);
         }
     }
 }

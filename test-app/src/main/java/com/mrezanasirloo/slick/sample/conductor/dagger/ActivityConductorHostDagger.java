@@ -17,13 +17,14 @@
 package com.mrezanasirloo.slick.sample.conductor.dagger;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.ViewGroup;
 
 import com.bluelinelabs.conductor.Conductor;
 import com.bluelinelabs.conductor.Router;
 import com.bluelinelabs.conductor.RouterTransaction;
 import com.mrezanasirloo.slick.sample.R;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class ActivityConductorHostDagger extends AppCompatActivity {
 

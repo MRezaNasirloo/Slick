@@ -18,7 +18,6 @@ package com.mrezanasirloo.slick.sample.fragment;
 
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +30,8 @@ import com.mrezanasirloo.slick.sample.fragment.dagger.FragmentDagger;
 import com.mrezanasirloo.slick.sample.fragment.dagger.delegate.FragmentDelegateDagger;
 import com.mrezanasirloo.slick.sample.fragment.delegate.FragmentDelegate;
 import com.mrezanasirloo.slick.test.SlickPresenterTestable;
+
+import androidx.annotation.Nullable;
 
 public class FragmentSlickSimple extends SlickFragment<ViewFragmentSimple, PresenterFragmentSimple> implements ViewFragmentSimple {
 

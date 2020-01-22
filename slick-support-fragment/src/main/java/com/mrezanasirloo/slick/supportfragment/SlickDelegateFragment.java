@@ -16,16 +16,16 @@
 
 package com.mrezanasirloo.slick.supportfragment;
 
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentManager.FragmentLifecycleCallbacks;
-
 import com.mrezanasirloo.slick.InternalOnDestroyListener;
 import com.mrezanasirloo.slick.SlickPresenter;
 import com.mrezanasirloo.slick.SlickUniqueId;
 
 import java.util.Locale;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks;
 
 
 /**

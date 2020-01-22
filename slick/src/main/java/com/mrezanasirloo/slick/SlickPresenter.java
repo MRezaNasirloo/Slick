@@ -16,16 +16,16 @@
 
 package com.mrezanasirloo.slick;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
 import java.lang.ref.WeakReference;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * @author : M.Reza.Nasirloo@gmail.com
- *         Created on: 2016-10-31
- *
- *         A dead simple Presenter with only 3 lifecycle callbacks
+ * Created on: 2016-10-31
+ * <p>
+ * A dead simple Presenter with only 3 lifecycle callbacks
  */
 public class SlickPresenter<V> {
 
@@ -45,7 +45,7 @@ public class SlickPresenter<V> {
 
     /**
      * Lifecycle method
-     *
+     * <p>
      * Is called when the view is in onStop phase
      */
     public void onViewDown() {
@@ -54,7 +54,7 @@ public class SlickPresenter<V> {
 
     /**
      * Lifecycle method
-     *
+     * <p>
      * Is called when the view is finishing
      */
     public void onDestroy() {

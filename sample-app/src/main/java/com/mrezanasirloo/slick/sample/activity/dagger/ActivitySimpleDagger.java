@@ -18,7 +18,6 @@ package com.mrezanasirloo.slick.sample.activity.dagger;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -28,6 +27,8 @@ import com.mrezanasirloo.slick.sample.R;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class ActivitySimpleDagger extends AppCompatActivity implements ViewSimpleDagger {
 

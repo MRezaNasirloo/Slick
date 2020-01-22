@@ -16,7 +16,8 @@
 
 package com.mrezanasirloo.slick.uni;
 
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 /**
  * @author : M.Reza.Nasirloo@gmail.com

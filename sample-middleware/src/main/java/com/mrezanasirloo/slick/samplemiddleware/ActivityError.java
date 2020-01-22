@@ -17,10 +17,11 @@
 package com.mrezanasirloo.slick.samplemiddleware;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
 import com.mrezanasirloo.slick.middleware.RequestStack;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class ActivityError extends AppCompatActivity {
 

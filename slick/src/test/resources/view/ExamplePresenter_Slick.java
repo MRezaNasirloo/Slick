@@ -1,13 +1,12 @@
 package test;
 
 import android.app.Activity;
-import android.support.annotation.IdRes;
 import android.util.SparseArray;
 import android.view.View;
+import androidx.annotation.IdRes;
 import com.mrezanasirloo.slick.InternalOnDestroyListener;
 import com.mrezanasirloo.slick.SlickDelegateView;
 import com.mrezanasirloo.slick.SlickLifecycleListener;
-
 import java.lang.Override;
 import java.lang.String;
 

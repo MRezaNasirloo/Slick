@@ -16,11 +16,12 @@
 
 package com.mrezanasirloo.slick.sample.activity;
 
-import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.mrezanasirloo.slick.test.SlickPresenterTestable;
+
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 
 
 /**

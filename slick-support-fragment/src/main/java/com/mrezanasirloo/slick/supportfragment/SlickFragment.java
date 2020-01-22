@@ -17,13 +17,14 @@
 package com.mrezanasirloo.slick.supportfragment;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 
 import com.mrezanasirloo.slick.SlickUniqueId;
 
 import java.util.UUID;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import static com.mrezanasirloo.slick.SlickDelegateActivity.SLICK_UNIQUE_KEY;
 

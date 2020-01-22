@@ -1,8 +1,8 @@
 package test;
 
 import android.app.Fragment;
-import android.support.annotation.IdRes;
 import android.util.SparseArray;
+import androidx.annotation.IdRes;
 import com.mrezanasirloo.slick.InternalOnDestroyListener;
 import com.mrezanasirloo.slick.SlickDelegateFragment;
 import java.lang.Override;

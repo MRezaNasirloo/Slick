@@ -16,7 +16,7 @@
 
 package com.mrezanasirloo.slick.sample.conductor.dagger;
 
-import android.support.annotation.NonNull;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +28,8 @@ import com.mrezanasirloo.slick.sample.R;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
+
+import androidx.annotation.NonNull;
 
 /**
  * @author : M.Reza.Nasirloo@gmail.com

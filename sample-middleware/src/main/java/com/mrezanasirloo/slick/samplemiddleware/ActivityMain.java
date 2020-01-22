@@ -19,9 +19,6 @@ package com.mrezanasirloo.slick.samplemiddleware;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -29,6 +26,10 @@ import com.mrezanasirloo.slick.middleware.RequestStack;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class ActivityMain extends AppCompatActivity {
 
@@ -60,7 +61,7 @@ public class ActivityMain extends AppCompatActivity {
         RouterStar routerStar = new RouterStarSlick(internetAccess, login);
         final RecyclerViewQuote quoteRecyclerView = new RecyclerViewQuote(quotes, routerLike, routerStar);
 
-        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.list_quote);
+        final RecyclerView recyclerView = findViewById(R.id.list_quote);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(quoteRecyclerView);
     }

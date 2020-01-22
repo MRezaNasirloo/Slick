@@ -17,13 +17,14 @@
 package com.mrezanasirloo.slick.sample.multipresenter;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.mrezanasirloo.slick.Presenter;
 import com.mrezanasirloo.slick.sample.R;
 
 import java.util.Random;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Demonstration of how to use multiple Presenters within one Activity, Note You can use the same logic with

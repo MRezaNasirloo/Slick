@@ -19,9 +19,10 @@ package com.mrezanasirloo.slick.samplemiddleware;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
-import android.support.annotation.IdRes;
 
 import java.lang.ref.WeakReference;
+
+import androidx.annotation.IdRes;
 
 /**
  * @author : M.Reza.Nasirloo@gmail.com

@@ -18,7 +18,6 @@ package com.mrezanasirloo.slick.sample;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.mrezanasirloo.slick.sample.activity.ActivitySimple;
@@ -31,6 +30,8 @@ import com.mrezanasirloo.slick.sample.cutstomview.infinate.ActivityFragmentConta
 import com.mrezanasirloo.slick.sample.fragment.ActivityFragmentHost;
 import com.mrezanasirloo.slick.sample.fragmentsupport.SupportFragmentHostActivity;
 import com.mrezanasirloo.slick.sample.multipresenter.ActivityMultiPresenter;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 
 public class MainActivity extends AppCompatActivity {

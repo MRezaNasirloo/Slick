@@ -18,8 +18,8 @@ package com.mrezanasirloo.slick.sample.cutstomview.infinate
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.support.v7.widget.AppCompatTextView
 import android.util.AttributeSet
+import androidx.appcompat.widget.AppCompatTextView
 import com.mrezanasirloo.slick.Presenter
 import com.mrezanasirloo.slick.SlickLifecycleListener
 import com.mrezanasirloo.slick.SlickUniqueId
