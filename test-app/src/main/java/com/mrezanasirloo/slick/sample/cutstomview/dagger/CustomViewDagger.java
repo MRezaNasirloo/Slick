@@ -17,8 +17,6 @@
 package com.mrezanasirloo.slick.sample.cutstomview.dagger;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,6 +30,9 @@ import com.mrezanasirloo.slick.test.SlickPresenterTestable;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * @author : M.Reza.Nasirloo@gmail.com

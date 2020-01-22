@@ -20,12 +20,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.test.espresso.core.internal.deps.guava.collect.Iterables;
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
-import android.support.test.runner.lifecycle.Stage;
 
 import com.mrezanasirloo.slick.SlickPresenter;
 import com.mrezanasirloo.slick.sample.MainActivity;
@@ -33,14 +27,21 @@ import com.mrezanasirloo.slick.test.SlickPresenterTestable;
 
 import org.junit.Rule;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
-import static android.support.test.InstrumentationRegistry.getTargetContext;
-import static android.support.test.espresso.Espresso.pressBack;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.test.espresso.core.internal.deps.guava.collect.Iterables;
+import androidx.test.rule.ActivityTestRule;
+import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
+import androidx.test.runner.lifecycle.Stage;
+
+import static androidx.test.InstrumentationRegistry.getTargetContext;
+import static androidx.test.espresso.Espresso.pressBack;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertEquals;
 
 /**
  * @author : M.Reza.Nasirloo@gmail.com
- *         Created on: 2018-03-10
+ * Created on: 2018-03-10
  */
 
 public class ActivityBaseTest {

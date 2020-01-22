@@ -25,7 +25,7 @@ android {
         versionCode Versions.vVersionCode
         versionName Versions.vVersionName
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
     buildTypes {
@@ -39,16 +39,16 @@ android {
 dependencies {
     compileOnly project(':slick')
     compileOnly project(':slick-annotations')
-    compileOnly Deps.depSupportAnnotation
-    compileOnly Deps.depSupportFragment
+    compileOnly Deps.depAnnotations
+    compileOnly Deps.depFragment
     compileOnly Deps.depRxjava2
 
     testAnnotationProcessor project(':slick-compiler')
     testImplementation project(':slick-compiler')
     testImplementation project(':slick')
     testImplementation Deps.depTestCompileTesting
-    testImplementation Deps.depSupportAnnotation
-    testImplementation Deps.depSupportAppCompat
+    testImplementation Deps.depAnnotations
+    testImplementation Deps.depAppCompat
     testImplementation Deps.depTestJunit
     testImplementation Deps.depTestTruth
     testImplementation Deps.depJavax

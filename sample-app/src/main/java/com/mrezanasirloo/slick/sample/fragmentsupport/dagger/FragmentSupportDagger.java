@@ -19,8 +19,6 @@ package com.mrezanasirloo.slick.sample.fragmentsupport.dagger;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +30,9 @@ import com.mrezanasirloo.slick.sample.R;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 /**
  * A simple {@link Fragment} subclass.

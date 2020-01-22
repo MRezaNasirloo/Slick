@@ -16,11 +16,13 @@
 
 package com.mrezanasirloo.slick.test;
 
-import android.support.annotation.NonNull;
+
 
 import com.mrezanasirloo.slick.SlickPresenter;
 
 import java.util.concurrent.atomic.AtomicInteger;
+
+import androidx.annotation.NonNull;
 
 /**
  * @author : M.Reza.Nasirloo@gmail.com

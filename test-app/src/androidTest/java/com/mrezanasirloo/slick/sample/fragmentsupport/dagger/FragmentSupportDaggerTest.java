@@ -16,15 +16,16 @@
 
 package com.mrezanasirloo.slick.sample.fragmentsupport.dagger;
 
-import android.support.annotation.NonNull;
-import android.support.test.filters.LargeTest;
-import android.support.test.runner.AndroidJUnit4;
-import android.support.v4.app.Fragment;
 
 import com.mrezanasirloo.slick.sample.fragmentsupport.FragmentSupportBaseTest;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.test.filters.LargeTest;
+import androidx.test.runner.AndroidJUnit4;
 
 /**
  * @author : M.Reza.Nasirloo@gmail.com

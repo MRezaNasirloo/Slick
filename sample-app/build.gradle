@@ -15,8 +15,8 @@
  */
 
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
 android {
@@ -27,7 +27,7 @@ android {
         targetSdkVersion Versions.vSdkTarget
         versionCode Versions.vVersionCode
         versionName Versions.vVersionName
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -47,8 +47,8 @@ dependencies {
     kapt project(':slick-compiler')
     kapt Deps.depDaggerCompiler
 
-    implementation Deps.depSupportAppCompat
-    implementation Deps.depSupportFragment
+    implementation Deps.depAppCompat
+    implementation Deps.depFragment
     implementation Deps.depConductor
     implementation Deps.depDagger
     implementation Deps.depKotlin

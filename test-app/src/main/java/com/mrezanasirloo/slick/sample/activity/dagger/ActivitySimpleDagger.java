@@ -17,7 +17,6 @@
 package com.mrezanasirloo.slick.sample.activity.dagger;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.mrezanasirloo.slick.Presenter;
@@ -28,6 +27,8 @@ import com.mrezanasirloo.slick.test.SlickPresenterTestable;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class ActivitySimpleDagger extends AppCompatActivity implements ViewSimpleDagger {
 

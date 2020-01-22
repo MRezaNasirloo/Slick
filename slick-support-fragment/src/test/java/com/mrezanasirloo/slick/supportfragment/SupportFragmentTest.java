@@ -22,6 +22,8 @@ import com.mrezanasirloo.slick.SlickProcessor;
 
 import org.junit.Test;
 
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.Arrays;
 
 import javax.tools.JavaFileObject;
@@ -35,12 +37,21 @@ import static com.google.common.truth.Truth.assertAbout;
 
 public class SupportFragmentTest {
 
+    private JavaFileObject readFile(String path) {
+        try {
+            return JavaFileObjects.forResource(new File("src/test/resources/" + path).toURL());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
     @Test
     public void fragment() {
-        JavaFileObject sourceViewInterface = JavaFileObjects.forResource("resources/ExampleView.java");
-        JavaFileObject sourcePresenter = JavaFileObjects.forResource("resources/ExamplePresenter.java");
-        JavaFileObject sourceView = JavaFileObjects.forResource("resources/ExampleFragment.java");
-        JavaFileObject genSource = JavaFileObjects.forResource("resources/ExamplePresenter_Slick.java");
+        JavaFileObject sourceViewInterface = readFile("ExampleView.java");
+        JavaFileObject sourcePresenter = readFile("ExamplePresenter.java");
+        JavaFileObject sourceView = readFile("ExampleFragment.java");
+        JavaFileObject genSource = readFile("ExamplePresenter_Slick.java");
 
         assertAbout(JavaSourcesSubjectFactory.javaSources())
                 .that(Arrays.asList(sourceViewInterface, sourcePresenter, sourceView))
@@ -52,10 +63,10 @@ public class SupportFragmentTest {
 
     @Test
     public void fragmentDagger() {
-        JavaFileObject sourceViewInterface = JavaFileObjects.forResource("resources/ExampleView.java");
-        JavaFileObject sourcePresenter = JavaFileObjects.forResource("resources/ExamplePresenter.java");
-        JavaFileObject sourceView = JavaFileObjects.forResource("resources/dagger/DaggerFragment.java");
-        JavaFileObject genSource = JavaFileObjects.forResource("resources/dagger/ExamplePresenter_Slick.java");
+        JavaFileObject sourceViewInterface = readFile("ExampleView.java");
+        JavaFileObject sourcePresenter = readFile("ExamplePresenter.java");
+        JavaFileObject sourceView = readFile("dagger/DaggerFragment.java");
+        JavaFileObject genSource = readFile("dagger/ExamplePresenter_Slick.java");
 
         assertAbout(JavaSourcesSubjectFactory.javaSources())
                 .that(Arrays.asList(sourceViewInterface, sourcePresenter, sourceView))

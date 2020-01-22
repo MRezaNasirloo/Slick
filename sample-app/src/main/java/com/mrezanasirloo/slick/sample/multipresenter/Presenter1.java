@@ -16,13 +16,14 @@
 
 package com.mrezanasirloo.slick.sample.multipresenter;
 
-import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.mrezanasirloo.slick.SlickPresenter;
 
 import java.util.Locale;
+
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 
 
 /**
@@ -32,7 +33,8 @@ import java.util.Locale;
 public class Presenter1 extends SlickPresenter<View1> {
 
     private static final String TAG = Presenter1.class.getSimpleName();
-    @NonNull private final Integer integer;
+    @NonNull
+    private final Integer integer;
     private final String s;
 
     public Presenter1(@IdRes @NonNull Integer integer, String s) {

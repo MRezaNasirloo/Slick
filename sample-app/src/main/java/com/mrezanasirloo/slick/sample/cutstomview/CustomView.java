@@ -17,13 +17,14 @@
 package com.mrezanasirloo.slick.sample.cutstomview;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
 import com.mrezanasirloo.slick.Presenter;
 import com.mrezanasirloo.slick.SlickLifecycleListener;
 import com.mrezanasirloo.slick.SlickUniqueId;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatTextView;
 
 import static java.util.Locale.ENGLISH;
 

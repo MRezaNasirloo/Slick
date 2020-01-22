@@ -25,7 +25,7 @@ android {
         versionCode Versions.vVersionCode
         versionName Versions.vVersionName
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
     buildTypes {
@@ -48,7 +48,7 @@ dependencies {
     testImplementation Deps.depTestTruth
     testImplementation Deps.depTestJunit
     testImplementation Deps.depConductor
-    testImplementation Deps.depSupportAnnotation
+    testImplementation Deps.depAnnotations
     testImplementation Deps.depTestCompileTesting
     testImplementation files(project.ext.getRuntimeJar())
     testImplementation files(org.gradle.internal.jvm.Jvm.current().getToolsJar())

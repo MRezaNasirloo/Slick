@@ -20,29 +20,28 @@
  */
 object Versions {
     const val vSdkMin = 16
-    const val vSdkTarget = 27
-    const val vSdkCompile = 27
+    const val vSdkTarget = 29
+    const val vSdkCompile = 29
     const val vVersionCode = 1
     const val vVersionName = "1.0"
-    const val vBuildTool = "27.0.3"
-    const val vKotlin = "1.2.50"
+    const val vKotlin = "1.3.61"
 
-    const val vSupportLib = "27.1.1"
+    const val vAndroidx = "1.1.0"
     const val vRxjava2 = "2.1.10"
     const val vRxAndroid = "2.0.2"
 }
 
 object Deps {
-    val depSupportAppCompat = "com.android.support:appcompat-v7:${Versions.vSupportLib}"
-    val depSupportFragment = "com.android.support:support-fragment:${Versions.vSupportLib}"
-    val depSupportAnnotation = "com.android.support:support-annotations:${Versions.vSupportLib}"
-    val depSupportDesign = "com.android.support:design:${Versions.vSupportLib}"
-    val depSupportCardView = "com.android.support:cardview-v7:${Versions.vSupportLib}"
-    val depConstraintLayout = "com.android.support.constraint:constraint-layout:1.0.2"
+    val depAppCompat = "androidx.appcompat:appcompat:${Versions.vAndroidx}"
+    val depFragment = "androidx.fragment:fragment:${Versions.vAndroidx}"
+    val depAnnotations = "androidx.annotation:annotation:${Versions.vAndroidx}"
+    val depSupportDesign = "com.google.android.material:material:1.1.0-rc02"
+    val depSupportCardView = "androidx.cardview:cardview:1.0.0"
+    val depConstraintLayout = "androidx.constraintlayout:constraintlayout:1.1.3"
 
     val depKotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.vKotlin}"
 
-    val depConductor = "com.bluelinelabs:conductor:2.1.4"
+    val depConductor = "com.bluelinelabs:conductor:3.0.0-rc1"
     val depSparkButton = "com.github.varunest:sparkbutton:1.0.5"
 
     val depRxAndroid = "io.reactivex.rxjava2:rxandroid:${Versions.vRxAndroid}"
@@ -56,13 +55,14 @@ object Deps {
     val depJavax = "javax.inject:javax.inject:1"
     val depJavaPoet = "com.squareup:javapoet:1.10.0"
     val depAutoCommon = "com.google.auto:auto-common:0.10"
-    val depAutoService = "com.google.auto.service:auto-service:1.0-rc2"
+    val depAutoService = "com.google.auto.service:auto-service:1.0-rc6"
 
     val depTestJunit = "junit:junit:4.12"
-    val depTestTruth = "com.google.truth:truth:0.40"
+    val depTestTruth = "com.google.truth:truth:1.0.1"
     val depTestMokito = "org.mockito:mockito-core:2.17.0"
-    val depTestRunner = "com.android.support.test:runner:1.0.1"
+    val depTestRunner = "androidx.test:runner:1.1.0"
+    val depTestRule = "androidx.test:rules:1.1.0"
     val depTestMokitoAndroid = "org.mockito:mockito-android:2.17.0"
-    val depTestCompileTesting = "com.google.testing.compile:compile-testing:0.15"
-    val depTestEspressoCore = "com.android.support.test.espresso:espresso-core:3.0.1"
+    val depTestCompileTesting = "com.google.testing.compile:compile-testing:0.18"
+    val depTestEspressoCore = "androidx.test.espresso:espresso-core:3.1.0"
 }

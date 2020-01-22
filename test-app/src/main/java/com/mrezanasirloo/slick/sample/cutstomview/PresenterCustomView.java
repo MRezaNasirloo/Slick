@@ -16,10 +16,12 @@
 
 package com.mrezanasirloo.slick.sample.cutstomview;
 
-import android.support.annotation.NonNull;
+
 import android.util.Log;
 
 import com.mrezanasirloo.slick.test.SlickPresenterTestable;
+
+import androidx.annotation.NonNull;
 
 /**
  * @author : M.Reza.Nasirloo@gmail.com

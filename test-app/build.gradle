@@ -24,7 +24,7 @@ android {
         targetSdkVersion Versions.vSdkTarget
         versionCode Versions.vVersionCode
         versionName Versions.vVersionName
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -44,14 +44,16 @@ dependencies {
     annotationProcessor project(':slick-compiler')
     annotationProcessor Deps.depDaggerCompiler
 
-    implementation Deps.depSupportAppCompat
-    implementation Deps.depSupportFragment
+    implementation Deps.depAppCompat
+    implementation Deps.depFragment
     implementation Deps.depConductor
     implementation Deps.depDagger
 
     testImplementation Deps.depTestJunit
     testImplementation Deps.depTestMokito
     androidTestImplementation Deps.depTestMokitoAndroid
-    androidTestImplementation Deps.depSupportAnnotation
+    androidTestImplementation Deps.depAnnotations
     androidTestImplementation Deps.depTestEspressoCore
+    androidTestImplementation Deps.depTestRunner
+    androidTestImplementation Deps.depTestRule
 }

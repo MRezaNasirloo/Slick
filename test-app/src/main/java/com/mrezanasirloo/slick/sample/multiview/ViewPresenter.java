@@ -16,13 +16,15 @@
 
 package com.mrezanasirloo.slick.sample.multiview;
 
-import android.support.annotation.NonNull;
+
 import android.util.Log;
 
 import com.mrezanasirloo.slick.sample.cutstomview.ViewCustomView;
 import com.mrezanasirloo.slick.test.SlickPresenterTestable;
 
 import java.util.Random;
+
+import androidx.annotation.NonNull;
 
 /**
  * @author : M.Reza.Nasirloo@gmail.com

@@ -21,6 +21,8 @@ import com.google.testing.compile.JavaSourcesSubjectFactory;
 
 import org.junit.Test;
 
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.Arrays;
 
 import javax.tools.JavaFileObject;
@@ -33,12 +35,22 @@ import static com.google.common.truth.Truth.assertAbout;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class MiddlewareTest {
+
+    private JavaFileObject readFile(String path) {
+        try {
+            return JavaFileObjects.forResource(new File("src/test/resources/" + path).toURL());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
     @Test
     public void requestGeneric() {
-        JavaFileObject routerSource = JavaFileObjects.forResource("resources/RouterGeneric.java");
-        JavaFileObject genSource = JavaFileObjects.forResource("resources/RouterGenericSlick.java");
-        JavaFileObject middlewareSource = JavaFileObjects.forResource("resources/MiddlewareNoOp.java");
-        JavaFileObject middlewareSource2 = JavaFileObjects.forResource("resources/MiddlewareNoOp2.java");
+        JavaFileObject routerSource = readFile("RouterGeneric.java");
+        JavaFileObject genSource = readFile("RouterGenericSlick.java");
+        JavaFileObject middlewareSource = readFile("MiddlewareNoOp.java");
+        JavaFileObject middlewareSource2 = readFile("MiddlewareNoOp2.java");
 
         assertAbout(JavaSourcesSubjectFactory.javaSources())
                 .that(Arrays.asList(routerSource, middlewareSource, middlewareSource2))
@@ -50,10 +62,10 @@ public class MiddlewareTest {
 
     @Test
     public void requestSimple() {
-        JavaFileObject routerSource = JavaFileObjects.forResource("resources/RouterSimple.java");
-        JavaFileObject genSource = JavaFileObjects.forResource("resources/RouterSimpleSlick.java");
-        JavaFileObject middlewareSource = JavaFileObjects.forResource("resources/MiddlewareNoOp.java");
-        JavaFileObject middlewareSource2 = JavaFileObjects.forResource("resources/MiddlewareNoOp2.java");
+        JavaFileObject routerSource = readFile("RouterSimple.java");
+        JavaFileObject genSource = readFile("RouterSimpleSlick.java");
+        JavaFileObject middlewareSource = readFile("MiddlewareNoOp.java");
+        JavaFileObject middlewareSource2 = readFile("MiddlewareNoOp2.java");
 
         assertAbout(JavaSourcesSubjectFactory.javaSources())
                 .that(Arrays.asList(routerSource, middlewareSource, middlewareSource2))
@@ -65,10 +77,10 @@ public class MiddlewareTest {
 
     @Test
     public void requestRx() {
-        JavaFileObject routerSource = JavaFileObjects.forResource("resources/RouterRx.java");
-        JavaFileObject genSource = JavaFileObjects.forResource("resources/RouterRxSlick.java");
-        JavaFileObject middlewareSource = JavaFileObjects.forResource("resources/MiddlewareNoOp.java");
-        JavaFileObject middlewareSource2 = JavaFileObjects.forResource("resources/MiddlewareNoOp2.java");
+        JavaFileObject routerSource = readFile("RouterRx.java");
+        JavaFileObject genSource = readFile("RouterRxSlick.java");
+        JavaFileObject middlewareSource = readFile("MiddlewareNoOp.java");
+        JavaFileObject middlewareSource2 = readFile("MiddlewareNoOp2.java");
 
         assertAbout(JavaSourcesSubjectFactory.javaSources())
                 .that(Arrays.asList(routerSource, middlewareSource, middlewareSource2))
@@ -80,10 +92,10 @@ public class MiddlewareTest {
 
     @Test
     public void requestCompletable() {
-        JavaFileObject routerSource = JavaFileObjects.forResource("resources/RouterCompletable.java");
-        JavaFileObject genSource = JavaFileObjects.forResource("resources/RouterCompletableSlick.java");
-        JavaFileObject middlewareSource = JavaFileObjects.forResource("resources/MiddlewareNoOp.java");
-        JavaFileObject middlewareSource2 = JavaFileObjects.forResource("resources/MiddlewareNoOp2.java");
+        JavaFileObject routerSource = readFile("RouterCompletable.java");
+        JavaFileObject genSource = readFile("RouterCompletableSlick.java");
+        JavaFileObject middlewareSource = readFile("MiddlewareNoOp.java");
+        JavaFileObject middlewareSource2 = readFile("MiddlewareNoOp2.java");
 
         assertAbout(JavaSourcesSubjectFactory.javaSources())
                 .that(Arrays.asList(routerSource, middlewareSource, middlewareSource2))
@@ -95,9 +107,9 @@ public class MiddlewareTest {
 
     @Test
     public void middlewareDagger() {
-        JavaFileObject routerSource = JavaFileObjects.forResource("resources/RouterDagger.java");
-        JavaFileObject genSource = JavaFileObjects.forResource("resources/RouterDaggerSlick.java");
-        JavaFileObject middlewareSource = JavaFileObjects.forResource("resources/MiddlewareNoOp.java");
+        JavaFileObject routerSource = readFile("RouterDagger.java");
+        JavaFileObject genSource = readFile("RouterDaggerSlick.java");
+        JavaFileObject middlewareSource = readFile("MiddlewareNoOp.java");
 
         assertAbout(JavaSourcesSubjectFactory.javaSources())
                 .that(Arrays.asList(routerSource, middlewareSource))

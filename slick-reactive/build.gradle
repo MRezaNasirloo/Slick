@@ -23,7 +23,7 @@ android {
         targetSdkVersion Versions.vSdkTarget
         versionCode Versions.vVersionCode
         versionName Versions.vVersionName
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
 
@@ -39,13 +39,13 @@ android {
 dependencies {
     implementation project(':slick')
 
-    compileOnly Deps.depSupportAppCompat
-    compileOnly Deps.depSupportAnnotation
+    compileOnly Deps.depAppCompat
+    compileOnly Deps.depAnnotations
     compileOnly Deps.depRxjava2
     compileOnly Deps.depJavax
 
-    testImplementation Deps.depSupportAppCompat
-    testImplementation Deps.depSupportAnnotation
+    testImplementation Deps.depAppCompat
+    testImplementation Deps.depAnnotations
     testImplementation Deps.depRxjava2
     testImplementation Deps.depJavax
 
