@@ -23,9 +23,9 @@ cache:
 env:
   global:
     - DIR=slick # Project directory
-    - API=27
+    - API=29
     - TAG=default # google_apis or default
-    - ABI=armeabi-v7a # ARM ABI v7a by default
+    - ABI=x86 # ARM ABI v7a by default
     - QEMU_AUDIO_DRV=none # Disable emulator audio to avoid warning
     - ANDROID_HOME=$HOME/android-sdk
     - TOOLS=${ANDROID_HOME}/tools # PATH order matters, exists more than one emulator script
@@ -46,7 +46,7 @@ install:
   # Install or update Android SDK components (will not do anything if already up to date thanks to the cache mechanism)
   - echo y | $HOME/android-sdk/tools/bin/sdkmanager "tools" > /dev/null
   - echo y | $HOME/android-sdk/tools/bin/sdkmanager "platform-tools" > /dev/null
-  - echo y | $HOME/android-sdk/tools/bin/sdkmanager "build-tools;27.0.3" > /dev/null
+  - echo y | $HOME/android-sdk/tools/bin/sdkmanager "build-tools;29.0.2" > /dev/null
   - echo y | $HOME/android-sdk/tools/bin/sdkmanager "platforms;android-${API}" > /dev/null
   - echo y | $HOME/android-sdk/tools/bin/sdkmanager "$EMULATOR" > /dev/null
   - echo n | $HOME/android-sdk/tools/bin/avdmanager create avd -n acib -k "$EMULATOR" -f --abi "$ABI" --tag "$TAG" > /dev/null
