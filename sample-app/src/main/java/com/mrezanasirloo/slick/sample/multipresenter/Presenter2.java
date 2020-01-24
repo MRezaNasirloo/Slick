@@ -16,12 +16,14 @@
 
 package com.mrezanasirloo.slick.sample.multipresenter;
 
-import android.support.annotation.NonNull;
+
 import android.util.Log;
 
 import com.mrezanasirloo.slick.SlickPresenter;
 
 import java.util.Locale;
+
+import androidx.annotation.NonNull;
 
 
 /**

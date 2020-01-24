@@ -17,18 +17,19 @@
 package com.mrezanasirloo.slick.sample.fragment.dagger.delegate;
 
 import android.app.Fragment;
-import android.support.annotation.NonNull;
-import android.support.test.filters.LargeTest;
-import android.support.test.runner.AndroidJUnit4;
 
 import com.mrezanasirloo.slick.sample.fragment.FragmentBaseTest;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import androidx.annotation.NonNull;
+import androidx.test.filters.LargeTest;
+import androidx.test.runner.AndroidJUnit4;
+
 /**
  * @author : M.Reza.Nasirloo@gmail.com
- *         Created on: 2018-03-10
+ * Created on: 2018-03-10
  */
 @LargeTest
 @RunWith(AndroidJUnit4.class)

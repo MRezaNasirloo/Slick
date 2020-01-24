@@ -16,7 +16,7 @@
 
 package com.mrezanasirloo.slick.sample.conductor;
 
-import android.support.annotation.NonNull;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +24,8 @@ import android.view.ViewGroup;
 import com.bluelinelabs.conductor.Controller;
 import com.mrezanasirloo.slick.Presenter;
 import com.mrezanasirloo.slick.sample.R;
+
+import androidx.annotation.NonNull;
 
 
 /**

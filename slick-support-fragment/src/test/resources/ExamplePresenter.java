@@ -1,6 +1,6 @@
 package test;
 
-import android.support.annotation.IdRes;
+import androidx.annotation.IdRes;
 
 import com.mrezanasirloo.slick.SlickPresenter;
 

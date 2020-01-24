@@ -16,12 +16,14 @@
 
 package com.mrezanasirloo.slick.sample.cutstomview.dagger;
 
-import android.support.annotation.NonNull;
+
 import android.util.Log;
 
 import com.mrezanasirloo.slick.test.SlickPresenterTestable;
 
 import javax.inject.Inject;
+
+import androidx.annotation.NonNull;
 
 /**
  * @author : M.Reza.Nasirloo@gmail.com

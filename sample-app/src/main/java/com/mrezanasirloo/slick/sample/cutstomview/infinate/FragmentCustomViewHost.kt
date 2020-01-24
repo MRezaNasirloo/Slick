@@ -18,10 +18,10 @@ package com.mrezanasirloo.slick.sample.cutstomview.infinate
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.mrezanasirloo.slick.Presenter
 import com.mrezanasirloo.slick.SlickDelegateActivity
 import com.mrezanasirloo.slick.SlickUniqueId
@@ -62,7 +62,7 @@ class FragmentCustomViewHost : Fragment(), SlickUniqueId, ViewFragment {
         PresenterFragment_Slick.bind(this)
 
         arguments?.let {
-            pos = it.getString(ARG_1)
+            pos = it.getString(ARG_1) ?: "N/A"
         }
 
     }

@@ -24,7 +24,7 @@ android {
         targetSdkVersion Versions.vSdkTarget
         versionCode Versions.vVersionCode
         versionName Versions.vVersionName
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         vectorDrawables.useSupportLibrary = true
 
@@ -43,7 +43,7 @@ android {
 dependencies {
     implementation project(':slick-middleware')
     annotationProcessor project(':slick-compiler')
-    implementation Deps.depSupportAppCompat
+    implementation Deps.depAppCompat
     implementation Deps.depSupportCardView
     implementation Deps.depSupportDesign
     implementation Deps.depSparkButton

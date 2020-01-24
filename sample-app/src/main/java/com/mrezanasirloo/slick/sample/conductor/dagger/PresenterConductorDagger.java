@@ -16,12 +16,14 @@
 
 package com.mrezanasirloo.slick.sample.conductor.dagger;
 
-import android.support.annotation.NonNull;
+
 import android.util.Log;
 
 import com.mrezanasirloo.slick.SlickPresenter;
 
 import javax.inject.Inject;
+
+import androidx.annotation.NonNull;
 
 
 /**

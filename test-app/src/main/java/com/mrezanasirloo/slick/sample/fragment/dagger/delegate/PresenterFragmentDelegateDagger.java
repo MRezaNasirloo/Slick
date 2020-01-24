@@ -16,12 +16,14 @@
 
 package com.mrezanasirloo.slick.sample.fragment.dagger.delegate;
 
-import android.support.annotation.NonNull;
+
 import android.util.Log;
 
 import com.mrezanasirloo.slick.test.SlickPresenterTestable;
 
 import javax.inject.Inject;
+
+import androidx.annotation.NonNull;
 
 
 /**

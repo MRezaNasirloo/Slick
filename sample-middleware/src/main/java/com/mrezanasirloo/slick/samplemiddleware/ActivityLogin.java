@@ -18,10 +18,11 @@ package com.mrezanasirloo.slick.samplemiddleware;
 
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.mrezanasirloo.slick.middleware.RequestStack;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class ActivityLogin extends AppCompatActivity {
 

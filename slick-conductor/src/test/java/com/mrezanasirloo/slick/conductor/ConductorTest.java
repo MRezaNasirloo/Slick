@@ -22,6 +22,8 @@ import com.mrezanasirloo.slick.SlickProcessor;
 
 import org.junit.Test;
 
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -36,12 +38,22 @@ import static com.google.common.truth.Truth.assertAbout;
  */
 
 public class ConductorTest {
+
+    private JavaFileObject readFile(String path) {
+        try {
+            return JavaFileObjects.forResource(new File("src/test/resources/" + path).toURL());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
     @Test
     public void controller() {
-        JavaFileObject sourceViewInterface = JavaFileObjects.forResource("resources/ExampleView.java");
-        JavaFileObject sourcePresenter = JavaFileObjects.forResource("resources/PresenterSimple.java");
-        JavaFileObject sourceView = JavaFileObjects.forResource("resources/ExampleController.java");
-        JavaFileObject genSource = JavaFileObjects.forResource("resources/PresenterSimple_Slick.java");
+        JavaFileObject sourceViewInterface = readFile("ExampleView.java");
+        JavaFileObject sourcePresenter = readFile("PresenterSimple.java");
+        JavaFileObject sourceView = readFile("ExampleController.java");
+        JavaFileObject genSource = readFile("PresenterSimple_Slick.java");
 
         assertAbout(JavaSourcesSubjectFactory.javaSources())
                 .that(Arrays.asList(sourceViewInterface, sourcePresenter, sourceView))
@@ -64,10 +76,10 @@ public class ConductorTest {
     @Test
     public void conductorDagger() {
 
-        JavaFileObject sourceViewInterface = JavaFileObjects.forResource("resources/ExampleView.java");
-        JavaFileObject sourcePresenter = JavaFileObjects.forResource("resources/PresenterDagger.java");
-        JavaFileObject sourceView = JavaFileObjects.forResource("resources/DaggerController.java");
-        JavaFileObject genSource = JavaFileObjects.forResource("resources/PresenterDagger_Slick.java");
+        JavaFileObject sourceViewInterface = readFile("ExampleView.java");
+        JavaFileObject sourcePresenter = readFile("PresenterDagger.java");
+        JavaFileObject sourceView = readFile("DaggerController.java");
+        JavaFileObject genSource = readFile("PresenterDagger_Slick.java");
 
         assertAbout(JavaSourcesSubjectFactory.javaSources())
                 .that(Arrays.asList(sourceViewInterface, sourcePresenter, sourceView))

@@ -20,6 +20,7 @@ dependencies {
     implementation project(':slick-annotations')
     implementation Deps.depJavax
     implementation Deps.depJavaPoet
+    annotationProcessor Deps.depAutoService
     compileOnly Deps.depAutoService
     compileOnly Deps.depAutoCommon
     testImplementation Deps.depJavax
